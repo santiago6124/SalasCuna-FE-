@@ -1,0 +1,52 @@
+.conteiner-form {
+  display: center;
+  padding: 30px;
+  margin: 100px;
+  width: 500px;
+  border-radius: 18px;
+  box-shadow: 1px 4px 10px 0px rgba(0, 0, 0, 0.37);
+  background-color: white;
+}
+
+.titulo {
+  text-align: center;
+}
+
+.contenedor-linea {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.linea {
+  height: 4px;
+  border: 2px solid #ef7e0e;
+  width: 350px;
+}
+
+.conteiner {
+  margin-left: 18px;
+}
+
+.Dropdown {
+  display: center;
+  padding: 30px;
+  margin: 3%;
+  width: 115%;
+  height: 30px;
+  border-radius: 18px;
+  box-shadow: 1px 4px 10px 0px rgba(0, 0, 0, 0.37);
+  background-color: white;
+  color: white;
+  text-align: flex;
+}
+
+.DropdownToggle {
+  width:300%;
+  height: fit-content;
+  border-radius: 18px;
+  box-shadow: 1px 4px 10px 0px rgba(0, 0, 0, 0.37);
+  background-color: white;
+  color: white;
+}
