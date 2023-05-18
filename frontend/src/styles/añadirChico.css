@@ -19,6 +19,8 @@
 }
 
 .linea{
+    margin-top: 1px;
+    
     height: 4px;
     border: 2px solid #EF7E0E;
     width: 350px;

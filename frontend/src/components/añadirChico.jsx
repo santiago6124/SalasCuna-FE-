@@ -35,11 +35,15 @@ export function AñadirChico() {
         <Row className="mb-3">
             <Col>
                 <Form.Label className='mb-1'>Tutor</Form.Label>
-                <Form.Control type="text" placeholder="" />
+                <Form.Control type="text" placeholder="Ingresar tutor" />
             </Col>
             <Col>
                 <Form.Label className='mb-1'>Genero</Form.Label>
-                <Form.Control type="text" placeholder="" />
+                <Form.Select aria-label="Floating label select example">
+                    <option> </option>
+                    <option value="1">Masculino</option>
+                    <option value="2">Femenino</option>
+                </Form.Select>
             </Col>    
         </Row>
             

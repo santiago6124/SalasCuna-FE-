@@ -31,7 +31,11 @@ export function AñadirTutor() {
 
         <Form.Group className="mb-3" >
             <Form.Label className='mb-1'>Genero</Form.Label>
-            <Form.Control type="text" placeholder="Ingrese un Genero" />
+            <Form.Select aria-label="Floating label select example">
+                <option> </option>
+                <option value="1">Masculino</option>
+                <option value="2">Femenino</option>
+            </Form.Select>
         </Form.Group>
             
         <Form.Group className="mb-3" >

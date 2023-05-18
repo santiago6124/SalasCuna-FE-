@@ -7,6 +7,7 @@ import { AñadirChico } from './components/añadirChico';
 import { AñadirTutor } from './components/añadirTutor';
 import { AñadirDomicilio } from './components/añadirDomicilio';
 
+
 function App() {
   return (
     <div className="App">
@@ -16,14 +17,14 @@ function App() {
         </div>
       </header>
       <body className='body'>
-      <div>
-          <AñadirChico />
-          <AñadirTutor />
-          <AñadirDomicilio />
-          <div className='contenedor-boton mb-5'>
-            <Button as="input" type="submit" value="Submit" size='lg' />
-          </div>
-      </div>
+        <div>
+            <AñadirChico />
+            <AñadirTutor />
+            <AñadirDomicilio />
+            <div className='contenedor-boton mb-5'>
+              <Button as="input" type="submit" value="Cargar" size='lg' />
+            </div>
+        </div>
       </body>
     </div>
   );

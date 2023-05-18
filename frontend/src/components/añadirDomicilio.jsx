@@ -21,7 +21,7 @@ export function AñadirDomicilio() {
             </Col>
             <Col>
                 <Form.Label className='mb-1'>Numero</Form.Label>
-                <Form.Control type="number" placeholder="" />
+                <Form.Control type="number" placeholder="Ingrese un numero" />
             </Col>    
         </Row>
 
@@ -42,7 +42,7 @@ export function AñadirDomicilio() {
             </Col>
             <Col>
                 <Form.Label className='mb-1'>Telefono</Form.Label>
-                <Form.Control type="number" placeholder="" />
+                <Form.Control type="number" placeholder="Ingrese un telefono" />
             </Col>    
         </Row>
         
