@@ -25,10 +25,13 @@
 }
 
 .boton-qr{
-    margin-top: 27px;
-    margin-left: 10px;
+    width: 60px;
 }
 
-.conteiner{
-    margin-left: 18px;
+
+.contenedor-boton-qr{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
 }
