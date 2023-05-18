@@ -26,7 +26,13 @@ export default function(state = initialState, action) {
             }
         case USER_LOADED_SUCCESS:
             return {
-
+                ...state,
+                user: payload
+            }
+        case USER_LOADED_FAIL:
+            return {
+                ...state,
+                user: null
             }
         case LOGIN_FAIL:
             localStorage.removeItem('access')
