@@ -18,13 +18,17 @@ export function RedirectSala() {
       <Row>
         <Col xs={9} className="conteiner"></Col>
         <Form.Group className="mb-3">
-          <Form.Label className="mb-1">Seleccionar Sala Cuna Que Desea Editar</Form.Label>
+          <Form.Label className="mb-1">
+            Seleccionar Sala Cuna Que Desea Editar
+          </Form.Label>
           <Form.Select placeholder="Seleccionar Sala Cuna" className="mb-1">
             <option value="Sala Cuna 1">Sala Cuna 1</option>
             <option value="Sala Cuna 2">Sala Cuna 2</option>
             <option value="Sala Cuna 3">Sala Cuna 3</option>
           </Form.Select>
-            <Button className="button" boton variant="primary">Submit</Button>
+          <Button className="button" boton variant="primary">
+            Confirmar
+          </Button>
         </Form.Group>
       </Row>
     </Form>
