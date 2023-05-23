@@ -45,12 +45,7 @@ export function AñadirDomicilio() {
                 <Form.Control type="number" placeholder="Ingrese un telefono" />
             </Col>    
         </Row>
-        
-        <div className='contenedor-boton-qr '>
-            <Button className='boton-qr mt-3' boton variant="primary">
-                <FaQrcode />
-            </Button>
-        </div>
+
 
     </Form>
   );
