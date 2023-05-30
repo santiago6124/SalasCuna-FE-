@@ -1,4 +1,5 @@
 Pipfile
+node_modules
 frontend/node_modules/.package-lock.json
 frontend/node_modules/.bin/acorn
 frontend/node_modules/.bin/ansi-html
@@ -9999,3 +10000,4 @@ frontend/node_modules/@typescript-eslint/scope-manager/dist/lib/es2023.array.d.t
 frontend/node_modules/@typescript-eslint/scope-manager/dist/lib/es2023.array.d.ts.map
 frontend/node_modules/@typescript-eslint/scope-manager/dist/lib/es2023.array.js
 frontend/node_modules/@typescript-eslint/scope-manager/dist/lib/es2023.array.js.map
+.gitignore
