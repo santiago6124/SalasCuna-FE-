@@ -1,11 +1,11 @@
 import './App.css';
 
-import { Button } from 'react-bootstrap';
+//import { Button } from 'react-bootstrap';
 
 import { Menu } from './components/menu';
 import { AñadirChico } from './components/añadirChico';
-import { AñadirTutor } from './components/añadirTutor';
-import { AñadirDomicilio } from './components/añadirDomicilio';
+//import { AñadirTutor } from './components/añadirTutor';
+//import { AñadirDomicilio } from './components/añadirDomicilio';
 
 import { RedirectSala } from './components/seleccionarSala';
 import { EditarSala } from './components/editarSala';
