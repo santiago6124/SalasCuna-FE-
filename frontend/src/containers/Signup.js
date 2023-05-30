@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { signup } from '../actions/auth';
 import axios from 'axios';
@@ -38,10 +38,10 @@ const Signup = ({ signup, isAuthenticated }) => {
     };
 
     if (isAuthenticated) {
-        return <Redirect to='/' />
+        return <Navigate to='/' />
     }
     if (accountCreated) {
-        return <Redirect to='/login' />
+        return <Navigate to='/login' />
     }
 
     return (

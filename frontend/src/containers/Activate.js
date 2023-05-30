@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { verify } from '../actions/auth';
 
@@ -15,7 +15,7 @@ const Activate = ({ verify, match }) => {
     };
 
     if (verified) {
-        return <Redirect to='/' />
+        return <Navigate to='/' />
     }
 
     return (
