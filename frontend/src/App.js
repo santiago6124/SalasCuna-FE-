@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
 
 import Activate from "./containers/Activate";
@@ -16,7 +16,7 @@ const App = () => (
   <Provider store={store}>
     <Router>
       <Layout>
-        <Switch>
+        <Routes>
           <Route exact path="/" component={Home} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />
@@ -27,7 +27,7 @@ const App = () => (
             component={ResetPasswordConfirm}
           />
           <Route exact path="/activate/:uid/:token" component={Activate} />
-        </Switch>
+        </Routes>
       </Layout>
     </Router>
   </Provider>
