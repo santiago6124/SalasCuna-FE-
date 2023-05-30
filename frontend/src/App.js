@@ -4,9 +4,15 @@ import { Button } from 'react-bootstrap';
 
 import { Menu } from './components/menu';
 import { AñadirChico } from './components/añadirChico';
+<<<<<<< HEAD
 import { AñadirTutor } from './components/añadirTutor';
 import { AñadirDomicilio } from './components/añadirDomicilio';
 
+=======
+import { RedirectSala } from './components/seleccionarSala';
+import { EditarSala } from './components/editarSala';
+import { EliminarSala } from './components/eliminarSala';
+>>>>>>> GestionSala
 
 function App() {
   return (
@@ -17,6 +23,7 @@ function App() {
         </div>
       </header>
       <body className='body'>
+<<<<<<< HEAD
         <div>
             <AñadirChico />
             <AñadirTutor />
@@ -25,6 +32,14 @@ function App() {
               <Button as="input" type="submit" value="Cargar" size='lg' />
             </div>
         </div>
+=======
+      <div>
+          <AñadirChico/>
+          <RedirectSala />
+          <EditarSala/>
+          <EliminarSala/>
+      </div>
+>>>>>>> GestionSala
       </body>
     </div>
   );

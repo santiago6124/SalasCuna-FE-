@@ -1,7 +1,12 @@
 import React from 'react'
+<<<<<<< HEAD
 import '../styles/menu.css';
 import  logo   from '../media/logo.png';
 
+=======
+import '../styles/styles.css';
+import  Logo from  '../media/logo.png';
+>>>>>>> GestionSala
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -12,8 +17,13 @@ export function Menu() {
     <Navbar expand="lg" className='navbar'>
       <Container fluid>
         <Navbar.Brand href="#">
+<<<<<<< HEAD
           <img src={ logo } alt="" className='logo'/>
         </Navbar.Brand>
+=======
+          <img src={Logo} alt=''/>
+          </Navbar.Brand>
+>>>>>>> GestionSala
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
