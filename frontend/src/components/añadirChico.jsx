@@ -1,4 +1,4 @@
-import '../styles/añadirChico.css';
+import '../styles/styles.css';
 
 import Col from 'react-bootstrap/Col/';
 import Row from 'react-bootstrap/Row/';
