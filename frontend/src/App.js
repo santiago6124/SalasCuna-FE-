@@ -18,12 +18,7 @@ function App() {
       </header>
       <body className='body'>
         <div>
-            <AñadirChico />
-            <AñadirTutor />
-            <AñadirDomicilio />
-            <div className='contenedor-boton mb-5'>
-              <Button as="input" type="submit" value="Cargar" size='lg' />
-            </div>
+           
         </div>
       </body>
     </div>

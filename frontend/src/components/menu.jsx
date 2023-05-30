@@ -21,8 +21,16 @@ export function Menu() {
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
-            <Nav.Link href="#action1">Home</Nav.Link>
-            <Nav.Link href="#action2">Link</Nav.Link>
+            <Nav.Link href='# ../pages/añadirChicoPage.jsx'>Añadir Chico</Nav.Link>
+            <Nav.Link href='../pages/añadirSalaPage.jsx'>Añadir Sala</Nav.Link>
+            <Nav.Link href='../pages/createUserPage.jsx'>Crear Usuario</Nav.Link>
+            <Nav.Link href='../pages/darBajaChicoPage.jsx'>Bajar Chico</Nav.Link>
+            <Nav.Link href='../pages/darBajaSalaPage.jsx'>Bajar Sala</Nav.Link>
+            <Nav.Link href='../pages/editarSalaPage.jsx'>Editar Sala</Nav.Link>
+            <Nav.Link href='../pages/loginPage.jsx'>Login</Nav.Link>
+            <Nav.Link href='../pages/notaPagoPage.jsx'>Nota Pago</Nav.Link>
+            <Nav.Link href='../pages/padronPage.jsx'>Padron</Nav.Link>
+            <Nav.Link href='../pages/presupuestoPage.jsx'>Presupuesto</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
