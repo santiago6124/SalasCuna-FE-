@@ -1,9 +1,9 @@
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import Button from 'react-bootstrap/Button';
+//import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-import { FaQrcode } from 'react-icons/fa';
+//import { FaQrcode } from 'react-icons/fa';
 
 export function AñadirDomicilio() {
   return (
