@@ -6,6 +6,7 @@ import { Menu } from './components/Menu/Menu';
 import { AddChildren } from './components/AddChildren/AddChildren';
 import { AddTutor } from './components/AddTutor/AddTutor';
 import { AddResidence } from './components/AddResidence/AddResidence';
+import { DeleteChildren } from './components/DeleteChildren/DeleteChildren';
 
 
 
@@ -19,9 +20,7 @@ function App() {
       </header>
       <body className='body'>
         <div>
-            <AddChildren />
-            <AddTutor />
-            <AddResidence />
+            <DeleteChildren />
         </div>
       </body>
     </div>
