@@ -20,6 +20,16 @@ const Login = ({ login, isAuthenticated }) => {
         login(email, password);
     };
 
+    const continueWithGoogle = async () => {
+        try {
+            const res = await axios.get(`${process.env.REACT_APP_API_URL}/auth/o/google-oauth2/?redirect_uri=http://localhost:8000`)
+
+            window.location.replace(res.data.authorization_url);
+        } catch (err) {
+
+        }
+    };
+
     if (isAuthenticated) {
         return <Navigate to='/' />
     }
@@ -54,6 +64,9 @@ const Login = ({ login, isAuthenticated }) => {
                 </div>
                 <button className='btn btn-primary' type='submit'>Login</button>
             </form>
+            <button className='btn btn-danger mt-3' onClick={continueWithGoogle}>
+                Continue With Google
+            </button>
             <p className='mt-3'>
                 Don't have an account? <Link to='/signup'>Sign Up</Link>
             </p>
