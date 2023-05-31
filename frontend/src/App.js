@@ -2,14 +2,12 @@ import './App.css';
 
 //import { Button } from 'react-bootstrap';
 
-import { Menu } from './components/menu';
-import { AñadirChico } from './components/añadirChico';
-//import { AñadirTutor } from './components/añadirTutor';
-//import { AñadirDomicilio } from './components/añadirDomicilio';
+import { Menu } from './components/Menu/Menu';
+import { AddChildren } from './components/AddChildren/AddChildren';
+import { AddTutor } from './components/AddTutor/AddTutor';
+import { AddResidence } from './components/AddResidence/AddResidence';
 
-import { RedirectSala } from './components/seleccionarSala';
-import { EditarSala } from './components/editarSala';
-import { EliminarSala } from './components/eliminarSala';
+
 
 function App() {
   return (
@@ -21,14 +19,10 @@ function App() {
       </header>
       <body className='body'>
         <div>
-           
+            <AddChildren />
+            <AddTutor />
+            <AddResidence />
         </div>
-      <div>
-          <AñadirChico/>
-          <RedirectSala />
-          <EditarSala/>
-          <EliminarSala/>
-      </div>
       </body>
     </div>
   );

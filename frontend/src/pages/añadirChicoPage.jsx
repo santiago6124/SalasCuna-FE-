@@ -1,4 +1,7 @@
 import React from 'react'
+import { AddChildren } from '../components/AddChildren/AddChildren'
+import { AddTutor } from '../components/AddTutor/AddTutor'
+import { AddResidence } from '../components/AddResidence/AddResidence'
 
 export function añadirChicoPage() {
   return (
@@ -10,9 +13,9 @@ export function añadirChicoPage() {
       </header>
       <body className='body'>
         <div>
-            <AñadirChico />
-            <AñadirTutor />
-            <AñadirDomicilio />
+            <AddChildren />
+            <AddTutor />
+            <AddResidence />
             <div className='contenedor-boton mb-5'>
               <Button as="input" type="submit" value="Cargar" size='lg' />
             </div>

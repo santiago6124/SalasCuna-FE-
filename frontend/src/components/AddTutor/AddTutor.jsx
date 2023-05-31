@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 
 import { FaQrcode } from 'react-icons/fa';
 
-export function AñadirTutor() {
+export function AddTutor() {
   return (
     <Form className='conteiner-form'>
         <h1 className='titulo'>Añadir Tutor/a</h1>

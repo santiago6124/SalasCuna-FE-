@@ -1,11 +1,11 @@
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-//import Button from 'react-bootstrap/Button';
+import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-//import { FaQrcode } from 'react-icons/fa';
 
-export function AñadirDomicilio() {
+
+export function AddResidence() {
   return (
     <Form className='conteiner-form'>
         <h1 className='titulo'>Añadir Domicilio</h1>

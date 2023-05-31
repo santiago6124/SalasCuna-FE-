@@ -1,9 +1,9 @@
 import React from 'react'
-import '../styles/menu.css';
-import  logo   from '../media/logo.png';
+import '../Menu/Menu.css';
+import logo from '../../media/logo.png';
 
 
-import '../styles/styles.css';
+import '../../styles/styles.css';
 
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -24,7 +24,7 @@ export function Menu() {
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
-            <Nav.Link href='# ../pages/añadirChicoPage.jsx'>Añadir Chico</Nav.Link>
+            <Nav.Link href='../pages/añadirChicoPage.jsx'>Añadir Chico</Nav.Link>
             <Nav.Link href='../pages/añadirSalaPage.jsx'>Añadir Sala</Nav.Link>
             <Nav.Link href='../pages/createUserPage.jsx'>Crear Usuario</Nav.Link>
             <Nav.Link href='../pages/darBajaChicoPage.jsx'>Bajar Chico</Nav.Link>

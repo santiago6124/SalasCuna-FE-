@@ -1,4 +1,4 @@
-import '../styles/styles.css';
+import '../AddChildren/AddChildren.css';
 
 import Col from 'react-bootstrap/Col/';
 import Row from 'react-bootstrap/Row/';
@@ -8,7 +8,7 @@ import Form from 'react-bootstrap/Form/';
 import { FaQrcode } from 'react-icons/fa';
 
 
-export function AñadirChico() {
+export function AddChildren() {
   return (
     <Form className='conteiner-form'>
         <h1 className='titulo'>Añadir Niños/as</h1>

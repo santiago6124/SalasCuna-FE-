@@ -2,7 +2,7 @@ import "./App.css";
 
 
 import { Menu } from "./components/menu";
-import { EliminarSala } from "./components/eliminarSala";
+import { DeleteRoom } from "./components/eliminarSala";
 
 function App() {
   return (
@@ -15,7 +15,7 @@ function App() {
       <body className="body">
         <div></div>
         <div>
-          <EliminarSala />
+          <DeleteRoom />
         </div>
       </body>
     </div>

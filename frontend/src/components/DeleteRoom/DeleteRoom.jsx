@@ -7,7 +7,7 @@ import Button from "react-bootstrap/esm/Button";
 
 import React from "react";
 
-export function EliminarSala() {
+export function DeleteRoom() {
   return (
     <Form className="conteiner-form">
       <h1 className="titulo">Eliminar Sala Cuna</h1>

@@ -7,7 +7,7 @@ import Button from "react-bootstrap/esm/Button";
 
 import React from "react";
 
-export function RedirectSala() {
+export function SelectRoom() {
   return (
     <Form className="conteiner-form">
       <h1 className="titulo">Editar Sala Cuna</h1>
