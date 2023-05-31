@@ -14,7 +14,7 @@ function App() {
     <div className="App">
       <header>
         <div>
-          <Menu />
+          <Navbar />
         </div>
       </header>
       <body className='body'>

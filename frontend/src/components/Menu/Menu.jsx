@@ -1,7 +1,7 @@
 import React from 'react'
+
 import '../Menu/Menu.css';
 import logo from '../../media/logo.png';
-
 
 import '../../styles/styles.css';
 
@@ -24,6 +24,7 @@ export function Menu() {
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
+            <Nav.Link href='# ../pages/añadirChicoPage.jsx'>Añadir Chico</Nav.Link>
             <Nav.Link href='../pages/añadirChicoPage.jsx'>Añadir Chico</Nav.Link>
             <Nav.Link href='../pages/añadirSalaPage.jsx'>Añadir Sala</Nav.Link>
             <Nav.Link href='../pages/createUserPage.jsx'>Crear Usuario</Nav.Link>
