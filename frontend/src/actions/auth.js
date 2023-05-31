@@ -14,6 +14,8 @@ import {
     SIGNUP_FAIL,
     ACTIVATION_SUCCESS,
     ACTIVATION_FAIL,
+    GOOGLE_AUTH_SUCCESS,
+    GOOGLE_AUTH_FAIL,
     LOGOUT
 } from './types';
 
