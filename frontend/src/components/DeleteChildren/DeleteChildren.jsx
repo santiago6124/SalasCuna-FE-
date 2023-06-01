@@ -1,5 +1,5 @@
 import React from 'react'
-import '../DeleteChildren/DeleteChildren.css';
+import './DeleteChildren.css';
 
 import { Button } from 'react-bootstrap';
 import { Form } from 'react-bootstrap';

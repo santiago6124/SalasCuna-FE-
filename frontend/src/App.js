@@ -15,12 +15,12 @@ function App() {
     <div className="App">
       <header>
         <div>
-          <Navbar />
+          <Menu />
         </div>
       </header>
       <body className='body'>
         <div>
-            <DeleteChildren />
+            <AddChildren />
         </div>
       </body>
     </div>
