@@ -1,8 +1,7 @@
-import { Link } from 'react-router-dom';
 import React, { Fragment, useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout } from '../actions/auth';
+import { logout } from '../../actions/auth';
 
 import '../Menu/Menu.css';
 import logo from '../../media/logo.png';
@@ -68,7 +67,7 @@ const Menu = ({logout, isAuthenticated}) => {
         </Navbar.Collapse>
       </Container>
 
-      {redirect ? <Redirect to='/' /> : <Fragment></Fragment>}
+      {redirect ? <Navigate to='/' /> : <Fragment></Fragment>}
       
     </Navbar>
   );
