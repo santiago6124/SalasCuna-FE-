@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Navbar from '???';
+import Menu from '../components/Menu/Menu.jsx';
 import { connect } from 'react-redux';
 import { checkAuthenticated, load_user } from '../actions/auth';
 
@@ -11,7 +11,7 @@ const Layout = (props) => {
 
     return(
         <div>
-            <Navbar/>
+            <Menu/>
             {props.children}
         </div>
     );
