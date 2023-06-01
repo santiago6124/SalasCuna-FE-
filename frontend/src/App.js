@@ -8,7 +8,7 @@ import Login from "./containers/Login";
 import ResetPassword from "./containers/ResetPassword";
 import ResetPasswordConfirm from "./containers/ResetPasswordConfirm";
 import Signup from "./containers/Signup";
-import store from "./reducers/store";
+import store from "./store";
 
 import Layout from "./hocs/Layout";
 
