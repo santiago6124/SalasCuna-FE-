@@ -10,6 +10,7 @@ import { DeleteChildren } from './components/DeleteChildren/DeleteChildren';
 import { EditRoom } from './components/EditRoom/EditRoom.jsx';
 import { SelectRoom } from './components/SelectRoom/SelectRoom';
 import { DeleteRoom } from './components/DeleteRoom/DeleteRoom.jsx';
+import {CreateUser} from './components/CreateUser/CreateUser.jsx'
 
 
 function App() {
@@ -20,11 +21,9 @@ function App() {
           <Menu />
         </div>
       </header>
-      <body className='body'>
+      <body className="body">
         <div>
-            
-
-            
+          <CreateUser />
         </div>
       </body>
     </div>
