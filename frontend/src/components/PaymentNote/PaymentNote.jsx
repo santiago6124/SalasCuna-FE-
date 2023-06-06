@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import './PaymentNote.css';
 
 import Col from 'react-bootstrap/Col/';
 import Row from 'react-bootstrap/Row/';
@@ -9,27 +10,29 @@ import InputGroup from 'react-bootstrap/InputGroup/';
 
 export function PaymentNote() {
   return (
-    <div className='container-note'>
-        <div className='container-titulo-note mt-5'>
+    <div className='container-note mt-5'>
+        <div className='container-titulo-note '>
             <h1>Nota de Pago</h1>
         </div>
-        <div className='contenedor-note'>
+        <div className='contenedor-linea-note'>
             <hr className='linea-note' ></hr>
         </div>
         <Row className="mb-3">
             <Col>
-                <Form.Select placeholder="Seleccionar Sala Cuna" className="mb-1">
-                    <option></option>
-                    <option value="Capital">Capital</option>
-                    <option value="Interior">Interior</option>
-                </Form.Select>
+                <div className='input-select'>
+                    <Form.Select placeholder="Seleccionar Sala Cuna" className="mb-1">
+                        <option></option>
+                        <option value="Capital">Capital</option>
+                        <option value="Interior">Interior</option>
+                    </Form.Select>
+                </div>  
             </Col>
             <Col>
-                <div>
-                    <div>
+                <div className='container-botones-payment'>
+                    <div className='btn-1'>
                         <Button>PDF</Button>
                     </div>
-                    <div>
+                    <div className='btn-2'>
                         <Button>Excel</Button>
                     </div>
                 </div>
@@ -45,7 +48,7 @@ export function PaymentNote() {
                         <th>CUIT</th>
                         <th>Entidad</th>
                         <th>Cantidad de Niños</th>
-                        <th>Seleccionar</th>
+                        <th>Seleccionar <InputGroup.Checkbox className="btn-selectall" aria-label="Checkbox for following text input" /></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -55,13 +58,10 @@ export function PaymentNote() {
                         <td>2243</td>
                         <td>RRHH</td>
                         <td>5</td>
-                        <td><InputGroup.Checkbox aria-label="Checkbox for following text input" /></td>
+                        <td><InputGroup.Checkbox /></td>
                     </tr>
                 </tbody>
             </Table>
-        </div>
-        <div>
-            <Button>Seleccionar Todo</Button>
         </div>
 
     </div>
