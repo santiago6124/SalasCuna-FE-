@@ -1,4 +1,4 @@
-.conteiner-form{
+.conteiner-form-delete{
     padding: 40px;
     padding-left: 50px;
     padding-right: 50px;
@@ -10,18 +10,18 @@
     background-color: white;
 }
 
-.titulo{
+.titulo-delete{
     text-align: center;
 }
 
-.contenedor-linea{
+.contenedor-linea-delete{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
 }
 
-.linea{
+.linea-delete{
     margin-top: 1px;
     height: 4px;
     border: 2px solid #EF7E0E;
@@ -31,9 +31,13 @@
 
 
 
-.contenedor-boton-qr{
+.contenedor-boton-eliminar{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+}
+
+.boton-eliminar{
+    width: 100px;
 }

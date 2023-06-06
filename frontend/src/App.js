@@ -7,7 +7,9 @@ import { AddChildren } from './components/AddChildren/AddChildren';
 import { AddTutor } from './components/AddTutor/AddTutor';
 import { AddResidence } from './components/AddResidence/AddResidence';
 import { DeleteChildren } from './components/DeleteChildren/DeleteChildren';
-
+import { EditRoom } from './components/EditRoom/EditRoom.jsx';
+import { SelectRoom } from './components/SelectRoom/SelectRoom';
+import { DeleteRoom } from './components/DeleteRoom/DeleteRoom.jsx';
 
 
 function App() {
@@ -20,7 +22,9 @@ function App() {
       </header>
       <body className='body'>
         <div>
-            <AddChildren />
+            
+
+            
         </div>
       </body>
     </div>
