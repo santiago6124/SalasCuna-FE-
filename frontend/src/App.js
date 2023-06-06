@@ -10,6 +10,7 @@ import { DeleteChildren } from './components/DeleteChildren/DeleteChildren';
 import { EditRoom } from './components/EditRoom/EditRoom.jsx';
 import { SelectRoom } from './components/SelectRoom/SelectRoom';
 import { DeleteRoom } from './components/DeleteRoom/DeleteRoom.jsx';
+import { PaymentNote } from './components/PaymentNote/PaymentNote';
 
 
 function App() {
@@ -22,7 +23,7 @@ function App() {
       </header>
       <body className='body'>
         <div>
-            
+
 
             
         </div>
