@@ -11,6 +11,7 @@ import { EditRoom } from './components/EditRoom/EditRoom.jsx';
 import { SelectRoom } from './components/SelectRoom/SelectRoom';
 import { DeleteRoom } from './components/DeleteRoom/DeleteRoom.jsx';
 import {CreateUser} from './components/CreateUser/CreateUser.jsx'
+import { ChangePassword } from './components/ChangePassword/ChangePassword';
 
 
 function App() {
@@ -23,7 +24,7 @@ function App() {
       </header>
       <body className="body">
         <div>
-          <CreateUser />
+          <ChangePassword />
         </div>
       </body>
     </div>
