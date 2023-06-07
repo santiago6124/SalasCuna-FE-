@@ -12,6 +12,7 @@ import { SelectRoom } from './components/SelectRoom/SelectRoom';
 import { DeleteRoom } from './components/DeleteRoom/DeleteRoom.jsx';
 import { PaymentNote } from './components/PaymentNote/PaymentNote';
 import { TechnicalReport } from './components/ TechnicalReport/TechnicalReport';
+  
 
 function App() {
   return (
