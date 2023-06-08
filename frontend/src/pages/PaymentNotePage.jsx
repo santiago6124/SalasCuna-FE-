@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Menu } from '../components/Menu/Menu';
-import { EditRoom } from '../components/EditRoom/EditRoom';
+import { PaymentNote } from '../components/PaymentNote/PaymentNote';
 
 export function AddChildrenPage() {
   return (
@@ -13,7 +13,7 @@ export function AddChildrenPage() {
       </header>
       <body className='body'>
         <div>
-            <EditRoom />
+            <PaymentNote />
         </div>
       </body>
     </div>
