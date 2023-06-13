@@ -12,7 +12,7 @@ export function GeneratePadron() {
   return (
     <div className="container-note mt-5">
       <div className="container-titulo-note ">
-        <h1>Nota de Pago</h1>
+        <h1>Generar Padron</h1>
       </div>
       <div className="contenedor-linea-note">
         <hr className="linea-note"></hr>
