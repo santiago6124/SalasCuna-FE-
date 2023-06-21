@@ -1,5 +1,5 @@
 import './App.css';
-
+import {BrowserRouter as Router, Route, Routes, BrowserRouter} from 'react-router-dom'
 //import { Button } from 'react-bootstrap';
 
 import { Menu } from './components/Menu/Menu';
@@ -12,22 +12,33 @@ import { SelectRoom } from './components/SelectRoom/SelectRoom';
 import { DeleteRoom } from './components/DeleteRoom/DeleteRoom.jsx';
 import { PaymentNote } from './components/PaymentNote/PaymentNote';
 import { TechnicalReport } from './components/ TechnicalReport/TechnicalReport';
+import Login from "./components/Login/Login";
+import {AuthProvider} from "./context/AuthContext";
+import {CreateUser} from "./components/CreateUser/CreateUser"
   
 
 function App() {
   return (
-    <div className="App">
-      <header>
-        <div>
-          <Menu />
-        </div>
-      </header>
-      <body className="body">
-        <div>
-          <TechnicalReport />
-        </div>
+    <>
+    <div className='App'>
+        <header>
+          <Menu/>
+        </header>
+      <body className='body'>
+      <Router>
+          <div className="App">
+              <Routes>
+                <Route path='/login' element={<CreateUser/>}/>
+              </Routes>
+          </div>
+      </Router>
       </body>
+
     </div>
+    </>
+
+
+
   );
 }
 
