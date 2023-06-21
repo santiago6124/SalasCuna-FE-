@@ -1,9 +1,12 @@
 import React from 'react'
+import AuthContext from '../context/AuthContext';
 
-function login() {
+const LoginPage = () => {
   return (
-    <div>login</div>
+    <div>
+      login page
+    </div>
   )
-}
+};
 
-export default login
+export default LoginPage;
