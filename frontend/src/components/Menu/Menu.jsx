@@ -16,7 +16,7 @@ const Menu = () => {
   return (
     <Navbar expand="lg" className='navbar'>
       <Container fluid>
-        <Navbar.Brand href="#">
+        <Navbar.Brand href="/">
           <img src={ logo } alt="logo de" className='logo'/>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
