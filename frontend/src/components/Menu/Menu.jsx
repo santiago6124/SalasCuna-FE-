@@ -12,30 +12,7 @@ import Navbar from 'react-bootstrap/Navbar';
 
 
 const Menu = ({logout, isAuthenticated}) => {
-  const [redirect, setRedirect] = useState(false);
-
-  const logout_user = () => {
-      logout();
-      setRedirect(true);
-  };
-
-  const guestLinks = () => (
-      <Fragment>
-          <li className='nav-item'>
-              <Link className='nav-link' to='/login'>Login</Link>
-          </li>
-          <li className='nav-item'>
-              <Link className='nav-link' to='/signup'>Sign Up</Link>
-          </li>
-      </Fragment>
-  );
-
-  const authLinks = () => (
-      <li className='nav-item'>
-          <a className='nav-link' href='#!' onClick={logout_user}>Logout</a>
-      </li>
-  );
-
+  let {user, logoutUser} = useContext(AuthContext)
 
   return (
     <Navbar expand="lg" className='navbar'>
@@ -63,8 +40,6 @@ const Menu = ({logout, isAuthenticated}) => {
             <Nav.Link to='../pages/presupuestoPage.jsx'>Presupuesto</Nav.Link>
           </Nav>
 
-          {isAuthenticated ? authLinks() : guestLinks()}
-
         </Navbar.Collapse>
       </Container>
 
@@ -74,8 +49,4 @@ const Menu = ({logout, isAuthenticated}) => {
   );
 }
 
-const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
-});
-
-export default connect(mapStateToProps, { logout })(Menu);
+export default Menu;
