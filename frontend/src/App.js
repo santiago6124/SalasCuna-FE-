@@ -28,7 +28,7 @@ function App() {
       <Router>
           <div className="App">
               <Routes>
-                <Route path='/login' element={<CreateUser/>}/>
+                <Route path='/login' element={<Login/>}/>
               </Routes>
           </div>
       </Router>
