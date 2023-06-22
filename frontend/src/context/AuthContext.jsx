@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios'
 
 const AuthContext = createContext();
 
@@ -11,6 +12,35 @@ export const AuthProvider = ({ children }) => {
   let [loading, setLoading] = useState(true);
 
   let history = useNavigate();
+
+/* Signup */
+
+let signupUser = async (e) => {
+  e.preventDefault();
+  const config = {
+    headers: {"Content-Type": "application/json"}
+  }
+
+  const body = JSON.stringify({
+    first_name: e.target.first_name.value,
+    last_name: e.targer.last_name.value,
+    email: e.target.email.value,
+    phone: e.target.phone.value,
+    username: e.target.username.value,
+    password: e.target.password.value,
+    re_password: e.target.re_password.value,
+  });
+
+  try {
+    const response = await axios.post("/auth/users/", body, config);
+    history("/login")
+
+  } catch(err) {
+    console.log(err);
+  }
+}
+
+/* Login & Logout */
 
   let loginUser = async (e) => {
     e.preventDefault();
