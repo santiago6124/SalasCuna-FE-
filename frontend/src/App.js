@@ -15,6 +15,7 @@ import { TechnicalReport } from './components/ TechnicalReport/TechnicalReport';
 import Login from "./components/Login/Login";
 import {AuthProvider} from "./context/AuthContext";
 import {CreateUser} from "./components/CreateUser/CreateUser"
+import { DeleteUser } from './components/DeleteUser/DeleteUser';
   
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
           <div className="App">
               <Routes>
                 <Route path='/login' element={<Login/>}/>
+                <Route path='/deleteUser' element={<DeleteUser/>}/>
               </Routes>
           </div>
       </Router>
