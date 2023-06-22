@@ -39,13 +39,11 @@ const Menu = () => {
             <Nav.Link to='../pages/presupuestoPage.jsx'>Presupuesto</Nav.Link>
           </Nav>
 
-
         </Navbar.Collapse>
       </Container>
       
     </Navbar>
   );
 }
-
 
 export default Menu;
