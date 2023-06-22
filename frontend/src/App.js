@@ -7,7 +7,6 @@ import PrivateRoute from "./utils/PrivateRoute";
 
 import Activate from "./containers/Activate";
 import Home from "./containers/Home";
-import Login from "./containers/Login";
 import ResetPassword from "./containers/ResetPassword";
 import ResetPasswordConfirm from "./containers/ResetPasswordConfirm";
 import Signup from "./containers/Signup";
