@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Button, Container, FloatingLabel, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import AuthContext from "../context/AuthContext";
+import AuthContext from "../../context/AuthContext";
 
 const LoginPage = () => {
   return (
