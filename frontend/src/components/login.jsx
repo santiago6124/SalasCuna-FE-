@@ -14,14 +14,11 @@ const LoginPage = () => {
         </div>
         <Form.Group className="mb-3">
           <Form.Label className="mb-1">Usuario</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Ingrese su nombre de usuario"
-          />
+          <Form.Control type="text" placeholder="Ingrese su nombre de usuario" name="username" required/>
         </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label className="mb-1">Contraseña</Form.Label>
-          <Form.Control type="text" placeholder="Ingrese su contraseña" />
+          <Form.Control type="text" placeholder="Ingrese su contraseña" name="password" minLength='8' required/>
         </Form.Group>
       </Form>
       <Link to="/signup/">
