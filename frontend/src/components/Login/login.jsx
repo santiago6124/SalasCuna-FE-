@@ -4,9 +4,10 @@ import { Link } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
 
 const LoginPage = () => {
+  let {loginUser} = useContext(AuthContext)
   return (
     <Container fluid className="conteiner-form-login">
-      <Form>
+      <Form onSubmit={loginUser}>
         <h1 className="titulo">Iniciar Sesion</h1>
 
         <div className="contenedor-linea">
@@ -20,6 +21,9 @@ const LoginPage = () => {
           <Form.Label className="mb-1">Contraseña</Form.Label>
           <Form.Control type="text" placeholder="Ingrese su contraseña" name="password" minLength='8' required/>
         </Form.Group>
+        <div className="contenedor-boton-createuser">
+        <Button className="boton mt-3" boton variant="primary" type="submit">Crear Usuario</Button>
+      </div>
       </Form>
       <Link to="/signup/">
         <Button variant="link" className="link">
