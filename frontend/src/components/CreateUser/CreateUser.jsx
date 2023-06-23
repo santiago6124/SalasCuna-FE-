@@ -7,9 +7,9 @@ import { Button } from "react-bootstrap";
 import "./CreateUser.css";
 
 const CreateUser = () => {
-  let {signupUser} = useContext(AuthContext)
+  /*let {signupUser} = useContext(AuthContext)*/
   return (
-    <Form onSubmit={signupUser} className="conteiner-form-createuser">
+    <Form className="conteiner-form-createuser">
       <h1 className="titulo-createuser">Crear Usuario</h1>
 
       <div>
