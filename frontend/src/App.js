@@ -10,7 +10,7 @@ import Home from "./containers/Home";
 import ResetPassword from "./containers/ResetPassword";
 import ResetPasswordConfirm from "./containers/ResetPasswordConfirm";
 import Signup from "./containers/Signup";
-import LoginPage from "./components/login";
+import LoginPage from "./components/Login/login";
 
 function App() {
   return (
