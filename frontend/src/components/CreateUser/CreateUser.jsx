@@ -6,7 +6,7 @@ import { Button } from "react-bootstrap";
 
 import "./CreateUser.css";
 
-export function CreateUser() {
+const CreateUser = () => {
   let {signupUser} = useContext(AuthContext)
   return (
     <Form onSubmit={signupUser} className="conteiner-form-createuser">
@@ -49,3 +49,4 @@ export function CreateUser() {
     </Form>
   );
 }
+export default CreateUser;
