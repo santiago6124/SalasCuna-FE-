@@ -1,7 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios'
 
 const AuthContext = createContext();
 
@@ -18,6 +17,7 @@ export const AuthProvider = ({ children }) => {
 let signupUser = async (e) => {
   e.preventDefault();
   const config = {
+    method: 'POST',
     headers: {"Content-Type": "application/json"}
   }
 
@@ -32,7 +32,7 @@ let signupUser = async (e) => {
   });
 
   try {
-    const response = await axios.post("/auth/users/", body, config);
+    const response = await fetch('/auth/users/', config, body);
     history("/login")
 
   } catch(err) {
