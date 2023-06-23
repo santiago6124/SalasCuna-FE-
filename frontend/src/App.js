@@ -9,7 +9,7 @@ import Activate from "./containers/Activate";
 import Home from "./containers/Home";
 import ResetPassword from "./containers/ResetPassword";
 import ResetPasswordConfirm from "./containers/ResetPasswordConfirm";
-import Signup from "./containers/Signup";
+import Signup from "./components/CreateUser/CreateUser";
 import LoginPage from "./components/Login/login";
 
 function App() {
@@ -21,7 +21,7 @@ function App() {
             <Navbar />
               <Routes>
                 <Route path="/" element ={<Home/>} />
-                <Route path="/login" exact element={<LoginPage />} />
+                <Route path="/login" element={<LoginPage/>} />
                 <Route path="/signup" element={<Signup/>} />
                 <Route path="/reset-password" component={ResetPassword} />
                 <Route
