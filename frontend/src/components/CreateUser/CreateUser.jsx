@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import AuthContext from "../../context/AuthContext";
 
 import { Form } from "react-bootstrap";
 import { Button } from "react-bootstrap";
@@ -6,8 +7,9 @@ import { Button } from "react-bootstrap";
 import "./CreateUser.css";
 
 export function CreateUser() {
+  let {signupUser} = useContext(AuthContext)
   return (
-    <Form className="conteiner-form-createuser">
+    <Form onSubmit={signupUser} className="conteiner-form-createuser">
       <h1 className="titulo-createuser">Crear Usuario</h1>
 
       <div>
