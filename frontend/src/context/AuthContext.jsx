@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 
-const AuthContext = createContext();
+const AuthContext = createContext('')
 
 export default AuthContext;
 export const AuthProvider = ({ children }) => {
@@ -14,31 +14,31 @@ export const AuthProvider = ({ children }) => {
 
 /* Signup */
 
-let signupUser = async (e) => {
-  e.preventDefault();
-  const config = {
-    method: 'POST',
-    headers: {"Content-Type": "application/json"}
+  let signupUser = async (e) => {
+    e.preventDefault();
+    const config = {
+      method: 'POST',
+      headers: {"Content-Type": "application/json"}
+    }
+
+    const body = JSON.stringify({
+      first_name: e.target.first_name.value,
+      last_name: e.targer.last_name.value,
+      email: e.target.email.value,
+      phone: e.target.phone.value,
+      username: e.target.username.value,
+      password: e.target.password.value,
+      re_password: e.target.re_password.value,
+    });
+
+    try {
+      const response = await fetch('/auth/users/', config, body);
+      history("/login")
+
+    } catch(err) {
+      console.log(err);
+    }
   }
-
-  const body = JSON.stringify({
-    first_name: e.target.first_name.value,
-    last_name: e.targer.last_name.value,
-    email: e.target.email.value,
-    phone: e.target.phone.value,
-    username: e.target.username.value,
-    password: e.target.password.value,
-    re_password: e.target.re_password.value,
-  });
-
-  try {
-    const response = await fetch('/auth/users/', config, body);
-    history("/login")
-
-  } catch(err) {
-    console.log(err);
-  }
-}
 
 /* Login & Logout */
 
