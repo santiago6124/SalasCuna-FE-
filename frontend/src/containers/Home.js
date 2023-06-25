@@ -1,8 +1,12 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import {React, useContext} from 'react';
+import {Link} from 'react-router-dom'
+import AuthContext from '../context/AuthContext';
 
-const Home = () => (
-    <div className='container'>
+const Home = () => {
+    const { user } = useContext(AuthContext);
+
+    return(
+        <div className='container'>
         <div class='jumbotron mt-5'>
             <h1 class='display-4'>Welcome to Auth System!</h1>
             <p class='lead'>This is an incredible authentication system with production level features!</p>
@@ -11,6 +15,7 @@ const Home = () => (
             <Link class='btn btn-primary btn-lg' to='/login' role='button'>Login</Link>
         </div>
     </div>
-);
+    )    
+};
 
 export default Home;

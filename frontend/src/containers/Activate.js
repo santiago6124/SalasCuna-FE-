@@ -1,22 +1,7 @@
 import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { verify } from '../actions/auth';
 
-const Activate = ({ verify, match }) => {
-    const [verified, setVerified] = useState(false);
-
-    const verify_account = e => {
-        const uid = match.params.uid;
-        const token = match.params.token;
-
-        verify(uid, token);
-        setVerified(true);
-    };
-
-    if (verified) {
-        return <Navigate to='/' />
-    }
+const Activate = () => {
 
     return (
         <div className='container'>
@@ -26,7 +11,6 @@ const Activate = ({ verify, match }) => {
             >
                 <h1>Verify your Account:</h1>
                 <button
-                    onClick={verify_account}
                     style={{ marginTop: '50px' }}
                     type='button'
                     className='btn btn-primary'
@@ -38,4 +22,4 @@ const Activate = ({ verify, match }) => {
     );
 };
 
-export default connect(null, { verify })(Activate);
+export default Activate;
