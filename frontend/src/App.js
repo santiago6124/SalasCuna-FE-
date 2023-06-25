@@ -4,6 +4,7 @@ import { AuthProvider } from "./context/AuthContext";
 import "./App.css";
 import Navbar from "./components/Menu/Menu";
 import PrivateRoute from "./utils/PrivateRoute";
+import { PublicRoute } from "./utils/PublicRoute";
 
 import Activate from "./containers/Activate";
 import Home from "./containers/Home";
@@ -11,14 +12,14 @@ import ResetPassword from "./containers/ResetPassword";
 import ResetPasswordConfirm from "./containers/ResetPasswordConfirm";
 import Signup from "./components/CreateUser/CreateUser";
 import LoginPage from "./components/Login/login";
-import { PublicRoute } from "./utils/PublicRoute";
+
 
 function App() {
   return (
         <Router>
           <div className="App">
-            <Navbar />
             <AuthProvider>
+            <Navbar/>
                 <Routes>
                   <Route path="/" element ={<Home/>} />
                   <Route path="/login" element={<PublicRoute children={<LoginPage/>}/>}/>
