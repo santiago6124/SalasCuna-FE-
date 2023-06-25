@@ -24,7 +24,6 @@ export const AuthProvider = ({children}) => {
             body: JSON.stringify({
                 "first_name": e.target.first_name.value,
                 "last_name": e.target.last_name.value,
-                "username": e.target.username.value,
                 "email": e.target.email.value,
                 "password": e.target.password.value,
                 "re_password": e.target.re_password.value
@@ -32,6 +31,8 @@ export const AuthProvider = ({children}) => {
         })
         if (response.status === 201) {
             history('/activate')
+        } else if (response.status === 400) {
+            alert('Bad Request. Email is already in use')
         } else {
             alert('Something went wrong')
         }
