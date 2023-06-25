@@ -31,6 +31,8 @@ export const AuthProvider = ({children}) => {
         })
         if (response.status === 201) {
             history('/activate')
+        } else if (response.status === 400) {
+            alert('Bad Request. Email is already in use')
         } else {
             alert('Something went wrong')
         }
