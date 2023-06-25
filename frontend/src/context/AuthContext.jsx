@@ -14,7 +14,7 @@ export const AuthProvider = ({children}) => {
 
     let history = useNavigate();
 
-    let signIn = async (e) => {
+    let signupUser = async (e) => {
         e.preventDefault()
         let response = await fetch('/auth/users/', {
             method: 'POST',
@@ -25,9 +25,7 @@ export const AuthProvider = ({children}) => {
                 "first_name": e.target.first_name.value,
                 "last_name": e.target.last_name.value,
                 "username": e.target.username.value,
-                "ssn": e.target.ssn.value,
                 "email": e.target.email.value,
-                "phone_number": e.target.phone.value,
                 "password": e.target.password.value,
                 "re_password": e.target.re_password.value
             })
@@ -94,7 +92,7 @@ export const AuthProvider = ({children}) => {
     let contextData = {
         user: user,
         authTokens: authTokens,
-        signIn: signIn,
+        signupUser: signupUser,
         loginUser: loginUser,
         logoutUser: logoutUser
     }
