@@ -19,17 +19,19 @@ function App() {
         <Router>
           <div className="App">
             <Navbar />
-              <Routes>
-                <Route path="/" element ={<Home/>} />
-                <Route path="/login" element={<LoginPage/>} />
-                <Route path="/signup" element={<Signup/>} />
-                <Route path="/reset-password" component={ResetPassword} />
-                <Route
-                  path="/password/reset/confirm/:uid/:token"
-                  component={ResetPasswordConfirm}
-                />
-                <Route path="/activate/:uid/:token" component={Activate} />
-              </Routes>
+            <AuthProvider>
+                <Routes>
+                  <Route path="/" element ={<Home/>} />
+                  <Route path="/login" element={<LoginPage/>} />
+                  <Route path="/signup" element={<Signup/>} />
+                  <Route path="/reset-password" component={ResetPassword} />
+                  <Route
+                    path="/password/reset/confirm/:uid/:token"
+                    component={ResetPasswordConfirm}
+                  />
+                  <Route path="/activate/:uid/:token" component={Activate} />
+                </Routes>
+              </AuthProvider>
           </div>
         </Router>
       </div>
