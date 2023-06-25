@@ -22,7 +22,7 @@ const LoginPage = () => {
           <Form.Control type="text" placeholder="Ingrese su contraseña" name="password" minLength='8' required/>
         </Form.Group>
         <div className="contenedor-boton-createuser">
-        <Button className="boton mt-3" boton variant="primary" type="submit">Crear Usuario</Button>
+        <Button className="boton mt-3" boton variant="primary" type="submit">Log in</Button>
       </div>
       </Form>
       <Link to="/signup/">
