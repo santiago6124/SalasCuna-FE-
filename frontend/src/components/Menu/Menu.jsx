@@ -7,10 +7,11 @@ import logo from '../../media/logo.png';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import { Button } from 'react-bootstrap';
 
 
 const Menu = () => {
-
+  let {user, logoutUser} = useContext(AuthContext);
   return (
     <Navbar expand="lg" className='navbar'>
       <Container fluid>
@@ -35,6 +36,7 @@ const Menu = () => {
             <Nav.Link to='../pages/notaPagoPage.jsx'>Nota Pago</Nav.Link>
             <Nav.Link to='../pages/padronPage.jsx'>Padron</Nav.Link>
             <Nav.Link to='../pages/presupuestoPage.jsx'>Presupuesto</Nav.Link>
+            <Button className="boton mt-3" boton variant="primary" onClick={logoutUser}>Log Out</Button>
           </Nav>
 
         </Navbar.Collapse>
