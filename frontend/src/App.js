@@ -11,31 +11,25 @@ import ResetPassword from "./containers/ResetPassword";
 import ResetPasswordConfirm from "./containers/ResetPasswordConfirm";
 import Signup from "./components/CreateUser/CreateUser";
 import LoginPage from "./components/Login/login";
+import { PublicRoute } from "./utils/PublicRoute";
 
 function App() {
   return (
-    <>
-      <div>
         <Router>
           <div className="App">
             <Navbar />
             <AuthProvider>
                 <Routes>
                   <Route path="/" element ={<Home/>} />
-                  <Route path="/login" element={<LoginPage/>} />
-                  <Route path="/signup" element={<Signup/>} />
-                  <Route path="/reset-password" component={ResetPassword} />
-                  <Route
-                    path="/password/reset/confirm/:uid/:token"
-                    component={ResetPasswordConfirm}
-                  />
+                  <Route path="/login" element={<PublicRoute children={<LoginPage/>}/>}/>
+                  <Route path="/signup" element={<PublicRoute children={<Signup/>}/>} />
+                  <Route path="/reset-password" element={<PublicRoute children={<ResetPassword/>}/>} />
+                  <Route path="/password/reset/confirm/:uid/:token" element={<PublicRoute children={<ResetPasswordConfirm/>}/>}/>
                   <Route path="/activate/:uid/:token" component={Activate} />
                 </Routes>
               </AuthProvider>
           </div>
         </Router>
-      </div>
-    </>
   );
 }
 
