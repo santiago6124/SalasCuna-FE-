@@ -7,9 +7,9 @@ import { Button } from "react-bootstrap";
 import "./CreateUser.css";
 
 const CreateUser = () => {
-  /*let {signupUser} = useContext(AuthContext)*/
+  let {signupUser} = useContext(AuthContext)
   return (
-    <Form className="conteiner-form-createuser">
+    <Form className="conteiner-form-createuser" onSubmit={signupUser}>
       <h1 className="titulo-createuser">Crear Usuario</h1>
 
       <div>
@@ -29,22 +29,14 @@ const CreateUser = () => {
       </Form.Group>
       <Form.Group>
         <Form.Label className="mb-2">Contraseña</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Ingrese Una Contraseña"
-          className="mb-3"
-        ></Form.Control>
+        <Form.Control type="text" placeholder="Ingrese Una Contraseña" className="mb-3" name="password"></Form.Control>
       </Form.Group>
       <Form.Group>
         <Form.Label className="mb-2">Repetir Contraseña</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Repetir La Contraseña"
-          className="mb-3"
-        ></Form.Control>
+        <Form.Control type="text" placeholder="Repetir La Contraseña" className="mb-3" name="re_password"></Form.Control>
       </Form.Group>
       <div className="contenedor-boton-createuser">
-        <Button className="boton mt-3" boton variant="primary">Crear Usuario</Button>
+        <Button className="boton mt-3" boton variant="primary" type="submit">Crear Usuario</Button>
       </div>
     </Form>
   );
