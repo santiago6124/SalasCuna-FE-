@@ -26,7 +26,7 @@ function App() {
                   <Route path="/signup" element={<PublicRoute children={<Signup/>}/>} />
                   <Route path="/reset-password" element={<PublicRoute children={<ResetPassword/>}/>} />
                   <Route path="/password/reset/confirm/:uid/:token" element={<PublicRoute children={<ResetPasswordConfirm/>}/>}/>
-                  <Route path="/activate/:uid/:token" component={Activate} />
+                  <Route path="/activate/:uid/:token" element={Activate} />
                 </Routes>
               </AuthProvider>
           </div>
