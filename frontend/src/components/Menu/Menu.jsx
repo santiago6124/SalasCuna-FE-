@@ -1,7 +1,5 @@
 import React, { Fragment, useContext, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { logout } from '../../actions/auth';
 import AuthContext from '../../context/AuthContext';
 
 import '../Menu/Menu.css';

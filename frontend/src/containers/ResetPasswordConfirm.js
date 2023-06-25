@@ -1,44 +1,17 @@
 import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { reset_password_confirm } from '../actions/auth';
 
 const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
-    const [requestSent, setRequestSent] = useState(false);
-    const [formData, setFormData] = useState({
-        new_password: '',
-        re_new_password: ''
-    });
-
-    const { new_password, re_new_password } = formData;
-
-    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
-
-    const onSubmit = e => {
-        e.preventDefault();
-
-        const uid = match.params.uid;
-        const token = match.params.token;
-
-        reset_password_confirm(uid, token, new_password, re_new_password);
-        setRequestSent(true);
-    };
-
-    if (requestSent) {
-        return <Navigate to='/' />
-    }
 
     return (
         <div className='container mt-5'>
-            <form onSubmit={e => onSubmit(e)}>
+            <form>
             <div className='form-group'>
                     <input
                         className='form-control'
                         type='password'
                         placeholder='New Password'
                         name='new_password'
-                        value={new_password}
-                        onChange={e => onChange(e)}
                         minLength='6'
                         required
                     />
@@ -49,8 +22,6 @@ const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
                         type='password'
                         placeholder='Confirm New Password'
                         name='re_new_password'
-                        value={re_new_password}
-                        onChange={e => onChange(e)}
                         minLength='6'
                         required
                     />
@@ -61,4 +32,4 @@ const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
     );
 };
 
-export default connect(null, { reset_password_confirm })(ResetPasswordConfirm);
+export default ResetPasswordConfirm;
