@@ -7,12 +7,9 @@ const ActivateAccountPage = () => {
     const {uid, token} = useParams()
     let history = useNavigate()
 
-
     let uidToken = uid
     let activationToken = token
     const [show, setShow] = React.useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
 
     let activateAccount = async () => {
         let response = await fetch('/auth/users/activation/', {
@@ -33,10 +30,6 @@ const ActivateAccountPage = () => {
         }
     }
 
-    let pressedVerifyButton = async () => {
-        handleShow()
-        await activateAccount()
-    }
 
     return (
        <Container className="activateaccountpage"></Container>
