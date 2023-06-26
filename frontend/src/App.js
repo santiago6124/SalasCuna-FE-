@@ -22,12 +22,12 @@ function App() {
             <AuthProvider>
             <Navbar/>
                 <Routes>
-                  <Route path="/" element ={<Home/>} />
+                  <Route path="/" exact element ={<Home/>} />
                   <Route path="/login" element={<PublicRoute children={<LoginPage/>}/>}/>
                   <Route path="/signup" element={<PublicRoute children={<Signup/>}/>} />
                   <Route path="/reset-password" element={<PublicRoute children={<ResetPassword/>}/>} />
                   <Route path="/password/reset/confirm/:uid/:token" element={<PublicRoute children={<ResetPasswordConfirm/>}/>}/>
-                  <Route path="/activate" element={<ActivateAccountPage/>}/>
+                  <Route path="/activate/:uid/:token" element={<PublicRoute children={<ActivateAccountPage/>}/>}/>
                 </Routes>
               </AuthProvider>
           </div>
