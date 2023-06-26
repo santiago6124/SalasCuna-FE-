@@ -3,6 +3,8 @@ import React from "react";
 import { Form } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 
+import { useNavigate } from "react-router-dom";
+
 import "./ChangePassword.css";
 
 const ChangePassword = () => {
@@ -29,42 +31,21 @@ const ChangePassword = () => {
   }
 
   return (
-    <Form className="conteiner-form-changepw">
-      <h1 className="titulo-changepw">Cambiar Contraseña</h1>
-
-      <div>
-        <h1 className="linea-conteiner-changepw"></h1>
-      </div>
-      <Form.Group>
-        <Form.Label className="mb-2">Nombre de Usuario</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Ingrese el nombre de usuario"
-          className="mb-3"
-        ></Form.Control>
-      </Form.Group>
-      <Form.Group>
-        <Form.Label className="mb-2">Ingresar Nueva Contraseña</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Ingrese la Nueva Contraseña"
-          className="mb-3"
-        ></Form.Control>
-      </Form.Group>
-      <Form.Group>
-        <Form.Label className="mb-2">Repetir Nueva Contraseña</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Repetir La Nueva Contraseña"
-          className="mb-3"
-        ></Form.Control>
-      </Form.Group>
-      <div className="contenedor-boton-changepw">
-        <Button className="boton mt-3" boton variant="primary">
-          Cambiar Contraseña
-        </Button>
-      </div>
-    </Form>
+    <div className='container mt-5'>
+            <h1>Ingrese su mail para cambiar su contraseña:</h1>
+            <form>
+                <div className='form-group'>
+                    <input
+                        className='form-control'
+                        type='email'
+                        placeholder='Email'
+                        name='email'
+                        required
+                    />
+                </div>
+                <button className='btn btn-primary' type='submit'>Cambiar Contraseña</button>
+            </form>
+        </div>
   );
 }
 

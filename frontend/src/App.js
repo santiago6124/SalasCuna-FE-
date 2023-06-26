@@ -12,6 +12,8 @@ import ResetPassword from "./containers/ResetPassword";
 import ResetPasswordConfirm from "./containers/ResetPasswordConfirm";
 import Signup from "./components/CreateUser/CreateUser";
 import LoginPage from "./components/Login/login";
+import  ChangePassword  from "./components/ChangePassword/ChangePassword";
+import ChangePasswordConfirm from "./components/ChangePasswordConfirm/ChangePasswordConfirm";
 
 
 function App() {
@@ -27,6 +29,8 @@ function App() {
                   <Route path="/reset-password" element={<PublicRoute children={<ResetPassword/>}/>} />
                   <Route path="/password/reset/confirm/:uid/:token" element={<PublicRoute children={<ResetPasswordConfirm/>}/>}/>
                   <Route path="/activate/:uid/:token" element={Activate} />
+                  <Route path="/restablecer-contraseña" element={<ChangePassword/>} />
+                  <Route path="/restablecer-contraseña-confirmar" element={<ChangePasswordConfirm/>}/>
                 </Routes>
               </AuthProvider>
           </div>

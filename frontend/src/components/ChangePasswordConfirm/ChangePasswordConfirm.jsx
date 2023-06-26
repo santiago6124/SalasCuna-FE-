@@ -1,6 +1,7 @@
 import React from "react";
 import {Card, Container, FloatingLabel, Form} from "react-bootstrap";
 import {useNavigate, useParams} from "react-router-dom";
+import { Button} from "react-bootstrap";
 
 const ResetPasswordConfirmPage = () => {
 
@@ -34,54 +35,45 @@ const ResetPasswordConfirmPage = () => {
     }
 
     return (
-        <Container fluid className='fondo'>
-            <Container>
-                <Card id='carta'>
-                    <Card.Body>
-                        <img src={keyy} alt="" className='imgLogo'/>
+        
+        <Form onSubmit={resetPasswordConfirm} className="conteiner-form-changepw">
+            <h1 className="titulo-changepw">Cambiar Contraseña</h1>
+            <div>
+                <h1 className="linea-conteiner-changepw"></h1>
+            </div>
+            <Form.Group>
+                <Form.Label className="mb-2">Gmail</Form.Label>
+                <Form.Control
+                    name='gmail'
+                    type="text"
+                    placeholder="Ingrese su gmail"
+                    className="mb-3"
+                ></Form.Control>
+            </Form.Group>
+            <Form.Group>
+                <Form.Label className="mb-2">Ingresar Nueva Contraseña</Form.Label>
+                <Form.Control
+                    name='new_password'
+                    type="text"
+                    placeholder="Ingrese la Nueva Contraseña"
+                    className="mb-3"
+                ></Form.Control>
+            </Form.Group>
+            <Form.Group>
+                <Form.Label className="mb-2">Repetir Nueva Contraseña</Form.Label>
+                <Form.Control
+                    name='re_new_password'
+                    type="text"
+                    placeholder="Repetir La Nueva Contraseña"
+                    className="mb-3"
+                ></Form.Control>
+            </Form.Group>
+            <div className="contenedor-boton-changepw">
+                <Button className="boton mt-3" boton variant="primary" type='submit'>Cambiar Contraseña</Button>
+            </div>
+        </Form>
 
-                        <Form onSubmit={resetPasswordConfirm}>
-                            <div className='py-2'>
-                                <FloatingLabel controlId="floatingTextarea2"
-                                               label="Introduzca su nueva contraseña">
-
-                                    <Form.Control className='form-control'
-                                                  type='password'
-                                                  placeholder='Confirm New Password'
-                                                  name='new_password'
-                                                  minLength='6'
-                                                  required>
-
-                                    </Form.Control>
-                                </FloatingLabel>
-                            </div>
-                            <div className='py-2'>
-                                <FloatingLabel controlId="floatingTextarea2" label="Repita su nueva contraseña">
-                                    <Form.Control className='form-control'
-                                                  type='password'
-                                                  placeholder='Repita la contraseña'
-                                                  name='re_new_password'
-                                                  minLength='6'
-                                                  required>
-                                    </Form.Control>
-                                </FloatingLabel>
-                            </div>
-                            <div className='py-2'>
-                                <button className='btn btn-primary' type='submit'>Cambiar Contraseña</button>
-                            </div>
-
-                        </Form>
-
-
-                    </Card.Body>
-                </Card>
-
-            </Container>
-        </Container>
-
-
-    )
-        ;
+    );
 }
 
 export default ResetPasswordConfirmPage

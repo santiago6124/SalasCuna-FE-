@@ -5,7 +5,7 @@ const ResetPassword = () => {
 
     return (
         <div className='container mt-5'>
-            <h1>Request Password Reset:</h1>
+            <h1>Ingrese su mail para cambiar su contraseña:</h1>
             <form>
                 <div className='form-group'>
                     <input
