@@ -5,11 +5,48 @@ import Row from 'react-bootstrap/Row/';
 import Button from 'react-bootstrap/Button/';
 import Form from 'react-bootstrap/Form/';
 
+
 import { FaQrcode } from 'react-icons/fa';
+
+import React, { useState, useEffect } from 'react'
 
 
 export function AñadirChico() {
-  return (
+    useEffect( () => {
+        getChildren()
+    })
+    // , [noteId] 
+
+    let getChildren = async () => {
+        let response = await fetch(`http://127.0.0.1:8000/api/all-objects/`)
+        let data = await response.json()
+        console.log(data)
+
+        fetch(`http://127.0.0.1:8000/api/child/`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(
+                {
+                    "id": "30000",
+                    "first_name": "John",
+                    "last_name": "Doe",
+                    "dni": "1234567890",
+                    "birthdate": "2000-01-01",
+                    "registration_date": "2023-06-22",
+                    "gender": 1,
+                    "cribroom": 1,
+                    "shift": 1,
+                    "user": 1,
+                    "guardian": 1,
+                    "child_state": 1
+                  }                  
+            )
+        })
+    }
+
+    return (
     <Form className='conteiner-form'>
         <h1 className='titulo'>Añadir Niños/as</h1>
         
