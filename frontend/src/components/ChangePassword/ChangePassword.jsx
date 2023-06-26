@@ -5,7 +5,29 @@ import { Button } from "react-bootstrap";
 
 import "./ChangePassword.css";
 
-export function ChangePassword() {
+const ChangePassword = () => {
+
+  let history = useNavigate()
+
+  let resetPasswordEmail = async (e) => {
+      e.preventDefault()
+      let response = await fetch('/auth/users/reset_password/', {
+          method: "POST",
+          headers: {
+              'Content-Type': 'application/json',
+              "Accept": "application/json"
+          },
+          body: JSON.stringify({
+              "email": e.target.email.value
+          })
+      })
+      if (response.status === 204) {
+          history('/')
+      } else {
+          alert('Something went wrong')
+      }
+  }
+
   return (
     <Form className="conteiner-form-changepw">
       <h1 className="titulo-changepw">Cambiar Contraseña</h1>
@@ -45,3 +67,5 @@ export function ChangePassword() {
     </Form>
   );
 }
+
+export default ChangePassword
