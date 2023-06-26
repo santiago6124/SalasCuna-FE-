@@ -1,14 +1,14 @@
-.containerActivate{
+.containerActivate {
     width: 500px;
     height: 400px;
     border-radius: 18px;
-    box-shadow: 1px 4px 10px 0px rgba(0,0,0,0.37);
+    box-shadow: 1px 4px 10px 0px rgba(0, 0, 0, 0.37);
     background-color: rgb(255, 255, 255);
     text-align: center;
     padding-top: 100px;
 }
 
-.divActivate{
+.divActivate {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -23,8 +23,8 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-  }
+}
 
-.titulo{
+.titulo {
     margin-top: 20px;
 }

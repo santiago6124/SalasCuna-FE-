@@ -1,19 +1,19 @@
-import React, { useState} from 'react';
-import { Link, Navigate } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { login } from '../actions/auth';
+import React, {useState} from 'react';
+import {Link, Navigate} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {login} from '../actions/auth';
 import axios from 'axios';
 
 
-const Login = ({ login, isAuthenticated }) => {
+const Login = ({login, isAuthenticated}) => {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
     });
 
-    const { email, password } = formData;
+    const {email, password} = formData;
 
-    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+    const onChange = e => setFormData({...formData, [e.target.name]: e.target.value});
 
     const onSubmit = e => {
         e.preventDefault();
@@ -32,7 +32,7 @@ const Login = ({ login, isAuthenticated }) => {
     };
 
     if (isAuthenticated) {
-        return <Navigate to='/' />
+        return <Navigate to='/'/>
     }
 
     return (
@@ -83,4 +83,4 @@ const mapStateToProps = state => ({
 });
 
 
-export default connect(mapStateToProps, { login }) (Login);
+export default connect(mapStateToProps, {login})(Login);

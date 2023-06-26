@@ -1,34 +1,34 @@
-.container-report{
+.container-report {
     width: 800px;
     padding: 30px;
     border-radius: 18px;
-    box-shadow: 1px 4px 10px 0px rgba(0,0,0,0.37);
+    box-shadow: 1px 4px 10px 0px rgba(0, 0, 0, 0.37);
     background-color: rgb(255, 255, 255);
 }
 
-.container-titulo-report{
+.container-titulo-report {
     text-align: center;
 }
 
-.contenedor-linea-report{
+.contenedor-linea-report {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
 }
 
-.linea-report{
-    margin-top: 1px;  
+.linea-report {
+    margin-top: 1px;
     height: 4px;
     border: 2px solid #EF7E0E;
     width: 500px;
 }
 
-.input-select{
+.input-select {
     width: 200px;
 }
 
-.container-botones-report{
+.container-botones-report {
     margin-left: 220px;
     display: flex;
 }

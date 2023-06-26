@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { signup } from '../actions/auth';
+import React, {useState} from 'react';
+import {Link, Navigate} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {signup} from '../actions/auth';
 import axios from 'axios';
 
-const Signup = ({ signup, isAuthenticated }) => {
+const Signup = ({signup, isAuthenticated}) => {
     const [accountCreated, setAccountCreated] = useState(false);
     const [formData, setFormData] = useState({
         first_name: '',
@@ -14,9 +14,9 @@ const Signup = ({ signup, isAuthenticated }) => {
         re_password: ''
     });
 
-    const { first_name, last_name, email, password, re_password } = formData;
+    const {first_name, last_name, email, password, re_password} = formData;
 
-    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+    const onChange = e => setFormData({...formData, [e.target.name]: e.target.value});
 
     const onSubmit = e => {
         e.preventDefault();
@@ -38,10 +38,10 @@ const Signup = ({ signup, isAuthenticated }) => {
     };
 
     if (isAuthenticated) {
-        return <Navigate to='/' />
+        return <Navigate to='/'/>
     }
     if (accountCreated) {
-        return <Navigate to='/login' />
+        return <Navigate to='/login'/>
     }
 
     return (
@@ -111,7 +111,7 @@ const Signup = ({ signup, isAuthenticated }) => {
             <button className='btn btn-danger mt-3' onClick={continueWithGoogle}>
                 Continue With Google
             </button>
-            <br />
+            <br/>
             <p className='mt-3'>
                 Already have an account? <Link to='/login'>Sign In</Link>
             </p>
@@ -123,4 +123,4 @@ const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated
 });
 
-export default connect(mapStateToProps, { signup })(Signup);
+export default connect(mapStateToProps, {signup})(Signup);

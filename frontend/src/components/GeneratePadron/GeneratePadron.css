@@ -1,5 +1,7 @@
 .container-note {
-    width: 800px;
+    margin: 10%;
+    margin-bottom: 20%;
+    width: 80%;
     padding: 30px;
     border-radius: 18px;
     box-shadow: 1px 4px 10px 0px rgba(0, 0, 0, 0.37);
@@ -20,20 +22,28 @@
 .linea-note {
     margin-top: 1px;
     height: 4px;
-    border: 2px solid #EF7E0E;
-    width: 500px;
+    border: 2px solid #ef7e0e;
+    background-color: #ef7e0e;
+    width: 85%;
 }
 
 .input-select {
     width: 200px;
 }
 
-.container-botones-payment {
+.container-botones-padron {
     margin-left: 220px;
     display: flex;
 }
 
-.btn-1 {
-    margin-right: 15px;
+.btn-pdf {
+    margin-left: 110px;
 }
 
+.btn-excel {
+    margin-left: 20%;
+}
+
+th {
+    font-size: 1.5vh;
+}

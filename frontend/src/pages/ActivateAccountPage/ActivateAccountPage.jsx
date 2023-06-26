@@ -1,7 +1,6 @@
-import React, {useContext} from "react";
-import {Button, Card, Col, Container, Modal, Row} from "react-bootstrap";
-import {Link, useNavigate, useParams} from "react-router-dom";
-import AuthContext from "../../context/AuthContext";
+import React from "react";
+import {Button} from "react-bootstrap";
+import {useNavigate, useParams} from "react-router-dom";
 
 import './ActivateAccountPage.css';
 
@@ -33,14 +32,14 @@ const ActivateAccountPage = () => {
     }
 
 
-    return(
+    return (
         <div className="divActivate">
             <div className="containerActivate">
                 <h1>Verifica tu cuenta</h1>
                 <Button className="mt-5" onClick={activateAccount}>Verificar</Button>
-            </div> 
+            </div>
         </div>
-        
+
     );
 }
 
