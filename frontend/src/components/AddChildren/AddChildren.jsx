@@ -1,36 +1,14 @@
-<<<<<<< HEAD:frontend/src/components/AddChildren/AddChildren.jsx
 
 import './AddChildren.css';
 
-=======
-import '../styles/styles.css';
->>>>>>> addChildren:frontend/src/components/añadirChico.jsx
 import Col from 'react-bootstrap/Col/';
 import Row from 'react-bootstrap/Row/';
 import Form from 'react-bootstrap/Form/';
-<<<<<<< HEAD:frontend/src/components/AddChildren/AddChildren.jsx
 import { Button } from 'react-bootstrap';
 
-=======
->>>>>>> addChildren:frontend/src/components/añadirChico.jsx
 import { FaQrcode } from 'react-icons/fa';
 import React, { useState, useEffect } from 'react';
 
-<<<<<<< HEAD:frontend/src/components/AddChildren/AddChildren.jsx
-export function AddChildren() {
-  return (
-    <Form className='conteiner-form'>
-        <h1 className='titulo'>Añadir Niños/as</h1>
-        
-        <div className='contenedor-linea'>
-            <hr className='linea' ></hr>
-        </div>
-        <Form.Group className="mb-3" >
-            <Form.Label className='mb-1'>Nombre</Form.Label>
-            <Form.Control type="text" placeholder="Ingrese un nombre" />
-        </Form.Group>
-        <Form.Group className="mb-3" >
-=======
 export function AñadirChico() {
   useEffect(() => {
     getChildren();
@@ -96,7 +74,6 @@ export function AñadirChico() {
       </Form.Group>
 
       <Form.Group className="mb-3" >
->>>>>>> addChildren:frontend/src/components/añadirChico.jsx
             <Form.Label className='mb-1'>Apellido</Form.Label>
             <Form.Control type="text" placeholder="Ingrese un apellido" />
         </Form.Group>
@@ -137,19 +114,10 @@ export function AñadirChico() {
             <Form.Label className='mb-1'>Domicilio</Form.Label>
             <Form.Control type="text" placeholder="Ingrese un domicilio" />
         </Form.Group>
-<<<<<<< HEAD:frontend/src/components/AddChildren/AddChildren.jsx
-        <div className='contenedor-boton-qr '>
-            <Button className='boton-qr mt-3' boton variant="primary">
-                <FaQrcode />
-            </Button>
-        </div>
-=======
-
 
       <div className="contenedor-boton mb-5">
         <Button as="input" type="submit" value="Cargar" size="lg" />
       </div>
->>>>>>> addChildren:frontend/src/components/añadirChico.jsx
     </Form>
   );
 }
