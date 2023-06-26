@@ -24,9 +24,7 @@ function App() {
             <AñadirChico />
             <AñadirTutor />
             <AñadirDomicilio />
-            <div className='contenedor-boton mb-5'>
-              <Button as="input" type="submit" value="Cargar" size='lg' />
-            </div>
+
         </div>
       <div>
           <AñadirChico/>
