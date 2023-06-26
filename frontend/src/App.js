@@ -12,6 +12,7 @@ import ResetPassword from "./containers/ResetPassword";
 import ResetPasswordConfirm from "./containers/ResetPasswordConfirm";
 import Signup from "./components/CreateUser/CreateUser";
 import LoginPage from "./components/Login/login";
+import ActivateAccountPage from "./pages/ActivateAccountPage/ActivateAccountPage";
 
 
 function App() {
@@ -26,7 +27,7 @@ function App() {
                   <Route path="/signup" element={<PublicRoute children={<Signup/>}/>} />
                   <Route path="/reset-password" element={<PublicRoute children={<ResetPassword/>}/>} />
                   <Route path="/password/reset/confirm/:uid/:token" element={<PublicRoute children={<ResetPasswordConfirm/>}/>}/>
-                  <Route path="/activate/:uid/:token" element={Activate} />
+                  <Route path="/activate" element={<ActivateAccountPage/>}/>
                 </Routes>
               </AuthProvider>
           </div>

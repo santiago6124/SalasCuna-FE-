@@ -1,7 +1,9 @@
 import React, {useContext} from "react";
 import {Button, Card, Col, Container, Modal, Row} from "react-bootstrap";
 import {Link, useNavigate, useParams} from "react-router-dom";
-import AuthContext from "../context/AuthContext";
+import AuthContext from "../../context/AuthContext";
+
+import './ActivateAccountPage.css';
 
 const ActivateAccountPage = () => {
     const {uid, token} = useParams()
@@ -32,7 +34,10 @@ const ActivateAccountPage = () => {
 
 
     return (
-       <Container className="activateaccountpage"></Container>
+        <Container className="containerActivate">
+            <h1>Verifica tu cuenta</h1>
+            <Button>Verificar</Button>
+        </Container> 
     );
 }
 
