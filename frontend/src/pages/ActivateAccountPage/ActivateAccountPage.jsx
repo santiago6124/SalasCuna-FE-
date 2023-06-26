@@ -37,7 +37,7 @@ const ActivateAccountPage = () => {
         <div className="divActivate">
             <div className="containerActivate">
                 <h1>Verifica tu cuenta</h1>
-                <Button className="mt-5">Verificar</Button>
+                <Button className="mt-5" onClick={activateAccount}>Verificar</Button>
             </div> 
         </div>
         
