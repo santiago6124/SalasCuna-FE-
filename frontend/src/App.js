@@ -22,7 +22,7 @@ function App() {
             <AuthProvider>
             <Navbar/>
                 <Routes>
-                  <Route path="/" exact element ={<Home/>} />
+                  <Route path="/" exact element ={<PublicRoute children={<Home/>}/>} />
                   <Route path="/login" element={<PublicRoute children={<LoginPage/>}/>}/>
                   <Route path="/signup" element={<PublicRoute children={<Signup/>}/>} />
                   <Route path="/reset-password" element={<PublicRoute children={<ResetPassword/>}/>} />
