@@ -33,11 +33,14 @@ const ActivateAccountPage = () => {
     }
 
 
-    return (
-        <Container className="containerActivate">
-            <h1>Verifica tu cuenta</h1>
-            <Button>Verificar</Button>
-        </Container> 
+    return(
+        <Container>
+            <Container className="containerActivate">
+                <h1>Verifica tu cuenta</h1>
+                <Button>Verificar</Button>
+            </Container> 
+        </Container>
+        
     );
 }
 

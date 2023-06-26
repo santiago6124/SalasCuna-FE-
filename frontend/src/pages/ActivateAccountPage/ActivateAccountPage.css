@@ -1,5 +1,16 @@
 .containerActivate{
-    width: 500px;
+    width: 200px;
+    height: 400px;
     background-color: aqua;
-    
+    margin: 55px;
 }
+
+.body {
+    background-image: url('../../media/Diseño\ sin\ título.png');
+    width: 100%;
+    padding-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }

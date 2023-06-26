@@ -13,6 +13,7 @@ const Home = () => {
             <hr class='my-4' />
             <p>Click the Log In button</p>
             <Link class='btn btn-primary btn-lg' to='/login' role='button'>Login</Link>
+            <Link class='btn btn-primary btn-lg' to='/activate' role='button'>act</Link>
         </div>
     </div>
     )    
