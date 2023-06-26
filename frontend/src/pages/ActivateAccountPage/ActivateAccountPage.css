@@ -1,8 +1,18 @@
 .containerActivate{
-    width: 200px;
+    width: 500px;
     height: 400px;
-    background-color: aqua;
-    margin: 55px;
+    border-radius: 18px;
+    box-shadow: 1px 4px 10px 0px rgba(0,0,0,0.37);
+    background-color: rgb(255, 255, 255);
+    text-align: center;
+    padding-top: 100px;
+}
+
+.divActivate{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 .body {
@@ -14,3 +24,7 @@
     justify-content: center;
     align-items: center;
   }
+
+.titulo{
+    margin-top: 20px;
+}

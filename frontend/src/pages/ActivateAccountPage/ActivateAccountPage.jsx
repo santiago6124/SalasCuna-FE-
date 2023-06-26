@@ -34,12 +34,12 @@ const ActivateAccountPage = () => {
 
 
     return(
-        <Container>
-            <Container className="containerActivate">
+        <div className="divActivate">
+            <div className="containerActivate">
                 <h1>Verifica tu cuenta</h1>
-                <Button>Verificar</Button>
-            </Container> 
-        </Container>
+                <Button className="mt-5">Verificar</Button>
+            </div> 
+        </div>
         
     );
 }
