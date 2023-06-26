@@ -1,0 +1,46 @@
+import React, {useContext} from "react";
+import {Button, Card, Col, Container, Modal, Row} from "react-bootstrap";
+import {Link, useNavigate, useParams} from "react-router-dom";
+import AuthContext from "../context/AuthContext";
+
+const ActivateAccountPage = () => {
+    const {uid, token} = useParams()
+    let history = useNavigate()
+
+
+    let uidToken = uid
+    let activationToken = token
+    const [show, setShow] = React.useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    let activateAccount = async () => {
+        let response = await fetch('/auth/users/activation/', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                "uid": uidToken,
+                "token": activationToken
+            })
+        })
+        if (response.status === 204) {
+            history('/')
+        } else {
+            alert('Something went wrong')
+        }
+    }
+
+    let pressedVerifyButton = async () => {
+        handleShow()
+        await activateAccount()
+    }
+
+    return (
+       <Container className="activateaccountpage"></Container>
+    );
+}
+
+export default ActivateAccountPage
