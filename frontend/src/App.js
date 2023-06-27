@@ -14,6 +14,7 @@ import Signup from "./components/CreateUser/CreateUser";
 import LoginPage from "./components/Login/login";
 import ActivateAccountPage from "./pages/ActivateAccountPage/ActivateAccountPage";
 import GeneratePadron from "./components/GeneratePadron/GeneratePadron";
+import AddChildrenPage from './pages/AddChildrenPage/AddChildrenPage';
 
 
 function App() {
@@ -23,7 +24,7 @@ function App() {
                 <AuthProvider>
                     <Navbar/>
                     <Routes>
-                        <Route exact path="/" element={<PublicRoute children={<Home/>}/>}/>
+                        <Route exact path="/" element={<Home/>}/>
                         <Route path="/login" element={<PublicRoute children={<LoginPage/>}/>}/>
                         <Route path="/signup" element={<PublicRoute children={<Signup/>}/>}/>
                         <Route path="/reset-password" element={<PublicRoute children={<ResetPassword/>}/>}/>
@@ -32,6 +33,8 @@ function App() {
                         <Route path="/activate/:uid/:token" element={<ActivateAccountPage/>}/>
 
                         <Route path="/generate-padron" element={<PrivateRoute children={<GeneratePadron/>}/>}/>
+
+                        <Route path="/añadir-chico" element={<PrivateRoute children={<AddChildrenPage/>}/>}/>
                     </Routes>
                 </AuthProvider>
             </div>

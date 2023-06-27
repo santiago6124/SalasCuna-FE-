@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import AuthContext from '../../context/AuthContext';
 
-import '../Menu/Menu.css';
+import './Menu.css';
 import logo from '../../media/logo.png';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -25,17 +25,14 @@ const Menu = () => {
                         style={{maxHeight: '100px'}}
                         navbarScroll
                     >
-                        <Nav.Link to='# ../pages/añadirChicoPage.jsx'>Añadir Chico</Nav.Link>
-                        <Nav.Link to='../pages/añadirChicoPage.jsx'>Añadir Chico</Nav.Link>
-                        <Nav.Link to='../pages/añadirSalaPage.jsx'>Añadir Sala</Nav.Link>
-                        <Nav.Link to='../pages/createUserPage.jsx'>Crear Usuario</Nav.Link>
-                        <Nav.Link to='../pages/darBajaChicoPage.jsx'>Bajar Chico</Nav.Link>
-                        <Nav.Link to='../pages/darBajaSalaPage.jsx'>Bajar Sala</Nav.Link>
-                        <Nav.Link to='../pages/editarSalaPage.jsx'>Editar Sala</Nav.Link>
-                        <Nav.Link to='../pages/loginPage.jsx'>Login</Nav.Link>
-                        <Nav.Link to='../pages/notaPagoPage.jsx'>Nota Pago</Nav.Link>
-                        <Nav.Link to='../pages/padronPage.jsx'>Padron</Nav.Link>
-                        <Nav.Link to='../pages/presupuestoPage.jsx'>Presupuesto</Nav.Link>
+                        
+                        <Link to='/añadir-chico'>
+                            <Nav className='titulo'>Añadir Chico</Nav>
+                        </Link>
+                        <Link to='/generate-padron'>
+                            <Nav className='titulo'>Generar Padron</Nav>
+                        </Link>
+                        
                         {user ? (
                                 <Link to='/'>
                                     <Button className="boton" boton variant="primary" onClick={logoutUser}>Log Out</Button>

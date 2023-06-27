@@ -1,18 +1,13 @@
 import React from 'react'
-import {AddChildren} from '../components/AddChildren/AddChildren'
-import {AddTutor} from '../components/AddTutor/AddTutor'
-import {AddResidence} from '../components/AddResidence/AddResidence'
+import {AddChildren} from '../../components/AddChildren/AddChildren.jsx'
+import {AddTutor} from '../../components/AddTutor/AddTutor'
+import {AddResidence} from '../../components/AddResidence/AddResidence'
 import {Button} from 'react-bootstrap'
-import {Menu} from '../components/Menu/Menu'
+
 
 export default function añadirChicoPage() {
     return (
         <div className="App">
-            <header>
-                <div>
-                    <Menu/>
-                </div>
-            </header>
             <body className='body'>
             <div>
                 <AddChildren/>

@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form/';
 import {Button} from 'react-bootstrap';
 import React, {useEffect} from 'react';
 
-export function AñadirChico() {
+export function AddChildren() {
     useEffect(() => {
         getChildren();
     }, []);
