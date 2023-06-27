@@ -3,15 +3,15 @@ import Table from "react-bootstrap/Table";
 import React, { useEffect, useState } from "react";
 
 const GeneratePadron = () => {
-  const [child, setChild] = useState([]);
+  const [children, setChildren] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch("http://127.0.0.1:8000/api/child/");
         const jsonData = await response.json();
-        console.log(jsonData); // Check the fetched data in the console
-        setChild(jsonData);
+        console.log(jsonData);
+        setChildren(jsonData);
       } catch (error) {
         console.error("Error", error);
       }
@@ -20,7 +20,6 @@ const GeneratePadron = () => {
     fetchData();
   }, []);
 
-  // Render the data in a table
   return (
     <div className="container-note mt-5">
       <div className="container-titulo-note">
@@ -41,23 +40,16 @@ const GeneratePadron = () => {
           </tr>
         </thead>
         <tbody>
-          {(() => {
-            const rows = [];
-            for (let i = 0; i < child.length; i++) {
-              const child = child[i];
-              rows.push(
-                <tr key={child.id}>
-                  <td>{child.last_name}</td>
-                  <td>{child.first_name}</td>
-                  <td>{child.dni}</td>
-                  <td>{child.birthdate}</td>
-                  <td>{child.age}</td>
-                  <td>{child.sex}</td>
-                </tr>
-              );
-            }
-            return rows;
-          })()}
+          {children.map((child) => (
+            <tr key={child.id}>
+              <td>{child.last_name}</td>
+              <td>{child.first_name}</td>
+              <td>{child.dni}</td>
+              <td>{child.birthdate}</td>
+              <td>{child.age}</td>
+              <td>{child.sex}</td>
+            </tr>
+          ))}
         </tbody>
       </Table>
     </div>
