@@ -72,11 +72,11 @@ export function AddChildren() {
 
             <Form.Group className="mb-3">
                 <Form.Label className='mb-1'>Apellido</Form.Label>
-                <Form.Control type="text" placeholder="Ingrese un apellido"/>
+                <Form.Control type="text" placeholder="Ingrese un apellido"name="apellido"/>
             </Form.Group>
             <Form.Group className="mb-3">
                 <Form.Label className='mb-1'>DNI</Form.Label>
-                <Form.Control type="number" placeholder="Ingrese un DNI"/>
+                <Form.Control type="number" placeholder="Ingrese un DNI"name="dni"/>
             </Form.Group>
             <Row className="mb-3">
                 <Col>
@@ -85,7 +85,7 @@ export function AddChildren() {
                 </Col>
                 <Col>
                     <Form.Label className='mb-1'>Genero</Form.Label>
-                    <Form.Select aria-label="Floating label select example">
+                    <Form.Select aria-label="Floating label select example" name="genero">
                         <option></option>
                         <option value="1">Masculino</option>
                         <option value="2">Femenino</option>
@@ -95,21 +95,21 @@ export function AddChildren() {
 
             <Form.Group className="mb-3">
                 <Form.Label className='mb-1'>Fecha De Nacimiento</Form.Label>
-                <Form.Control type="date" placeholder=""/>
+                <Form.Control type="date" placeholder="" name="fechaNacimiento"/>
             </Form.Group>
             <Row className="mb-3">
                 <Col>
                     <Form.Label className='mb-1'>Fecha de baja</Form.Label>
-                    <Form.Control type="date" placeholder=""/>
+                    <Form.Control type="date" placeholder="" name="fechaBaja"/>
                 </Col>
                 <Col>
                     <Form.Label className='mb-1'>Fecha de alta</Form.Label>
-                    <Form.Control type="date" placeholder=""/>
+                    <Form.Control type="date" placeholder="" name="fechaAlta"/>
                 </Col>
             </Row>
             <Form.Group className="mb-3">
                 <Form.Label className='mb-1'>Domicilio</Form.Label>
-                <Form.Control type="text" placeholder="Ingrese un domicilio"/>
+                <Form.Control type="text" placeholder="Ingrese un domicilio" name= "domicilio"/>
             </Form.Group>
 
             <div className="contenedor-boton mb-5">
