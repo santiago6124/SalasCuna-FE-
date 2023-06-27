@@ -8,41 +8,44 @@ import "./CreateUser.css";
 const CreateUser = () => {
     let {signupUser} = useContext(AuthContext)
     return (
-        <Form className="conteiner-form-createuser" onSubmit={signupUser}>
-            <h1 className="titulo-createuser">Crear Usuario</h1>
+        <div className="body">
+            <Form className="conteiner-form-createuser" onSubmit={signupUser}>
+                <h1 className="titulo-createuser">Crear Usuario</h1>
 
-            <div>
-                <h1 className="linea-conteiner-createuser"></h1>
-            </div>
-            <Form.Group>
-                <Form.Label className="mb-2">Nombre</Form.Label>
-                <Form.Control type="text" placeholder="Ingrese su nombre" className="mb-3"
-                              name="first_name"></Form.Control>
-            </Form.Group>
-            <Form.Group>
-                <Form.Label className="mb-2">Apellido</Form.Label>
-                <Form.Control type="text" placeholder="Ingrese su apellido" className="mb-3"
-                              name="last_name"></Form.Control>
-            </Form.Group>
-            <Form.Group>
-                <Form.Label className="mb-2">Email</Form.Label>
-                <Form.Control type="text" placeholder="Ingrese su direccion de correo" className="mb-3"
-                              name="email"></Form.Control>
-            </Form.Group>
-            <Form.Group>
-                <Form.Label className="mb-2">Contraseña</Form.Label>
-                <Form.Control type="text" placeholder="Ingrese Una Contraseña" className="mb-3"
-                              name="password"></Form.Control>
-            </Form.Group>
-            <Form.Group>
-                <Form.Label className="mb-2">Repetir Contraseña</Form.Label>
-                <Form.Control type="text" placeholder="Repetir La Contraseña" className="mb-3"
-                              name="re_password"></Form.Control>
-            </Form.Group>
-            <div className="contenedor-boton-createuser">
-                <Button className="boton mt-3" boton variant="primary" type="submit">Crear Usuario</Button>
-            </div>
-        </Form>
+                <div>
+                    <h1 className="linea-conteiner-createuser"></h1>
+                </div>
+                <Form.Group>
+                    <Form.Label className="mb-2">Nombre</Form.Label>
+                    <Form.Control type="text" placeholder="Ingrese su nombre" className="mb-3"
+                                name="first_name"></Form.Control>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label className="mb-2">Apellido</Form.Label>
+                    <Form.Control type="text" placeholder="Ingrese su apellido" className="mb-3"
+                                name="last_name"></Form.Control>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label className="mb-2">Email</Form.Label>
+                    <Form.Control type="text" placeholder="Ingrese su direccion de correo" className="mb-3"
+                                name="email"></Form.Control>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label className="mb-2">Contraseña</Form.Label>
+                    <Form.Control type="password" placeholder="Ingrese Una Contraseña" className="mb-3"
+                                name="password"></Form.Control>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label className="mb-2">Repetir Contraseña</Form.Label>
+                    <Form.Control type="password" placeholder="Repetir La Contraseña" className="mb-3"
+                                name="re_password"></Form.Control>
+                </Form.Group>
+                <div className="contenedor-boton-createuser">
+                    <Button className="boton mt-3" boton variant="primary" type="submit">Crear Usuario</Button>
+                </div>
+            </Form>
+        </div>
+        
     );
 }
 export default CreateUser;
