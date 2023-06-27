@@ -13,6 +13,7 @@ import ResetPasswordConfirm from "./containers/ResetPasswordConfirm";
 import Signup from "./components/CreateUser/CreateUser";
 import LoginPage from "./components/Login/login";
 import ActivateAccountPage from "./pages/ActivateAccountPage/ActivateAccountPage";
+import { GeneratePadron } from "./components/GeneratePadron/GeneratePadron";
 
 
 function App() {
@@ -30,7 +31,7 @@ function App() {
                                element={<PublicRoute children={<ResetPasswordConfirm/>}/>}/>
                         <Route path="/activate/:uid/:token" element={<ActivateAccountPage/>}/>
 
-                        <Route path="/xd" element={<PrivateRoute children={<Activate/>}/>}/>
+                        <Route path="/generate-padron" element={<PrivateRoute children={<GeneratePadron/>}/>}/>
                     </Routes>
                 </AuthProvider>
             </div>
