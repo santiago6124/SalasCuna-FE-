@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import React from 'react';
 
-const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
+const ResetPasswordConfirm = ({match, reset_password_confirm}) => {
 
     return (
         <div className='container mt-5'>
             <form>
-            <div className='form-group'>
+                <div className='form-group'>
                     <input
                         className='form-control'
                         type='password'

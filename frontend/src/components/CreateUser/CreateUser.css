@@ -1,32 +1,42 @@
-.conteiner-form-createuser{
+.body {
+    background-image: url('../../media/Diseño\ sin\ título.png');
+    width: 100%;
+    padding-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+.conteiner-form-createuser {
     padding: 30px;
     margin: 100px;
     width: 500px;
     border-radius: 18px;
-    box-shadow: 1px 4px 10px 0px rgba(0,0,0,0.37);
+    box-shadow: 1px 4px 10px 0px rgba(0, 0, 0, 0.37);
     background-color: rgb(255, 255, 255);
 }
 
-.titulo-createuser{
+.titulo-createuser {
     text-align: center;
 }
 
-.contenedor-linea-createuser{
+.contenedor-linea-createuser {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
 }
 
-.linea-createuser{
-    margin-top: 1px;  
+.linea-createuser {
+    margin-top: 1px;
     height: 4px;
     border: 2px solid #EF7E0E;
     width: 350px;
     background-color: #EF7E0E;
 }
 
-.contenedor-boton-createuser{
+.contenedor-boton-createuser {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;

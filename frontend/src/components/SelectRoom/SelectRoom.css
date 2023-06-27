@@ -5,35 +5,32 @@
     border-radius: 18px;
     box-shadow: 1px 4px 10px 0px rgba(0, 0, 0, 0.37);
     background-color: white;
-  }
-  
-  .titulo-select {
+}
+
+.titulo-select {
     text-align: center;
-  }
-  
-  .contenedor-linea-select {
+}
+
+.contenedor-linea-select {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-  }
-  
-  .linea-select {
+}
+
+.linea-select {
     height: 4px;
     border: 2px solid #ef7e0e;
     width: 350px;
-  }
-  
-
-  
+}
 
 
-  .boton-select{
+.boton-select {
     width: 60px;
 }
 
 
-.contenedor-boton-select{
+.contenedor-boton-select {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
