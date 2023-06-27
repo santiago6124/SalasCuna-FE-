@@ -7,6 +7,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import {Button} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 
 const Menu = () => {
@@ -35,7 +36,17 @@ const Menu = () => {
                         <Nav.Link to='../pages/notaPagoPage.jsx'>Nota Pago</Nav.Link>
                         <Nav.Link to='../pages/padronPage.jsx'>Padron</Nav.Link>
                         <Nav.Link to='../pages/presupuestoPage.jsx'>Presupuesto</Nav.Link>
-                        <Button className="boton mt-3" boton variant="primary" onClick={logoutUser}>Log Out</Button>
+                        {user ? (
+                                <Link to='/'>
+                                    <Button className="boton" boton variant="primary" onClick={logoutUser}>Log Out</Button>
+                                </Link>
+                            ) : (
+                                <Link to='/login'>
+                                    <Button className="boton" boton variant="primary">Log In</Button>
+                                </Link>
+                            )
+                        }
+
                     </Nav>
 
                 </Navbar.Collapse>
