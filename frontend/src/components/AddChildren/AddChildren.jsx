@@ -29,11 +29,11 @@ export function AddChildren() {
             birthdate: formData.get("fechaNacimiento"),
             registration_date: formData.get("fechaAlta"),
             gender: formData.get("genero"),
-            cribroom: 1,
-            shift: 1,
-            user: 1,
-            guardian: 1,
-            child_state: 1,
+            cribroom: formData.get("salacuna"),
+            shift: formData.get("turno"),
+            user: formData.get("usuario"),
+            guardian: formData.get("tutor"),
+            child_state: formData.get("estado"),
         };
 
         try {
@@ -81,7 +81,10 @@ export function AddChildren() {
             <Row className="mb-3">
                 <Col>
                     <Form.Label className='mb-1'>Tutor</Form.Label>
-                    <Form.Control type="text" placeholder="Ingresar tutor"/>
+                    <Form.Select aria-label="Floating label select example" name="tutor"/>
+                    <option></option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
                 </Col>
                 <Col>
                     <Form.Label className='mb-1'>Genero</Form.Label>
@@ -89,6 +92,24 @@ export function AddChildren() {
                         <option></option>
                         <option value="1">Masculino</option>
                         <option value="2">Femenino</option>
+                    </Form.Select>
+                </Col>
+            </Row>
+
+            <Row className="mb-3">
+                <Col>
+                    <Form.Label className='mb-1'>Sala Cuna</Form.Label>
+                    <Form.Select aria-label="Floating label select example" name="salaCuna"/>
+                    <option></option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                </Col>
+                <Col>
+                    <Form.Label className='mb-1'>Estado del chico</Form.Label>
+                    <Form.Select aria-label="Floating label select example" name="estado">
+                        <option></option>
+                        <option value="1">Mañana</option>
+                        <option value="2">Tarde</option>
                     </Form.Select>
                 </Col>
             </Row>
