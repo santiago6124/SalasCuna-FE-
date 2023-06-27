@@ -13,7 +13,7 @@ import ResetPasswordConfirm from "./containers/ResetPasswordConfirm";
 import Signup from "./components/CreateUser/CreateUser";
 import LoginPage from "./components/Login/login";
 import ActivateAccountPage from "./pages/ActivateAccountPage/ActivateAccountPage";
-import { GeneratePadron } from "./components/GeneratePadron/GeneratePadron";
+import GeneratePadron from "./components/GeneratePadron/GeneratePadron";
 
 
 function App() {
