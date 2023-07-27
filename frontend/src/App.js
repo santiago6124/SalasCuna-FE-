@@ -22,7 +22,6 @@ function App() {
         <Router>
             <div className="App">
                 <AuthProvider>
-                    <Navbar/>
                     <Routes>
                         <Route exact path="/" element={<Home/>}/>
                         <Route path="/login" element={<PublicRoute children={<LoginPage/>}/>}/>

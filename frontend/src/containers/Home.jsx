@@ -1,9 +1,9 @@
 import {React, useContext} from 'react';
 import {Link} from 'react-router-dom'
 import AuthContext from '../context/AuthContext';
-import Menu from './Menu';
+import Menu from '../components/Menu/Menu';
 
-const Home = () => {
+const Home = (logoutUser) => {
     const {user} = useContext(AuthContext);
     return (
         <>
