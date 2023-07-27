@@ -83,8 +83,7 @@ export function AddChildren() {
                     <Form.Label className='mb-1'>Tutor</Form.Label>
                     <Form.Select aria-label="Floating label select example" name="tutor"/>
                     <option></option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
+               
                 </Col>
                 <Col>
                     <Form.Label className='mb-1'>Genero</Form.Label>
@@ -101,8 +100,7 @@ export function AddChildren() {
                     <Form.Label className='mb-1'>Sala Cuna</Form.Label>
                     <Form.Select aria-label="Floating label select example" name="salaCuna"/>
                     <option></option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
+                       
                 </Col>
                 <Col>
                     <Form.Label className='mb-1'>Estado del chico</Form.Label>
