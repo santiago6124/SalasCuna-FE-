@@ -23,13 +23,12 @@ const Menu = ({ user, logoutUser, link1Text, link1Path, link2Text, link2Path }) 
             <Link to={link2Path}>
               <Nav className="titulo">{link2Text}</Nav>
             </Link>
-
+          </Nav>
+          <Nav>
             {user ? (
-              <Link to="/">
-                <Button className="boton" variant="primary" onClick={logoutUser}>
-                  Log Out
-                </Button>
-              </Link>
+              <Button className="boton" variant="primary" onClick={logoutUser}>
+                Log Out
+              </Button>
             ) : (
               <Link to="/login">
                 <Button className="boton" variant="primary">
@@ -43,6 +42,5 @@ const Menu = ({ user, logoutUser, link1Text, link1Path, link2Text, link2Path }) 
     </Navbar>
   );
 }
-
 
 export default Menu;
