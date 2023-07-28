@@ -13,9 +13,7 @@ export default function añadirChicoPage() {
                 <AddChildren/>
                 <AddTutor/>
                 <AddResidence/>
-                <div className='contenedor-boton mb-5'>
-                    <Button as="input" type="submit" value="Cargar" size='lg'/>
-                </div>
+                
             </div>
             </body>
         </div>

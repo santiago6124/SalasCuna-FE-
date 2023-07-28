@@ -34,7 +34,7 @@ function App() {
 
                         <Route path="/generate-padron" element={<PrivateRoute children={<GeneratePadron/>}/>}/>
 
-                        <Route path="/añadir-chico" element={<PrivateRoute children={<AddChildrenPage/>}/>}/>
+                        <Route path="/añadir-chico" element={<PublicRoute children={<AddChildrenPage/>}/>}/>
                     </Routes>
                 </AuthProvider>
             </div>

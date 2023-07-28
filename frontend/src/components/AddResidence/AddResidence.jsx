@@ -3,6 +3,7 @@ import React from 'react';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 export function AddResidence() {
     return (
@@ -40,6 +41,11 @@ export function AddResidence() {
                     <Form.Control type="number" placeholder="Ingrese un telefono"/>
                 </Col>
             </Row>
+
+            <div className="contenedor-boton mb-5">
+                <Button as="input" type="submit" value="Cargar" size="lg"/>
+            </div>
+
         </Form>
     );
 }
