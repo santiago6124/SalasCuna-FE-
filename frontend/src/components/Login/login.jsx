@@ -17,16 +17,19 @@ const LoginPage = () => {
             <div className="contenedor-linea">
               <hr className="linea"></hr>
             </div>
-            {/* Email Label */}
-            <Form.Group className="mb-3">
-              <Form.Label className="mb-1">E-mail</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Ingresar E-mail"
-                name="email"
-                required
-              />
-            </Form.Group>
+
+            <div className="Form-Control">
+              {/* Email Label */}
+              <Form.Group className="mb-3">
+                <Form.Label className="mb-1">E-mail</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Ingresar E-mail"
+                  name="email"
+                  required
+                />
+              </Form.Group>
+            </div>
             <div className="form-row">
               {/* Nombre Label */}
               <div className="col-md-6 mb-3">
@@ -73,21 +76,44 @@ const LoginPage = () => {
                 />
               </div>
             </div>
-            
+
             {/*Phone number Label*/}
             <div className="Form-Control">
               <Form.Group className="mb-3">
                 <Form.Label className="mb-1 ">Numero De Telefono</Form.Label>
                 <Form.Control
                   className="form-label"
-                  type="int"
+                  type="number"
                   placeholder="Ingresar Nro De Telefono"
                   name="phone_number"
                   required
                 />
               </Form.Group>
             </div>
-            
+
+            <div className="form-row">
+              {/* Ciudad */}
+              <div className="col-md-6 mb-3">
+                <Form.Label className="mb-1">Ciudad</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Ingresar Ciudad"
+                  name="city"
+                  required
+                />
+              </div>
+
+              {/* Departamento */}
+              <div className="col-md-6 mb-3">
+                <Form.Label className="mb-1">Departamento</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Ingresar Departamento"
+                  name="department"
+                  required
+                />
+              </div>
+            </div>
             <div className="Form-Control">
               {/*Address Label*/}
               <Form.Group className="mb-3">
@@ -100,33 +126,6 @@ const LoginPage = () => {
                 />
               </Form.Group>
             </div>
-            
-            {/*Department Label*/}
-            <div className="Form-Control">
-              <Form.Group className="mb-3">
-                <Form.Label className="mb-1">Departamento</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Ingresar Departamento"
-                  name="department"
-                  required
-                />
-              </Form.Group>
-            </div>
-           
-            <div className="Form-Control">
-              {/*City Label*/}
-              <Form.Group className="mb-3">
-                <Form.Label className="mb-1">Ciudad</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Ingresar Ciudad"
-                  name="city"
-                  required
-                />
-              </Form.Group>
-            </div>
-
             <div className="Form-Control">
               {/*Password Label*/}
               <Form.Group className="mb-3">
