@@ -6,23 +6,27 @@ import axios from 'axios';
 import { FaQrcode } from 'react-icons/fa';
 
 export function AddTutor() {
-    const [generos, setGeneros] = useState([]);
+
+    const [genders, setGeneros] = useState([]); 
+
+    const [selectedGenero, setSelectedGenero] = useState('');
+
+    const handleGeneroChange = (event) => {
+        setSelectedGenero(event.target.value);
+    };
 
     useEffect(() => {
-        listGenero();
+        ListGenero();
     }, []);
 
-    const listGenero = () => {
-        axios
-            .get('http://127.0.0.1:8000/api/all-gender/')
-            .then((response) => {
-                console.log(response);
-                setGeneros(response.data); 
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    };
+    const ListGenero = async () => {
+        try {
+          const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
+          setGeneros(response.data.gender);
+        } catch (error) {
+          console.error('Error fetching generos:', error);
+        }
+      };
 
     return (
         <Form className='conteiner-form'>
@@ -47,22 +51,24 @@ export function AddTutor() {
                 <Form.Control type="number" placeholder="Ingrese un DNI"/>
             </Form.Group>
 
-            <div className='form-group mb-3'>
+            <div className='mb-3'>
                 <Form.Label className='mb-1'>Genero</Form.Label>
-                <select name="generos" className='form-control'>
-                        {generos.map(elemento => (
-                        <option key={elemento.id} value={elemento.id}>{elemento.genero}</option>
-                    )
-                    )}
+                <select id="gender" value={selectedGenero} onChange={handleGeneroChange} className='form-control'>
+                    <option value="">Generos</option>
+                    {genders.map((gender) => (
+                        <option key={gender.id} value={gender.id}>
+                            {gender.gender}
+                        </option>
+                    ))}
                 </select>
             </div>
 
-            <Form.Group className="mb-3">
+            <Form.Group className="mb-4">
                 <Form.Label className='mb-1'>Fecha De Nacimiento</Form.Label>
                 <Form.Control type="date" placeholder=""/>
             </Form.Group>
             
-            <div className="contenedor-boton mb-5">
+            <div className="contenedor-boton mb-1">
                 <Button as="input" type="submit" value="Cargar" size="lg"/>
             </div>
         </Form>

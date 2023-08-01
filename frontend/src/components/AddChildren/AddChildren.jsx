@@ -59,68 +59,75 @@ export function AddChildren() {
     };
 
     const [tutores, setTutores] = useState([]); 
-    const [generos, setGeneros] = useState([]); 
+    const [genders, setGeneros] = useState([]); 
     const [salas, setSalas] = useState([]); 
-    const [turnos, setTurno] = useState([]); 
+    const [shifts, setTurno] = useState([]); 
+
+    const [selectedGenero, setSelectedGenero] = useState('');
+    const [selectedTutor, setSelectedTutor] = useState('');
+    const [selectedSalaCuna, setSelectedSalacuna] = useState('');
+    const [selectedTurno, setSelectedTurno] = useState('');
+
+    const handleGeneroChange = (event) => {
+        setSelectedGenero(event.target.value);
+    };
+    const handleTutorChange = (event) => {
+        setSelectedTutor(event.target.value);
+    };
+    const handleSalaCunaChange = (event) => {
+        setSelectedSalacuna(event.target.value);
+    };
+    const handleTurnoChange = (event) => {
+        setSelectedTurno (event.target.value);
+    };
 
     useEffect(() => {
         getChildren();
-        listTutors();
-        listGenero();
-        listSalasCuna();
-        listShift();
+        ListTutors();
+        ListGenero();
+        ListSalasCuna();
+        ListShift();
     }, []);
 
-    const listTutors = () => {
-        axios
-            .get('http://127.0.0.1:8000/api/all-tutors/')
-            .then((response) => {
-                console.log(response);
-                this.setTutores(response.data); 
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+    const ListTutors = async () => {
+        try {
+            const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
+            setTutores(response.data.guardian);
+            } catch(error) {
+                console.error('Error fetching tutores:', error);
+            };
     };
 
-    const listGenero = () => {
-        axios
-            .get('http://127.0.0.1:8000/api/all-gender/')
-            .then((response) => {
-                console.log(response);
-                this.setGeneros(response.data); 
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+    const ListGenero = async () => {
+        try {
+          const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
+          setGeneros(response.data.gender);
+        } catch (error) {
+          console.error('Error fetching generos:', error);
+        }
+      };
+
+    const ListSalasCuna = async () => {
+        try {
+            const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
+            setSalas(response.data.cribroom);
+            }   catch (error)  {
+                console.log('Error fetching Salas Cunas:', error);
+            };
     };
 
-    const listSalasCuna = () => {
-        axios
-            .get('http://127.0.0.1:8000/api/all-rooms/')
-            .then((response) => {
-                console.log(response);
-                this.setSalas(response.data); 
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    };
-
-    const listShift = () => {
-        axios
-            .get('http://127.0.0.1:8000/api/all-shifts/')
-            .then((response) => {
-                console.log(response);
-                this.setTurnos(response.data); 
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+    const ListShift = async () => {
+        try {
+            const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
+            setTurno(response.data.shift);
+            } catch (error) {
+                console.log('Error fetching Turnos:', error);
+            };
     };
 
     return (
         <Form className="conteiner-form" onSubmit={handleSubmit}>
+            
             <h1 className="titulo">Añadir Niños/as</h1>
 
             <div className="contenedor-linea">
@@ -149,13 +156,15 @@ export function AddChildren() {
 
             <Row className="mb-3">
                 <Col>
-                    <div className='form-group'>
-                    <Form.Label className='mb-1'>Genero</Form.Label>
-                        <select name="generos" className='form-control'>
-                            {generos.map(elemento => (
-                                <option key={elemento.id} value={elemento.id}>{elemento.genero}</option>
-                            )
-                            )}
+                    <div>
+                        <Form.Label className='mb-1'>Genero</Form.Label>
+                        <select id="gender" value={selectedGenero} onChange={handleGeneroChange} className='form-control'>
+                            <option value="">Generos</option>
+                            {genders.map((gender) => (
+                                <option key={gender.id} value={gender.id}>
+                                    {gender.gender}
+                                </option>
+                            ))}
                         </select>
                     </div>
                 </Col>
@@ -169,40 +178,47 @@ export function AddChildren() {
             
             <Row className="mb-3">
                 <Col>
-                    <div className='form-group'>
+                    <div>
                         <Form.Label className='mb-1'>Sala Cuna</Form.Label>
-                        <select name="salas" className='form-control'>
-                            {salas.map(elemento => (
-                                <option key={elemento.id} value={elemento.id}>{elemento.sala}</option>
-                            )
-                            )}
+                        <select id="cribroom" value={selectedSalaCuna} onChange={handleSalaCunaChange} className='form-control'>
+                            <option value="">Sala Cuna</option>
+                            {salas.map((cribroom) => (
+                                <option key={cribroom.id} value={cribroom.id}>
+                                    {cribroom.cribroom}
+                                </option>
+                            ))}
                         </select>
                     </div>
                 </Col>
                 <Col>
-                    <div className='form-group'>
+                    <div>
                         <Form.Label className='mb-1'>Tutor</Form.Label>
-                        <select name="tutores" className='form-control'>
-                            {tutores.map(elemento => (
-                                <option key={elemento.id} value={elemento.id}>{elemento.tutor}</option>
-                            )
-                            )}
+                        <select id="guardian" value={selectedTutor} onChange={handleTutorChange} className='form-control'>
+                            <option value="">Tutores</option>
+                            {tutores.map((guardian) => (
+                                <option key={guardian.id} value={guardian.id}>
+                                    {guardian.guardian}
+                                </option>
+                            ))}
                         </select>
                     </div>
                 </Col>
             </Row>       
-
-            <div className='form-group mb-3'>
+            
+            <div className='mb-3'>
                 <Form.Label className='mb-1'>Turno</Form.Label>
-                <select name="turnos" className='form-control'>
-                    {turnos.map(elemento => (
-                        <option key={elemento.id} value={elemento.id}>{elemento.turno}</option>
-                    )
-                    )}
+                <select id="shift" value={selectedTurno} onChange={handleTurnoChange} className='form-control'>
+                    <option value="">Turnos</option>
+                    {shifts.map((shift) => (
+                        <option key={shift.id} value={shift.id}>
+                            {shift.shift}
+                        </option>
+                    ))}
                 </select>
             </div>
+
                     
-            <Row className="mb-3">
+            <Row className="mb-4">
                 <Col>
                     <Form.Label className='mb-1'>Fecha de baja</Form.Label>
                     <Form.Control type="date" placeholder="" name="fechaBaja"/>
@@ -213,7 +229,7 @@ export function AddChildren() {
                 </Col>
             </Row>
  
-            <div className="contenedor-boton mb-5">
+            <div className="contenedor-boton mb-1 ">
                 <Button as="input" type="submit" value="Cargar" size="lg"/>
             </div>
         </Form>
