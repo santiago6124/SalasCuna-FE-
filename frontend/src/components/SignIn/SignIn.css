@@ -14,10 +14,10 @@
   justify-content: center;
 }
 
-.conteiner-form-login {
+.conteiner-form-signup {
   padding: 20px;
   margin: 3%;
-  width: 500px;
+  width: 600px;
   border-radius: 18px;
   box-shadow: 1px 4px 10px 0px rgba(0, 0, 0, 0.37);
   background-color: rgb(255, 255, 255);
@@ -66,11 +66,7 @@
   width: auto;
 }
 
-.contenedor-boton-createuser {
+.contenedor-boton-createuser{
   margin: 5px;
-  padding: 3%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
+  padding:3%;
 }

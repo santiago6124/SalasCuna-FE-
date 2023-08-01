@@ -10,8 +10,8 @@ import Activate from "./containers/Activate";
 import Home from "./containers/Home";
 import ResetPassword from "./containers/ResetPassword";
 import ResetPasswordConfirm from "./containers/ResetPasswordConfirm";
-import Signup from "./components/CreateUser/CreateUser";
-import LoginPage from "./components/Login/login";
+import Signup from "./components/SignIn/SignIn";
+import {Login} from "./components/LogIn/Login";
 import ActivateAccountPage from "./pages/ActivateAccountPage/ActivateAccountPage";
 import GeneratePadron from "./components/GeneratePadron/GeneratePadron";
 import AddChildrenPage from './pages/AddChildrenPage/AddChildrenPage';
@@ -25,7 +25,7 @@ function App() {
                     <Navbar/>
                     <Routes>
                         <Route exact path="/" element={<Home/>}/>
-                        <Route path="/login" element={<PublicRoute children={<LoginPage/>}/>}/>
+                        <Route path="/login" element={<PublicRoute children={<Login/>}/>}/>
                         <Route path="/signup" element={<PublicRoute children={<Signup/>}/>}/>
                         <Route path="/reset-password" element={<PublicRoute children={<ResetPassword/>}/>}/>
                         <Route path="/password/reset/confirm/:uid/:token"
