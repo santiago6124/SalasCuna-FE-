@@ -11,7 +11,7 @@ import Home from "./containers/Home";
 import ResetPassword from "./containers/ResetPassword";
 import ResetPasswordConfirm from "./containers/ResetPasswordConfirm";
 import Signup from "./components/SignIn/SignIn";
-import {Login} from "./components/LogIn/Login";
+import {Login} from "./components/Login/login";
 import ActivateAccountPage from "./pages/ActivateAccountPage/ActivateAccountPage";
 import GeneratePadron from "./components/GeneratePadron/GeneratePadron";
 import AddChildrenPage from './pages/AddChildrenPage/AddChildrenPage';
