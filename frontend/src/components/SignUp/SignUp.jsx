@@ -1,12 +1,33 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Button, Container, Form } from "react-bootstrap";
-//import { Link } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
+import axios from "axios"; // Import Axios for API calls
 
 import "./SignUp.css";
 
 const SignUp = () => {
-  let { signupUser } = useContext(AuthContext);
+  const [role, setRole] = useState("");
+  const [rolesList, setRolesList] = useState([]); // State to store the list of roles
+
+  const { signupUser } = useContext(AuthContext);
+
+  const handleRoleChange = (event) => {
+    setRole(event.target.value);
+  };
+
+  useEffect(() => {
+    // Fetch the roles from the backend API
+    const fetchRoles = async () => {
+      try {
+        const response = await axios.get("http://your-backend-url/api/roles");
+        setRolesList(response.data); // Update the state with the list of roles
+      } catch (error) {
+        console.error("Error fetching roles:", error);
+      }
+    };
+
+    fetchRoles();
+  }, []);
 
   return (
     <div className="body">
@@ -65,18 +86,8 @@ const SignUp = () => {
                 />
               </div>
 
-              {/* Rol label (Gotta change to dropdown later) */}
+              {/* Rol label (Dropdown) */}
               <div className="col-md-6 mb-3">
-                <Form.Label className="mb-1">Rol</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Ingresar Rol del trabajador"
-                  name="role"
-                  required
-                />
-              </div>
-              {/* THIS IS THE ROL LABEL WITH A DROPDOWN COMPONENT:             
-               <div className="col-md-6 mb-3">
                 <Form.Label className="mb-1">Rol</Form.Label>
                 <Form.Control
                   as="select"
@@ -88,12 +99,13 @@ const SignUp = () => {
                   <option value="" disabled selected>
                     Seleccionar Rol
                   </option>
-                  <option value="admin">Administrador</option>
-                  <option value="user">Usuario</option>
-                  <option value="guest">Invitado</option>
+                  {rolesList.map((role) => (
+                    <option key={role.id} value={role.id}>
+                      {role.name}
+                    </option>
+                  ))}
                 </Form.Control>
               </div>
-            </div> */}
             </div>
 
             {/*Phone number Label*/}
