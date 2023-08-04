@@ -3,10 +3,29 @@ import "./CreateRoom.css";
 import Col from "react-bootstrap/Col/";
 import Row from "react-bootstrap/Row/";
 import Form from "react-bootstrap/Form/";
-import {Container} from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
 export function CreateRoom() {
+  const [zonaOptions, setZonaOptions] = useState([]);
+  const [selectedZona, setSelectedZona] = useState("");
+  useEffect(() => {
+    fetchZonaOptions();
+  }, []);
+
+
+  const fetchZonaOptions = async () => {
+    try {
+      const response = await axios.get("http://your-backend-url/api/zona");
+      setZonaOptions(response.data);
+    } catch (error) {
+      console.error("Error fetching zona options:", error);
+    }
+  };
+
   return (
     <div className="body">
       <div className="contenedor-form-wrapper">
@@ -52,12 +71,25 @@ export function CreateRoom() {
               </Col>
               <Col>
                 <Form.Label className="mb-1">Zona</Form.Label>
-                <Form.Control type="text" placeholder="Editar Zona" />
+                <Form.Select
+                  as="select"
+                  value={selectedZona}
+                  onChange={(e) => setSelectedZona(e.target.value)}
+                >
+                  <option value="" disabled>
+                    Seleccionar Zona
+                  </option>
+                  {zonaOptions.map((zona) => (
+                    <option key={zona.id} value={zona.id}>
+                      {zona.name}
+                    </option>
+                  ))}
+                </Form.Select>
               </Col>
             </Row>
             <div className="contenedor-boton-qr ">
               <Button className="boton-edit mt-3" boton variant="primary">
-                Editar
+                Crear Sala Cuna
               </Button>
             </div>
           </Form>

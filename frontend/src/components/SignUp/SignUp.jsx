@@ -89,7 +89,7 @@ const SignUp = () => {
               {/* Rol label (Dropdown) */}
               <div className="col-md-6 mb-3">
                 <Form.Label className="mb-1">Rol</Form.Label>
-                <Form.Control
+                <Form.Select
                   as="select"
                   name="role"
                   value={role}
@@ -104,7 +104,7 @@ const SignUp = () => {
                       {role.name}
                     </option>
                   ))}
-                </Form.Control>
+                </Form.Select>
               </div>
             </div>
 
