@@ -15,6 +15,8 @@ import { Login } from "./components/LogIn/Login";
 import ActivateAccountPage from "./pages/ActivateAccountPage/ActivateAccountPage";
 import GeneratePadron from "./components/GeneratePadron/GeneratePadron";
 import AddChildrenPage from "./pages/AddChildrenPage/AddChildrenPage";
+import CreateRoomPage from "./pages/CreateRoomPage/CreateRoomPage"
+import { FaExpeditedssl } from "react-icons/fa";
 
 function App() {
   return (
@@ -29,7 +31,7 @@ function App() {
             />
             <Route
               path="/signup"
-              element={<PrivateRoute children={<Signup />} />}
+              element={<PublicRoute children={<Signup />} />}
             />
             <Route
               path="/reset-password"
@@ -52,6 +54,10 @@ function App() {
             <Route
               path="/añadir-chico"
               element={<PublicRoute children={<AddChildrenPage />} />}
+            />
+            <Route
+              path="/crear-sala"
+              element={<PublicRoute children={<CreateRoomPage />} />}
             />
           </Routes>
         </AuthProvider>
