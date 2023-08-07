@@ -11,11 +11,12 @@ import Home from "./containers/Home";
 import ResetPassword from "./containers/ResetPassword";
 import ResetPasswordConfirm from "./containers/ResetPasswordConfirm";
 import Signup from "./components/SignUp/SignUp";
-import { Login } from "./components/LogIn/Login";
+import { Login } from "./components/Login/login";
 import ActivateAccountPage from "./pages/ActivateAccountPage/ActivateAccountPage";
 import GeneratePadron from "./components/GeneratePadron/GeneratePadron";
 import AddChildrenPage from "./pages/AddChildrenPage/AddChildrenPage";
-import CreateRoomPage from "./pages/CreateRoomPage/CreateRoomPage"
+import CreateRoomPage from "./pages/CreateRoomPage/CreateRoomPage";
+import { SelectRoom } from "./components/SelectRoom/SelectRoom";
 import { FaExpeditedssl } from "react-icons/fa";
 
 function App() {
@@ -57,8 +58,13 @@ function App() {
             />
             <Route
               path="/crear-sala"
-              element={<PublicRoute children={<CreateRoomPage />} />}
+              element={<PrivateRoute children={<CreateRoomPage />} />}
             />
+            <Route
+              path="/editar-sala"
+              element={<PrivateRoute children={<SelectRoom />} />}
+            />
+
           </Routes>
         </AuthProvider>
       </div>
