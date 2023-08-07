@@ -3,7 +3,7 @@ import { Button, Container, Form } from "react-bootstrap";
 //import { Link } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
 
-import "./SignIn.css";
+import "./SignUp.css";
 
 const SignUp = () => {
   let { signupUser } = useContext(AuthContext);
