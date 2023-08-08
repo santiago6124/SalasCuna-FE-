@@ -11,19 +11,31 @@ import axios from "axios";
 
 export function CreateRoom() {
   const [zonaOptions, setZonaOptions] = useState([]);
+  const [shiftOptions, setShiftOptions] = useState([]);
   const [selectedZona, setSelectedZona] = useState("");
   useEffect(() => {
-    fetchZonaOptions();
+    loadZones();
+    loadShifts();
   }, []);
 
 
-  const fetchZonaOptions = async () => {
+  const loadZones = async () => {
     try {
       const response = await fetch("http://127.0.0.1:8000/api/zone/");
       let jsonData = await response.json();
       setZonaOptions(jsonData);
     } catch (error) {
       console.error("Error fetching zona options:", error);
+    }
+  };
+
+  const loadShifts = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/shift/");
+      let jsonData = await response.json();
+      setZonaOptions(jsonData);
+    } catch (error) {
+      console.error("Error fetching shift options:", error);
     }
   };
 
