@@ -90,7 +90,9 @@ export function FormAddChildren() {
     const [shifts, setShift] = useState([]); 
     const [localities, setLocality] = useState([]); 
     const [neighborhoods, setNeighborhood] = useState([]); 
-    const [childStates, setChildState] = useState([]); 
+    const [childStates, setChildState] = useState([]);
+    const [guardianTypes, setGuardianType] = useState([]); 
+    const [phoneFeatures, setPhoneFeature] = useState([]); 
     
 
     const [selectedGeneroChield, setSelectedGeneroChield] = useState('');
@@ -101,6 +103,8 @@ export function FormAddChildren() {
     const [selectedLocality, setSelectedLocality] = useState('');
     const [selectedNeighborhood, setSelectedNeighborhood] = useState('');
     const [selectedChildState, setSelectedChildState] = useState('');
+    const [selectedPhoneFeature, setSelectedPhoneFeature] = useState('');
+    const [selectedGuardianType, setSelectedGuardianType] = useState('');
     
 
     const handleGeneroChieldChange = (event) => {
@@ -136,6 +140,14 @@ export function FormAddChildren() {
         setSelectedChildState(event.target.value);
         
     };
+    const handlePhoneFeatureChange = (event) => {
+        setSelectedPhoneFeature(event.target.value);
+        
+    };
+    const handleGuardianTypeChange = (event) => {
+        setSelectedGuardianType(event.target.value);
+        
+    };
     
 
     useEffect(() => {
@@ -146,6 +158,8 @@ export function FormAddChildren() {
         LocalityList();
         NeighborhoodList();
         ChildStateList();
+        GuardianTypeList();
+        PhoneFeatureList();
     }, []);
 
 
@@ -205,7 +219,23 @@ export function FormAddChildren() {
             };
     };
 
-    
+    const GuardianTypeList = async () => {
+        try {
+            const response = await axios.get('http://127.0.0.1:8000/api/GuardianTypeListView/');
+            setGuardianType(response.data);
+            } catch(error) {
+                console.error('Error fetching estados:', error);
+            };
+    };
+
+    const PhoneFeatureList = async () => {
+        try {
+            const response = await axios.get('http://127.0.0.1:8000/api/PhoneFeatureListView/');
+            setPhoneFeature(response.data);
+            } catch(error) {
+                console.error('Error fetching estados:', error);
+            };
+    };
 
   return (
     <Form className="conteiner-form" onSubmit={handleSubmit}>
@@ -257,7 +287,7 @@ export function FormAddChildren() {
                             <option value="">Estado</option>
                             {childStates.map((child_state) => (
                                 <option key={child_state.id} value={child_state.id}>
-                                    {child_state.child_state}
+                                    {child_state.name}
                                 </option>
                             ))}
                         </select>
@@ -306,13 +336,6 @@ export function FormAddChildren() {
             </Row>
 
 
-            
-
-
-
-
-
-
             <h1 className='titulo'>Añadir Tutor/a</h1>
 
             <div className='contenedor-linea'>
@@ -347,10 +370,36 @@ export function FormAddChildren() {
             </div>
 
             <Row className="mb-4">
+                <Col>
+                    <Form.Label className='mb-1'>Caracterisitca Telefonica</Form.Label>
 
+                    <select id="phoneFeature" name='phoneFeature' value={selectedPhoneFeature} onChange={handlePhoneFeatureChange} className='form-control'>
+                    <option value="">Phone Features</option>
+                    {phoneFeatures.map((phoneFeature) => (
+                        <option key={phoneFeature.id} value={phoneFeature.id}>
+                            {phoneFeature.feature}
+                        </option>
+                    ))}
+                </select>
+                </Col>
                 <Col>
                     <Form.Label className='mb-1'>Telefono</Form.Label>
                     <Form.Control type="number" placeholder="Ingrese un telefono" name='telefono' />
+                </Col>
+            </Row>
+
+            <Row className="mb-4">
+                <Col>
+                    <Form.Label className='mb-1'>Madre/padre o Tutor?</Form.Label>
+
+                    <select id="guardianType" name='guardianType' value={selectedGuardianType} onChange={handleGuardianTypeChange} className='form-control'>
+                    <option value="">Madre/padre o Tutor?</option>
+                    {guardianTypes.map((guardianType) => (
+                        <option key={guardianType.id} value={guardianType.id}>
+                            {guardianType.type}
+                        </option>
+                    ))}
+                </select>
                 </Col>
             </Row>
 
