@@ -25,24 +25,37 @@ export function FormAddChildren() {
 
         const formData = new FormData(event.target);
         const payload = {
-            id: "4545455",
             first_name: formData.get("nombreChield"),
             last_name: formData.get("apellidoChield"),
             dni: formData.get("dniChield"),
             birthdate: formData.get("fechaNacimientoChield"),
+            street: formData.get("calle"),
+            house_number: formData.get("numero_casa"),
             registration_date: formData.get("fechaAlta"),
+            disenroll_date: formData.get("fechaBaja"),
+
+            locality: formData.get("locality"),
             gender: formData.get("generoChield"),
             cribroom: formData.get("salacuna"),
             shift: formData.get("turno"),
-            user: formData.get("usuario"),
-            guardian: formData.get("tutor"),
-            child_state: formData.get("estado"),
-            disenroll_date: formData.get("fechaBaja"),
-            street: formData.get("calle"),
-            house_number: formData.get("numero_casa"),
-            locality: formData.get("locality"),
-            neighborhood: formData.get("neighborhood"),
 
+            child_state: formData.get("estado"),
+            // guardian
+            neighborhood : formData.get("neighborhood"),
+            // guardian_first_name <input placeholder="Ingrese un nombre" name="nombreGuardian" type="text" class="form-control">
+            // guardian_last_name <input placeholder="Ingrese un apellido" name="apellidoGuardian" type="text" class="form-control">
+            // guardian_dni <input placeholder="Ingrese un DNI" name="dniGuardian" type="number" class="form-control">
+            // guardian_phone_number <input placeholder="Ingrese un telefono" name="telefono" type="number" class="form-control">
+            // guardian_phone_Feature_id
+            // guardian_guardian_Type_id
+            // guardian_gender_id  <select id="gender" name="generoGuardian" class="form-control"><option value="">
+            // neighborhood_neighborhood 
+            
+            // gender: formData.get("generoChield"),
+            // cribroom: formData.get("salacuna"),
+            // shift: formData.get("turno"),
+            // guardian: formData.get("tutor"),
+            // child_state: formData.get("estado"),
         };
 
         
@@ -55,7 +68,8 @@ export function FormAddChildren() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(payload),
-            });
+            })
+            console.log(payload);
     
             if (response.ok) {
                 console.log('Child added successfully');
@@ -140,6 +154,7 @@ export function FormAddChildren() {
         try {
             const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
             setTutores(response.data.guardian);
+            console.log(response.data);
             } catch(error) {
                 console.error('Error fetching tutores:', error);
             };
