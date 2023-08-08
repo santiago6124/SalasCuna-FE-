@@ -140,9 +140,7 @@ export function FormAddChildren() {
 
     useEffect(() => {
         getChildren();
-        // ListTutors();
         GenderList();
-        // ListGeneroGuardian();
         CribroomList();
         ShiftList();
         LocalityList();
@@ -150,15 +148,6 @@ export function FormAddChildren() {
         ChildStateList();
     }, []);
 
-    // const ListTutors = async () => {
-    //     try {
-    //         const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
-    //         setTutores(response.data.guardian);
-    //         console.log(response.data);
-    //         } catch(error) {
-    //             console.error('Error fetching tutores:', error);
-    //         };
-    // };
 
     const GenderList = async () => {
         try {
@@ -170,14 +159,6 @@ export function FormAddChildren() {
         }
       };
 
-    //   const ListGeneroGuardian = async () => {
-    //     try {
-    //       const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
-    //       setGuardianGender(response.data);
-    //     } catch (error) {
-    //       console.error('Error fetching generos:', error);
-    //     }
-    //   };
 
     const CribroomList = async () => {
         try {
