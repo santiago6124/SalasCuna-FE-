@@ -84,13 +84,13 @@ export function FormAddChildren() {
     };
 
     const [tutores, setTutores] = useState([]); 
-    const [chieldGenders, setGenerosChield] = useState([]); 
-    const [guardianGenders, setGenerosGuardian] = useState([]);
-    const [salas, setSalas] = useState([]); 
-    const [shifts, setTurno] = useState([]); 
-    const [localities, setLocalities] = useState([]); 
-    const [neighborhoods, setNeighborhoods] = useState([]); 
-    const [childStates, setChildStates] = useState([]); 
+    const [chieldGenders, setChildGender] = useState([]); 
+    const [guardianGenders, setGuardianGender] = useState([]);
+    const [salas, setCribroom] = useState([]); 
+    const [shifts, setShift] = useState([]); 
+    const [localities, setLocality] = useState([]); 
+    const [neighborhoods, setNeighborhood] = useState([]); 
+    const [childStates, setChildState] = useState([]); 
     
 
     const [selectedGeneroChield, setSelectedGeneroChield] = useState('');
@@ -140,84 +140,85 @@ export function FormAddChildren() {
 
     useEffect(() => {
         getChildren();
-        ListTutors();
-        ListGeneroChield();
-        ListGeneroGuardian();
-        ListSalasCuna();
-        ListShift();
-        ListLocality();
-        ListNeighborhood();
-        ListChieldState();
+        // ListTutors();
+        GenderList();
+        // ListGeneroGuardian();
+        CribroomList();
+        ShiftList();
+        LocalityList();
+        NeighborhoodList();
+        ChildStateList();
     }, []);
 
-    const ListTutors = async () => {
-        try {
-            const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
-            setTutores(response.data.guardian);
-            console.log(response.data);
-            } catch(error) {
-                console.error('Error fetching tutores:', error);
-            };
-    };
+    // const ListTutors = async () => {
+    //     try {
+    //         const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
+    //         setTutores(response.data.guardian);
+    //         console.log(response.data);
+    //         } catch(error) {
+    //             console.error('Error fetching tutores:', error);
+    //         };
+    // };
 
-    const ListGeneroChield = async () => {
+    const GenderList = async () => {
         try {
-          const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
-          setGenerosChield(response.data.gender);
+          const response = await axios.get('http://127.0.0.1:8000/api/GenderListView/');
+          setChildGender(response.data);
+          setGuardianGender(response.data);
         } catch (error) {
           console.error('Error fetching generos:', error);
         }
       };
 
-      const ListGeneroGuardian = async () => {
-        try {
-          const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
-          setGenerosGuardian(response.data.gender);
-        } catch (error) {
-          console.error('Error fetching generos:', error);
-        }
-      };
+    //   const ListGeneroGuardian = async () => {
+    //     try {
+    //       const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
+    //       setGuardianGender(response.data);
+    //     } catch (error) {
+    //       console.error('Error fetching generos:', error);
+    //     }
+    //   };
 
-    const ListSalasCuna = async () => {
+    const CribroomList = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
-            setSalas(response.data.cribroom);
+            const response = await axios.get('http://127.0.0.1:8000/api/CribroomListView/');
+            setCribroom(response.data);
             }   catch (error)  {
                 console.log('Error fetching Salas Cunas:', error);
             };
     };
 
-    const ListShift = async () => {
+    const ShiftList = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
-            setTurno(response.data.shift);
+            const response = await axios.get('http://127.0.0.1:8000/api/ShiftListView/');
+            setShift(response.data);
             } catch (error) {
                 console.log('Error fetching Turnos:', error);
             };
     };
 
-    const ListLocality = async () => {
+    const LocalityList = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
-            setLocalities(response.data.locality);
+            const response = await axios.get('http://127.0.0.1:8000/api/LocalityListView/');
+            setLocality(response.data);
             } catch(error) {
                 console.error('Error fetching localidad:', error);
             };
     };
 
-    const ListNeighborhood = async () => {
+    const NeighborhoodList = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
-            setNeighborhoods(response.data.neighborhood);
+            const response = await axios.get('http://127.0.0.1:8000/api/NeighborhoodListView/');
+            setNeighborhood(response.data);
             } catch(error) {
                 console.error('Error fetching barrio:', error);
             };
     };
 
-    const ListChieldState = async () => {
+    const ChildStateList = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
-            setChildStates(response.data.child_state);
+            const response = await axios.get('http://127.0.0.1:8000/api/ChildStateListView/');
+            setChildState(response.data);
             } catch(error) {
                 console.error('Error fetching estados:', error);
             };
