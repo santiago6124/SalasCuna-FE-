@@ -83,7 +83,6 @@ export function FormAddChildren() {
         }
     };
 
-    const [tutores, setTutores] = useState([]); 
     const [chieldGenders, setChildGender] = useState([]); 
     const [guardianGenders, setGuardianGender] = useState([]);
     const [salas, setCribroom] = useState([]); 
@@ -97,7 +96,6 @@ export function FormAddChildren() {
 
     const [selectedGeneroChield, setSelectedGeneroChield] = useState('');
     const [selectedGeneroGuardian, setSelectedGeneroGuardian] = useState('');
-    const [selectedTutor, setSelectedTutor] = useState('');
     const [selectedSalaCuna, setSelectedSalacuna] = useState('');
     const [selectedTurno, setSelectedTurno] = useState('');
     const [selectedLocality, setSelectedLocality] = useState('');
@@ -116,10 +114,7 @@ export function FormAddChildren() {
         setSelectedGeneroGuardian(event.target.value);
         
     };
-    const handleTutorChange = (event) => {
-        setSelectedTutor(event.target.value);
-        
-    };
+
     const handleSalaCunaChange = (event) => {
         setSelectedSalacuna(event.target.value);
         
