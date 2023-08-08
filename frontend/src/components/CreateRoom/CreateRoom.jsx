@@ -19,8 +19,9 @@ export function CreateRoom() {
 
   const fetchZonaOptions = async () => {
     try {
-      const response = await axios.get("http://your-backend-url/api/zona");
-      setZonaOptions(response.data);
+      const response = await fetch("http://127.0.0.1:8000/api/zone/");
+      let jsonData = await response.json();
+      setZonaOptions(jsonData);
     } catch (error) {
       console.error("Error fetching zona options:", error);
     }
