@@ -279,19 +279,6 @@ export function FormAddChildren() {
                         </select>
                     </div>
                 </Col>
-                <Col>
-                    <div>
-                        <Form.Label className='mb-1'>Tutor</Form.Label>
-                        <select id="guardian" name="tutor" value={selectedGeneroGuardian} onChange={handleGeneroGuardianChange} className='form-control'>
-                            <option value="">Tutores</option>
-                            {tutores.map((guardian) => (
-                                <option key={guardian.id} value={guardian.id}>
-                                    {guardian.guardian}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                </Col>
             </Row>       
             
             <div className='mb-3'>
@@ -359,21 +346,13 @@ export function FormAddChildren() {
                 </select>
             </div>
 
-            <Form.Group className="mb-5">
-                <Form.Label className='mb-1'>Fecha De Nacimiento</Form.Label>
-                <Form.Control type="date" placeholder="" name="fechaNacimientoGuardian" />
-            </Form.Group>
+            <Row className="mb-4">
 
-
-
-
-
-
-
-
-
-
-
+                <Col>
+                    <Form.Label className='mb-1'>Telefono</Form.Label>
+                    <Form.Control type="number" placeholder="Ingrese un telefono" name='telefono' />
+                </Col>
+            </Row>
 
             <h1 className='titulo'>Añadir Domicilio</h1>
 
@@ -416,16 +395,6 @@ export function FormAddChildren() {
             </div>
 
 
-            <Row className="mb-4">
-                <Col>
-                    <Form.Label className='mb-1'>Departamento</Form.Label>
-                    <Form.Control type="text" placeholder="Ingrese una calle" name='departamento'/>
-                </Col>
-                <Col>
-                    <Form.Label className='mb-1'>Telefono</Form.Label>
-                    <Form.Control type="number" placeholder="Ingrese un telefono" name='telefono' />
-                </Col>
-            </Row>
  
             <div className="contenedor-boton mb-1 ">
                 <Button as="input" type="submit" value="Cargar" size="lg"/>
