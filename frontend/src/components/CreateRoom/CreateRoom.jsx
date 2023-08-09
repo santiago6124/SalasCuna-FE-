@@ -7,23 +7,23 @@ import { Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+
 
 export function CreateRoom() {
-  const [zonaOptions, setZonaOptions] = useState([]);
+  const [zoneOptions, setZoneOptions] = useState([]);
   const [shiftOptions, setShiftOptions] = useState([]);
-  const [selectedZona, setSelectedZona] = useState("");
+  const [selectedZona, setSelectedZone] = useState("");
+  const [selectedShift, setSelectedShift] = useState("");
   useEffect(() => {
     loadZones();
     loadShifts();
   }, []);
 
-
   const loadZones = async () => {
     try {
       const response = await fetch("http://127.0.0.1:8000/api/zone/");
       let jsonData = await response.json();
-      setZonaOptions(jsonData);
+      setZoneOptions(jsonData);
     } catch (error) {
       console.error("Error fetching zona options:", error);
     }
@@ -33,7 +33,7 @@ export function CreateRoom() {
     try {
       const response = await fetch("http://127.0.0.1:8000/api/shift/");
       let jsonData = await response.json();
-      setZonaOptions(jsonData);
+      setShiftOptions(jsonData);
     } catch (error) {
       console.error("Error fetching shift options:", error);
     }
@@ -66,35 +66,59 @@ export function CreateRoom() {
             <Form.Group className="mb-3">
               <Form.Label className="mb-1">Capacidad Maxima</Form.Label>
               <Form.Control
-                type="text"
+                type="number"
                 placeholder="Editar La Capacidad Maxima De La Sala"
               />
             </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label className="mb-1">Turno</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Seleccione El Turno De La Sala"
-              />
-            </Form.Group>
+            <Row className="mb-1">
+              <Col xs={9}>
+                <Form.Label className="mb-1">Calle</Form.Label>
+                <Form.Control type="text" placeholder="Editar Calle" />
+              </Col>
+              <Col >
+                <Form.Label className="mb-1">Nro</Form.Label>
+                <Form.Control type="number" 
+                placeholder="Nro"
+                 />
+              </Col>
+            </Row>
+
             <Row className="mb-3">
               <Col>
-                <Form.Label className="mb-1">Direccion</Form.Label>
-                <Form.Control type="text" placeholder="Editar Direccion" />
+                <Form.Group>
+                  <Form.Label className="mb-1">Turno</Form.Label>
+                  <Form.Group className="mb-3">
+                    <Form.Select
+                      as="select"
+                      value={selectedShift}
+                      className="mb-1"
+                      onChange={(e) => setSelectedShift(e.target.value)}
+                    >
+                      <option value="" disabled>
+                        Seleccionar Turno
+                      </option>
+                      {shiftOptions.map((shift) => (
+                        <option key={shift.id} value={shift.id}>
+                          {shift.name}
+                        </option>
+                      ))}
+                    </Form.Select>
+                  </Form.Group>
+                </Form.Group>
               </Col>
               <Col>
                 <Form.Label className="mb-1">Zona</Form.Label>
                 <Form.Select
                   as="select"
                   value={selectedZona}
-                  onChange={(e) => setSelectedZona(e.target.value)}
+                  onChange={(e) => setSelectedZone(e.target.value)}
                 >
                   <option value="" disabled>
                     Seleccionar Zona
                   </option>
-                  {zonaOptions.map((zona) => (
-                    <option key={zona.id} value={zona.id}>
-                      {zona.name}
+                  {zoneOptions.map((zone) => (
+                    <option key={zone.id} value={zone.id}>
+                      {zone.name}
                     </option>
                   ))}
                 </Form.Select>

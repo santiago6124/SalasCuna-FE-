@@ -7,49 +7,59 @@ import Button from "react-bootstrap/esm/Button";
 import React, { useEffect, useState } from "react";
 
 export function SelectRoom() {
-    const [cribroom, setCribroom] = useState([]);
+  const [cribroomOptions, setCribroom] = useState([]);
+  const [selectCribroom, setSelectedCribroom] = useState("");
 
-    useEffect(() =>{
-        LoadCribrooms();
-    });
-    let LoadCribrooms = async () => {
-        try {
-            let response = await fetch('http://127.0.0.1:8000/api/cribroom/');
-            let jsonData = await response.json();
-            console.log(jsonData);
-            setCribroom(jsonData);
+  useEffect(() => {
+    LoadCribrooms();
+  });
+  const LoadCribrooms = async () => {
+    try {
+      let response = await fetch("http://127.0.0.1:8000/api/cribroom/");
+      let jsonData = await response.json();
+      console.log(jsonData);
+      setCribroom(jsonData);
+    } catch (error) {
+      console.error("Error fetching Cribroom Options", error);
+    }
+  };
 
-        } catch (error) {
-            console.error("Error", error);
-        }
-    };
-
-    return (
-        <Form className="conteiner-form-select">
-            <h1 className="titulo-select">Editar Sala Cuna</h1>
-            <div className="contenedor-linea-select">
-                <hr className="linea-select"></hr>
+  return (
+    <body className="body">
+      <Form className="conteiner-form-room">
+        <h1 className="titulo">Editar Sala Cuna</h1>
+        <div className="contenedor-linea">
+          <hr className="linea"></hr>
+        </div>
+        <Row>
+          <Col xs={9} className="conteiner-select"></Col>
+          <Form.Group className="mb-3">
+            <Form.Label className="mb-1 mt-3">
+              Seleccionar Sala Cuna Que Desea Editar
+            </Form.Label>
+            <Form.Select
+              as="select"
+              value={selectCribroom}
+              className="mb-1"
+              onChange={(event) => setSelectedCribroom(event.target.value)}
+            >
+              <option value="" disabled>
+                Seleccionar Sala Cuna
+              </option>
+              {cribroomOptions.map((cribroom) => (
+                <option key={cribroom.id} value={cribroom.id}>
+                  {cribroom.name}
+                </option>
+              ))}
+            </Form.Select>
+            <div className="contenedor-boton-room">
+              <Button className="button-select mt-4" boton variant="primary">
+                Confirmar
+              </Button>
             </div>
-            <Row>
-                <Col xs={9} className="conteiner-select"></Col>
-                <Form.Group className="mb-3">
-                    <Form.Label className="mb-1 mt-3">
-                        Seleccionar Sala Cuna Que Desea Editar
-                    </Form.Label>
-                    <Form.Select placeholder="Seleccionar Sala Cuna" className="mb-1">
-                        {cribroom.map((room) => (
-                            <option key={room.id} value={room.id}>
-                                {room.name}
-                            </option>
-                        ))}
-                    </Form.Select>
-                    <div className="contenedor-boton-select">
-                        <Button className="button-select mt-4" boton variant="primary">
-                            Confirmar
-                        </Button>
-                    </div>
-                </Form.Group>
-            </Row>
-        </Form>
-    );
+          </Form.Group>
+        </Row>
+      </Form>
+    </body>
+  );
 }
