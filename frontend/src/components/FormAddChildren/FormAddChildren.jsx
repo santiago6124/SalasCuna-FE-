@@ -23,6 +23,33 @@ export function FormAddChildren() {
     const handleSubmit = async (event) => {
         event.preventDefault()
 
+        // **Form 1: Añadir Niños/as**
+        // 1. Nombre: "nombreChield"
+        // 2. Apellido: "apellidoChield"
+        // 3. DNI: "dniChield"
+        // 4. Fecha De Nacimiento: "fechaNacimientoChield"
+        // 5. Genero: "generoChield"
+        // 6. Estado: "estado"
+        // 7. Sala Cuna: "salacuna"
+        // 8. Turno: "turno"
+        // 9. Fecha de baja: "fechaBaja"
+        // 10. Fecha de alta: "fechaAlta"
+        
+        // **Form 2: Añadir Tutor/a**
+        // 1. Nombre: "nombreGuardian"
+        // 2. Apellido: "apellidoGuardian"
+        // 3. DNI: "dniGuardian"
+        // 4. Genero: "generoGuardian"
+        // 5. Caracterisitca Telefonica: "phoneFeature"
+        // 6. Telefono: "telefono"
+        // 7. Madre/padre o Tutor?: "guardianType"
+        
+        // **Form 3: Añadir Domicilio**
+        // 1. Calle: "calle"
+        // 2. Numero: "numero_casa"
+        // 3. Barrio: "neighborhood"
+        // 4. Localidad: "locality"
+
         const formData = new FormData(event.target);
         const payload = {
             first_name: formData.get("nombreChield"),
@@ -42,6 +69,14 @@ export function FormAddChildren() {
             child_state: formData.get("estado"),
             // guardian
             neighborhood : formData.get("neighborhood"),
+            guardian_first_name: formData.get("nombreGuardian"),
+            guardian_last_name: formData.get("apellidoGuardian"),
+            guardian_dni: formData.get("dniGuardian"),
+            guardian_phone_number: formData.get("telefono"),
+            guardian_phone_Feature_id: formData.get("phoneFeature"),
+            guardian_guardian_Type_id: formData.get("guardianType"),
+            guardian_gender_id: formData.get("generoGuardian"),
+            neighborhood_neighborhood: "",
             // guardian_first_name <input placeholder="Ingrese un nombre" name="nombreGuardian" type="text" class="form-control">
             // guardian_last_name <input placeholder="Ingrese un apellido" name="apellidoGuardian" type="text" class="form-control">
             // guardian_dni <input placeholder="Ingrese un DNI" name="dniGuardian" type="number" class="form-control">
@@ -298,7 +333,7 @@ export function FormAddChildren() {
                             <option value="">Sala Cuna</option>
                             {salas.map((cribroom) => (
                                 <option key={cribroom.id} value={cribroom.id}>
-                                    {cribroom.cribroom}
+                                    {cribroom.name}
                                 </option>
                             ))}
                         </select>
@@ -312,7 +347,7 @@ export function FormAddChildren() {
                     <option value="">Turnos</option>
                     {shifts.map((shift) => (
                         <option key={shift.id} value={shift.id}>
-                            {shift.shift}
+                            {shift.name}
                         </option>
                     ))}
                 </select>
