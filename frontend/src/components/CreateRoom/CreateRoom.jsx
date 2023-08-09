@@ -39,11 +39,38 @@ export function CreateRoom() {
     }
   };
 
+
+  const createCR = async (e) => {
+   try {
+    e.preventDefault()
+    let response = await fetch('http://127.0.0.1:8000/api/cribroom/', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          "name": e.target.nameCR.value,
+          "code": e.target.codeCR.value,
+          "max_capacity": e.target.max_capacityCR.value,
+          "street": e.target.role.value,
+          "house_number": e.target.house_numberCR.value,
+          "locality": "nashe",
+          "neighborhood": "sdad",
+          "shift": e. target.shiftCR.value,
+      })
+  })
+   } catch (err) {
+    alert(":c")
+    console.log(err)
+   }
+
+  }
+
   return (
     <div className="body">
       <div className="contenedor-form-wrapper">
         <Container fluid className="conteiner-form-room">
-          <Form className="conteiner-form-edit">
+          <Form onSubmit={createCR} className="conteiner-form-edit">
             <h1 className="titulo">Agregar Sala Cuna</h1>
             <div className="contenedor-linea">
               <hr className="linea"></hr>
@@ -54,6 +81,7 @@ export function CreateRoom() {
               <Form.Control
                 type="text"
                 placeholder="Editar El Nombre De La Sala"
+                name="nameCR"
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -61,6 +89,7 @@ export function CreateRoom() {
               <Form.Control
                 type="text"
                 placeholder="Editar El Nombre De La Sala"
+                name="codeCR"
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -68,17 +97,19 @@ export function CreateRoom() {
               <Form.Control
                 type="number"
                 placeholder="Editar La Capacidad Maxima De La Sala"
+                name="max_capacityCR"
               />
             </Form.Group>
             <Row className="mb-1">
               <Col xs={9}>
                 <Form.Label className="mb-1">Calle</Form.Label>
-                <Form.Control type="text" placeholder="Editar Calle" />
+                <Form.Control type="text" placeholder="Editar Calle" name="streetCR"/>
               </Col>
               <Col >
                 <Form.Label className="mb-1">Nro</Form.Label>
                 <Form.Control type="number" 
                 placeholder="Nro"
+                name="house_numberCR"
                  />
               </Col>
             </Row>
@@ -89,6 +120,7 @@ export function CreateRoom() {
                   <Form.Label className="mb-1">Turno</Form.Label>
                   <Form.Group className="mb-3">
                     <Form.Select
+                      name="shiftCR"
                       as="select"
                       value={selectedShift}
                       className="mb-1"
@@ -109,6 +141,7 @@ export function CreateRoom() {
               <Col>
                 <Form.Label className="mb-1">Zona</Form.Label>
                 <Form.Select
+                  name="zoneCR"
                   as="select"
                   value={selectedZona}
                   onChange={(e) => setSelectedZone(e.target.value)}
@@ -125,7 +158,7 @@ export function CreateRoom() {
               </Col>
             </Row>
             <div className="contenedor-boton-qr ">
-              <Button className="boton-edit mt-3" boton variant="primary">
+              <Button className="boton-edit mt-3" boton variant="primary" type="submit">
                 Crear Sala Cuna
               </Button>
             </div>
