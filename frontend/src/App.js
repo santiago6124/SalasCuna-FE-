@@ -15,6 +15,7 @@ import { Login } from "./components/Login/Login";
 import ActivateAccountPage from "./pages/ActivateAccountPage/ActivateAccountPage";
 import GeneratePadron from "./components/GeneratePadron/GeneratePadron";
 import AddChildrenPage from "./pages/AddChildrenPage/AddChildrenPage";
+import { FormAddChildren } from "./components/FormAddChildren/FormAddChildren";
 
 function App() {
   return (
@@ -50,9 +51,10 @@ function App() {
             />
 
             <Route
-              path="/añadir-chico"
+              path="/children-management"
               element={<PublicRoute children={<AddChildrenPage />} />}
             />
+            <Route path="/children-management/new" element={<PublicRoute children={<FormAddChildren />} />}/>
           </Routes>
         </AuthProvider>
       </div>

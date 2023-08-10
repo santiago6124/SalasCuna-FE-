@@ -5,6 +5,7 @@ import { Col } from 'react-bootstrap';
 import { Row } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 
+import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
 import { getAllCribrooms } from '../../api/salasCuna.api';
@@ -16,6 +17,12 @@ export default function DropdownCribroomList() {
 
   const handleCribroomChange = (event) => {
     setSelectedCribroom(event.target.value);
+  };
+
+  const navigate = useNavigate();
+
+  const handleNewClick = () => {
+  navigate('/children-management/new');
   };
 
   const handleCargarClick = async () => {
@@ -77,6 +84,17 @@ export default function DropdownCribroomList() {
               value="Cargar"
               size="m"
               onClick={handleCargarClick}
+            />
+          </div>
+        </Col>
+        <Col>
+          <div className="contenedor-boton mt-4 ">
+            <Button
+              as="input"
+              type="submit" 
+              value="New"
+              size="m"
+              onClick={handleNewClick}
             />
           </div>
         </Col>
