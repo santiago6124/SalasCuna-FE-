@@ -86,6 +86,21 @@ const handleZoneChange = (event) => {
   
 };
 
+const handleDelete = async (event) => {
+  event.preventDefault()
+
+  try {
+    let response = await fetch("http://127.0.0.1:8000/api/cribroom/1/", {
+      method: 'DELETE',
+      headers: {
+          'Content-Type': 'application/json'
+      }
+    });
+  } catch (err) {
+    alert("Error al eliminar la sala cuna");
+  }
+};
+
   return (
     <div className="body">
       <div className="contenedor-form-wrapper">
@@ -193,6 +208,9 @@ const handleZoneChange = (event) => {
               </Button>
             </div>
           </Form>
+          <Button className="boton-edit mt-3" boton variant="danger" onClick={handleDelete}>
+            Detonar
+          </Button>
         </Container>
       </div>
     </div>
