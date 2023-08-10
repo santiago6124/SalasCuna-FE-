@@ -251,9 +251,8 @@ export function FormAddChildren() {
             };
     };
 
-<<<<<<< HEAD
     const navigate = useNavigate();
-=======
+    
     const GuardianTypeList = async () => {
         try {
             const response = await axios.get('http://127.0.0.1:8000/api/GuardianTypeListView/');
@@ -271,7 +270,6 @@ export function FormAddChildren() {
                 console.error('Error fetching estados:', error);
             };
     };
->>>>>>> 7f1babe6359dcd596a6e08d26f9785dbe75c7b59
 
   const handleNewClick = () => {
   navigate('/children-management');
