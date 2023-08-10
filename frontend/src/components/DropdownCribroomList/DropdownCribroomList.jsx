@@ -31,7 +31,7 @@ export default function DropdownCribroomList() {
         console.log('ID de la Cribroom seleccionada:', selectedCribroom);
         const res = await axios.get('http://127.0.0.1:8000/api/child/?padron_children_id=' + selectedCribroom);
         setChild(res.data);
-        console.log(res.data);
+
       } catch (error) {
         console.log('Error fetching Chicos:', error);
       }
