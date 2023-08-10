@@ -1,4 +1,4 @@
-import "./CreateRoom.css";
+import "../CreateRoom/CreateRoom.css";
 
 import Col from "react-bootstrap/Col/";
 import Row from "react-bootstrap/Row/";
@@ -8,7 +8,7 @@ import { Button } from "react-bootstrap";
 
 import React, { useState, useEffect } from "react";
 
-export function CreateRoom() {
+export function UpdateRoom() {
   const [zoneOptions, setZoneOptions] = useState([]);
   const [shiftOptions, setShiftOptions] = useState([]);
   const [selectedZona, setSelectedZone] = useState("");
@@ -38,36 +38,59 @@ export function CreateRoom() {
     }
   };
 
-  const createCR = async (e) => {
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+
+    const formData = new FormData(event.target);
+    const payload = {
+        name: formData.get("nameCR"),
+        code: formData.get("codeCR"),
+        max_capacity: formData.get("max_capacityCR"),
+        street: formData.get("streetCR"),
+        house_number: formData.get("house_numberCR"),
+        shift: formData.get("shiftCR"),
+        zone: formData.get("zoneCR"),
+    };
+  
     try {
-      e.preventDefault();
-      let response = await fetch("http://127.0.0.1:8000/api/cribroom/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: e.target.nameCR.value,
-          code: e.target.codeCR.value,
-          max_capacity: e.target.max_capacityCR.value,
-          street: e.target.role.value,
-          house_number: e.target.house_numberCR.value,
-          locality: "nashe",
-          neighborhood: "sdad",
-          shift: e.target.shiftCR.value,
-        }),
-      });
-    } catch (err) {
-      alert(":c");
-      console.log(err);
-    }
-  };
+     let response = await fetch('http://127.0.0.1:8000/api/cribroom/1/', {
+       method: 'PUT',
+       headers: {
+           'Content-Type': 'application/json'
+       },
+       body: JSON.stringify(payload),
+    });
+
+    if (response.ok) {
+      console.log('Child added successfully');
+      window.location.reload();
+  } else {
+      console.log('Failed to add child');
+  }
+
+     } catch (err) {
+      alert(":c")
+      console.log(err)
+     }
+
+  }
+
+
+  const handleShiftChange = (event) => {
+    setSelectedShift(event.target.value);
+    
+};
+
+const handleZoneChange = (event) => {
+  setSelectedZone(event.target.value);
+  
+};
 
   return (
     <div className="body">
       <div className="contenedor-form-wrapper">
         <Container fluid className="conteiner-form-room">
-          <Form onSubmit={createCR} className="conteiner-form-edit">
+          <Form onSubmit={handleSubmit} className="conteiner-form-edit">
             <h1 className="titulo">Agregar Sala Cuna</h1>
             <div className="contenedor-linea">
               <hr className="linea"></hr>
@@ -126,7 +149,7 @@ export function CreateRoom() {
                       as="select"
                       value={selectedShift}
                       className="mb-1"
-                      onChange={(e) => setSelectedShift(e.target.value)}
+                      onChange={handleShiftChange}
                     >
                       <option value="" disabled>
                         Seleccionar Turno
@@ -146,7 +169,7 @@ export function CreateRoom() {
                   name="zoneCR"
                   as="select"
                   value={selectedZona}
-                  onChange={(e) => setSelectedZone(e.target.value)}
+                  onChange={handleZoneChange}
                 >
                   <option value="" disabled>
                     Seleccionar Zona
