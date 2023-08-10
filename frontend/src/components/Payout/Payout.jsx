@@ -7,18 +7,43 @@ import Row from "react-bootstrap/Row/";
 import Form from "react-bootstrap/Form/";
 import { Button } from "react-bootstrap";
 import axios from "axios";
+import { DataGrid } from '@mui/x-data-grid';
+
 
 export default function Payout() {
   const [zoneOptions, setZoneOptions] = useState([]);
   const [selectedZona, setSelectedZone] = useState("");
+  const [zone1Payouts, setZone1Payouts] = useState([]);
+  const [zone2Payouts, setZone2Payouts] = useState([]);
 
   useEffect(() => {
     loadZones();
+    loadZone1Payouts();
+    loadZone2Payouts();
   }, []);
+  const loadZone1Payouts = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/payout/?zone_filter_id=1");
+      const jsonData = await response.json();
+      setZone1Payouts(jsonData);
+    } catch (error) {
+      console.error("Error fetching Zone 1 payouts:", error);
+    }
+  };
+  
+  const loadZone2Payouts = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/payout/?zone_filter_id=2");
+      const jsonData = await response.json();
+      setZone2Payouts(jsonData);
+    } catch (error) {
+      console.error("Error fetching Zone 2 payouts:", error);
+    }
+  };
 
   const loadZones = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/ZoneViewSet/");
+      const response = await fetch("http://127.0.0.1:8000/api/ZoneReadOnlyModelViewSet/");
       let jsonData = await response.json();
       setZoneOptions(jsonData);
     } catch (error) {
@@ -42,7 +67,7 @@ export default function Payout() {
   
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/PayoutViewSet/",
+        "http://127.0.0.1:8000/api/payout/",
         payload
       );
   
@@ -89,6 +114,34 @@ export default function Payout() {
         <br />
         <button type="submit">Add Payout</button>
       </form>
+      <div>
+  <h2>Zone 1 Payouts</h2>
+  <DataGrid
+    rows={zone1Payouts}
+    columns={[
+      { field: 'id', headerName: 'ID', width: 70 },
+      { field: 'amount', headerName: 'Amount', width: 130 },
+      { field: 'date', headerName: 'Date', width: 130 },
+    ]}
+    autoHeight
+    pageSize={5}
+  />
+</div>
+<div>
+  <h2>Zone 2 Payouts</h2>
+  <DataGrid
+    rows={zone2Payouts}
+    columns={[
+      { field: 'id', headerName: 'ID', width: 70 },
+      { field: 'amount', headerName: 'Amount', width: 130 },
+      { field: 'date', headerName: 'Date', width: 130 },
+    ]}
+    autoHeight
+    pageSize={5}
+  />
+</div>
     </div>
+    
   );
 }
+
