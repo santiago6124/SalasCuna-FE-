@@ -1,4 +1,4 @@
-import "../CreateRoom/CreateRoom.css";
+import "./CreateRoom.css";
 
 import Col from "react-bootstrap/Col/";
 import Row from "react-bootstrap/Row/";
@@ -8,7 +8,8 @@ import { Button } from "react-bootstrap";
 
 import React, { useState, useEffect } from "react";
 
-export function UpdateRoom() {
+
+export function CreateRoom() {
   const [zoneOptions, setZoneOptions] = useState([]);
   const [shiftOptions, setShiftOptions] = useState([]);
   const [selectedZona, setSelectedZone] = useState("");
@@ -53,8 +54,8 @@ export function UpdateRoom() {
     };
   
     try {
-     let response = await fetch('http://127.0.0.1:8000/api/cribroom/1/', {
-       method: 'PUT',
+     let response = await fetch('http://127.0.0.1:8000/api/cribroom/', {
+       method: 'POST',
        headers: {
            'Content-Type': 'application/json'
        },
@@ -84,21 +85,6 @@ export function UpdateRoom() {
 const handleZoneChange = (event) => {
   setSelectedZone(event.target.value);
   
-};
-
-const handleDelete = async (event) => {
-  event.preventDefault()
-
-  try {
-    let response = await fetch("http://127.0.0.1:8000/api/cribroom/1/", {
-      method: 'DELETE',
-      headers: {
-          'Content-Type': 'application/json'
-      }
-    });
-  } catch (err) {
-    alert("Error al eliminar la sala cuna");
-  }
 };
 
   return (
@@ -138,19 +124,14 @@ const handleDelete = async (event) => {
             <Row className="mb-1">
               <Col xs={9}>
                 <Form.Label className="mb-1">Calle</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Editar Calle"
-                  name="streetCR"
-                />
+                <Form.Control type="text" placeholder="Editar Calle" name="streetCR"/>
               </Col>
-              <Col>
+              <Col >
                 <Form.Label className="mb-1">Nro</Form.Label>
-                <Form.Control
-                  type="number"
-                  placeholder="Nro"
-                  name="house_numberCR"
-                />
+                <Form.Control type="number" 
+                placeholder="Nro"
+                name="house_numberCR"
+                 />
               </Col>
             </Row>
 
@@ -198,19 +179,11 @@ const handleDelete = async (event) => {
               </Col>
             </Row>
             <div className="contenedor-boton-qr ">
-              <Button
-                className="boton-edit mt-3"
-                boton
-                variant="primary"
-                type="submit"
-              >
+              <Button className="boton-edit mt-3" boton variant="primary" type="submit">
                 Crear Sala Cuna
               </Button>
             </div>
           </Form>
-          <Button className="boton-edit mt-3" boton variant="danger" onClick={handleDelete}>
-            Detonar
-          </Button>
         </Container>
       </div>
     </div>

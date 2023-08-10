@@ -59,7 +59,7 @@ export const AuthProvider = ({children}) => {
             setAuthTokens(data)
             setUser(jwt_decode(data.access))
             localStorage.setItem('authTokens', JSON.stringify(data))
-            history('/generate-padron')
+            history('/crear-sala')
         } else {
             alert('Something went wrong')
         }

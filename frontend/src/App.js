@@ -14,8 +14,12 @@ import Signup from "./components/SignUp/SignUp";
 import { Login } from "./components/Login/Login";
 import ActivateAccountPage from "./pages/ActivateAccountPage/ActivateAccountPage";
 import GeneratePadron from "./components/GeneratePadron/GeneratePadron";
-import AddChildrenPage from "./pages/AddChildrenPage/AddChildrenPage";
+import AddChildrenPage from './pages/AddChildrenPage/AddChildrenPage';
+import CreateRoomPage from "./pages/CreateRoomPage/CreateRoomPage";
+import { SelectRoom } from "./components/SelectRoom/SelectRoom";
 import { FormAddChildren } from "./components/FormAddChildren/FormAddChildren";
+import { FaExpeditedssl } from "react-icons/fa";
+
 
 function App() {
   return (
@@ -30,7 +34,7 @@ function App() {
             />
             <Route
               path="/signup"
-              element={<PrivateRoute children={<Signup />} />}
+              element={<PublicRoute children={<Signup />} />}
             />
             <Route
               path="/reset-password"
@@ -50,11 +54,17 @@ function App() {
               element={<PrivateRoute children={<GeneratePadron />} />}
             />
 
-            <Route
-              path="/children-management"
-              element={<PublicRoute children={<AddChildrenPage />} />}
-            />
+            <Route path="/añadir-chico" element={<PublicRoute children={<AddChildrenPage/>}/>}/>
+            <Route path="/children-management" element={<PublicRoute children={<AddChildrenPage />} />}/>
             <Route path="/children-management/new" element={<PublicRoute children={<FormAddChildren />} />}/>
+            <Route
+              path="/crear-sala"
+              element={<PrivateRoute children={<CreateRoomPage />} />}
+            />
+            <Route
+              path="/editar-sala"
+              element={<PrivateRoute children={<SelectRoom />} />}
+            />
           </Routes>
         </AuthProvider>
       </div>

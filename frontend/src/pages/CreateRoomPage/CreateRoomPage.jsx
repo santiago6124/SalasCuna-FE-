@@ -1,9 +1,9 @@
 import React from 'react'
 
-import {Menu} from '../components/Menu/Menu';
-import {EditRoom} from '../components/EditRoom/EditRoom';
+import Menu from '../../components/Menu/Menu';
+import {CreateRoom} from '../../components/CreateRoom/CreateRoom';
 
-export function AddChildrenPage() {
+export default function CreateRoomPage() {
     return (
         <div className="App">
             <header>
@@ -13,7 +13,7 @@ export function AddChildrenPage() {
             </header>
             <body className='body'>
             <div>
-                <EditRoom/>
+                <CreateRoom/>
             </div>
             </body>
         </div>
