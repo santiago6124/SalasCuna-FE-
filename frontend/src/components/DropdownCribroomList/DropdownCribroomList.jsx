@@ -29,7 +29,7 @@ export default function DropdownCribroomList() {
     if (selectedCribroom) {
       try {
         console.log('ID de la Cribroom seleccionada:', selectedCribroom);
-        const res = await axios.get('http://127.0.0.1:8000/api/child/?padron_children_id=' + selectedCribroom);
+        const res = await axios.get('http://127.0.0.1:8000/api/child/?padron_cribroom_id=' + selectedCribroom);
         setChild(res.data);
 
       } catch (error) {
