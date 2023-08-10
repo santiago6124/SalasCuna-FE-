@@ -8,6 +8,8 @@ import Form from 'react-bootstrap/Form/';
 import {Button} from 'react-bootstrap';
 import axios from 'axios';
 
+import { useNavigate } from 'react-router-dom';
+
 export function FormAddChildren() {
 
     useEffect(() => {
@@ -208,11 +210,23 @@ export function FormAddChildren() {
             };
     };
 
-    
+    const navigate = useNavigate();
 
-  return (
+  const handleNewClick = () => {
+  navigate('/children-management');
+  };
+
+  return (   
     <Form className="conteiner-form" onSubmit={handleSubmit}>
-            
+        
+            <Button
+              as="input"
+              type="submit" 
+              value="Back"
+              size="m"
+              onClick={handleNewClick}
+            />
+
             <h1 className="titulo">Añadir Niños/as</h1>
 
             <div className="contenedor-linea">
