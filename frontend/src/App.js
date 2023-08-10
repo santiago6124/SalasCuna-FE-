@@ -18,6 +18,7 @@ import AddChildrenPage from './pages/AddChildrenPage/AddChildrenPage';
 import CreateRoomPage from "./pages/CreateRoomPage/CreateRoomPage";
 import { SelectRoom } from "./components/SelectRoom/SelectRoom";
 import { FormAddChildren } from "./components/FormAddChildren/FormAddChildren";
+import Payout from './components/Payout/Payout';
 import { FaExpeditedssl } from "react-icons/fa";
 
 
@@ -54,9 +55,21 @@ function App() {
               element={<PrivateRoute children={<GeneratePadron />} />}
             />
 
-            <Route path="/añadir-chico" element={<PublicRoute children={<AddChildrenPage/>}/>}/>
-            <Route path="/children-management" element={<PublicRoute children={<AddChildrenPage />} />}/>
-            <Route path="/children-management/new" element={<PublicRoute children={<FormAddChildren />} />}/>
+            <Route 
+              path="/añadir-chico" 
+              element={<PublicRoute children={<AddChildrenPage/>}/>}
+            />
+
+            <Route 
+              path="/children-management" 
+              element={<PublicRoute children={<AddChildrenPage />} />}
+            />
+
+            <Route 
+              path="/children-management/new" 
+              element={<PublicRoute children={<FormAddChildren />} />}
+            />
+
             <Route
               path="/crear-sala"
               element={<PrivateRoute children={<CreateRoomPage />} />}
