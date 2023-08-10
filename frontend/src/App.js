@@ -23,9 +23,7 @@ function App() {
       </header>
       <body className='body'>
         <div>
-
-
-            
+          <PaymentNote/>           
         </div>
       </body>
     </div>
