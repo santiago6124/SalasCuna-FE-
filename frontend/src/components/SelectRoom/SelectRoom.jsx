@@ -6,7 +6,7 @@ import Button from "react-bootstrap/esm/Button";
 
 import React, { useEffect, useState } from "react";
 
-import {CreateRoom} from "../CreateRoom/CreateRoom";
+import {UpdateRoom} from "../EditRoom/EditRoom";
 
 export function SelectRoom() {
   const [cribroomOptions, setCribroom] = useState([]);
@@ -15,7 +15,7 @@ export function SelectRoom() {
 
   useEffect(() => {
     LoadCribrooms();
-  });
+  }, []);
   const LoadCribrooms = async () => {
     try {
       let response = await fetch("http://127.0.0.1:8000/api/cribroom/");
@@ -34,7 +34,7 @@ export function SelectRoom() {
   return (
     <body className="body">
       {confirmed ? (
-        <CreateRoom />
+        <UpdateRoom />
       ) : (
         <Form className="conteiner-form-room">
           <h1 className="titulo">Editar Sala Cuna</h1>
