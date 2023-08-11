@@ -78,6 +78,10 @@ function App() {
               path="/editar-sala"
               element={<PrivateRoute children={<SelectRoom />} />}
             />
+             <Route
+              path="/maestro-montos"
+              element={<PrivateRoute children={<Payout />} />}
+            />
           </Routes>
         </AuthProvider>
       </div>
