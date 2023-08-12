@@ -23,7 +23,7 @@ export default function Payout() {
   }, []);
   const loadZone1Payouts = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/payout/?zone_filter_id=1");
+      const response = await fetch("http://127.0.0.1:8000/api/payout/?zone=1");
       const jsonData = await response.json();
       setZone1Payouts(jsonData);
     } catch (error) {
@@ -33,7 +33,7 @@ export default function Payout() {
   
   const loadZone2Payouts = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/payout/?zone_filter_id=2");
+      const response = await fetch("http://127.0.0.1:8000/api/payout/?zone=2");
       const jsonData = await response.json();
       setZone2Payouts(jsonData);
     } catch (error) {
@@ -43,7 +43,7 @@ export default function Payout() {
 
   const loadZones = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/ZoneReadOnlyModelViewSet/");
+      const response = await fetch("http://127.0.0.1:8000/api/zone/");
       let jsonData = await response.json();
       setZoneOptions(jsonData);
     } catch (error) {
