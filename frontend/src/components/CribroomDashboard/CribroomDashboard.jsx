@@ -10,10 +10,10 @@ export function CribroomDashboard() {
     const [selectedCribroom, setSelectedCribroom] = useState('');
 
     useEffect(() => {
-        ListCribroom();
+        listCribroom();
       }, []);
 
-    const ListCribroom = async () => {
+    const listCribroom = async () => {
         try {
           const response = await getAllCribrooms();
           setCribrooms(response.data);
@@ -22,7 +22,7 @@ export function CribroomDashboard() {
         }
       };
       
-    const ListShift = async () => {
+    const listShift = async () => {
         try {
           const response = await getAllShifts();
           setShiftOptions(response.data);
@@ -31,7 +31,7 @@ export function CribroomDashboard() {
         }
       };
 
-    const ListZone = async () => {
+    const listZone = async () => {
         try {
           const response = await getAllZones();
           setZoneOptions(response.data);
