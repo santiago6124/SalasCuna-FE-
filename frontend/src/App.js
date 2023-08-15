@@ -14,6 +14,7 @@ import Signup from "./components/SignUp/SignUp";
 import { Login } from "./components/Login/Login";
 import ActivateAccountPage from "./pages/ActivateAccountPage/ActivateAccountPage";
 import GeneratePadron from "./components/GeneratePadron/GeneratePadron";
+import TechnicalReport from "./components/TechnicalReport/TechnicalReport";
 import AddChildrenPage from './pages/AddChildrenPage/AddChildrenPage';
 import CreateRoomPage from "./pages/CreateRoomPage/CreateRoomPage";
 import { SelectRoom } from "./components/SelectRoom/SelectRoom";
@@ -81,6 +82,10 @@ function App() {
              <Route
               path="/maestro-montos"
               element={<PrivateRoute children={<Payout />} />}
+            />
+            <Route
+              path="/informe-tecnico"
+              element={<PublicRoute children={<TechnicalReport />} />}
             />
           </Routes>
         </AuthProvider>
