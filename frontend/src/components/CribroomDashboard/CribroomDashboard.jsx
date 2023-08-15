@@ -75,6 +75,23 @@ export function CribroomDashboard() {
         }
     }
 
+    const handleDelete = async (event) => {
+      event.preventDefault()
+
+      if(selectedCribroom){
+        try {
+          let response = await fetch("http://127.0.0.1:8000/api/cribroom/" + selectedCribroom + "/", {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+          });
+        } catch (err) {
+          alert("Error al eliminar la sala cuna");
+        }
+      }
+    };
+
     const handleCribroomChange = async (event) => {
         setSelectedCribroom(event.target.value);
     }
