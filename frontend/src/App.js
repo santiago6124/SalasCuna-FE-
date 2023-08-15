@@ -19,6 +19,7 @@ import CreateRoomPage from "./pages/CreateRoomPage/CreateRoomPage";
 import { SelectRoom } from "./components/SelectRoom/SelectRoom";
 import { FormAddChildren } from "./components/FormAddChildren/FormAddChildren";
 import Payout from './components/Payout/Payout';
+import CribroomDashboard from "./components/CribroomDashboard/CribroomDashboard";
 import { FaExpeditedssl } from "react-icons/fa";
 
 
@@ -81,6 +82,10 @@ function App() {
              <Route
               path="/maestro-montos"
               element={<PrivateRoute children={<Payout />} />}
+            />
+            <Route
+            path="/gestion-sala"
+            element={<PrivateRoute children={<CribroomDashboard/>} />}
             />
           </Routes>
         </AuthProvider>
