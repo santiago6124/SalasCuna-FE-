@@ -15,88 +15,107 @@ import { useState, useEffect } from 'react';
 
 
 export default function TechnicalReport() {
-    const [zoneOptions, setZoneOptions] = useState([]);
-    const [selectedZona, setSelectedZone] = useState("");
-    const [zone1Cribrooms, setZone1Cribrooms] = useState([]);
-    const [zone2Cribrooms, setZone2Cribrooms] = useState([]);
-
-    useEffect(() => {
-      loadZones();
-      loadZone1Cribrooms();
-      loadZone2Cribrooms();
-    }, []);
-    const loadZone1Cribrooms = async () => {
-      try {
-        const response = await fetch("http://127.0.0.1:8000/api/cribroom/?zone=1");
-        const jsonData = await response.json();
-        setZone1Cribrooms(jsonData);
-      } catch (error) {
-        console.error("Error fetching Zone 1 payouts:", error);
-      }
-    };
     
-    const loadZone2Cribrooms = async () => {
-      try {
-        const response = await fetch("http://127.0.0.1:8000/api/cribroom/?zone=2");
-        const jsonData = await response.json();
-        setZone2Cribrooms(jsonData);
-      } catch (error) {
-        console.error("Error fetching Zone 2 payouts:", error);
-      }
-    };
-  
-    const loadZones = async () => {
-      try {
-        const response = await fetch("http://127.0.0.1:8000/api/ZoneReadOnlyModelViewSet/");
-        let jsonData = await response.json();
-        setZoneOptions(jsonData);
-      } catch (error) {
-        console.error("Error fetching zona options:", error);
-      }
-    };
-  
-    const handleSelectChange = (event) => {
-      setSelectedZone(event.target.value);
-    };
+        const [zoneOptions, setZoneOptions] = useState([]);
+        const [selectedZone, setSelectedZone] = useState("");
+        const [cribrooms, setCribrooms] = useState([]);
+        const handlePdfClick = () => {
+            // Implement your PDF generation logic here
+            console.log('Generate PDF logic will be implemented here');
+        };
+        useEffect(() => {
+          loadZones();
+        }, []);
     
-
-    return (
-        <div className='container-report mt-5'>
-            <div className='container-titulo-report '>
-                <h1>Informe Tecnico</h1>
-            </div>
-            <div className='contenedor-linea-report'>
-                <hr className='linea-report'></hr>
-            </div>
-            <Row className="mb-3">
-                <Col>
-                    <div className='input-select'>
-                    <Form.Select
-name="zoneCR"
-as="select"
-value={selectedZona}
-onChange={handleSelectChange}
->
-<option value="" disabled>
-  Seleccionar Zona
-</option>
-{zoneOptions.map((zone) => (
-  <option key={zone.id} value={zone.id}>
-    {zone.name}
-  </option>
-))}
-</Form.Select>
+        useEffect(() => {
+          if (selectedZone) {
+            loadCribrooms(selectedZone);
+          }
+        }, [selectedZone]);
+    
+        const loadCribrooms = async (zoneId) => {
+          try {
+            const response = await axios.get(`http://127.0.0.1:8000/api/cribroom/?zone=${zoneId}`);
+            const jsonData = response.data;
+            setCribrooms(jsonData);
+          } catch (error) {
+            console.error("Error fetching cribrooms:", error);
+          }
+        };
+    
+        const loadZones = async () => {
+          try {
+            const response = await axios.get("http://127.0.0.1:8000/api/zone/");
+            const jsonData = response.data;
+            setZoneOptions(jsonData);
+          } catch (error) {
+            console.error("Error fetching zone options:", error);
+          }
+        };
+    
+        const handleSelectChange = (event) => {
+          setSelectedZone(event.target.value);
+        };
+    
+        const columns = [
+            { field: 'code', headerName: 'Codigo' },
+            { field: 'name', headerName: 'Nombre Sala' },
+            { field: 'cuit', headerName: 'CUIT' },
+            { field: 'entidad', headerName: 'Entidad' },
+            { field: 'cantidad_ninos', headerName: 'Cantidad de Niños' },
+            {
+                field: 'select',
+                headerName: 'Seleccionar',
+                sortable: false,
+                filterable: false,
+                width: 120,
+                renderCell: (params) => (
+                    <input type="checkbox" checked={params.row.selected} />
+                ),
+            },
+        ];
+        
+    
+        return (
+            <div className='container-report mt-5'>
+                <div className='container-titulo-report '>
+                    <h1>Informe Tecnico</h1>
+                </div>
+                <div className='contenedor-linea-report'>
+                    <hr className='linea-report'></hr>
+                </div>
+                <Row className="mb-3">
+                    <Col>
+                        <div className='input-select'>
+                            <Form.Select
+                                name="zoneCR"
+                                as="select"
+                                value={selectedZone}
+                                onChange={handleSelectChange}
+                            >
+                                <option value="" disabled>
+                                    Seleccionar Zona
+                                </option>
+                                {zoneOptions.map((zone) => (
+                                    <option key={zone.id} value={zone.id}>
+                                        {zone.name}
+                                    </option>
+                                ))}
+                            </Form.Select>
+                        </div>
+                    </Col>
+                    <Col>
+                    <Button variant="primary" onClick={handlePdfClick} className="mb-3">
+    PDF
+</Button>
+                    </Col>
+                </Row>
+    
+                <div>
+                    <div style={{ height: 400, width: '100%' }}>
+                        <DataGrid rows={cribrooms} columns={columns} columnBuffer={2} columnThreshold={2} />
                     </div>
-                </Col>
-                <Col>
-                    {/* Buttons */}
-                </Col>
-            </Row>
-
-            <div>
-                <div style={{ height: 400, width: '100%' }}>
                 </div>
             </div>
-        </div>
-    );
-}
+        );
+    }

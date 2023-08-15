@@ -71,7 +71,7 @@ export default function Payout() {
 
   const loadZones = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/ZoneReadOnlyModelViewSet/");
+      const response = await fetch("http://127.0.0.1:8000/api/zone/");
       let jsonData = await response.json();
       setZoneOptions(jsonData);
     } catch (error) {
