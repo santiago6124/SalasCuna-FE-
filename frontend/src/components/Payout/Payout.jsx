@@ -115,11 +115,33 @@ export default function Payout() {
 
   return (
     <div>
-      <h1>Add Payout</h1>
-      <form onSubmit={handleSubmit}>
-        {/* ... Existing form fields */}
-        <button type="submit">Add Payout</button>
-      </form>
+    <h1>Add Payout</h1>
+    <form onSubmit={handleSubmit}>
+      <label>Amount:</label>
+      <input type="number" name="amount" required />
+      <br />
+      <label>Date:</label>
+      <input type="date" name="date" required />
+      <br />
+      <Form.Label className="mb-1">Zona</Form.Label>
+      <Form.Select
+name="zoneCR"
+as="select"
+value={selectedZona}
+onChange={handleSelectChange}
+>
+<option value="" disabled>
+  Seleccionar Zona
+</option>
+{zoneOptions.map((zone) => (
+  <option key={zone.id} value={zone.id}>
+    {zone.name}
+  </option>
+))}
+</Form.Select>
+      <br />
+      <button type="submit">Add Payout</button>
+    </form>
   
       {editedPayout && (
         <div>
