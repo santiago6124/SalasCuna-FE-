@@ -16,6 +16,8 @@ import { key } from "localforage";
 
 export default function CribroomDashboard() {
   const [cribrooms, setCribrooms] = useState([]);
+  const [filteredCribroom, setFilteredCribroom] = useState([]);
+  const [keyword, setKeyword] = useState("");
   const [zoneOptions, setZoneOptions] = useState([]);
   const [shiftOptions, setShiftOptions] = useState([]);
   const [selectedCribroom, setSelectedCribroom] = useState("");
@@ -108,8 +110,15 @@ export default function CribroomDashboard() {
     setSelectedCribroom(event.target.value);
   };
 
-  const [keyword, setKeyword] = useState("");
+  // SEARCH FUNCTION
 
+  const updateKeyword = (keyword) => {
+    const filtered = cribrooms.filter(cribroom => {
+     return `${cribroom.name.toLowerCase()} ${cribroom.code.toLowerCase()}`.includes(keyword.toLowerCase());
+    })
+    setKeyword(keyword);
+    setFilteredCribroom(filtered);
+ }
 
   return (
     <body>
@@ -122,7 +131,7 @@ export default function CribroomDashboard() {
           <hr className="linea-cb"></hr>
         </div>
         <div><SearchBar
-        keyword={keyword} onChange={setKeyword}/></div>
+        keyword={keyword} onChange={updateKeyword}/></div>
         <div className="DataGrid-Wrapper">
           <DataGrid
             style={{ borderRadius: "15px", margin: "20px" }}
