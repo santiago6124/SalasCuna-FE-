@@ -13,6 +13,7 @@ import { getAllCribrooms } from '../../api/salasCuna.api';
 export default function DropdownCribroomList() {
   const [cribrooms, setCribrooms] = useState([]);
   const [childs, setChild] = useState([]);
+  const [selectedChild] = useState('');
   const [selectedCribroom, setSelectedCribroom] = useState('');
 
   const handleCribroomChange = (event) => {
@@ -24,6 +25,8 @@ export default function DropdownCribroomList() {
   const handleNewClick = () => {
   navigate('/children-management/new');
   };
+
+
 
   const handleCargarClick = async () => {
     if (selectedCribroom) {
@@ -53,6 +56,29 @@ export default function DropdownCribroomList() {
       console.log('Error fetching SalasCunas:', error);
     }
   };
+
+  const handleDelete = async (childId) => {
+    try {
+      console.log(childId + " id");
+     const response = await axios.patch(`http://127.0.0.1:8000/api/child/${childId}/?disenroll=True` );
+      console.log("Response after updating child state:", response.data);
+
+
+      setChild(childs.map((child) => {
+        if (child.id === childId) {
+          return { ...child, child_state: 0 };
+          
+        }
+        return child;
+      }));
+      alert("Child state updated successfully");
+    } catch (err) {
+      alert("Error updating child state");
+    }
+  };
+  
+  
+       
 
   return (
     <div>
@@ -106,8 +132,8 @@ export default function DropdownCribroomList() {
             {childs.map((child) => (
               <div key={child.id}>
                 <h1>{child.first_name} {child.last_name}</h1>
-                <Button csize="s">Editar</Button>
-                <Button>Eliminar</Button>
+                <Button csize="s" >Editar</Button>
+                <Button onClick={() => handleDelete(child.id)}>Eliminar</Button>
                 <hr />
               </div>
             ))}
