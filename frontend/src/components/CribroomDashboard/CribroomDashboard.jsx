@@ -1,4 +1,6 @@
 import Menu from "../Menu/Menu";
+import SearchBar from "../SearchBar/SearchBar"
+
 import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 
@@ -10,6 +12,7 @@ import {
   getAllZones,
 } from "../../api/salasCuna.api";
 import { margin } from "@mui/system";
+import { key } from "localforage";
 
 export default function CribroomDashboard() {
   const [cribrooms, setCribrooms] = useState([]);
@@ -105,6 +108,9 @@ export default function CribroomDashboard() {
     setSelectedCribroom(event.target.value);
   };
 
+  const [keyword, setKeyword] = useState("");
+
+
   return (
     <body>
       <div className="cribroom-dashboard">
@@ -115,6 +121,8 @@ export default function CribroomDashboard() {
         <div className="contenedor-linea-cb">
           <hr className="linea-cb"></hr>
         </div>
+        <div><SearchBar
+        keyword={keyword} onChange={setKeyword}/></div>
         <div className="DataGrid-Wrapper">
           <DataGrid
             style={{ borderRadius: "15px", margin: "20px" }}

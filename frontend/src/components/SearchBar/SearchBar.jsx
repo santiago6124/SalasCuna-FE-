@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import "./SearchBar.css";
-import SearchIcon from "@material-ui/icons/Search";
-import CloseIcon from "@material-ui/icons/Close";
+//import SearchIcon from "@material-ui/icons/Search";
+//import CloseIcon from "@material-ui/icons/Close";
 
 const SearchBar = ({ keyword, placeholder, onChange }) => {
+  
 
     return (
         <div className="search">
@@ -12,11 +13,6 @@ const SearchBar = ({ keyword, placeholder, onChange }) => {
                 value={keyword} onChange={(e) => onChange(e.target.value)}
             />
             <div className="searchIcon">
-              {keyword.length === 0 ? (
-                <SearchIcon />
-              ) : (
-                <CloseIcon id="clearBtn"/>
-              )}
             </div>
           </div>
         </div>
