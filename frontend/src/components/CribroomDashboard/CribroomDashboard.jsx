@@ -24,12 +24,12 @@ export function CribroomDashboard() {
       
     const ListShift = async () => {
         try {
-            const response = await getAllShifts();
-        setShiftOptions(response.data);
-      } catch (error) {
-        console.log('Error fetching Shifts:', error);
-      }
-    };
+          const response = await getAllShifts();
+          setShiftOptions(response.data);
+        } catch (error) {
+          console.log('Error fetching Shifts:', error);
+        }
+      };
 
     const ListZone = async () => {
         try {
