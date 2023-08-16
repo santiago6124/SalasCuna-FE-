@@ -1,18 +1,22 @@
 import Menu from "../Menu/Menu";
 import SearchBar from "../SearchBar/SearchBar"
+import "./CribroomDashboard.css";
 
 import React, { useEffect, useState } from "react";
-import { DataGrid } from "@mui/x-data-grid";
-
-import "./CribroomDashboard.css";
 
 import {
   getAllCribrooms,
   getAllShifts,
   getAllZones,
 } from "../../api/salasCuna.api";
-import { margin } from "@mui/system";
-import { key } from "localforage";
+
+//DataGrid Import
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+
+//UI Icons Imports
+import DeleteIcon from "@mui/icons-material/Delete";
+import SaveAltIcon from "@mui/icons-material/SaveAlt";
+import EditIcon from "@mui/icons-material/Edit";
 
 export default function CribroomDashboard() {
   const [cribrooms, setCribrooms] = useState([]);
@@ -114,10 +118,11 @@ export default function CribroomDashboard() {
 
   const updateKeyword = (keyword) => {
     const filtered = cribrooms.filter(cribroom => {
-     return `${cribroom.name.toLowerCase()} ${cribroom.code.toLowerCase()}`.includes(keyword.toLowerCase());
+     return `${cribroom.name.toLowerCase()}`.includes(keyword.toLowerCase());
     })
     setKeyword(keyword);
     setFilteredCribroom(filtered);
+    console.log(filteredCribroom)
  }
 
   return (
@@ -130,12 +135,13 @@ export default function CribroomDashboard() {
         <div className="contenedor-linea-cb">
           <hr className="linea-cb"></hr>
         </div>
-        <div><SearchBar
-        keyword={keyword} onChange={updateKeyword}/></div>
+        <div>
+          <SearchBar keyword={keyword} onChange={updateKeyword} />
+        </div>
         <div className="DataGrid-Wrapper">
           <DataGrid
             style={{ borderRadius: "15px", margin: "20px" }}
-            rows={cribrooms}
+            rows={filteredCribroom}
             columns={[
               { field: "id", headerName: "Codigo Sala Cuna", width: 150 },
               { field: "name", headerName: "Nombre", width: 200 },
@@ -148,6 +154,22 @@ export default function CribroomDashboard() {
               },
               { field: "locality", headerName: "Localidad", width: 150 },
               { field: "is_active", headerName: "Estado", width: 150 },
+              {field:"entity", headerName:"Entidad", width:150},
+              {
+                field: "actions",
+                type: "actions",
+                headerName: "Acciones",
+                width: 80,
+                getActions: (params) => [
+                  <GridActionsCellItem
+                  icon={<DeleteIcon />} 
+                  label="Delete" />,
+                  <GridActionsCellItem
+                    icon={<EditIcon />}
+                    label="Edit"
+                  />,
+                ],
+              },
             ]}
             autoHeight
             autoWidth
