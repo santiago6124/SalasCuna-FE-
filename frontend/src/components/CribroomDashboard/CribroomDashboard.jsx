@@ -124,6 +124,11 @@ export default function CribroomDashboard() {
     setFilteredCribroom(filtered);
     console.log(filteredCribroom)
  }
+ const handleEditClick = (rowId) => {
+   setSelectedCribroom(rowId);
+   console.log("Edit clicked for row with id:", rowId);
+ };
+
 
   return (
     <body>
@@ -154,19 +159,18 @@ export default function CribroomDashboard() {
               },
               { field: "locality", headerName: "Localidad", width: 150 },
               { field: "is_active", headerName: "Estado", width: 150 },
-              {field:"entity", headerName:"Entidad", width:150},
+              { field: "entity", headerName: "Entidad", width: 150 },
               {
                 field: "actions",
                 type: "actions",
                 headerName: "Acciones",
                 width: 80,
                 getActions: (params) => [
-                  <GridActionsCellItem
-                  icon={<DeleteIcon />} 
-                  label="Delete" />,
+                  <GridActionsCellItem icon={<DeleteIcon />} label="Delete" />,
                   <GridActionsCellItem
                     icon={<EditIcon />}
                     label="Edit"
+                    onClick={() => handleEditClick(params.row.id)}
                   />,
                 ],
               },
