@@ -43,9 +43,8 @@ export function UpdateRoom(props) {
     }
   };
 
-  const handleSubmit = async (event) => {
+  const handleEdit = async (event) => {
     event.preventDefault();
-
     const formData = new FormData(event.target);
     const payload = {
       name: formData.get("nameCR"),
@@ -56,27 +55,29 @@ export function UpdateRoom(props) {
       shift: formData.get("shiftCR"),
       zone: formData.get("zoneCR"),
     };
-
-    try {
-      let response = await fetch("http://127.0.0.1:8000/api/cribroom/1/", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (response.ok) {
-        console.log("Child added successfully");
-        window.location.reload();
-      } else {
-        console.log("Failed to add child");
-      }
-    } catch (err) {
-      alert(":c");
-      console.log(err);
+    if (selectedCribroom) {
+      try {
+        let response = await fetch(
+          "http://127.0.0.1:8000/api/cribroom/" + selectedCribroom + "/",
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          }
+        );
+        if (response.ok) {
+          console.log("Cribroom Updated");
+        } else {
+          console.log("Failed to Update");
+        }
+      } catch (err) {
+        alert(err);
+      }selectedCribroom
     }
   };
+
 
   const handleShiftChange = (event) => {
     setSelectedShift(event.target.value);
@@ -110,7 +111,7 @@ export function UpdateRoom(props) {
     >
       <div className="contenedor-form-wrapper">
         <Container fluid className="conteiner-form-room">
-          <Form onSubmit={handleSubmit} className="conteiner-form-edit">
+          <Form onSubmit={handleEdit} className="conteiner-form-edit">
             <h1 className="titulo">Agregar Sala Cuna</h1>
             <div className="contenedor-linea">
               <hr className="linea"></hr>
