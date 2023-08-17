@@ -154,7 +154,7 @@ export default function CribroomDashboard() {
                 <hr className="linea-cb"></hr>
               </div>
               <div>
-                <SearchBar keyword={keyword} onChange={updateKeyword} />
+                <SearchBar keyword={keyword} onChange={updateKeyword} placeholder={"Buscar Sala Cuna"} />
               </div>
               <div className="DataGrid-Wrapper">
                 <DataGrid
