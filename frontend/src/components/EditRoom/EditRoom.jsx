@@ -1,5 +1,7 @@
 import "../CreateRoom/CreateRoom.css";
 
+import Modal from "react-bootstrap/Modal";
+
 import Col from "react-bootstrap/Col/";
 import Row from "react-bootstrap/Row/";
 import Form from "react-bootstrap/Form/";
@@ -8,7 +10,10 @@ import { Button } from "react-bootstrap";
 
 import React, { useState, useEffect } from "react";
 
-export function UpdateRoom() {
+import EditIcon from "@mui/icons-material/Edit";
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+
+export function UpdateRoom(props) {
   const [zoneOptions, setZoneOptions] = useState([]);
   const [shiftOptions, setShiftOptions] = useState([]);
   const [selectedZona, setSelectedZone] = useState("");
@@ -39,70 +44,70 @@ export function UpdateRoom() {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
 
     const formData = new FormData(event.target);
     const payload = {
-        name: formData.get("nameCR"),
-        code: formData.get("codeCR"),
-        max_capacity: formData.get("max_capacityCR"),
-        street: formData.get("streetCR"),
-        house_number: formData.get("house_numberCR"),
-        shift: formData.get("shiftCR"),
-        zone: formData.get("zoneCR"),
+      name: formData.get("nameCR"),
+      code: formData.get("codeCR"),
+      max_capacity: formData.get("max_capacityCR"),
+      street: formData.get("streetCR"),
+      house_number: formData.get("house_numberCR"),
+      shift: formData.get("shiftCR"),
+      zone: formData.get("zoneCR"),
     };
-  
+
     try {
-     let response = await fetch('http://127.0.0.1:8000/api/cribroom/1/', {
-       method: 'PUT',
-       headers: {
-           'Content-Type': 'application/json'
-       },
-       body: JSON.stringify(payload),
-    });
+      let response = await fetch("http://127.0.0.1:8000/api/cribroom/1/", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
 
-    if (response.ok) {
-      console.log('Child added successfully');
-      window.location.reload();
-  } else {
-      console.log('Failed to add child');
-  }
-
-     } catch (err) {
-      alert(":c")
-      console.log(err)
-     }
-
-  }
-
+      if (response.ok) {
+        console.log("Child added successfully");
+        window.location.reload();
+      } else {
+        console.log("Failed to add child");
+      }
+    } catch (err) {
+      alert(":c");
+      console.log(err);
+    }
+  };
 
   const handleShiftChange = (event) => {
     setSelectedShift(event.target.value);
-    
-};
+  };
 
-const handleZoneChange = (event) => {
-  setSelectedZone(event.target.value);
-  
-};
+  const handleZoneChange = (event) => {
+    setSelectedZone(event.target.value);
+  };
 
-const handleDelete = async (event) => {
-  event.preventDefault()
+  const handleDelete = async (event) => {
+    event.preventDefault();
 
-  try {
-    let response = await fetch("http://127.0.0.1:8000/api/cribroom/1/", {
-      method: 'DELETE',
-      headers: {
-          'Content-Type': 'application/json'
-      }
-    });
-  } catch (err) {
-    alert("Error al eliminar la sala cuna");
-  }
-};
+    try {
+      let response = await fetch("http://127.0.0.1:8000/api/cribroom/1/", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (err) {
+      alert("Error al eliminar la sala cuna");
+    }
+  };
 
   return (
-    <div className="body">
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
       <div className="contenedor-form-wrapper">
         <Container fluid className="conteiner-form-room">
           <Form onSubmit={handleSubmit} className="conteiner-form-edit">
@@ -204,15 +209,35 @@ const handleDelete = async (event) => {
                 variant="primary"
                 type="submit"
               >
-                Crear Sala Cuna
+                Editar Sala Cuna
               </Button>
             </div>
           </Form>
-          <Button className="boton-edit mt-3" boton variant="danger" onClick={handleDelete}>
+          <Button
+            className="boton-edit mt-3"
+            boton
+            variant="danger"
+            onClick={handleDelete}
+          >
             Detonar
           </Button>
         </Container>
       </div>
-    </div>
+    </Modal>
+  );
+}
+
+export default function UpdateRoomModaled() {
+  const [modalShow, setModalShow] = useState(false);
+  return (
+    <>
+      <GridActionsCellItem
+        variant="primary"
+        icon={<EditIcon />}
+        onClick={() => setModalShow(true)}
+      ></GridActionsCellItem>
+
+      <UpdateRoom show={modalShow} onHide={() => setModalShow(false)} />
+    </>
   );
 }

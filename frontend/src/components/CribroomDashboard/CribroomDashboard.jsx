@@ -1,5 +1,7 @@
 import Menu from "../Menu/Menu";
-import SearchBar from "../SearchBar/SearchBar"
+import SearchBar from "../SearchBar/SearchBar";
+import UpdateRoomModaled from "../EditRoom/EditRoom";
+import UpdateRoom from "../EditRoom/EditRoom";
 import "./CribroomDashboard.css";
 
 import React, { useEffect, useState } from "react";
@@ -25,6 +27,9 @@ export default function CribroomDashboard() {
   const [zoneOptions, setZoneOptions] = useState([]);
   const [shiftOptions, setShiftOptions] = useState([]);
   const [selectedCribroom, setSelectedCribroom] = useState("");
+
+  const [modalShow, setModalShow] = useState(false);
+  const [confirmed, setConfirmed] = useState(false);
 
   useEffect(() => {
     listCribroom();
@@ -118,66 +123,87 @@ export default function CribroomDashboard() {
   // SEARCH FUNCTION
 
   const updateKeyword = (keyword) => {
-    const filtered = cribrooms.filter(cribroom => {
-     return `${cribroom.name.toLowerCase()}`.includes(keyword.toLowerCase());
-    })
+    const filtered = cribrooms.filter((cribroom) => {
+      return `${cribroom.name.toLowerCase()}`.includes(keyword.toLowerCase());
+    });
     setKeyword(keyword);
     setFilteredCribroom(filtered);
-    console.log(filteredCribroom)
- }
+    console.log(filteredCribroom);
+  };
+  const handleCribroomChange = async (event) => {
+    setSelectedCribroom(event.target.value);
+  };
 
+  const handleConfirmClick = () => {
+    setConfirmed(true);
+  };
 
   return (
-    <body>
-      <div className="cribroom-dashboard">
-        <header className="header">
-          <Menu />
-        </header>
-        <h1 className="titulo-cb">Gestion De Salas Cuna</h1>
-        <div className="contenedor-linea-cb">
-          <hr className="linea-cb"></hr>
+    <>
+      <body>
+        <div className="cribroom-dashboard">
+          <header className="header">
+            <Menu />
+          </header>
+          {confirmed ? (
+            <UpdateRoom />
+          ) : (
+            <>
+              <h1 className="titulo-cb">Gestion De Salas Cuna</h1>
+              <div className="contenedor-linea-cb">
+                <hr className="linea-cb"></hr>
+              </div>
+              <div>
+                <SearchBar keyword={keyword} onChange={updateKeyword} />
+              </div>
+              <div className="DataGrid-Wrapper">
+                <DataGrid
+                  style={{ borderRadius: "15px", margin: "20px" }}
+                  rows={filteredCribroom}
+                  columns={[
+                    { field: "id", headerName: "Codigo Sala Cuna", width: 150 },
+                    { field: "name", headerName: "Nombre", width: 200 },
+                    { field: "street", headerName: "Direccion", width: 150 },
+                    { field: "house_number", headerName: "Numero", width: 150 },
+                    {
+                      field: "max_capacity",
+                      headerName: "Cap. Maxima",
+                      width: 150,
+                    },
+                    { field: "locality", headerName: "Localidad", width: 150 },
+                    { field: "is_active", headerName: "Estado", width: 150 },
+                    { field: "entity", headerName: "Entidad", width: 150 },
+                    {
+                      field: "actions",
+                      type: "actions",
+                      headerName: "Acciones",
+                      width: 80,
+                      getActions: (params) => [
+                        <GridActionsCellItem
+                          icon={<DeleteIcon />}
+                          label="Delete"
+                        />,
+                        /*                         <GridActionsCellItem
+                          icon={<EditIcon />}
+                          label="Edit"
+                          onClick={() => setModalShow(true)}
+                        />, */
+                        <UpdateRoom
+                          show={modalShow}
+                          onHide={() => setModalShow(false)}
+                        />,
+                      ],
+                    },
+                  ]}
+                  autoHeight
+                  autoWidth
+                  pageSize={5}
+                />
+              </div>
+            </>
+          )}
         </div>
-        <div>
-          <SearchBar keyword={keyword} onChange={updateKeyword} />
-        </div>
-        <div className="DataGrid-Wrapper">
-          <DataGrid
-            style={{ borderRadius: "15px", margin: "20px" }}
-            rows={filteredCribroom}
-            columns={[
-              { field: "id", headerName: "Codigo Sala Cuna", width: 150 },
-              { field: "name", headerName: "Nombre", width: 200 },
-              { field: "street", headerName: "Direccion", width: 150 },
-              { field: "house_number", headerName: "Numero", width: 150 },
-              {
-                field: "max_capacity",
-                headerName: "Cap. Maxima",
-                width: 150,
-              },
-              { field: "locality", headerName: "Localidad", width: 150 },
-              { field: "is_active", headerName: "Estado", width: 150 },
-              { field: "entity", headerName: "Entidad", width: 150 },
-              {
-                field: "actions",
-                type: "actions",
-                headerName: "Acciones",
-                width: 80,
-                getActions: (params) => [
-                  <GridActionsCellItem icon={<DeleteIcon />} label="Delete" />,
-                  <GridActionsCellItem
-                    icon={<EditIcon />}
-                    label="Edit"
-                    onClick={() => handleEditClick(params.row.id)}
-                  />,
-                ],
-              },
-            ]}
-            autoHeight
-            autoWidth
-            pageSize={5}
-          />
-        </div>
-      </div>
-    </body>
+      </body>
+    </>
   );
 }
