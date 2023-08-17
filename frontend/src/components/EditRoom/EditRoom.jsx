@@ -37,7 +37,7 @@ export function UpdateRoom(props) {
 
   const loadShifts = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/shift/");
+      const response = await fetch("http://127.0.0.1:8000/api/ShiftListView/");
       let jsonData = await response.json();
       setShiftOptions(jsonData);
     } catch (error) {
@@ -110,7 +110,7 @@ export function UpdateRoom(props) {
                 type="text"
                 placeholder="Editar El Nombre De La Sala"
                 name="nameCR"
-                value={props.id}
+                defaultValue={props.id}
               />
             </Form.Group>
             <Form.Group className="mb-3">
