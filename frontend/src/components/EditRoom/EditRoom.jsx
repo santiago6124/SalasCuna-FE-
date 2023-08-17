@@ -10,8 +10,7 @@ import { Button } from "react-bootstrap";
 
 import React, { useState, useEffect } from "react";
 
-import EditIcon from "@mui/icons-material/Edit";
-import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { getAllShifts, getAllZones } from "../../api/salasCuna.api";
 
 export function UpdateRoom(props) {
   const [zoneOptions, setZoneOptions] = useState([]);
@@ -19,6 +18,7 @@ export function UpdateRoom(props) {
   const [selectedCribroom, setSelectedCribroom] = useState("");
   const [selectedZona, setSelectedZone] = useState("");
   const [selectedShift, setSelectedShift] = useState("");
+
   useEffect(() => {
     loadZones();
     loadShifts();
@@ -28,8 +28,8 @@ export function UpdateRoom(props) {
   const loadZones = async () => {
     try {
       const response = await fetch("http://127.0.0.1:8000/api/zone/");
-      let jsonData = await response.json();
-      setZoneOptions(jsonData);
+    let jsonData = await response.json();
+    setZoneOptions(jsonData);
     } catch (error) {
       console.error("Error fetching zona options:", error);
     }
@@ -42,7 +42,7 @@ export function UpdateRoom(props) {
       setShiftOptions(jsonData);
     } catch (error) {
       console.error("Error fetching shift options:", error);
-    }
+    } 
   };
 
   const handleEdit = async (event) => {
@@ -81,28 +81,12 @@ export function UpdateRoom(props) {
     }
   };
 
-
   const handleShiftChange = (event) => {
     setSelectedShift(event.target.value);
   };
 
   const handleZoneChange = (event) => {
     setSelectedZone(event.target.value);
-  };
-
-  const handleDelete = async (event) => {
-    event.preventDefault();
-
-    try {
-      let response = await fetch("http://127.0.0.1:8000/api/cribroom/1/", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-    } catch (err) {
-      alert("Error al eliminar la sala cuna");
-    }
   };
 
   return (
@@ -218,14 +202,6 @@ export function UpdateRoom(props) {
               </Button>
             </div>
           </Form>
-          <Button
-            className="boton-edit mt-3"
-            boton
-            variant="danger"
-            onClick={handleDelete}
-          >
-            Detonar
-          </Button>
         </Container>
       </div>
     </Modal>

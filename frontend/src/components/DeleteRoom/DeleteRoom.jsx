@@ -5,9 +5,35 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/esm/Button";
 import Modal from "react-bootstrap/Modal";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 export default function DeleteRoom(props) {
+  const [selectedCribroom, setSelectedCribroom] = useState("");
+
+  useEffect(() => {
+    setSelectedCribroom(props.id);
+  }, []);
+
+  const handleDelete = async (event) => {
+    event.preventDefault();
+
+    try {
+      const payload = {
+        is_active: "False"
+      }
+
+      let response = await fetch("http://127.0.0.1:8000/api/cribroom/" + selectedCribroom + "/", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+    } catch (err) {
+      alert("Error al eliminar la sala cuna");
+    }
+  };
+
   return (
     <Modal
       {...props}
@@ -27,7 +53,7 @@ export default function DeleteRoom(props) {
               Esta Seguro que desea Deshabilitar la Sala Cuna
             </Form.Label>
             <div className="contenedor-boton-eliminar mt-4">
-              <Button className="boton-eliminar" boton variant="danger">
+              <Button className="boton-eliminar" boton variant="danger" onClick={handleDelete}>
                 Dehabilitar
               </Button>
               <Button className="boton-edit mt-3" boton variant="primary">
