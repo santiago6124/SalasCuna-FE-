@@ -16,11 +16,13 @@ import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 export function UpdateRoom(props) {
   const [zoneOptions, setZoneOptions] = useState([]);
   const [shiftOptions, setShiftOptions] = useState([]);
+  const [selectedCribroom, setSelectedCribroom] = useState("");
   const [selectedZona, setSelectedZone] = useState("");
   const [selectedShift, setSelectedShift] = useState("");
   useEffect(() => {
     loadZones();
     loadShifts();
+    setSelectedCribroom(props.id);
   }, []);
 
   const loadZones = async () => {
@@ -74,7 +76,8 @@ export function UpdateRoom(props) {
         }
       } catch (err) {
         alert(err);
-      }selectedCribroom
+        
+      }
     }
   };
 
@@ -123,6 +126,7 @@ export function UpdateRoom(props) {
                 type="text"
                 placeholder="Editar El Nombre De La Sala"
                 name="nameCR"
+                value={props.id}
               />
             </Form.Group>
             <Form.Group className="mb-3">

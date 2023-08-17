@@ -198,6 +198,7 @@ export default function CribroomDashboard() {
                           ></GridActionsCellItem>
 
                           <UpdateRoom
+                            id={selectedCribroom}
                             show={modalShow}
                             onHide={() => setModalShow(false)}
                           />
