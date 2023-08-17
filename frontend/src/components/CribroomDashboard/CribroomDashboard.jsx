@@ -7,9 +7,9 @@ import "./CribroomDashboard.css";
 import React, { useEffect, useState } from "react";
 
 import {
-  getAllCribrooms,
   getAllShifts,
   getAllZones,
+  getAllCribroomsWithoutDepth,
 } from "../../api/salasCuna.api";
 
 //DataGrid Import
@@ -37,9 +37,10 @@ export default function CribroomDashboard() {
 
   const listCribroom = async () => {
     try {
-      const response = await getAllCribrooms();
+      const response = await getAllCribroomsWithoutDepth();
       setCribrooms(response.data);
       setFilteredCribroom(response.data);
+      console.log(response.data);
     } catch (error) {
       console.log("Error fetching SalasCunas:", error);
     }
@@ -118,7 +119,7 @@ export default function CribroomDashboard() {
 
   const handleEditClick = (rowId) => {
     setSelectedCribroom(rowId);
-    setModalShow(true)<
+    setModalShow(true)
     console.log("Edit clicked for row with id:", rowId);
   };
 
