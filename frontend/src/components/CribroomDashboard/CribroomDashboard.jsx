@@ -54,7 +54,14 @@ export default function CribroomDashboard() {
         if (matchingLocality) {
           return {
             ...cribroom,
-            locality: matchingLocality.locality
+            locality: matchingLocality.locality,
+            is_active: cribroom.is_active ? "Activo" : "Inactivo"
+            };
+        }
+        else {
+          return {
+            ...cribroom,
+            is_active: cribroom.is_active ? "Activo" : "Inactivo"
             };
         }
         return cribroom;
@@ -66,20 +73,6 @@ export default function CribroomDashboard() {
       console.log("Error fetching SalasCunas:", error);
     }
   };
-  
-  function matchLocality(salas, localidades) {
-    const updatedCribrooms = salas.map(cribroom => {
-      const matchingLocality = localidades.find(locality => locality.id === cribroom.locality);
-      if (matchingLocality) {
-        return {
-          ...cribroom,
-          locality: matchingLocality.locality
-          };
-      }
-      return cribroom;
-    });
-    return updatedCribrooms
-  }
 
   const handleEditClick = (rowId) => {
     setSelectedCribroom(rowId);
@@ -100,8 +93,7 @@ export default function CribroomDashboard() {
       return `${cribroom.name.toLowerCase()}`.includes(keyword.toLowerCase());
     });
     setKeyword(keyword)
-    const updatedCribrooms = matchLocality(filtered, locality)
-    setFilteredCribroom(updatedCribrooms);
+    setFilteredCribroom(filtered);
     console.log(filteredCribroom);
   };
   const handleCribroomChange = async (event) => {
