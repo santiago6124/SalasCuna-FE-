@@ -110,8 +110,9 @@ export default function CribroomDashboard() {
     }
   };
 
-  const handleCribroomChange = async (event) => {
-    setSelectedCribroom(event.target.value);
+  const handleEditClick = (rowId) => {
+    setSelectedCribroom(rowId);
+    console.log("Edit clicked for row with id:", rowId);
   };
 
   // SEARCH FUNCTION
@@ -124,10 +125,6 @@ export default function CribroomDashboard() {
     setFilteredCribroom(filtered);
     console.log(filteredCribroom)
  }
- const handleEditClick = (rowId) => {
-   setSelectedCribroom(rowId);
-   console.log("Edit clicked for row with id:", rowId);
- };
 
 
   return (
