@@ -39,6 +39,7 @@ export default function CribroomDashboard() {
     try {
       const response = await getAllCribrooms();
       setCribrooms(response.data);
+      setFilteredCribroom(response.data);
     } catch (error) {
       console.log("Error fetching SalasCunas:", error);
     }
