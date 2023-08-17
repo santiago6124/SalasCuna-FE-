@@ -7,7 +7,7 @@ import Modal from "react-bootstrap/Modal";
 
 import React from "react";
 
-export function DeleteRoom(props) {
+export default function DeleteRoom(props) {
   return (
     <Modal
       {...props}

@@ -1,7 +1,8 @@
 import Menu from "../Menu/Menu";
 import SearchBar from "../SearchBar/SearchBar";
 import UpdateRoomModaled from "../EditRoom/EditRoom";
-import {UpdateRoom} from "../EditRoom/EditRoom";
+import DeleteRoom from "../DeleteRoom/DeleteRoom";
+import { UpdateRoom } from "../EditRoom/EditRoom";
 import "./CribroomDashboard.css";
 
 import React, { useEffect, useState } from "react";
@@ -28,8 +29,10 @@ export default function CribroomDashboard() {
   const [shiftOptions, setShiftOptions] = useState([]);
   const [selectedCribroom, setSelectedCribroom] = useState("");
 
-  const [modalShow, setModalShow] = useState(false);
-  const [confirmed, setConfirmed] = useState(false);
+  const [modalEditShow, setModalEditShow] = useState(false);
+  const [modalDeleteShow, setModalDeleteShow] = useState(false);
+  const [confirmedEdit, setEditConfirmed] = useState(false);
+  const [confirmedDelete, setDeleteConfirmed] = useState(false);
 
   useEffect(() => {
     listCribroom();
@@ -119,10 +122,15 @@ export default function CribroomDashboard() {
 
   const handleEditClick = (rowId) => {
     setSelectedCribroom(rowId);
-    setModalShow(true)
+    setModalEditShow(true);
     console.log("Edit clicked for row with id:", rowId);
   };
 
+  const handleDeleteClick = (rowId) => {
+    setSelectedCribroom(rowId);
+    setModalDeleteShow(true);
+    console.log("Edit clicked for row with id:", rowId);
+  };
   // SEARCH FUNCTION
 
   const updateKeyword = (keyword) => {
@@ -137,8 +145,12 @@ export default function CribroomDashboard() {
     setSelectedCribroom(event.target.value);
   };
 
-  const handleConfirmClick = () => {
-    setConfirmed(true);
+  const handleConfirmClick = async (event) => {
+    setEditConfirmed(true);
+  };
+
+  const hanldeEditConfirmClick = async (event) => {
+    setDeleteConfirmed(true);
   };
 
   return (
@@ -148,69 +160,105 @@ export default function CribroomDashboard() {
           <header className="header">
             <Menu />
           </header>
-          {confirmed ? (
-            <UpdateRoom />
-          ) : (
+          {selectedCribroom && (
             <>
-              <h1 className="titulo-cb">Gestion De Salas Cuna</h1>
-              <div className="contenedor-linea-cb">
-                <hr className="linea-cb"></hr>
-              </div>
-              <div>
-                <SearchBar
-                  keyword={keyword}
-                  onChange={updateKeyword}
-                  placeholder={"Buscar Sala Cuna"}
-                />
-              </div>
-              <div className="DataGrid-Wrapper">
-                <DataGrid
-                  style={{ borderRadius: "15px", margin: "20px" }}
-                  rows={filteredCribroom}
-                  columns={[
-                    { field: "id", headerName: "Codigo Sala Cuna", width: 150 },
-                    { field: "name", headerName: "Nombre", width: 200 },
-                    { field: "street", headerName: "Direccion", width: 150 },
-                    { field: "house_number", headerName: "Numero", width: 150 },
-                    {
-                      field: "max_capacity",
-                      headerName: "Cap. Maxima",
-                      width: 150,
-                    },
-                    { field: "locality", headerName: "Localidad", width: 150 },
-                    { field: "is_active", headerName: "Estado", width: 150 },
-                    { field: "entity", headerName: "Entidad", width: 150 },
-                    {
-                      field: "actions",
-                      type: "actions",
-                      headerName: "Acciones",
-                      width: 80,
-                      getActions: (params) => [
-                        <GridActionsCellItem
-                          icon={<DeleteIcon />}
-                          label="Delete"
-                        />,
-                        <>
-                          <GridActionsCellItem
-                            variant="primary"
-                            icon={<EditIcon />}
-                            onClick={() => handleEditClick(params.row.id)}
-                          ></GridActionsCellItem>
+              <UpdateRoom
+                id={selectedCribroom}
+                show={modalEditShow}
+                onHide={() => {
+                  setModalEditShow(false);
+                  setSelectedCribroom(""); // Reset selectedCribroom after closing modal
+                }}
+              />
 
-                          <UpdateRoom
-                            id={selectedCribroom}
-                            show={modalShow}
-                            onHide={() => setModalShow(false)}
-                          />
-                        </>,
-                      ],
-                    },
-                  ]}
-                  autoHeight
-                  autoWidth
-                  pageSize={5}
-                />
-              </div>
+              {selectedCribroom && (
+              <DeleteRoom
+                id={selectedCribroom}
+                show={modalDeleteShow}
+                onHide={() => {
+                  setModalDeleteShow(false);
+                  setSelectedCribroom(""); // Reset selectedCribroom after closing modal
+                }}
+              />
+            )}
+          </>
+        )}
+          {!selectedCribroom && (
+            <>
+              <>
+                <h1 className="titulo-cb">Gestion De Salas Cuna</h1>
+                <div className="contenedor-linea-cb">
+                  <hr className="linea-cb"></hr>
+                </div>
+                <div>
+                  <SearchBar
+                    keyword={keyword}
+                    onChange={updateKeyword}
+                    placeholder={"Buscar Sala Cuna"}
+                  />
+                </div>
+                <div className="DataGrid-Wrapper">
+                  <DataGrid
+                    style={{ borderRadius: "15px", margin: "20px" }}
+                    rows={filteredCribroom}
+                    columns={[
+                      {
+                        field: "id",
+                        headerName: "Codigo Sala Cuna",
+                        width: 150,
+                      },
+                      { field: "name", headerName: "Nombre", width: 200 },
+                      { field: "street", headerName: "Direccion", width: 150 },
+                      {
+                        field: "house_number",
+                        headerName: "Numero",
+                        width: 150,
+                      },
+                      {
+                        field: "max_capacity",
+                        headerName: "Cap. Maxima",
+                        width: 150,
+                      },
+                      {
+                        field: "locality",
+                        headerName: "Localidad",
+                        width: 150,
+                      },
+                      { field: "is_active", headerName: "Estado", width: 150 },
+                      { field: "entity", headerName: "Entidad", width: 150 },
+                      {
+                        field: "actions",
+                        type: "actions",
+                        headerName: "Acciones",
+                        width: 80,
+                        getActions: (params) => [
+                          <GridActionsCellItem
+                            icon={<DeleteIcon />}
+                            label="Delete"
+                            onClick={() => handleDeleteClick(params.row.id)}
+                          />,
+                          <>
+                            <GridActionsCellItem
+                              variant="primary"
+                              icon={<EditIcon />}
+                              onClick={() => handleEditClick(params.row.id)}
+                            />
+
+                            <UpdateRoom
+                              id={selectedCribroom}
+                              show={modalEditShow}
+                              onHide={() => setModalEditShow(false)}
+                            />
+                          </>,
+                        ],
+                      },
+                    ]}
+                    autoHeight
+                    autoWidth
+                    pageSize={5}
+                  />
+                </div>
+              </>
             </>
           )}
         </div>
