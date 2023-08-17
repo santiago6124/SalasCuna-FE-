@@ -8,8 +8,6 @@ import "./CribroomDashboard.css";
 import React, { useEffect, useState } from "react";
 
 import {
-  getAllShifts,
-  getAllZones,
   getAllCribroomsWithoutDepth,
   getAllLocalities,
 } from "../../api/salasCuna.api";
