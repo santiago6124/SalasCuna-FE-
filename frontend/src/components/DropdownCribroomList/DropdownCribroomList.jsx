@@ -15,6 +15,12 @@ export default function DropdownCribroomList() {
   const [childs, setChild] = useState([]);
   const [selectedChild] = useState('');
   const [selectedCribroom, setSelectedCribroom] = useState('');
+  const [editChild, setEditChild] = useState(null);
+
+  const handleEditClick = (childId) => {
+    navigate('/children-management/edit', { state: { childId } });
+    console.log("id chico" + childId);
+  };
 
   const handleCribroomChange = (event) => {
     setSelectedCribroom(event.target.value);
@@ -33,6 +39,7 @@ export default function DropdownCribroomList() {
       try {
         console.log('ID de la Cribroom seleccionada:', selectedCribroom);
         const res = await axios.get('http://127.0.0.1:8000/api/child/?padron_cribroom_id=' + selectedCribroom);
+        console.log('API Response:', res.data);
         setChild(res.data);
 
       } catch (error) {
@@ -64,14 +71,12 @@ export default function DropdownCribroomList() {
       console.log("Response after updating child state:", response.data);
 
 
-      setChild(childs.map((child) => {
+      setChild(prevChilds => prevChilds.map((child) => {
         if (child.id === childId) {
           return { ...child, child_state: 0 };
-          
         }
         return child;
       }));
-      alert("Child state updated successfully");
     } catch (err) {
       alert("Error updating child state");
     }
@@ -129,13 +134,15 @@ export default function DropdownCribroomList() {
       <div>
         {childs.length > 0 && (
           <div>
-            {childs.map((child) => (
-              <div key={child.id}>
-                <h1>{child.first_name} {child.last_name}</h1>
-                <Button csize="s" >Editar</Button>
-                <Button onClick={() => handleDelete(child.id)}>Eliminar</Button>
-                <hr />
-              </div>
+            {childs
+              .filter((child) => child.child_state.id === 1)
+              .map((child) => (
+                <div key={child.id}>
+                  <h1>{child.first_name} {child.last_name}</h1>
+                  <Button csize="s" onClick={() => handleEditClick(child.id)} >Editar</Button>
+                  <Button onClick={() => handleDelete(child.id)}>Eliminar</Button>
+                  <hr />
+                </div>
             ))}
           </div>
         )}

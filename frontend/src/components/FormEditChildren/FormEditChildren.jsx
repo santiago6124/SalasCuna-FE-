@@ -1,16 +1,14 @@
-import React, {useEffect, useState} from 'react';
-
-import '../AddChildren/AddChildren.css';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 import Col from 'react-bootstrap/Col/';
 import Row from 'react-bootstrap/Row/';
 import Form from 'react-bootstrap/Form/';
 import {Button} from 'react-bootstrap';
-import axios from 'axios';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-export function FormAddChildren() {
+export function FormEditChildren() {
 
     useEffect(() => {
         getChildren();
@@ -22,103 +20,6 @@ export function FormAddChildren() {
         console.log(data);
     };
 
-    const handleSubmit = async (event) => {
-        event.preventDefault()
-
-        // **Form 1: Añadir Niños/as**
-        // 1. Nombre: "nombreChield"
-        // 2. Apellido: "apellidoChield"
-        // 3. DNI: "dniChield"
-        // 4. Fecha De Nacimiento: "fechaNacimientoChield"
-        // 5. Genero: "generoChield"
-        // 6. Estado: "estado"
-        // 7. Sala Cuna: "salacuna"
-        // 8. Turno: "turno"
-        // 9. Fecha de baja: "fechaBaja"
-        // 10. Fecha de alta: "fechaAlta"
-        
-        // **Form 2: Añadir Tutor/a**
-        // 1. Nombre: "nombreGuardian"
-        // 2. Apellido: "apellidoGuardian"
-        // 3. DNI: "dniGuardian"
-        // 4. Genero: "generoGuardian"
-        // 5. Caracterisitca Telefonica: "phoneFeature"
-        // 6. Telefono: "telefono"
-        // 7. Madre/padre o Tutor?: "guardianType"
-        
-        // **Form 3: Añadir Domicilio**
-        // 1. Calle: "calle"
-        // 2. Numero: "numero_casa"
-        // 3. Barrio: "neighborhood"
-        // 4. Localidad: "locality"
-
-        const formData = new FormData(event.target);
-        const payload = {
-            first_name: formData.get("nombreChield"),
-            last_name: formData.get("apellidoChield"),
-            dni: formData.get("dniChield"),
-            birthdate: formData.get("fechaNacimientoChield"),
-            street: formData.get("calle"),
-            house_number: formData.get("numero_casa"),
-            registration_date: formData.get("fechaAlta"),
-            disenroll_date: formData.get("fechaBaja"),
-
-            locality: formData.get("locality"),
-            gender: formData.get("generoChield"),
-            cribroom: formData.get("salacuna"),
-            shift: formData.get("turno"),
-
-            child_state: formData.get("estado"),
-            // guardian
-            neighborhood : formData.get("neighborhood"),
-            guardian_first_name: formData.get("nombreGuardian"),
-            guardian_last_name: formData.get("apellidoGuardian"),
-            guardian_dni: formData.get("dniGuardian"),
-            guardian_phone_number: formData.get("telefono"),
-            guardian_phone_Feature_id: formData.get("phoneFeature"),
-            guardian_guardian_Type_id: formData.get("guardianType"),
-            guardian_gender_id: formData.get("generoGuardian"),
-            neighborhood_neighborhood: "",
-            // guardian_first_name <input placeholder="Ingrese un nombre" name="nombreGuardian" type="text" class="form-control">
-            // guardian_last_name <input placeholder="Ingrese un apellido" name="apellidoGuardian" type="text" class="form-control">
-            // guardian_dni <input placeholder="Ingrese un DNI" name="dniGuardian" type="number" class="form-control">
-            // guardian_phone_number <input placeholder="Ingrese un telefono" name="telefono" type="number" class="form-control">
-            // guardian_phone_Feature_id
-            // guardian_guardian_Type_id
-            // guardian_gender_id  <select id="gender" name="generoGuardian" class="form-control"><option value="">
-            // neighborhood_neighborhood 
-            
-            // gender: formData.get("generoChield"),
-            // cribroom: formData.get("salacuna"),
-            // shift: formData.get("turno"),
-            // guardian: formData.get("tutor"),
-            // child_state: formData.get("estado"),
-        };
-
-        
-            
-
-        try {
-            const response = await fetch('http://127.0.0.1:8000/api/child/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload),
-            })
-            console.log(payload);
-    
-            if (response.ok) {
-                console.log('Child added successfully');
-                window.location.reload(); 
-            } else {
-                console.log('Failed to add child');
-                
-            }
-        } catch (error) {
-            console.error('An error occurred while adding child:', error);
-        }
-    };
 
     const [chieldGenders, setChildGender] = useState([]); 
     const [guardianGenders, setGuardianGender] = useState([]);
@@ -129,7 +30,6 @@ export function FormAddChildren() {
     const [childStates, setChildState] = useState([]);
     const [guardianTypes, setGuardianType] = useState([]); 
     const [phoneFeatures, setPhoneFeature] = useState([]); 
-    
 
     const [selectedGeneroChield, setSelectedGeneroChield] = useState('');
     const [selectedGeneroGuardian, setSelectedGeneroGuardian] = useState('');
@@ -276,9 +176,66 @@ export function FormAddChildren() {
    navigate('/children-management');
   };
 
-  
+  const location = useLocation();
+    const childId = location?.state?.childId;
 
-  return (   
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+
+    const formData = new FormData(event.target);
+    const payload = {
+        first_name: formData.get("nombreChield"),
+        last_name: formData.get("apellidoChield"),
+        dni: formData.get("dniChield"),
+        birthdate: formData.get("fechaNacimientoChield"),
+        house_number: formData.get("numero_casa"),
+        registration_date: formData.get("fechaAlta"),
+        disenroll_date: formData.get("fechaBaja"),
+        locality: formData.get("locality"),
+        gender: formData.get("generoChild"),
+        cribroom: formData.get("salacuna"),
+        shift: formData.get("turno"),
+        child_state: formData.get("estado"),
+        neightborhood: formData.get("neightborhood"),
+        guardian_first_name:formData.get("nombreGuardian"),
+        guardian_last_name: formData.get("apellidoGuardian"),
+        guardian_dni: formData.get("dniGuardian"),
+        guardian_phone_number: formData.get("telefono"),
+        guardian_phone_Feature: formData.get("phoneFeature"),
+        guardian_guardian_Type_id: formData.get("guardianType"),
+        giardian_gender_id: formData.get("generoGuardian"),
+        
+    };
+  
+    try {
+     console.log(childId + " id");
+     let response = await fetch(`http://127.0.0.1:8000/api/child/${childId}/`, {
+       method: 'PUT',
+       headers: {
+           'Content-Type': 'application/json'
+       },
+       body: JSON.stringify(payload),
+    });
+    console.log(response + "response");
+    if (response.ok) {
+      console.log('Child edited successfully');
+      window.location.reload();
+  } else {
+      console.log('Failed to edit child');
+  }
+
+     } catch (err) {
+      alert(":c")
+      console.log(err)
+     }
+
+  }
+  
+ 
+
+
+
+  return (
     <Form className="conteiner-form" onSubmit={handleSubmit}>
         
             <Button
@@ -289,7 +246,7 @@ export function FormAddChildren() {
               onClick={handleNewClick}
             />
 
-            <h1 className="titulo">Añadir Niños/as</h1>
+            <h1 className="titulo">Editar Niños/as</h1>
 
             <div className="contenedor-linea">
                 <hr className="linea"/>
@@ -500,5 +457,5 @@ export function FormAddChildren() {
         </Form>
 
         
-  )
+  );
 }
