@@ -1,7 +1,7 @@
 import Menu from "../Menu/Menu";
 import SearchBar from "../SearchBar/SearchBar";
 import UpdateRoomModaled from "../EditRoom/EditRoom";
-import UpdateRoom from "../EditRoom/EditRoom";
+import {UpdateRoom} from "../EditRoom/EditRoom";
 import "./CribroomDashboard.css";
 
 import React, { useEffect, useState } from "react";
@@ -117,6 +117,7 @@ export default function CribroomDashboard() {
 
   const handleEditClick = (rowId) => {
     setSelectedCribroom(rowId);
+    setModalShow(true)<
     console.log("Edit clicked for row with id:", rowId);
   };
 
@@ -154,7 +155,11 @@ export default function CribroomDashboard() {
                 <hr className="linea-cb"></hr>
               </div>
               <div>
-                <SearchBar keyword={keyword} onChange={updateKeyword} placeholder={"Buscar Sala Cuna"} />
+                <SearchBar
+                  keyword={keyword}
+                  onChange={updateKeyword}
+                  placeholder={"Buscar Sala Cuna"}
+                />
               </div>
               <div className="DataGrid-Wrapper">
                 <DataGrid
@@ -183,15 +188,18 @@ export default function CribroomDashboard() {
                           icon={<DeleteIcon />}
                           label="Delete"
                         />,
-                        /*                         <GridActionsCellItem
-                          icon={<EditIcon />}
-                          label="Edit"
-                          onClick={() => setModalShow(true)}
-                        />, */
-                        <UpdateRoom
-                          show={modalShow}
-                          onHide={() => setModalShow(false)}
-                        />,
+                        <>
+                          <GridActionsCellItem
+                            variant="primary"
+                            icon={<EditIcon />}
+                            onClick={() => handleEditClick(params.row.id)}
+                          ></GridActionsCellItem>
+
+                          <UpdateRoom
+                            show={modalShow}
+                            onHide={() => setModalShow(false)}
+                          />
+                        </>,
                       ],
                     },
                   ]}

@@ -228,17 +228,4 @@ export function UpdateRoom(props) {
   );
 }
 
-export default function UpdateRoomModaled() {
-  const [modalShow, setModalShow] = useState(false);
-  return (
-    <>
-      <GridActionsCellItem
-        variant="primary"
-        icon={<EditIcon />}
-        onClick={() => setModalShow(true)}
-      ></GridActionsCellItem>
 
-      <UpdateRoom show={modalShow} onHide={() => setModalShow(false)} />
-    </>
-  );
-}
