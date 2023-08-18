@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 
 
-export default function ExportPDF() {
+export default function ExportPDF({ title }) {
     // create a ref by importing sellet from react
     const iframeRef = useRef();
 
@@ -351,6 +351,7 @@ export default function ExportPDF() {
         </head>
         
         <body class="c21 doc-content">
+            <p class="c12 title"><span class="c4">${title}</span></p>
             <div>
                 <p class="c9"><span
                         style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 602.00px; height: 72.00px;"><img
