@@ -114,8 +114,13 @@ export default function Payout() {
   
 
   return (
-    <div>
-    <h1>Add Payout</h1>
+    <div className='container-report mt-5 mx-auto'>
+              <div className='container-titulo-report '>
+              <h1> Maestro Montos </h1>
+          </div>
+          <div className='contenedor-linea-report'>
+              <hr className='linea-report'></hr>
+          </div>
     <form onSubmit={handleSubmit}>
       <label>Amount:</label>
       <input type="number" name="amount" required />

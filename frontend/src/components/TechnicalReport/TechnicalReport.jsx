@@ -19,9 +19,13 @@ export default function TechnicalReport() {
         const [zoneOptions, setZoneOptions] = useState([]);
         const [selectedZone, setSelectedZone] = useState("");
         const [cribrooms, setCribrooms] = useState([]);
+        const [startDate, setStartDate] = useState(""); // New state for start date
+        const [endDate, setEndDate] = useState("");     // New state for end date    
         const handlePdfClick = () => {
             // Implement your PDF generation logic here
             console.log('Generate PDF logic will be implemented here');
+            console.log('Selected Start Date:', startDate);
+            console.log('Selected End Date:', endDate);
         };
         useEffect(() => {
           loadZones();
@@ -77,7 +81,7 @@ export default function TechnicalReport() {
         
     
         return (
-            <div className='container-report mt-5'>
+            <div className='container-report mt-5 mx-auto'>
                 <div className='container-titulo-report '>
                     <h1>Informe Tecnico</h1>
                 </div>
@@ -110,6 +114,31 @@ export default function TechnicalReport() {
 </Button>
                     </Col>
                 </Row>
+                <Row className="mb-3">
+                <Col>
+                    {/* Start Date Selector */}
+                    <InputGroup className="mb-3">
+                        <InputGroup.Text>Start Date</InputGroup.Text>
+                        <Form.Control
+                            type="date"
+                            value={startDate}
+                            onChange={(e) => setStartDate(e.target.value)}
+                        />
+                    </InputGroup>
+                </Col>
+                <Col>
+                    {/* End Date Selector */}
+                    <InputGroup className="mb-3">
+                        <InputGroup.Text>End Date</InputGroup.Text>
+                        <Form.Control
+                            type="date"
+                            value={endDate}
+                            onChange={(e) => setEndDate(e.target.value)}
+                        />
+                    </InputGroup>
+                </Col>
+            </Row>
+
     
                 <div>
                     <div style={{ height: 400, width: '100%' }}>
