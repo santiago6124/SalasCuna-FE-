@@ -20,7 +20,7 @@ const SignUp = () => {
     // Fetch the roles from the backend API
     const fetchRoles = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/RoleViewSet/");
+        const response = await axios.get("http://127.0.0.1:8000/api/RoleViewSet/?exclude_directora");
         setRolesList(response.data); // Update the state with the list of roles
       } catch (error) {
         console.error("Error fetching roles:", error);
