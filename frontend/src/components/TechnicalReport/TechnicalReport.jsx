@@ -50,11 +50,11 @@ export default function TechnicalReport() {
                   .then(data => {
                       // Handle the data received from the API for each cribroom
                       console.log('API Response for Cribroom', cribroom.id, data, data.pays);
+                      DownloadPDF(iframeRef, cribroom.name);
                   })
                   .catch(error => {
                       console.error('Error fetching data:', error);
                   });
-                  DownloadPDF(iframeRef);
           });
 
         };

@@ -2,7 +2,7 @@
 import React, { useRef } from 'react';
 
 // Define the downloadPDF function
-const downloadPDF = (iframeRef) => {
+const downloadPDF = (iframeRef, cribroomName) => {
     const iframe = iframeRef.current;
     const iframeWindow = iframe.contentWindow || iframe;
 
@@ -361,7 +361,7 @@ const downloadPDF = (iframeRef) => {
                 class="c0">S&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D</span>
         </p>
         <p class="c11"><span class="c2">Habiendo tomado conocimiento de lo solicitado por la entidad </span><span
-                class="c4">MUNICIPALIDAD DE HUINCA RENAC&Oacute;</span><span class="c2">, CUIT , esta Direcci&oacute;n de
+                class="c4">${cribroomName};</span><span class="c2">, CUIT , esta Direcci&oacute;n de
                 Jurisdicci&oacute;n Coordinaci&oacute;n Salas Cuna del Ministerio de Desarrollo Social CERTIFICA que la sala
                 PASITOS </span><span class="c4">C&oacute;digo I.0491</span><span class="c2">, sita en MAIPU Y RAUL ALVAREZ
                 S/N de la Localidad de HUINCA RENANCO, Departamento GENERAL ROCA, de la Provincia de C&Oacute;RDOBA, se
