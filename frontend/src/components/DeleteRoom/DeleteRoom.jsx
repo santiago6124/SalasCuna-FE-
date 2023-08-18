@@ -1,7 +1,5 @@
 import "./DeleteRoom.css";
-import Col from "react-bootstrap/Col/";
-import Row from "react-bootstrap/Row/";
-import Form from "react-bootstrap/Form";
+
 import Button from "react-bootstrap/esm/Button";
 import Modal from "react-bootstrap/Modal";
 import Alert from "@mui/material/Alert";
@@ -57,7 +55,7 @@ return (
     <div className="par">
       <Alert severity="warning">
         <p>
-        Esta accion no puede ser revertida y los chicos de la misma tambien
+          Los chicos que esten en esta sala cuna tambien
         </p>
         <p>
         pasaran a estar en <strong>estado Inactivo</strong>

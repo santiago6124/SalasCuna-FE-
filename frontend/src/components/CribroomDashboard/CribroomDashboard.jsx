@@ -28,6 +28,7 @@ export default function CribroomDashboard() {
   const [shiftOptions, setShiftOptions] = useState([]);
   const [locality, setLocalities] = useState([]);
   const [selectedCribroom, setSelectedCribroom] = useState("");
+  const [cribroomName, setCribroomName] = useState("");
 
   const [modalShow, setModalShow] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
@@ -80,8 +81,9 @@ export default function CribroomDashboard() {
     console.log("Edit clicked for row with id:", rowId);
   };
 
-  const handleDeleteClick = (rowId) => {
+  const handleDeleteClick = (rowId, CRName) => {
     setSelectedCribroom(rowId);
+    setCribroomName(CRName);
     setModalDeleteShow(true);
     console.log("Edit clicked for row with id:", rowId);
   };
@@ -128,6 +130,7 @@ export default function CribroomDashboard() {
               {selectedCribroom && (
               <DeleteRoom
                 id={selectedCribroom}
+                name={cribroomName}
                 show={modalDeleteShow}
                 onHide={() => {
                   setModalDeleteShow(false);
@@ -189,19 +192,13 @@ export default function CribroomDashboard() {
                           <GridActionsCellItem
                             icon={<DeleteIcon />}
                             label="Delete"
-                            onClick={() => handleDeleteClick(params.row.id)}
+                            onClick={() => handleDeleteClick(params.row.id, params.row.name)}
                           />,
                           <>
                             <GridActionsCellItem
                               variant="primary"
                               icon={<EditIcon />}
                               onClick={() => handleEditClick(params.row.id)}
-                            />
-
-                            <UpdateRoom
-                              id={selectedCribroom}
-                              show={modalEditShow}
-                              onHide={() => setModalEditShow(false)}
                             />
                           </>,
                         ],

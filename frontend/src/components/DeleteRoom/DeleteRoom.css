@@ -34,13 +34,17 @@
   width: 500px;
   background-color: #ef7e0e;
 }
-
+  
 .button-wrapper {
-  display: contents;
-  padding-left: 10px;
-  padding-right: 10px;
-  margin-right: 10px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px; /* Optional margin for spacing between buttons and content */
 }
+
+.button-wrapper button {
+  margin: 10px; /* Add margin to buttons */
+}
+
 
 .contenedor-linea-eliminar {
   text-align: center;
