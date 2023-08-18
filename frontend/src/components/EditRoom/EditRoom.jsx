@@ -28,8 +28,8 @@ export function UpdateRoom(props) {
   const loadZones = async () => {
     try {
       const response = await fetch("http://127.0.0.1:8000/api/zone/");
-    let jsonData = await response.json();
-    setZoneOptions(jsonData);
+      let jsonData = await response.json();
+      setZoneOptions(jsonData);
     } catch (error) {
       console.error("Error fetching zona options:", error);
     }
@@ -42,7 +42,7 @@ export function UpdateRoom(props) {
       setShiftOptions(jsonData);
     } catch (error) {
       console.error("Error fetching shift options:", error);
-    } 
+    }
   };
 
   const handleEdit = async (event) => {
@@ -76,7 +76,6 @@ export function UpdateRoom(props) {
         }
       } catch (err) {
         alert(err);
-        
       }
     }
   };
@@ -90,11 +89,7 @@ export function UpdateRoom(props) {
   };
 
   return (
-    <Modal
-      {...props}
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
+    <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
       <div className="contenedor-form-wrapper">
         <Container fluid className="conteiner-form-room">
           <Form onSubmit={handleEdit} className="conteiner-form-edit">
@@ -196,6 +191,7 @@ export function UpdateRoom(props) {
                 boton
                 variant="primary"
                 type="submit"
+                onClick={props.onHide}
               >
                 Editar Sala Cuna
               </Button>
@@ -206,5 +202,3 @@ export function UpdateRoom(props) {
     </Modal>
   );
 }
-
-

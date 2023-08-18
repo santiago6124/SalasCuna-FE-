@@ -8,6 +8,7 @@ import React, { useState, useEffect } from "react";
 
 export default function DeleteRoom(props) {
   const [selectedCribroom, setSelectedCribroom] = useState("");
+  const [show, setShow] = useState(true);
 
   useEffect(() => {
     setSelectedCribroom(props.id);
@@ -15,7 +16,6 @@ export default function DeleteRoom(props) {
 
   const handleDelete = async (event) => {
     event.preventDefault();
-
     try {
       const payload = {
         is_active: "False",
@@ -35,50 +35,56 @@ export default function DeleteRoom(props) {
       alert("Error al eliminar la sala cuna");
     }
   };
-return (
-  <Modal
-    {...props}
-    size="lg"
-    aria-labelledby="contained-modal-title-vcenter"
-    centered
-  >
-    <div>
-      <Modal.Title className="titulo-eliminar">Eliminar Sala Cuna</Modal.Title>
-    </div>
-    <div className="contenedor-linea-eliminar">
-      <hr className="linea-eliminar"></hr>
-    </div>
-    <div className="par">
-      <p>Esta seguro que desea Eliminar la Sala Cuna {selectedCribroom}?</p>
-      <p>Esto hara que su estado pase a ser Inactivo,</p>
-    </div>
-    <div className="par">
-      <Alert severity="warning">
-        <p>
-          Los chicos que esten en esta sala cuna tambien
-        </p>
-        <p>
-        pasaran a estar en <strong>estado Inactivo</strong>
-        </p>
-      </Alert>
-    </div>
-    <Modal.Footer>
-      <div className="button-wrapper">
-        <div>
+
+  return (
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <div>
+        <Modal.Title className="titulo-eliminar">
+          Eliminar Sala Cuna
+        </Modal.Title>
+      </div>
+      <div className="contenedor-linea-eliminar">
+        <hr className="linea-eliminar"></hr>
+      </div>
+      <div className="par">
+        <p>Esta seguro que desea Eliminar la Sala Cuna {selectedCribroom}?</p>
+        <p>Esto hara que su estado pase a ser Inactivo,</p>
+      </div>
+      <div className="par">
+        <Alert severity="warning">
+          <p>Los chicos que esten en esta sala cuna tambien</p>
+          <p>
+            pasaran a estar en <strong>estado Inactivo</strong>
+          </p>
+        </Alert>
+      </div>
+      <Modal.Footer>
+        <div className="button-wrapper">
+          <div>
+            <Button
+              className="mt-3"
+              boton
+              variant="danger"
+              onClick={(handleDelete, props.onHide)}
+            >
+              Deshabilitar
+            </Button>
+          </div>
           <Button
             className="mt-3"
             boton
-            variant="danger"
-            onClick={handleDelete}
+            variant="primary"
+            onClick={props.onHide}
           >
-            Dehabilitar
+            Cancelar
           </Button>
         </div>
-        <Button className="mt-3" boton variant="primary">
-          Cancelar
-        </Button>
-      </div>
-    </Modal.Footer>
-  </Modal>
-);
-};
+      </Modal.Footer>
+    </Modal>
+  );
+}
