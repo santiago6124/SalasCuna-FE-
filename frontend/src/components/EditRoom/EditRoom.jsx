@@ -45,8 +45,9 @@ export function UpdateRoom(props) {
     }
   };
 
-  const handleEdit = async (event) => {
+  const handleEdit = async (event, props) => {
     event.preventDefault();
+    props.onHide();
     const formData = new FormData(event.target);
     const payload = {
       name: formData.get("nameCR"),
