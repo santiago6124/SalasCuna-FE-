@@ -1,4 +1,4 @@
-import "../CreateRoom/CreateRoom.css";
+import "../EditRoom/EditRoom.css";
 
 import Modal from "react-bootstrap/Modal";
 
@@ -92,7 +92,6 @@ export function UpdateRoom(props) {
   return (
     <Modal
       {...props}
-      size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
