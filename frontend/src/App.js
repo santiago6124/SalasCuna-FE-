@@ -22,6 +22,7 @@ import { FormAddChildren } from "./components/FormAddChildren/FormAddChildren";
 import Payout from './components/Payout/Payout';
 import { FaExpeditedssl } from "react-icons/fa";
 
+import  ExportPDF from './components/ExportPDF/ExportPDF';
 
 function App() {
   return (
@@ -86,6 +87,10 @@ function App() {
             <Route
               path="/informe-tecnico"
               element={<PublicRoute children={<TechnicalReport />} />}
+            />
+            <Route
+              path="/export"
+              element={<PublicRoute children={<ExportPDF />} />}
             />
           </Routes>
         </AuthProvider>
