@@ -143,8 +143,8 @@ export default function TechnicalReport() {
                     </Col>
                     <Col>
                     <Button variant="primary" onClick={handlePdfClick} className="mb-3">
-    PDF
-</Button>
+                        PDF
+                    </Button>
                     </Col>
                 </Row>
                 <Row className="mb-3">
