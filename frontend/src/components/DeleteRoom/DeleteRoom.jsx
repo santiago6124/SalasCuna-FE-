@@ -55,7 +55,7 @@ export default function DeleteRoom(props) {
       </div>
       <div className="par">
         <p>
-          Esta seguro que desea Eliminar la Sala Cuna {selectedCribroom}?
+          Esta seguro que desea Eliminar la Sala Cuna {props.name}?
           Esto hara que su estado pase a ser Inactivo, 
         </p>
       </div>
