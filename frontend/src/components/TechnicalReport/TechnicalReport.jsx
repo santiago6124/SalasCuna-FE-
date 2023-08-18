@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useRef} from 'react'
 import './TechnicalReport.css';
 
 import Col from 'react-bootstrap/Col/';
@@ -11,7 +11,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { GridColDef } from '@mui/x-data-grid';
 import axios from 'axios'; // Import axios
 import { useState, useEffect } from 'react';
-
+import DownloadPDF from './DownloadPDF/DownloadPDF';
 
 export default function TechnicalReport() {
     
@@ -28,6 +28,7 @@ export default function TechnicalReport() {
             setSelectedCribrooms(updatedSelectedCribrooms);
         };
 
+        const iframeRef = useRef();
         const handlePdfClick = () => {
             // Implement your PDF generation logic here
             console.log('Generate PDF logic will be implemented here');
@@ -53,6 +54,7 @@ export default function TechnicalReport() {
                   .catch(error => {
                       console.error('Error fetching data:', error);
                   });
+                  DownloadPDF(iframeRef);
           });
 
         };
@@ -142,6 +144,7 @@ export default function TechnicalReport() {
                         </div>
                     </Col>
                     <Col>
+                    <iframe ref={iframeRef} style={{ display: 'none' }} title="PDFFrame" />
                     <Button variant="primary" onClick={handlePdfClick} className="mb-3">
                         PDF
                     </Button>
