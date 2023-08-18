@@ -19,13 +19,13 @@ export default function TechnicalReport() {
         const [zoneOptions, setZoneOptions] = useState([]);
         const [selectedZone, setSelectedZone] = useState("");
         const [cribrooms, setCribrooms] = useState([]);
-        const [startTime, setStartTime] = useState(""); // New state for start time
-        const [endTime, setEndTime] = useState(""); 
+        const [startDate, setStartDate] = useState(""); // New state for start date
+        const [endDate, setEndDate] = useState("");     // New state for end date    
         const handlePdfClick = () => {
             // Implement your PDF generation logic here
             console.log('Generate PDF logic will be implemented here');
-            console.log('Selected Start Time:', startTime);
-            console.log('Selected End Time:', endTime);
+            console.log('Selected Start Date:', startDate);
+            console.log('Selected End Date:', endDate);
         };
         useEffect(() => {
           loadZones();
@@ -116,28 +116,29 @@ export default function TechnicalReport() {
                 </Row>
                 <Row className="mb-3">
                 <Col>
-                    {/* Start Time Selector */}
+                    {/* Start Date Selector */}
                     <InputGroup className="mb-3">
-                        <InputGroup.Text>Start Time</InputGroup.Text>
+                        <InputGroup.Text>Start Date</InputGroup.Text>
                         <Form.Control
-                            type="time"
-                            value={startTime}
-                            onChange={(e) => setStartTime(e.target.value)}
+                            type="date"
+                            value={startDate}
+                            onChange={(e) => setStartDate(e.target.value)}
                         />
                     </InputGroup>
                 </Col>
                 <Col>
-                    {/* End Time Selector */}
+                    {/* End Date Selector */}
                     <InputGroup className="mb-3">
-                        <InputGroup.Text>End Time</InputGroup.Text>
+                        <InputGroup.Text>End Date</InputGroup.Text>
                         <Form.Control
-                            type="time"
-                            value={endTime}
-                            onChange={(e) => setEndTime(e.target.value)}
+                            type="date"
+                            value={endDate}
+                            onChange={(e) => setEndDate(e.target.value)}
                         />
                     </InputGroup>
                 </Col>
             </Row>
+
     
                 <div>
                     <div style={{ height: 400, width: '100%' }}>
