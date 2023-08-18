@@ -50,7 +50,28 @@ export default function TechnicalReport() {
                   .then(data => {
                       // Handle the data received from the API for each cribroom
                       console.log('API Response for Cribroom', cribroom.id, data, data.pays);
-                      DownloadPDF(iframeRef, cribroom.name);
+                      DownloadPDF(
+                        iframeRef,
+                        'entity',
+                        cribroom.name,
+                        cribroom.code,
+                        cribroom.street,
+                        cribroom.house_number,
+                        cribroom.locality.locality,
+                        'cribroomDepartment',
+                        'totalSumStr',
+                        'totalSumInitMonth',
+                        'totalSumInitYear',
+                        'totalSumEndMonth',
+                        'totalSumEndYear',
+                        'cribroomMaxCapacityStr',
+                        'cribroomMaxCapacityInt',
+                        'firstSubTotalSumEndMonth',
+                        'SecSubTotalSumInitMonth',
+                        'totalSumFloat',
+                        'firstSubTotalSumFloat',
+                        'SecSubTotalSumFloat'
+                        );
                   })
                   .catch(error => {
                       console.error('Error fetching data:', error);
