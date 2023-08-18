@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import "./App.css";
 import Navbar from "./components/Menu/Menu";
-import PrivateRoute from "./utils/PrivateRoute";
+import PrivateRoute from "./utils/PublicRoute";
 import { PublicRoute } from "./utils/PublicRoute";
 
 import Activate from "./containers/Activate";
@@ -53,7 +53,7 @@ function App() {
 
             <Route
               path="/generate-padron"
-              element={<PrivateRoute children={<GeneratePadron />} />}
+              element={<PublicRoute children={<GeneratePadron />} />}
             />
 
             <Route 
@@ -73,15 +73,15 @@ function App() {
 
             <Route
               path="/crear-sala"
-              element={<PrivateRoute children={<CreateRoomPage />} />}
+              element={<PublicRoute children={<CreateRoomPage />} />}
             />
             <Route
               path="/editar-sala"
-              element={<PrivateRoute children={<SelectRoom />} />}
+              element={<PublicRoute children={<SelectRoom />} />}
             />
              <Route
               path="/maestro-montos"
-              element={<PrivateRoute children={<Payout />} />}
+              element={<PublicRoute children={<Payout />} />}
             />
             <Route
               path="/informe-tecnico"
