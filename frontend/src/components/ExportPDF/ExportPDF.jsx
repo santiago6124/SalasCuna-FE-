@@ -1,7 +1,5 @@
-import React from 'react';
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 
-// import baseFile from './baseFile.html';
 
 export default function ExportPDF() {
     // create a ref by importing sellet from react
