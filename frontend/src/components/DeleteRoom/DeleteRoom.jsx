@@ -19,16 +19,19 @@ export default function DeleteRoom(props) {
 
     try {
       const payload = {
-        is_active: "False"
-      }
+        is_active: "False",
+      };
 
-      let response = await fetch("http://127.0.0.1:8000/api/cribroom/" + selectedCribroom + "/", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
+      let response = await fetch(
+        "http://127.0.0.1:8000/api/cribroom/" + selectedCribroom + "/",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
     } catch (err) {
       alert("Error al eliminar la sala cuna");
     }
@@ -40,29 +43,39 @@ export default function DeleteRoom(props) {
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
+      className="conteiner-modal-eliminar"
     >
-      <Form className="conteiner-form-eliminar">
-        <h1 className="titulo-eliminar">Eliminar Sala Cuna</h1>
-        <div className="contenedor-linea-eliminar">
-          <hr className="linea-eliminar"></hr>
+        <div>
+          <Modal.Title className="titulo-eliminar">
+            Eliminar Sala Cuna
+          </Modal.Title>
         </div>
-        <Row>
-          <Col xs={9} className="conteiner-eliminar"></Col>
-          <Form.Group className="mb-3">
-            <Form.Label className="mb-1 mt-3">
-              Esta Seguro que desea Deshabilitar la Sala Cuna
-            </Form.Label>
-            <div className="contenedor-boton-eliminar mt-4">
-              <Button className="boton-eliminar" boton variant="danger" onClick={handleDelete}>
-                Dehabilitar
-              </Button>
-              <Button className="boton-edit mt-3" boton variant="primary">
-                Cancelar
-              </Button>
-            </div>
-          </Form.Group>
-        </Row>
-      </Form>
+      <div className="contenedor-linea-eliminar">
+        <hr className="linea-eliminar"></hr>
+      </div>
+      <div className="par">
+        <p>
+          Esta seguro que desea Eliminar la Sala Cuna {selectedCribroom}?
+          Esto hara que su estado pase a ser Inactivo, 
+        </p>
+      </div>
+      <Modal.Footer>
+        <div className="button-wrapper">
+          <div>
+            <Button
+              className="mt-3"
+              boton
+              variant="danger"
+              onClick={handleDelete}
+            >
+              Dehabilitar
+            </Button>
+          </div>
+            <Button className="mt-3" boton variant="primary">
+              Cancelar
+            </Button>
+        </div>
+      </Modal.Footer>
     </Modal>
   );
 }
