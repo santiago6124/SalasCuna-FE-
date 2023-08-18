@@ -4,6 +4,7 @@ import Row from "react-bootstrap/Row/";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/esm/Button";
 import Modal from "react-bootstrap/Modal";
+import Alert from "@mui/material/Alert";
 
 import React, { useState, useEffect } from "react";
 
@@ -36,46 +37,50 @@ export default function DeleteRoom(props) {
       alert("Error al eliminar la sala cuna");
     }
   };
-
-  return (
-    <Modal
-      {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-      className="conteiner-modal-eliminar"
-    >
-        <div>
-          <Modal.Title className="titulo-eliminar">
-            Eliminar Sala Cuna
-          </Modal.Title>
-        </div>
-      <div className="contenedor-linea-eliminar">
-        <hr className="linea-eliminar"></hr>
-      </div>
-      <div className="par">
+return (
+  <Modal
+    {...props}
+    size="lg"
+    aria-labelledby="contained-modal-title-vcenter"
+    centered
+  >
+    <div>
+      <Modal.Title className="titulo-eliminar">Eliminar Sala Cuna</Modal.Title>
+    </div>
+    <div className="contenedor-linea-eliminar">
+      <hr className="linea-eliminar"></hr>
+    </div>
+    <div className="par">
+      <p>Esta seguro que desea Eliminar la Sala Cuna {selectedCribroom}?</p>
+      <p>Esto hara que su estado pase a ser Inactivo,</p>
+    </div>
+    <div className="par">
+      <Alert severity="warning">
         <p>
-          Esta seguro que desea Eliminar la Sala Cuna {selectedCribroom}?
-          Esto hara que su estado pase a ser Inactivo, 
+        Esta accion no puede ser revertida y los chicos de la misma tambien
         </p>
-      </div>
-      <Modal.Footer>
-        <div className="button-wrapper">
-          <div>
-            <Button
-              className="mt-3"
-              boton
-              variant="danger"
-              onClick={handleDelete}
-            >
-              Dehabilitar
-            </Button>
-          </div>
-            <Button className="mt-3" boton variant="primary">
-              Cancelar
-            </Button>
+        <p>
+        pasaran a estar en <strong>estado Inactivo</strong>
+        </p>
+      </Alert>
+    </div>
+    <Modal.Footer>
+      <div className="button-wrapper">
+        <div>
+          <Button
+            className="mt-3"
+            boton
+            variant="danger"
+            onClick={handleDelete}
+          >
+            Dehabilitar
+          </Button>
         </div>
-      </Modal.Footer>
-    </Modal>
-  );
-}
+        <Button className="mt-3" boton variant="primary">
+          Cancelar
+        </Button>
+      </div>
+    </Modal.Footer>
+  </Modal>
+);
+};
