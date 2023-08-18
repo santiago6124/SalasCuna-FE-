@@ -13,7 +13,6 @@ import axios from 'axios'; // Import axios
 import { useState, useEffect } from 'react';
 
 
-
 export default function TechnicalReport() {
     
         const [zoneOptions, setZoneOptions] = useState([]);
@@ -21,11 +20,19 @@ export default function TechnicalReport() {
         const [cribrooms, setCribrooms] = useState([]);
         const [startDate, setStartDate] = useState(""); // New state for start date
         const [endDate, setEndDate] = useState("");     // New state for end date    
+        const [selectedCribrooms, setSelectedCribrooms] = useState([]); // New state for selected crib rooms
+        const handleCheckboxChange = (event, row) => {
+            const updatedSelectedCribrooms = event.target.checked
+                ? [...selectedCribrooms, row] // Add to selected crib rooms
+                : selectedCribrooms.filter(crib => crib.id !== row.id); // Remove from selected crib rooms
+            setSelectedCribrooms(updatedSelectedCribrooms);
+        };
         const handlePdfClick = () => {
             // Implement your PDF generation logic here
             console.log('Generate PDF logic will be implemented here');
             console.log('Selected Start Date:', startDate);
             console.log('Selected End Date:', endDate);
+            console.log('Selected Crib Rooms:', selectedCribrooms);
         };
         useEffect(() => {
           loadZones();
@@ -74,7 +81,11 @@ export default function TechnicalReport() {
                 filterable: false,
                 width: 120,
                 renderCell: (params) => (
-                    <input type="checkbox" checked={params.row.selected} />
+                    <input
+                    type="checkbox"
+                    checked={selectedCribrooms.some(crib => crib.id === params.row.id)}
+                    onChange={(e) => handleCheckboxChange(e, params.row)}
+                />
                 ),
             },
         ];
@@ -110,8 +121,8 @@ export default function TechnicalReport() {
                     </Col>
                     <Col>
                     <Button variant="primary" onClick={handlePdfClick} className="mb-3">
-                        PDF
-                    </Button>
+    PDF
+</Button>
                     </Col>
                 </Row>
                 <Row className="mb-3">
