@@ -27,12 +27,34 @@ export default function TechnicalReport() {
                 : selectedCribrooms.filter(crib => crib.id !== row.id); // Remove from selected crib rooms
             setSelectedCribrooms(updatedSelectedCribrooms);
         };
+
         const handlePdfClick = () => {
             // Implement your PDF generation logic here
             console.log('Generate PDF logic will be implemented here');
             console.log('Selected Start Date:', startDate);
             console.log('Selected End Date:', endDate);
             console.log('Selected Crib Rooms:', selectedCribrooms);
+
+            // Iterate through each selected cribroom and send a GET request
+            selectedCribrooms.forEach(cribroom => {
+              const url = `http://127.0.0.1:8000/api/technical-report/${cribroom.id}/${startDate}/${endDate}/`;
+              
+              fetch(url)
+                  .then(response => {
+                      if (!response.ok) {
+                          throw new Error('Network response was not ok');
+                      }
+                      return response.json();
+                  })
+                  .then(data => {
+                      // Handle the data received from the API for each cribroom
+                      console.log('API Response for Cribroom', cribroom.id, data, data.pays);
+                  })
+                  .catch(error => {
+                      console.error('Error fetching data:', error);
+                  });
+          });
+
         };
         useEffect(() => {
           loadZones();
