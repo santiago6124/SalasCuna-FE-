@@ -8,7 +8,6 @@ import React, { useState, useEffect } from "react";
 
 export default function DeleteRoom(props) {
   const [selectedCribroom, setSelectedCribroom] = useState("");
-  const [show, setShow] = useState(true);
 
   useEffect(() => {
     setSelectedCribroom(props.id);
@@ -21,6 +20,7 @@ export default function DeleteRoom(props) {
         is_active: "False",
       };
 
+      console.log("making fetch");
       let response = await fetch(
         "http://127.0.0.1:8000/api/cribroom/" + selectedCribroom + "/",
         {
@@ -31,10 +31,12 @@ export default function DeleteRoom(props) {
           body: JSON.stringify(payload),
         }
       );
+      props.onHide();
     } catch (err) {
       alert("Error al eliminar la sala cuna");
     }
   };
+
 
   return (
     <Modal
@@ -70,7 +72,7 @@ export default function DeleteRoom(props) {
               className="mt-3"
               boton
               variant="danger"
-              onClick={(handleDelete, props.onHide)}
+              onClick={(handleDelete)}
             >
               Deshabilitar
             </Button>
