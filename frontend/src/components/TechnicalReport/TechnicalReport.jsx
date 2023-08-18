@@ -19,9 +19,13 @@ export default function TechnicalReport() {
         const [zoneOptions, setZoneOptions] = useState([]);
         const [selectedZone, setSelectedZone] = useState("");
         const [cribrooms, setCribrooms] = useState([]);
+        const [startTime, setStartTime] = useState(""); // New state for start time
+        const [endTime, setEndTime] = useState(""); 
         const handlePdfClick = () => {
             // Implement your PDF generation logic here
             console.log('Generate PDF logic will be implemented here');
+            console.log('Selected Start Time:', startTime);
+            console.log('Selected End Time:', endTime);
         };
         useEffect(() => {
           loadZones();
@@ -77,7 +81,7 @@ export default function TechnicalReport() {
         
     
         return (
-            <div className='container-report mt-5'>
+            <div className='container-report mt-5 mx-auto'>
                 <div className='container-titulo-report '>
                     <h1>Informe Tecnico</h1>
                 </div>
@@ -110,6 +114,30 @@ export default function TechnicalReport() {
 </Button>
                     </Col>
                 </Row>
+                <Row className="mb-3">
+                <Col>
+                    {/* Start Time Selector */}
+                    <InputGroup className="mb-3">
+                        <InputGroup.Text>Start Time</InputGroup.Text>
+                        <Form.Control
+                            type="time"
+                            value={startTime}
+                            onChange={(e) => setStartTime(e.target.value)}
+                        />
+                    </InputGroup>
+                </Col>
+                <Col>
+                    {/* End Time Selector */}
+                    <InputGroup className="mb-3">
+                        <InputGroup.Text>End Time</InputGroup.Text>
+                        <Form.Control
+                            type="time"
+                            value={endTime}
+                            onChange={(e) => setEndTime(e.target.value)}
+                        />
+                    </InputGroup>
+                </Col>
+            </Row>
     
                 <div>
                     <div style={{ height: 400, width: '100%' }}>
