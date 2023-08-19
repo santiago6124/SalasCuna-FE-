@@ -52,25 +52,25 @@ export default function TechnicalReport() {
                       console.log('API Response for Cribroom', cribroom.id, data, data.pays);
                       DownloadPDF(
                         iframeRef,
-                        'entity',
+                        cribroom.entity,
                         cribroom.name,
                         cribroom.code,
                         cribroom.street,
                         cribroom.house_number,
                         cribroom.locality.locality,
-                        'cribroomDepartment',
-                        'totalSumStr',
-                        'totalSumInitMonth',
-                        'totalSumInitYear',
-                        'totalSumEndMonth',
-                        'totalSumEndYear',
-                        'cribroomMaxCapacityStr',
-                        'cribroomMaxCapacityInt',
-                        'firstSubTotalSumEndMonth',
-                        'SecSubTotalSumInitMonth',
-                        'totalSumFloat',
-                        'firstSubTotalSumFloat',
-                        'SecSubTotalSumFloat'
+                        cribroom.department.department,
+                        data.pays.totalSumStr,
+                        data.pays.totalSumInitMonth,
+                        data.pays.totalSumInitYear,
+                        data.pays.totalSumEndMonth,
+                        data.pays.totalSumEndYear,
+                        data.maxCapacityStr,
+                        cribroom.max_capacity,
+                        data.pays.firstSubTotalSumEndMonth,
+                        data.pays.SecSubTotalSumInitMonth,
+                        data.pays.totalSumFloat,
+                        data.pays.firstSubTotalSumFloat,
+                        data.pays.SecSubTotalSumFloat
                         );
                   })
                   .catch(error => {

@@ -4,7 +4,7 @@ import React, { useRef } from 'react';
 // Define the downloadPDF function
 const downloadPDF = (
     iframeRef,
-    entity,
+    cribroomEntity,
     cribroomName,
     cribroomCode,
     cribroomStreet,
@@ -432,7 +432,7 @@ const downloadPDF = (
                 class="c26">S&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D</span>
         </p>
         <p class="c13 c27"><span class="c2">Habiendo tomado conocimiento de lo solicitado por la entidad </span><span
-                class="c8">${entity}</span><span class="c2">, CUIT , esta Direcci&oacute;n de
+                class="c8">${cribroomEntity}</span><span class="c2">, CUIT , esta Direcci&oacute;n de
                 Jurisdicci&oacute;n Coordinaci&oacute;n Salas Cuna del Ministerio de Desarrollo Social CERTIFICA que la sala
                 ${cribroomName} </span><span class="c8">C&oacute;digo ${cribroomCode}</span><span class="c2">, sita en ${cribroomStreet} ${cribroomHouseNumber}
                 de la Localidad de ${cribroomLocality}, Departamento ${cribroomDepartment}, de la Provincia de C&Oacute;RDOBA, se
