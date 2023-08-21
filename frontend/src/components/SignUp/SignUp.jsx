@@ -3,6 +3,7 @@ import { Button, Container, Form } from "react-bootstrap";
 import AuthContext from "../../context/AuthContext";
 import axios from "axios"; // Import Axios for API calls
 
+
 import "./SignUp.css";
 
 const SignUp = () => {

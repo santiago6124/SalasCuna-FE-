@@ -16,25 +16,28 @@ export const AuthProvider = ({children}) => {
 
     let signupUser = async (e) => {
         e.preventDefault()
+
+        const formData = new FormData(e.target);
+        const payload = {
+            "first_name": formData.get("first_name"),
+            "last_name": formData.get("last_name"),
+            "dni": formData.get("dni"),
+            "role": formData.get("role"),
+            "phone_number": formData.get("phone_number"),
+            "address": formData.get("address"),
+            "department": formData.get("department"),
+            "city": formData.get("city"),
+            "email": formData.get("email"),
+            "password": formData.get("password"),
+            "re_password": formData.get("re_password")
+        };
         let response = await fetch('/auth/users/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                "first_name": e.target.first_name.value,
-                "last_name": e.target.last_name.value,
-                "dni": e.target.dni.value,
-                "role": e.target.role.value,
-                "phone_number": e.target.phone_number.value,
-                "address": e.target.address.value,
-                "department": e.target.department.value,
-                "city": e. target.city.value,
-                "email": e.target.email.value,
-                "password": e.target.password.value,
-                "re_password": e.target.re_password.value
-            })
-        })
+            body: JSON.stringify(payload),
+        });
         if (response.status === 201) {
             alert('Revisar email para verificar tu cuenta')
         } else if (response.status === 400) {
@@ -59,7 +62,7 @@ export const AuthProvider = ({children}) => {
             setAuthTokens(data)
             setUser(jwt_decode(data.access))
             localStorage.setItem('authTokens', JSON.stringify(data))
-            history('/crear-sala')
+            history('/gestion-sala')
         } else {
             alert('Something went wrong')
         }

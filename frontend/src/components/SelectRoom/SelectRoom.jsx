@@ -10,7 +10,7 @@ import {UpdateRoom} from "../EditRoom/EditRoom";
 
 export function SelectRoom() {
   const [cribroomOptions, setCribroom] = useState([]);
-  const [selectCribroom, setSelectedCribroom] = useState("");
+  const [selectedCribroom, setSelectedCribroom] = useState("");
   const [confirmed, setConfirmed] = useState(false);
 
   useEffect(() => {
@@ -49,7 +49,7 @@ export function SelectRoom() {
               </Form.Label>
               <Form.Select
                 as="select"
-                value={selectCribroom}
+                value={selectedCribroom}
                 className="mb-1"
                 onChange={(event) => setSelectedCribroom(event.target.value)}
               >

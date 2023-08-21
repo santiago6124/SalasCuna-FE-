@@ -1,4 +1,6 @@
-import "../CreateRoom/CreateRoom.css";
+import "../EditRoom/EditRoom.css";
+
+import Modal from "react-bootstrap/Modal";
 
 import Col from "react-bootstrap/Col/";
 import Row from "react-bootstrap/Row/";
@@ -8,21 +10,27 @@ import { Button } from "react-bootstrap";
 
 import React, { useState, useEffect } from "react";
 
-export function UpdateRoom() {
+import { getAllShifts, getAllZones, getAllCribroomsWithoutDepth } from "../../api/salasCuna.api";
+
+export function UpdateRoom(props) {
   const [zoneOptions, setZoneOptions] = useState([]);
   const [shiftOptions, setShiftOptions] = useState([]);
-  const [selectedZona, setSelectedZone] = useState("");
+  const [selectedCribroom, setSelectedCribroom] = useState("");
+  const [selectedZone, setSelectedZone] = useState("");
   const [selectedShift, setSelectedShift] = useState("");
+  const [cribroom, setCribroom] = useState([]);
+
   useEffect(() => {
     loadZones();
     loadShifts();
+    setSelectedCribroom(props.id);
+    loadSelectedCribroom(props.id); // Load selected cribroom data
   }, []);
 
   const loadZones = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/zone/");
-      let jsonData = await response.json();
-      setZoneOptions(jsonData);
+      const response = await getAllZones();
+      setZoneOptions(response.data);
     } catch (error) {
       console.error("Error fetching zona options:", error);
     }
@@ -30,82 +38,80 @@ export function UpdateRoom() {
 
   const loadShifts = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/shift/");
-      let jsonData = await response.json();
-      setShiftOptions(jsonData);
+      const response = await getAllShifts();
+      setShiftOptions(response.data);
     } catch (error) {
       console.error("Error fetching shift options:", error);
     }
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault()
+  async function loadSelectedCribroom(cribroomId) {
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:8000/api/cribroom/?no_depth&id=" + cribroomId,
+        { method: "GET" }
+      );
+      if (response.ok) {
+        const data = await response.json(); // Extract JSON data
+        const crib = data[0];
+        setCribroom(crib);
+      } else {
+        console.error("Error fetching selected cribroom data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching selected cribroom data:", error);
+    }
+  }
 
+  const handleEdit = async (event) => {
+    event.preventDefault();
     const formData = new FormData(event.target);
     const payload = {
-        name: formData.get("nameCR"),
-        code: formData.get("codeCR"),
-        max_capacity: formData.get("max_capacityCR"),
-        street: formData.get("streetCR"),
-        house_number: formData.get("house_numberCR"),
-        shift: formData.get("shiftCR"),
-        zone: formData.get("zoneCR"),
+      name: formData.get("nameCR"),
+      code: formData.get("codeCR"),
+      max_capacity: formData.get("max_capacityCR"),
+      street: formData.get("streetCR") ? formData.get("streetCR"): "", // if null, empty string in order to not broke xd
+      house_number: formData.get("house_numberCR"),
+      shift: formData.get("shiftCR"),
+      zone: formData.get("zoneCR"),
     };
-  
-    try {
-     let response = await fetch('http://127.0.0.1:8000/api/cribroom/1/', {
-       method: 'PUT',
-       headers: {
-           'Content-Type': 'application/json'
-       },
-       body: JSON.stringify(payload),
-    });
-
-    if (response.ok) {
-      console.log('Child added successfully');
-      window.location.reload();
-  } else {
-      console.log('Failed to add child');
-  }
-
-     } catch (err) {
-      alert(":c")
-      console.log(err)
-     }
-
-  }
-
-
-  const handleShiftChange = (event) => {
-    setSelectedShift(event.target.value);
-    
-};
-
-const handleZoneChange = (event) => {
-  setSelectedZone(event.target.value);
-  
-};
-
-const handleDelete = async (event) => {
-  event.preventDefault()
-
-  try {
-    let response = await fetch("http://127.0.0.1:8000/api/cribroom/1/", {
-      method: 'DELETE',
-      headers: {
-          'Content-Type': 'application/json'
+    if (selectedCribroom) {
+      try {
+        let response = await fetch(
+          "http://127.0.0.1:8000/api/cribroom/" + selectedCribroom + "/",
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          }
+        );
+        if (response.ok) {
+          console.log("Cribroom Updated");
+          props.onHide();
+        } else {
+          console.log("Failed to Update");
+        }
+      } catch (err) {
+        alert(err);
       }
-    });
-  } catch (err) {
-    alert("Error al eliminar la sala cuna");
+    }
+  };
+
+  function handleShiftChange(event) {
+    setSelectedShift(event.target.value);
   }
-};
+
+  function handleZoneChange(event) {
+    setSelectedZone(event.target.value);
+  }
 
   return (
-    <div className="body">
+    <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
       <div className="contenedor-form-wrapper">
         <Container fluid className="conteiner-form-room">
-          <Form onSubmit={handleSubmit} className="conteiner-form-edit">
+          <Form onSubmit={handleEdit} className="conteiner-form-edit">
             <h1 className="titulo">Agregar Sala Cuna</h1>
             <div className="contenedor-linea">
               <hr className="linea"></hr>
@@ -117,6 +123,7 @@ const handleDelete = async (event) => {
                 type="text"
                 placeholder="Editar El Nombre De La Sala"
                 name="nameCR"
+                defaultValue={cribroom ? cribroom.name : ""}
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -125,6 +132,7 @@ const handleDelete = async (event) => {
                 type="text"
                 placeholder="Editar El Nombre De La Sala"
                 name="codeCR"
+                defaultValue={cribroom ? cribroom.code : ""}
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -133,6 +141,7 @@ const handleDelete = async (event) => {
                 type="number"
                 placeholder="Editar La Capacidad Maxima De La Sala"
                 name="max_capacityCR"
+                defaultValue={cribroom ? cribroom.max_capacity : ""}
               />
             </Form.Group>
             <Row className="mb-1">
@@ -142,6 +151,7 @@ const handleDelete = async (event) => {
                   type="text"
                   placeholder="Editar Calle"
                   name="streetCR"
+                  defaultValue={cribroom ? cribroom.street : ""}
                 />
               </Col>
               <Col>
@@ -150,6 +160,7 @@ const handleDelete = async (event) => {
                   type="number"
                   placeholder="Nro"
                   name="house_numberCR"
+                  defaultValue={cribroom ? cribroom.house_number : ""}
                 />
               </Col>
             </Row>
@@ -162,7 +173,7 @@ const handleDelete = async (event) => {
                     <Form.Select
                       name="shiftCR"
                       as="select"
-                      value={selectedShift}
+                      value={selectedShift ? selectedShift: cribroom.shift}
                       className="mb-1"
                       onChange={handleShiftChange}
                     >
@@ -183,7 +194,7 @@ const handleDelete = async (event) => {
                 <Form.Select
                   name="zoneCR"
                   as="select"
-                  value={selectedZona}
+                  value={selectedZone ? selectedZone: cribroom.zone}
                   onChange={handleZoneChange}
                 >
                   <option value="" disabled>
@@ -204,15 +215,12 @@ const handleDelete = async (event) => {
                 variant="primary"
                 type="submit"
               >
-                Crear Sala Cuna
+                Editar Sala Cuna
               </Button>
             </div>
           </Form>
-          <Button className="boton-edit mt-3" boton variant="danger" onClick={handleDelete}>
-            Detonar
-          </Button>
         </Container>
       </div>
-    </div>
+    </Modal>
   );
 }

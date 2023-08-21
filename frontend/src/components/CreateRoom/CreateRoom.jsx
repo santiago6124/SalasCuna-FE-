@@ -31,7 +31,7 @@ export function CreateRoom() {
 
   const loadShifts = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/shift/");
+      const response = await fetch("http://127.0.0.1:8000/api/ShiftListView/");
       let jsonData = await response.json();
       setShiftOptions(jsonData);
     } catch (error) {
