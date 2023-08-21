@@ -48,8 +48,6 @@ export default function CribroomDashboard() {
       const response = await getAllCribroomsWithoutDepth();
       const localityData = responseLocality.data;
       const cribroomData = response.data;
-      console.log(localityData);
-      console.log(cribroomData);
       const updatedCribrooms = await cribroomData.map(cribroom => {
         const matchingLocality = localityData.find(locality => locality.id === cribroom.locality);
         if (matchingLocality) {
@@ -65,11 +63,9 @@ export default function CribroomDashboard() {
             is_active: cribroom.is_active ? "Activo" : "Inactivo"
             };
         }
-        return cribroom;
       });
       setCribrooms(updatedCribrooms);
-      setFilteredCribroom(updatedCribrooms);
-      console.log(updatedCribrooms);
+      setFilteredCribroom(updatedCribrooms);  
     } catch (error) {
       console.log("Error fetching SalasCunas:", error);
     }
@@ -127,8 +123,9 @@ export default function CribroomDashboard() {
                   window.location.reload();
                 }}
               />
-
-              {selectedCribroom && (
+          </>
+        )}
+        {selectedCribroom && (
               <DeleteRoom
                 id={selectedCribroom}
                 name={cribroomName}
@@ -140,8 +137,6 @@ export default function CribroomDashboard() {
                 }}
               />
             )}
-          </>
-        )}
           {!selectedCribroom && (
             <>
               <>

@@ -27,9 +27,8 @@ export function UpdateRoom(props) {
 
   const loadZones = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/zone/");
-      let jsonData = await response.json();
-      setZoneOptions(jsonData);
+      const response = await getAllZones();
+      setZoneOptions(response.data);
     } catch (error) {
       console.error("Error fetching zona options:", error);
     }
@@ -37,17 +36,15 @@ export function UpdateRoom(props) {
 
   const loadShifts = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/ShiftListView/");
-      let jsonData = await response.json();
-      setShiftOptions(jsonData);
+      const response = await getAllShifts();
+      setShiftOptions(response.data);
     } catch (error) {
       console.error("Error fetching shift options:", error);
     }
   };
 
-  const handleEdit = async (event, props) => {
+  const handleEdit = async (event) => {
     event.preventDefault();
-    props.onHide();
     const formData = new FormData(event.target);
     const payload = {
       name: formData.get("nameCR"),
@@ -56,7 +53,7 @@ export function UpdateRoom(props) {
       street: formData.get("streetCR"),
       house_number: formData.get("house_numberCR"),
       shift: formData.get("shiftCR"),
-      zone: formData.get("zoneCR"),
+      zone: formData.get("zoneCR")
     };
     if (selectedCribroom) {
       try {
@@ -72,6 +69,7 @@ export function UpdateRoom(props) {
         );
         if (response.ok) {
           console.log("Cribroom Updated");
+          props.onHide();
         } else {
           console.log("Failed to Update");
         }
@@ -192,7 +190,6 @@ export function UpdateRoom(props) {
                 boton
                 variant="primary"
                 type="submit"
-                onClick={props.onHide}
               >
                 Editar Sala Cuna
               </Button>

@@ -15,6 +15,7 @@ export default function DeleteRoom(props) {
 
   const handleDelete = async (event) => {
     event.preventDefault();
+    console.log(selectedCribroom);
     try {
       const payload = {
         is_active: "False",
