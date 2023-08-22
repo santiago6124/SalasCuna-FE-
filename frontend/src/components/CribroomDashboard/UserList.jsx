@@ -14,18 +14,20 @@ import { getAllUsers } from "../../api/salasCuna.api";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 
 export default function UserList() {
-  const [user, setUser] = useState("");
+  const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [keyword, setKeyword] = useState("");
 
   useEffect(() => {
-    listUser();
+    listUsers();
   }, []);
 
-  const listUser = async () => {
+  const listUsers = async () => {
     try{
       const response = await fetch("http://127.0.0.1:8000/api/user/");
       const jsonData = await response.json()
       console.log("andando?")
-      setUser(jsonData);
+      setUsers(jsonData);
     } catch(error){
       console.log("Error fetching users", error)
     }
@@ -33,14 +35,14 @@ export default function UserList() {
 
   // SEARCH FUNCTION (Update to function on user list)
 
-  /*   const updateKeyword = (keyword) => {
-    const filtered = cribrooms.filter((cribroom) => {
-      return `${cribroom.name.toLowerCase()}`.includes(keyword.toLowerCase());
+  const updateKeyword = (keyword) => {
+    const filtered = users.filter((user) => {
+      return `${user.name.toLowerCase()}`.includes(keyword.toLowerCase());
     });
     setKeyword(keyword);
-    setFilteredCribroom(filtered);
-    console.log(filteredCribroom);
-  }; */
+    setFilteredUsers(filtered);
+    console.log(filteredUsers);
+  };
 
   return (
     <>
@@ -57,16 +59,15 @@ export default function UserList() {
                 <hr className="linea-cb"></hr>
               </div>
               <div>
-                <SearchBar
-                  /*                   keyword={keyword}
-                  onChange={updateKeyword} */
+                <SearchBar keyword={keyword}
+                  onChange={updateKeyword}
                   placeholder={"Buscar Usuario"}
                 />
               </div>
               <div className="DataGrid-Wrapper">
                 <DataGrid
                   style={{ borderRadius: "15px", margin: "20px" }}
-                  rows={user}
+                  rows={users}
                   columns={[
                     { field: "first_name", headerName: "Nombre", width: 200 },
                     { field: "last_name", headerName: "Apellido", width: 200 },
