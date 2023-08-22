@@ -8,7 +8,7 @@ import EditIcon from "@mui/icons-material/Edit";
 //React  and React Functions Import
 import React, { useEffect, useState } from "react";
 
-import { getAllUsers } from "../../api/salasCuna.api";
+import { getAllRoles, getAllUsers } from "../../api/salasCuna.api";
 
 //DataGrid Import
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
@@ -26,7 +26,27 @@ export default function UserList() {
     try{
       const responseUsers = await getAllUsers();
       setUsers(responseUsers.data);
-      console.log(users)
+      const userData = responseUsers.data;
+      const responseRoles = await getAllRoles();
+      const rolesData = responseRoles.data;
+      const displayUsers = await userData.map(user => {
+        const matchingRole = rolesData.find(role => role.id === user.role);
+        if (matchingRole){
+          return {
+            ...user,
+            role: matchingRole.name,
+            is_active: user.is_active ? "Activo" : "Inactivo"
+          };
+        } else {
+          return {
+            ...user,
+            role:"Sin Rol",
+            is_active: user.is_active ? "Activo" : "Inactivo"
+          };
+        }
+      });
+      setUsers(displayUsers);
+      setFilteredUsers(displayUsers);
     } catch(error){
       console.log("Error fetching users", error)
     }
@@ -36,12 +56,10 @@ export default function UserList() {
 
   const updateKeyword = (keyword) => {
     const filtered = users.filter((user) => {
-      return `${user.name.toLowerCase()}`.includes(keyword.toLowerCase());
+      return `${user.first_name.toLowerCase()}`.includes(keyword.toLowerCase());
     });
     setKeyword(keyword);
     setFilteredUsers(filtered);
-    console.log(filteredUsers);
-    console.log(users)
   };
 
   return (
@@ -67,7 +85,7 @@ export default function UserList() {
               <div className="DataGrid-Wrapper">
                 <DataGrid
                   style={{ borderRadius: "15px", margin: "20px" }}
-                  rows={users}
+                  rows={filteredUsers}
                   columns={[
                     { field: "first_name", headerName: "Nombre", width: 200 },
                     { field: "last_name", headerName: "Apellido", width: 200 },
