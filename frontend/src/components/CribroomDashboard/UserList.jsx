@@ -21,7 +21,14 @@ export default function UserList() {
   }, []);
 
   const listUser = async () => {
-    //list user function
+    try{
+      const response = await fetch("http://127.0.0.1:8000/api/user/");
+      const jsonData = await response.json()
+      console.log("andando?")
+      setUser(jsonData);
+    } catch(error){
+      console.log("Error fetching users", error)
+    }
   };
 
   // SEARCH FUNCTION (Update to function on user list)
@@ -59,7 +66,7 @@ export default function UserList() {
               <div className="DataGrid-Wrapper">
                 <DataGrid
                   style={{ borderRadius: "15px", margin: "20px" }}
-                  rows={[...usersData]}
+                  rows={user}
                   columns={[
                     { field: "first_name", headerName: "Nombre", width: 200 },
                     { field: "last_name", headerName: "Apellido", width: 200 },

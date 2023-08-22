@@ -21,5 +21,5 @@ export const getAllShifts = async () => {
 };
 
 export const getAllUsers = async () => {
-  return axios.get("http://127.0.0.1:8000/api/UserListView/");
+  return axios.get("http://127.0.0.1:8000/api/user/");
 };

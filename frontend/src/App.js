@@ -20,6 +20,7 @@ import { SelectRoom } from "./components/SelectRoom/SelectRoom";
 import { FormAddChildren } from "./components/FormAddChildren/FormAddChildren";
 import Payout from './components/Payout/Payout';
 import CribroomDashboard from "./components/CribroomDashboard/CribroomDashboard";
+import UserList from "./components/CribroomDashboard/UserList";
 import { FaExpeditedssl } from "react-icons/fa";
 
 
@@ -56,18 +57,18 @@ function App() {
               element={<PrivateRoute children={<GeneratePadron />} />}
             />
 
-            <Route 
-              path="/añadir-chico" 
-              element={<PublicRoute children={<AddChildrenPage/>}/>}
-            />
-
-            <Route 
-              path="/children-management" 
+            <Route
+              path="/añadir-chico"
               element={<PublicRoute children={<AddChildrenPage />} />}
             />
 
-            <Route 
-              path="/children-management/new" 
+            <Route
+              path="/children-management"
+              element={<PublicRoute children={<AddChildrenPage />} />}
+            />
+
+            <Route
+              path="/children-management/new"
               element={<PublicRoute children={<FormAddChildren />} />}
             />
 
@@ -79,13 +80,17 @@ function App() {
               path="/editar-sala"
               element={<PrivateRoute children={<SelectRoom />} />}
             />
-             <Route
+            <Route
               path="/maestro-montos"
               element={<PrivateRoute children={<Payout />} />}
             />
             <Route
-            path="/gestion-sala"
-            element={<PrivateRoute children={<CribroomDashboard/>} />}
+              path="/gestion-sala"
+              element={<PrivateRoute children={<CribroomDashboard />} />}
+            />
+            <Route
+              path="/listar-usuarios"
+              element={<PrivateRoute children={<UserList />} />}
             />
           </Routes>
         </AuthProvider>
