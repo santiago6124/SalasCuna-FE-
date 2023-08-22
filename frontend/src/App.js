@@ -21,6 +21,7 @@ import { FormAddChildren } from "./components/FormAddChildren/FormAddChildren";
 import Payout from './components/Payout/Payout';
 import CribroomDashboard from "./components/CribroomDashboard/CribroomDashboard";
 import { FaExpeditedssl } from "react-icons/fa";
+import { FormEditChildren } from '../src/components/FormEditChildren/FormEditChildren';
 
 
 function App() {
@@ -69,6 +70,11 @@ function App() {
             <Route 
               path="/children-management/new" 
               element={<PublicRoute children={<FormAddChildren />} />}
+            />
+
+<Route 
+              path="/children-management/edit" 
+              element={<PublicRoute children={<FormEditChildren />} />}
             />
 
             <Route

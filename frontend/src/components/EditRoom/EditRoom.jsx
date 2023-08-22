@@ -107,6 +107,8 @@ export function UpdateRoom(props) {
     setSelectedZone(event.target.value);
   }
 
+
+
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
       <div className="contenedor-form-wrapper">
