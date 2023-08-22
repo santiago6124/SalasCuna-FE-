@@ -24,10 +24,9 @@ export default function UserList() {
 
   const listUsers = async () => {
     try{
-      const response = await fetch("http://127.0.0.1:8000/api/user/");
-      const jsonData = await response.json()
-      console.log("andando?")
-      setUsers(jsonData);
+      const responseUsers = await getAllUsers();
+      setUsers(responseUsers.data);
+      console.log(users)
     } catch(error){
       console.log("Error fetching users", error)
     }
@@ -42,6 +41,7 @@ export default function UserList() {
     setKeyword(keyword);
     setFilteredUsers(filtered);
     console.log(filteredUsers);
+    console.log(users)
   };
 
   return (
