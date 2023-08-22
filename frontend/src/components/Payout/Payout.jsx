@@ -71,7 +71,7 @@ export default function Payout() {
 
   const loadZones = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/ZoneReadOnlyModelViewSet/");
+      const response = await fetch("http://127.0.0.1:8000/api/zone/");
       let jsonData = await response.json();
       setZoneOptions(jsonData);
     } catch (error) {
@@ -114,12 +114,39 @@ export default function Payout() {
   
 
   return (
-    <div>
-      <h1>Add Payout</h1>
-      <form onSubmit={handleSubmit}>
-        {/* ... Existing form fields */}
-        <button type="submit">Add Payout</button>
-      </form>
+    <div className='container-report mt-5 mx-auto'>
+              <div className='container-titulo-report '>
+              <h1> Maestro Montos </h1>
+          </div>
+          <div className='contenedor-linea-report'>
+              <hr className='linea-report'></hr>
+          </div>
+    <form onSubmit={handleSubmit}>
+      <label>Amount:</label>
+      <input type="number" name="amount" required />
+      <br />
+      <label>Date:</label>
+      <input type="date" name="date" required />
+      <br />
+      <Form.Label className="mb-1">Zona</Form.Label>
+      <Form.Select
+name="zoneCR"
+as="select"
+value={selectedZona}
+onChange={handleSelectChange}
+>
+<option value="" disabled>
+  Seleccionar Zona
+</option>
+{zoneOptions.map((zone) => (
+  <option key={zone.id} value={zone.id}>
+    {zone.name}
+  </option>
+))}
+</Form.Select>
+      <br />
+      <button type="submit">Add Payout</button>
+    </form>
   
       {editedPayout && (
         <div>

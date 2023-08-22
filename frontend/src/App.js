@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import "./App.css";
 import Navbar from "./components/Menu/Menu";
-import PrivateRoute from "./utils/PrivateRoute";
+import PrivateRoute from "./utils/PublicRoute";
 import { PublicRoute } from "./utils/PublicRoute";
 
 import Activate from "./containers/Activate";
@@ -14,6 +14,7 @@ import Signup from "./components/SignUp/SignUp";
 import { Login } from "./components/Login/Login";
 import ActivateAccountPage from "./pages/ActivateAccountPage/ActivateAccountPage";
 import GeneratePadron from "./components/GeneratePadron/GeneratePadron";
+import TechnicalReport from "./components/TechnicalReport/TechnicalReport";
 import AddChildrenPage from './pages/AddChildrenPage/AddChildrenPage';
 import CreateRoomPage from "./pages/CreateRoomPage/CreateRoomPage";
 import { SelectRoom } from "./components/SelectRoom/SelectRoom";
@@ -54,7 +55,7 @@ function App() {
 
             <Route
               path="/generate-padron"
-              element={<PrivateRoute children={<GeneratePadron />} />}
+              element={<PublicRoute children={<GeneratePadron />} />}
             />
 
             <Route 
@@ -79,15 +80,19 @@ function App() {
 
             <Route
               path="/crear-sala"
-              element={<PrivateRoute children={<CreateRoomPage />} />}
+              element={<PublicRoute children={<CreateRoomPage />} />}
             />
             <Route
               path="/editar-sala"
-              element={<PrivateRoute children={<SelectRoom />} />}
+              element={<PublicRoute children={<SelectRoom />} />}
             />
              <Route
               path="/maestro-montos"
-              element={<PrivateRoute children={<Payout />} />}
+              element={<PublicRoute children={<Payout />} />}
+            />
+            <Route
+              path="/informe-tecnico"
+              element={<PublicRoute children={<TechnicalReport />} />}
             />
             <Route
             path="/gestion-sala"
