@@ -18,11 +18,14 @@ import { DataGrid } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
+import AsyncSelect from 'react-select/async';
+
 
 export default function DropdownCribroomList() {
   const [cribrooms, setCribrooms] = useState([]);
   const [childs, setChild] = useState([]);
   const [selectedCribroom, setSelectedCribroom] = useState('');
+  const [showNewButton, setShowNewButton] = useState(false);
 
 
   const handleEditClick = (childId) => {
@@ -30,9 +33,7 @@ export default function DropdownCribroomList() {
     console.log("id chico" + childId);
   };
 
-  const handleCribroomChange = (event) => {
-    setSelectedCribroom(event.target.value);
-  };
+ 
 
   const navigate = useNavigate();
 
@@ -49,6 +50,8 @@ export default function DropdownCribroomList() {
         const res = await axios.get('http://127.0.0.1:8000/api/child/?padron_cribroom_id=' + selectedCribroom);
         console.log('API Response:', res.data);
         setChild(res.data);
+        setShowNewButton(true);
+
 
       } catch (error) {
         console.log('Error fetching Chicos:', error);
@@ -58,19 +61,35 @@ export default function DropdownCribroomList() {
     }
   };
 
-  useEffect(() => {
-    ListCribroom();
-  }, []);
-  
 
-  const ListCribroom = async () => {
-    try {
-      const response = await getAllCribrooms();
-      setCribrooms(response.data);
-    } catch (error) {
-      console.log('Error fetching SalasCunas:', error);
+  const handleLoadCribroomOptions = async (inputValue) => {
+  try {
+    const response = await getAllCribrooms();
+    setCribrooms(response.data);
+    console.log('All Cribrooms:', response.data); // Verifica las opciones de sala cuna
+
+    if (!inputValue) {
+      console.log('No inputValue. Returning all cribrooms.');
+      return response.data.map(cribroom => ({
+        value: cribroom.id,
+        label: cribroom.name,
+      }));
     }
-  };
+
+    const filteredOptions = response.data.filter(cribroom =>
+      cribroom.name.toLowerCase().startsWith(inputValue.toLowerCase())
+    );
+    console.log('Filtered Options:', filteredOptions); // Verifica las opciones filtradas
+
+    return filteredOptions.map(cribroom => ({
+      value: cribroom.id,
+      label: cribroom.name,
+    }));
+  } catch (error) {
+    console.log('Error fetching Cribrooms:', error);
+    return [];
+  }
+};
 
   const handleDelete = async (childId) => {
     try {
@@ -84,18 +103,27 @@ export default function DropdownCribroomList() {
       alert("Error updating child state");
     }
   };
+
+  const getRowClassName = (params) => {
+    if (params.row.child_state.id === 2) {
+      return 'inactive-row'; 
+    }
+    return '';
+  };
   
   const columns = [
-    { field: 'id', headerName: '#' },
-    { field: 'first_name' , headerName: 'Nombre' },
-    { field: 'last_name', headerName: 'Apellido' },
-    { field: 'dni', headerName: 'DNI' },
-    { field: 'child_state', headerName: 'Estado' },
+    { field: 'id', headerName: '#', width: 50 , headerAlign: 'center' , align: 'center'},
+    { field: 'first_name' , headerName: 'Nombre' , width: 150 , headerAlign: 'center' , align: 'center'},
+    { field: 'last_name', headerName: 'Apellido' , width: 150 , headerAlign: 'center', align: 'center'},
+    { field: 'dni', headerName: 'DNI' , width: 150 , headerAlign: 'center', align: 'center'},
+    { field: 'child_state', headerName: 'Estado' , width: 140 , headerAlign: 'center', align: 'center'},
     {
         field: 'actions',
         type: 'actions',
         headerName: 'Acciones',
-        width: 80,
+        width: 90,
+        headerAlign: 'center',
+        align: 'center',
         getActions: (params) => [
           <GridActionsCellItem
             icon={<DeleteIcon />}
@@ -123,26 +151,13 @@ export default function DropdownCribroomList() {
           <div className="container">
             <div className="dropdown-container">
                 <Form.Label className='mb-1'>Salas Cunas</Form.Label>
-                <select
-                  id='cribroom'
-                  name='cribroom'
-                  value={selectedCribroom}
-                  onChange={handleCribroomChange}
-                  className='form-control'
-                >
-                  <option value=''>Salas Cunas</option>
-                  {cribrooms && cribrooms.map((cribroom) => (
-                    <option key={cribroom.id} value={cribroom.id}>
-                      {cribroom.name}
-                    </option>
-                  ))}
-                </select>
+                <AsyncSelect cacheOptions  loadOptions={handleLoadCribroomOptions} onChange={(selectedOption) => {if (selectedOption) {setSelectedCribroom(selectedOption.value);}}} defaultOptions />
             </div>
 
             <div className="button-container">
               <Button
                 as="input"
-                type="submit"
+                type="button"
                 value="Cargar"
                 size="m"
                 onClick={handleCargarClick}
@@ -151,15 +166,17 @@ export default function DropdownCribroomList() {
           </div>
         </Col>
         <Col>
-          <div className="contenedor-boton-new ">
-            <Button
-              as="input"
-              type="submit" 
-              value="New"
-              size="m"
-              onClick={handleNewClick}
-            />
-          </div>
+          {showNewButton && ( // Mostrar el botón solo si showNewButton es true
+            <div className="contenedor-boton-new">
+              <Button
+                as="input"
+                type="submit"
+                value="New"
+                size="m"
+                onClick={handleNewClick}
+              />
+            </div>
+          )}
         </Col>
       </Row>
   
@@ -168,9 +185,12 @@ export default function DropdownCribroomList() {
           <DataGrid
             rows={childs}
             columns={columns}
-            pageSize={10}
-            rowsPerPageOptions={[10, 25, 50]}
             autoHeight
+            getRowClassName={getRowClassName}
+            initialState={{
+              pagination: { paginationModel: { pageSize: 6 } },
+            }}
+            pageSizeOptions={[6]}
           />
         )}
       </div>

@@ -43,3 +43,7 @@
   margin-top: 29px;
   margin-left: 295px;
 }
+
+.inactive-row {
+  background-color: #f1f1f1; 
+}
