@@ -94,17 +94,7 @@ export default function CribroomDashboard() {
     setFilteredCribroom(filtered);
     console.log(filteredCribroom);
   };
-  const handleCribroomChange = async (event) => {
-    setSelectedCribroom(event.target.value);
-  };
 
-  const handleConfirmClick = async (event) => {
-    setEditConfirmed(true);
-  };
-
-  const hanldeEditConfirmClick = async (event) => {
-    setDeleteConfirmed(true);
-  };
   return (
     <>
       <body>
