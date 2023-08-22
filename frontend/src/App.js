@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import "./App.css";
 import Navbar from "./components/Menu/Menu";
-import PrivateRoute from "./utils/PublicRoute";
+import PrivateRoute from "./utils/PrivateRoute";
 import { PublicRoute } from "./utils/PublicRoute";
 
 import Activate from "./containers/Activate";
@@ -15,15 +15,14 @@ import { Login } from "./components/Login/Login";
 import ActivateAccountPage from "./pages/ActivateAccountPage/ActivateAccountPage";
 import GeneratePadron from "./components/GeneratePadron/GeneratePadron";
 import TechnicalReport from "./components/TechnicalReport/TechnicalReport";
-import AddChildrenPage from './pages/AddChildrenPage/AddChildrenPage';
+import AddChildrenPage from "./pages/AddChildrenPage/AddChildrenPage";
 import CreateRoomPage from "./pages/CreateRoomPage/CreateRoomPage";
 import { SelectRoom } from "./components/SelectRoom/SelectRoom";
 import { FormAddChildren } from "./components/FormAddChildren/FormAddChildren";
-import Payout from './components/Payout/Payout';
+import Payout from "./components/Payout/Payout";
 import CribroomDashboard from "./components/CribroomDashboard/CribroomDashboard";
 import { FaExpeditedssl } from "react-icons/fa";
-import { FormEditChildren } from '../src/components/FormEditChildren/FormEditChildren';
-
+import { FormEditChildren } from "../src/components/FormEditChildren/FormEditChildren";
 
 function App() {
   return (
@@ -58,23 +57,23 @@ function App() {
               element={<PublicRoute children={<GeneratePadron />} />}
             />
 
-            <Route 
-              path="/añadir-chico" 
-              element={<PublicRoute children={<AddChildrenPage/>}/>}
-            />
-
-            <Route 
-              path="/children-management" 
+            <Route
+              path="/añadir-chico"
               element={<PublicRoute children={<AddChildrenPage />} />}
             />
 
-            <Route 
-              path="/children-management/new" 
+            <Route
+              path="/children-management"
+              element={<PublicRoute children={<AddChildrenPage />} />}
+            />
+
+            <Route
+              path="/children-management/new"
               element={<PublicRoute children={<FormAddChildren />} />}
             />
 
-<Route 
-              path="/children-management/edit" 
+            <Route
+              path="/children-management/edit"
               element={<PublicRoute children={<FormEditChildren />} />}
             />
 
@@ -86,7 +85,7 @@ function App() {
               path="/editar-sala"
               element={<PublicRoute children={<SelectRoom />} />}
             />
-             <Route
+            <Route
               path="/maestro-montos"
               element={<PublicRoute children={<Payout />} />}
             />
@@ -95,8 +94,8 @@ function App() {
               element={<PublicRoute children={<TechnicalReport />} />}
             />
             <Route
-            path="/gestion-sala"
-            element={<PrivateRoute children={<CribroomDashboard/>} />}
+              path="/gestion-sala"
+              element={<PrivateRoute children={<CribroomDashboard />} />}
             />
           </Routes>
         </AuthProvider>
