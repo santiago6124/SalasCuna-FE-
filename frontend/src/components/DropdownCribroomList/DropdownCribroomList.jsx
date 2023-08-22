@@ -49,7 +49,17 @@ export default function DropdownCribroomList() {
         console.log('ID de la Cribroom seleccionada:', selectedCribroom);
         const res = await axios.get('http://127.0.0.1:8000/api/child/?padron_cribroom_id=' + selectedCribroom);
         console.log('API Response:', res.data);
-        setChild(res.data);
+        const updateChild = await res.data.map (child => {
+          const matchEstado = child.child_state.id;
+          if (matchEstado === 1){
+            return {...child,child_state: 'Activo'}
+          }
+          else {
+            return {...child, child_state: 'Inactivo'}
+          }
+        })
+
+        setChild(updateChild);
         setShowNewButton(true);
 
 
