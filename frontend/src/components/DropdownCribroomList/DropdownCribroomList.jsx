@@ -52,9 +52,11 @@ export default function DropdownCribroomList() {
         const updateChild = await res.data.map (child => {
           const matchEstado = child.child_state.id;
           if (matchEstado === 1){
+            console.log(matchEstado);
             return {...child,child_state: 'Activo'}
           }
           else {
+            console.log(matchEstado);
             return {...child, child_state: 'Inactivo'}
           }
         })
@@ -117,6 +119,7 @@ export default function DropdownCribroomList() {
   const getRowClassName = (params) => {
     if (params.row.child_state.id === 2) {
       return 'inactive-row'; 
+      
     }
     return '';
   };
