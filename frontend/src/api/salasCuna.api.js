@@ -19,3 +19,7 @@ export const getAllLocalities = () => {
 export const getAllShifts = async () => {
   return axios.get("http://127.0.0.1:8000/api/ShiftListView/");
 };
+
+export const getAllUsers = async () => {
+  return axios.get("http://127.0.0.1:8000/api/UserListView/");
+};
