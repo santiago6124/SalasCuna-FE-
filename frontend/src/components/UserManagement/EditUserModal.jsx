@@ -11,9 +11,14 @@ import { Button } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import { getAllRoles } from "../../api/salasCuna.api";
 
-export function UpdateUser(props) {
+export default function UpdateUser(props) {
   const [selectedUser, setSelectedUser] = useState([]);
   const [roleOptions, setRolesOptions] = useState([]);
+  const [role, setRole] = useState("");
+  const [rolesList, setRolesList] = useState([]);
+  const handleRoleChange = (event) => {
+    setRole(event.target.value);
+  };
 
   useEffect(() => {
     loadRoles();
@@ -22,14 +27,16 @@ export function UpdateUser(props) {
 
   async function loadSelectedUser(user_id) {
     try {
-      const responseUsers = axios.get("/api/user/" + user_id);
-      if (response.ok) {
+      const responseUsers = axios.get(
+        "http://127.0.0.1:8000/api/user/" + user_id
+      );
+      if (responseUsers.ok) {
         const userData = await responseUsers.data;
         setSelectedUser(userData[0]);
       } else {
         console.error(
           "Error fetching selected user data:",
-          response.statusText
+          responseUsers.statusText
         );
       }
     } catch (error) {
@@ -49,114 +56,167 @@ export function UpdateUser(props) {
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
       <div className="contenedor-form-wrapper">
-        <Container fluid className="conteiner-form-room">
-          <Form onSubmit={handleEdit} className="conteiner-form-edit">
-            <h1 className="titulo">Editar Usuario</h1>
+        <Container fluid className="conteiner-form-signup">
+          <Form>
+            <h1 className="titulo">Crear Usuario</h1>
             <div className="contenedor-linea">
               <hr className="linea"></hr>
             </div>
 
-            <Form.Group className="mb-3">
-              <Form.Label className="mb-1">Nombre Del Usuario</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Editar El Nombre Del Usuario"
-                name="first_name"
-                defaultValue={user ? user.first_name : ""}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label className="mb-1">Email Del Usuario</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Editar El e-mail Del Usuario"
-                name="email"
-                defaultValue={user ? user.email : ""}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label className="mb-1">Apellido del usuario</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Editar el apellido del usuario"
-                name="last_name"
-                defaultValue={user ? user.last_name : ""}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label className="mb-1">Direccion Del Usuario</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Editar la direccion del usuario"
-                name="address"
-                defaultValue={user ? user.address : ""}
-              />
-              <Form.Label className="mb-1">Departamento Del Usuario</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Editar el departamento del usuario"
-                name="department"
-                defaultValue={user ? user.department : ""}
-              />
-              <Form.Label className="mb-1">Ciudad Del Usuario</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Editar la ciudad del usuario"
-                name="city"
-                defaultValue={user ? user.city : ""}
-              />
-            </Form.Group>
-            <Row className="mb-1">
-              <Col xs={9}>
-                <Form.Label className="mb-1">DNI del usuario</Form.Label>
+            <div className="Form-Control">
+              {/* Email Label */}
+              <Form.Group className="mb-3">
+                <Form.Label className="mb-1">E-mail</Form.Label>
                 <Form.Control
-                  type="number"
-                  placeholder="Editar DNI del usuario"
-                  name="dni"
-                  defaultValue={user ? user.dni : ""}
+                  type="text"
+                  placeholder="Ingresar E-mail"
+                  name="email"
+                  required
                 />
-              </Col>
-              <Col>
-                <Form.Group>
-                  <Form.Label className="mb-1">Rol del usuario</Form.Label>
-                  <Form.Group className="mb-3">
-                    <Form.Select
-                      name="role"
-                      as="select"
-                      value={roleOptions ? roleOptions : user.role}
-                      className="mb-1"
-                      /* onChange={} */
-                    >
-                      <option value="" disabled>
-                        Seleccionar rol
-                      </option>
-                      {roleOptions.map((role) => (
-                        <option key={role.id} value={role.id}>
-                          {role.name}
-                        </option>
-                      ))}
-                    </Form.Select>
-                  </Form.Group>
+              </Form.Group>
+            </div>
+            <div className="form-row">
+              {/* Nombre Label */}
+              <div className="col-md-6 mb-3">
+                <Form.Label className="mb-1">Nombre</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Ingresar nombre"
+                  name="first_name"
+                  required
+                />
+              </div>
+
+              {/* Apellido Label */}
+              <div className="col-md-6 mb-3">
+                <Form.Label className="mb-1">Apellido</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Ingresar Apellido"
+                  name="last_name"
+                  required
+                />
+              </div>
+            </div>
+            <div className="form-row">
+              {/* DNI  Label*/}
+              <div className="col-md-6 mb-3">
+                <Form.Label className="mb-1">DNI</Form.Label>
+                <Form.Control
+                  type="int"
+                  placeholder="Ingresar El Dni"
+                  name="dni"
+                  required
+                />
+              </div>
+
+              {/* Rol label (Dropdown) */}
+              <div className="col-md-6 mb-3">
+                <Form.Label className="mb-1">Rol</Form.Label>
+                <Form.Select
+                  as="select"
+                  name="role"
+                  value={role}
+                  onChange={handleRoleChange}
+                  required
+                >
+                  <option value="" disabled selected>
+                    Seleccionar Rol
+                  </option>
+                  {rolesList.map((role) => (
+                    <option key={role.id} value={role.id}>
+                      {role.name}
+                    </option>
+                  ))}
+                </Form.Select>
+              </div>
+            </div>
+
+            {/*Phone number Label*/}
+            <div className="Form-Control">
+              <Form.Group className="mb-3">
+                <Form.Label className="mb-1 ">Numero De Telefono</Form.Label>
+                <Form.Control
+                  className="form-label"
+                  type="number"
+                  placeholder="Ingresar Nro De Telefono"
+                  name="phone_number"
+                  required
+                />
+              </Form.Group>
+            </div>
+
+            <div className="form-row">
+              {/* Ciudad */}
+              <div className="col-md-6 mb-3">
+                <Form.Label className="mb-1">Ciudad</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Ingresar Ciudad"
+                  name="city"
+                  required
+                />
+              </div>
+
+              {/* Departamento */}
+              <div className="col-md-6 mb-3">
+                <Form.Label className="mb-1">Departamento</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Ingresar Departamento"
+                  name="department"
+                  required
+                />
+              </div>
+            </div>
+            <div className="Form-Control">
+              {/*Address Label*/}
+              <Form.Group className="mb-3">
+                <Form.Label className="mb-1">Direccion</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Ingresar Direccion"
+                  name="address"
+                  required
+                />
+              </Form.Group>
+            </div>
+              <div className="form-row">
+                {/*Password Label*/}
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-1">Contraseña</Form.Label>
+                  <Form.Control
+                    type="password"
+                    placeholder="Ingrese su contraseña"
+                    name="password"
+                    minLength="8"
+                    required
+                  />
                 </Form.Group>
-              </Col>
-            </Row>
-            <Form.Group className="mb-3">
-              <Form.Label className="mb-1">Numero de telefono</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Editar el numero de telefono del usuario"
-                name="last_name"
-                defaultValue={user ? user.phone_number : ""}
-              />
-            </Form.Group>
-            <div className="contenedor-boton-qr ">
+              </div>
+
+                <div className="col-md-6 mb-3">
+                {/*Repeat Password Label*/}
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-1">Repetir Contraseña</Form.Label>
+                  <Form.Control
+                    type="password"
+                    placeholder="Ingrese su contraseña de nuevo"
+                    name="re_password"
+                    minLength="8"
+                    required
+                  />
+                </Form.Group>
+                </div>
+
+            <div className="contenedor-boton-createuser">
               <Button
-                className="boton-edit mt-3"
+                className="boton mt-3"
                 boton
                 variant="primary"
                 type="submit"
               >
-                Editar Sala Cuna
+                Ingresar
               </Button>
             </div>
           </Form>
