@@ -66,6 +66,15 @@ export function UpdateUser(props) {
               />
             </Form.Group>
             <Form.Group className="mb-3">
+              <Form.Label className="mb-1">Email Del Usuario</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Editar El e-mail Del Usuario"
+                name="email"
+                defaultValue={user ? user.email : ""}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
               <Form.Label className="mb-1">Apellido del usuario</Form.Label>
               <Form.Control
                 type="text"
@@ -119,7 +128,7 @@ export function UpdateUser(props) {
                       /* onChange={} */
                     >
                       <option value="" disabled>
-                        Seleccionar Turno
+                        Seleccionar rol
                       </option>
                       {roleOptions.map((role) => (
                         <option key={role.id} value={role.id}>
