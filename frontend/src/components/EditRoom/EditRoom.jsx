@@ -10,7 +10,7 @@ import { Button } from "react-bootstrap";
 
 import React, { useState, useEffect } from "react";
 
-import { getAllShifts, getAllZones, getAllCribroomsWithoutDepth } from "../../api/salasCuna.api";
+import { getAllShifts, getAllZones } from "../../api/salasCuna.api";
 
 export function UpdateRoom(props) {
   const [zoneOptions, setZoneOptions] = useState([]);
