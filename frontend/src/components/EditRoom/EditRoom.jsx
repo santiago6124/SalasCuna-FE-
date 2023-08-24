@@ -78,7 +78,7 @@ export function UpdateRoom(props) {
     if (selectedCribroom) {
       try {
         let response = await fetch(
-          "http://127.0.0.1:8000/api/cribroom/" + selectedCribroom + "/",
+          "http://127.0.0.1:8000/api/cribroom/" + selectedCribroom + "/?no_depth",
           {
             method: "PUT",
             headers: {
