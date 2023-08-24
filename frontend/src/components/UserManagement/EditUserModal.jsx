@@ -1,4 +1,4 @@
-import "../EditRoom/EditRoom.css";
+import "./EditUserModal.css";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 
@@ -58,26 +58,28 @@ export default function UpdateUser(props) {
       <div className="contenedor-form-wrapper">
         <Container fluid className="conteiner-form-signup">
           <Form>
-            <h1 className="titulo">Crear Usuario</h1>
+            <h1 className="titulo">Editar Usuario</h1>
             <div className="contenedor-linea">
               <hr className="linea"></hr>
             </div>
 
             <div className="Form-Control">
               {/* Email Label */}
-              <Form.Group className="mb-3">
-                <Form.Label className="mb-1">E-mail</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Ingresar E-mail"
-                  name="email"
-                  required
-                />
-              </Form.Group>
+              <Col>
+                <Form.Group className="mb-1">
+                  <Form.Label className="mb-2">E-mail</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Ingresar E-mail"
+                    name="email"
+                    required
+                  />
+                </Form.Group>
+              </Col>
             </div>
-            <div className="form-row">
+            <Row>
               {/* Nombre Label */}
-              <div className="col-md-6 mb-3">
+              <Col className="col-md-6 mb-1">
                 <Form.Label className="mb-1">Nombre</Form.Label>
                 <Form.Control
                   type="text"
@@ -85,10 +87,10 @@ export default function UpdateUser(props) {
                   name="first_name"
                   required
                 />
-              </div>
+              </Col>
 
               {/* Apellido Label */}
-              <div className="col-md-6 mb-3">
+              <Col className="col-md-6 mb-1">
                 <Form.Label className="mb-1">Apellido</Form.Label>
                 <Form.Control
                   type="text"
@@ -96,11 +98,11 @@ export default function UpdateUser(props) {
                   name="last_name"
                   required
                 />
-              </div>
-            </div>
-            <div className="form-row">
+              </Col>
+            </Row>
+            <Row>
               {/* DNI  Label*/}
-              <div className="col-md-6 mb-3">
+              <Col className="col-md-6 mb-1">
                 <Form.Label className="mb-1">DNI</Form.Label>
                 <Form.Control
                   type="int"
@@ -108,10 +110,10 @@ export default function UpdateUser(props) {
                   name="dni"
                   required
                 />
-              </div>
+              </Col>
 
               {/* Rol label (Dropdown) */}
-              <div className="col-md-6 mb-3">
+              <Col className="col-md-6 mb-1">
                 <Form.Label className="mb-1">Rol</Form.Label>
                 <Form.Select
                   as="select"
@@ -129,12 +131,12 @@ export default function UpdateUser(props) {
                     </option>
                   ))}
                 </Form.Select>
-              </div>
-            </div>
+              </Col>
+            </Row>
 
             {/*Phone number Label*/}
             <div className="Form-Control">
-              <Form.Group className="mb-3">
+              <Form.Group className="mb-1">
                 <Form.Label className="mb-1 ">Numero De Telefono</Form.Label>
                 <Form.Control
                   className="form-label"
@@ -146,9 +148,9 @@ export default function UpdateUser(props) {
               </Form.Group>
             </div>
 
-            <div className="form-row">
+            <Row>
               {/* Ciudad */}
-              <div className="col-md-6 mb-3">
+              <Col className="col-md-6 mb-1">
                 <Form.Label className="mb-1">Ciudad</Form.Label>
                 <Form.Control
                   type="text"
@@ -156,10 +158,10 @@ export default function UpdateUser(props) {
                   name="city"
                   required
                 />
-              </div>
+              </Col>
 
               {/* Departamento */}
-              <div className="col-md-6 mb-3">
+              <Col className="col-md-6 mb-1">
                 <Form.Label className="mb-1">Departamento</Form.Label>
                 <Form.Control
                   type="text"
@@ -167,11 +169,11 @@ export default function UpdateUser(props) {
                   name="department"
                   required
                 />
-              </div>
-            </div>
+              </Col>
+            </Row>
             <div className="Form-Control">
               {/*Address Label*/}
-              <Form.Group className="mb-3">
+              <Form.Group className="mb-1">
                 <Form.Label className="mb-1">Direccion</Form.Label>
                 <Form.Control
                   type="text"
@@ -181,9 +183,10 @@ export default function UpdateUser(props) {
                 />
               </Form.Group>
             </div>
-              <div className="form-row">
-                {/*Password Label*/}
-                <Form.Group className="mb-3">
+            <Row>
+              {/*Password Label*/}
+              <Col className="col-md-6 mb-1">
+                <Form.Group className="mb-1">
                   <Form.Label className="mb-1">Contraseña</Form.Label>
                   <Form.Control
                     type="password"
@@ -193,11 +196,11 @@ export default function UpdateUser(props) {
                     required
                   />
                 </Form.Group>
-              </div>
+              </Col>
 
-                <div className="col-md-6 mb-3">
+              <Col className="col-md-6 mb-1">
                 {/*Repeat Password Label*/}
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-1">
                   <Form.Label className="mb-1">Repetir Contraseña</Form.Label>
                   <Form.Control
                     type="password"
@@ -207,16 +210,17 @@ export default function UpdateUser(props) {
                     required
                   />
                 </Form.Group>
-                </div>
+              </Col>
+            </Row>
 
             <div className="contenedor-boton-createuser">
               <Button
-                className="boton mt-3"
+                className="boton mt-1"
                 boton
                 variant="primary"
                 type="submit"
               >
-                Ingresar
+                Editar
               </Button>
             </div>
           </Form>
