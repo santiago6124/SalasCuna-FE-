@@ -102,7 +102,7 @@ export default function UpdateUser(props) {
       <div className="contenedor-form-wrapper">
         <Container fluid className="conteiner-form-signup">
           <Form onSubmit={handleEdit} className="conteiner-form-edit">
-            <h1 className="titulo">Crear Usuario</h1>
+            <h1 className="titulo">Editar Usuario</h1>
             <div className="contenedor-linea">
               <hr className="linea"></hr>
             </div>
