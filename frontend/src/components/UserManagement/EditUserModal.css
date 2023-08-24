@@ -53,3 +53,13 @@
 .modal-footer {
   justify-content: center;
 }
+
+.ls {
+  margin-right: -5px;
+  margin-left: 5px;
+}
+
+.rs{
+  margin-right: 5px;
+  margin-left: -15px;
+}
