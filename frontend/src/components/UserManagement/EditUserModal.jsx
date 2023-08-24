@@ -16,7 +16,6 @@ export default function UpdateUser(props) {
   const [user, setUser] = useState([]);
   const [roleOptions, setRolesOptions] = useState([]);
   const [role, setRole] = useState("");
-  const [rolesList, setRolesList] = useState([]);
 
   const handleRoleChange = (event) => {
     setRole(event.target.value);
@@ -24,8 +23,18 @@ export default function UpdateUser(props) {
 
   useEffect(() => {
     loadRoles();
+    setSelectedUser(props.id);
     loadSelectedUser(props.id);
   }, []);
+
+  const loadRoles = async () => {
+    try {
+      const response = await getAllRoles();
+      setRolesOptions(response.data);
+    } catch (error) {
+      console.error("Error fetching role options:", error);
+    }
+  };
 
   async function loadSelectedUser(user_id) {
     try {
@@ -48,24 +57,51 @@ export default function UpdateUser(props) {
     }
   }
 
-  const loadRoles = async () => {
-    try {
-      const response = await getAllRoles();
-      setRolesOptions(response.data);
-    } catch (error) {
-      console.error("Error fetching role options:", error);
-    }
+  const handleEdit = async (event) => {
+    event.preventDefaut();
+    const formData = new FormData(event.target);
+    const payload = {
+      email: formData.get("email"),
+      first_name: formData.get("first_name"),
+      last_name: formData.get("last_name"),
+      dni: formData.get("dni"),
+      role: formData.get("role"),
+      phone_number: formData.get("phone_number"),
+      city: formData.get("city"),
+      department: formData.get("department"),
+      address: formData.get("address"),
+      password: formData.get("password"),
+      re_password: formData.get("re_password")
+    };
+    if(selectedUser){
+      try{
+        let response = await fetch(
+          "http://127.0.0.1:8000/api/user/" + selectedUser + "/",
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+        );
+        if(response.ok) {
+          console.log("Updated User");
+          props.onHide();
+        } else {
+          console.error('Error updating user:', response.statusText);
+        }
+      } catch (error) {
+        alert(error);
+      }
+    };
   };
-
-  const handleEdit = async () => {
-    console.log(selectedUser)
-  }
 
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
       <div className="contenedor-form-wrapper">
         <Container fluid className="conteiner-form-signup">
-          <Form onSubmit={handleEdit}>
+          <Form onSubmit={handleEdit} className="conteiner-form-edit">
             <h1 className="titulo">Crear Usuario</h1>
             <div className="contenedor-linea">
               <hr className="linea"></hr>
@@ -135,7 +171,7 @@ export default function UpdateUser(props) {
                   <option value="" disabled selected>
                     Seleccionar Rol
                   </option>
-                  {rolesList.map((role) => (
+                  {roleOptions.map((role) => (
                     <option key={role.id} value={role.id}>
                       {role.name}
                     </option>
