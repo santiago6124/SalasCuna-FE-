@@ -12,10 +12,12 @@ import React, { useState, useEffect } from "react";
 import { getAllRoles } from "../../api/salasCuna.api";
 
 export default function UpdateUser(props) {
-  const [selectedUser, setSelectedUser] = useState([]);
+  const [selectedUser, setSelectedUser] = useState("");
+  const [user, setUser] = useState([]);
   const [roleOptions, setRolesOptions] = useState([]);
   const [role, setRole] = useState("");
   const [rolesList, setRolesList] = useState([]);
+
   const handleRoleChange = (event) => {
     setRole(event.target.value);
   };
@@ -27,12 +29,14 @@ export default function UpdateUser(props) {
 
   async function loadSelectedUser(user_id) {
     try {
-      const responseUsers = axios.get(
-        "http://127.0.0.1:8000/api/user/" + user_id
+      const responseUsers = await fetch(
+        "http://127.0.0.1:8000/api/user/" + user_id + "/",
+        { method: "GET" }
       );
       if (responseUsers.ok) {
-        const userData = await responseUsers.data;
-        setSelectedUser(userData[0]);
+        const userData = await responseUsers.json();
+        const userr = userData;
+        setUser(userr);
       } else {
         console.error(
           "Error fetching selected user data:",
@@ -53,11 +57,15 @@ export default function UpdateUser(props) {
     }
   };
 
+  const handleEdit = async () => {
+    console.log(selectedUser)
+  }
+
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
       <div className="contenedor-form-wrapper">
         <Container fluid className="conteiner-form-signup">
-          <Form>
+          <Form onSubmit={handleEdit}>
             <h1 className="titulo">Crear Usuario</h1>
             <div className="contenedor-linea">
               <hr className="linea"></hr>
@@ -71,6 +79,7 @@ export default function UpdateUser(props) {
                   type="text"
                   placeholder="Ingresar E-mail"
                   name="email"
+                  defaultValue={user ? user.email : ""}
                   required
                 />
               </Form.Group>
@@ -83,6 +92,7 @@ export default function UpdateUser(props) {
                   type="text"
                   placeholder="Ingresar nombre"
                   name="first_name"
+                  defaultValue={user ? user.first_name : ""}
                   required
                 />
               </div>
@@ -94,6 +104,7 @@ export default function UpdateUser(props) {
                   type="text"
                   placeholder="Ingresar Apellido"
                   name="last_name"
+                  defaultValue={user ? user.last_name : ""}
                   required
                 />
               </div>
@@ -106,6 +117,7 @@ export default function UpdateUser(props) {
                   type="int"
                   placeholder="Ingresar El Dni"
                   name="dni"
+                  defaultValue={user ? user.dni : ""}
                   required
                 />
               </div>
@@ -116,7 +128,7 @@ export default function UpdateUser(props) {
                 <Form.Select
                   as="select"
                   name="role"
-                  value={role}
+                  defaultValue={user ? user.role : ""}
                   onChange={handleRoleChange}
                   required
                 >
@@ -141,6 +153,7 @@ export default function UpdateUser(props) {
                   type="number"
                   placeholder="Ingresar Nro De Telefono"
                   name="phone_number"
+                  defaultValue={user ? user.phone_number : ""}
                   required
                 />
               </Form.Group>
@@ -154,6 +167,7 @@ export default function UpdateUser(props) {
                   type="text"
                   placeholder="Ingresar Ciudad"
                   name="city"
+                  defaultValue={user ? user.city : ""}
                   required
                 />
               </div>
@@ -165,6 +179,7 @@ export default function UpdateUser(props) {
                   type="text"
                   placeholder="Ingresar Departamento"
                   name="department"
+                  defaultValue={user ? user.department : ""}
                   required
                 />
               </div>
@@ -177,6 +192,7 @@ export default function UpdateUser(props) {
                   type="text"
                   placeholder="Ingresar Direccion"
                   name="address"
+                  defaultValue={user ? user.address : ""}
                   required
                 />
               </Form.Group>
@@ -212,8 +228,7 @@ export default function UpdateUser(props) {
             <div className="contenedor-boton-createuser">
               <Button
                 className="boton mt-3"
-                boton
-                variant="primary"
+                boton variant="primary"
                 type="submit"
               >
                 Ingresar

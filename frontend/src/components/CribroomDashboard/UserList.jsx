@@ -89,7 +89,8 @@ export default function UserList() {
           </header>
 
           <>
-            <UpdateUser
+          {selectedUser && (
+              <UpdateUser
               id={selectedUser}
               show={modalEditShow}
               onHide={() => {
@@ -98,6 +99,8 @@ export default function UserList() {
                 /* window.location.reload(); */
               }}
             />
+          )}
+
             <>
               <h1 className="titulo-cb">Usuarios</h1>
               <div className="contenedor-linea-cb">
