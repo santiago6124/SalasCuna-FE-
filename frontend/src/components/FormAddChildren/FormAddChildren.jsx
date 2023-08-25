@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 
 import '../AddChildren/AddChildren.css';
 
@@ -95,8 +95,8 @@ export function FormAddChildren() {
             // child_state: formData.get("estado"),
         };
 
+
         
-            
 
         try {
             const response = await fetch('http://127.0.0.1:8000/api/child/', {
@@ -129,7 +129,6 @@ export function FormAddChildren() {
     const [childStates, setChildState] = useState([]);
     const [guardianTypes, setGuardianType] = useState([]); 
     const [phoneFeatures, setPhoneFeature] = useState([]); 
-    
 
     const [selectedGeneroChield, setSelectedGeneroChield] = useState('');
     const [selectedGeneroGuardian, setSelectedGeneroGuardian] = useState('');
@@ -295,31 +294,58 @@ export function FormAddChildren() {
                 <hr className="linea"/>
             </div>
 
-            <Form.Group className="mb-3">
+
                 <Form.Label className="mb-1">Nombre</Form.Label>
-                <Form.Control type="text" placeholder="Ingrese un nombre" name="nombreChield" />
-            </Form.Group>
+                <Form.Control
+                    id="nombre"
+                    type="text"
+                    placeholder="Ingrese un nombre"
+                    name="nombreChield"
+                    className='mb-3'
+                    required
+                />
 
-            <Form.Group className="mb-3">
                 <Form.Label className='mb-1'>Apellido</Form.Label>
-                <Form.Control type="text" placeholder="Ingrese un apellido"name="apellidoChield" />
-            </Form.Group>
+                <Form.Control 
+                    type="text" 
+                    placeholder="Ingrese un apellido"
+                    name="apellidoChield" 
+                    className="mb-3"
+                    required
+                />
 
-            <Form.Group className="mb-3">
+
                 <Form.Label className='mb-1'>DNI</Form.Label>
-                <Form.Control type="number" placeholder="Ingrese un DNI"name="dniChield" />
-            </Form.Group>
-            
-            <Form.Group className="mb-3">
+                <Form.Control 
+                    type="number" 
+                    placeholder="Ingrese un DNI"
+                    name="dniChield"
+                    className="mb-3"
+                    required
+                />
+
                 <Form.Label className='mb-1'>Fecha De Nacimiento</Form.Label>
-                <Form.Control type="date" placeholder="" name="fechaNacimientoChield" />
-            </Form.Group>
+                <Form.Control 
+                    type="date" 
+                    placeholder="" 
+                    name="fechaNacimientoChield" 
+                    className="mb-3"
+                    required
+                />
+
 
             <Row className="mb-3">
                 <Col>
                     <div>
                         <Form.Label className='mb-1'>Genero</Form.Label>
-                        <select id="gender" name="generoChield" value={selectedGeneroChield} onChange={handleGeneroChieldChange} className='form-control'>
+                        <select 
+                            id="gender" 
+                            name="generoChield" 
+                            value={selectedGeneroChield} 
+                            onChange={handleGeneroChieldChange} 
+                            className='form-control'
+                            required
+                            >
                             <option value="">Generos</option>
                             {chieldGenders.map((gender) => (
                                 <option key={gender.id} value={gender.id}>
@@ -332,7 +358,14 @@ export function FormAddChildren() {
                 <Col>
                     <div>
                         <Form.Label className='mb-1'>Estado</Form.Label>
-                        <select id="child_state" name="estado" value={selectedChildState} onChange={handleChildStateChange} className='form-control'>
+                        <select 
+                            id="child_state" 
+                            name="estado" 
+                            value={selectedChildState} 
+                            onChange={handleChildStateChange} 
+                            className='form-control'
+                            required
+                            >
                             <option value="">Estado</option>
                             {childStates.map((child_state) => (
                                 <option key={child_state.id} value={child_state.id}>
@@ -348,7 +381,14 @@ export function FormAddChildren() {
                 <Col>
                     <div>
                         <Form.Label className='mb-1'>Sala Cuna</Form.Label>
-                        <select id="cribroom" name="salacuna" value={selectedSalaCuna} onChange={handleSalaCunaChange} className='form-control'>
+                        <select 
+                            id="cribroom" 
+                            name="salacuna" 
+                            value={selectedSalaCuna} 
+                            onChange={handleSalaCunaChange} 
+                            className='form-control'
+                            required
+                        >
                             <option value="">Sala Cuna</option>
                             {salas.map((cribroom) => (
                                 <option key={cribroom.id} value={cribroom.id}>
@@ -362,7 +402,13 @@ export function FormAddChildren() {
             
             <div className='mb-3'>
                 <Form.Label className='mb-1'>Turno</Form.Label>
-                <select id="shift" name="turno" value={selectedTurno} onChange={handleTurnoChange} className='form-control'>
+                <select 
+                    id="shift" 
+                    name="turno" 
+                    value={selectedTurno} 
+                    onChange={handleTurnoChange} 
+                    className='form-control'
+                >
                     <option value="">Turnos</option>
                     {shifts.map((shift) => (
                         <option key={shift.id} value={shift.id}>
@@ -376,11 +422,21 @@ export function FormAddChildren() {
             <Row className="mb-5">
                 <Col>
                     <Form.Label className='mb-1'>Fecha de baja</Form.Label>
-                    <Form.Control type="date" placeholder="" name="fechaBaja"/>
+                    <Form.Control 
+                        type="date" 
+                        placeholder="" 
+                        name="fechaBaja"
+                        
+                    />
                 </Col>
                 <Col>
                     <Form.Label className='mb-1'>Fecha de alta</Form.Label>
-                    <Form.Control type="date" placeholder="" name="fechaAlta"/>
+                    <Form.Control 
+                        type="date" 
+                        placeholder="" 
+                        name="fechaAlta"
+                        required
+                    />
                 </Col>
             </Row>
 
@@ -391,24 +447,43 @@ export function FormAddChildren() {
                 <hr className='linea'></hr>
             </div>
 
-            <Form.Group className="mb-3">
                 <Form.Label className='mb-1'>Nombre</Form.Label>
-                <Form.Control type="text" placeholder="Ingrese un nombre" name="nombreGuardian" />
-            </Form.Group>
+                <Form.Control 
+                    type="text" 
+                    placeholder="Ingrese un nombre" 
+                    name="nombreGuardian" 
+                    className="mb-3"
+                    required
+                />
 
-            <Form.Group className="mb-3">
                 <Form.Label className='mb-1'>Apellido</Form.Label>
-                <Form.Control type="text" placeholder="Ingrese un apellido" name="apellidoGuardian"/>
-            </Form.Group>
+                <Form.Control 
+                    type="text" 
+                    placeholder="Ingrese un apellido" 
+                    name="apellidoGuardian"
+                    className="mb-3"
+                    required
+                />
 
-            <Form.Group className="mb-3">
                 <Form.Label className='mb-1'>DNI</Form.Label>
-                <Form.Control type="number" placeholder="Ingrese un DNI" name='dniGuardian' />
-            </Form.Group>
+                <Form.Control 
+                    type="number"
+                    placeholder="Ingrese un DNI" 
+                    name='dniGuardian' 
+                    className="mb-3"
+                    required
+                />
 
             <div className='mb-3'>
                 <Form.Label className='mb-1'>Genero</Form.Label>
-                <select id="gender" name='generoGuardian' value={selectedGeneroGuardian} onChange={handleGeneroGuardianChange} className='form-control'>
+                <select 
+                    id="gender" 
+                    name='generoGuardian' 
+                    value={selectedGeneroGuardian} 
+                    onChange={handleGeneroGuardianChange} 
+                    className='form-control'
+                    required
+                >
                     <option value="">Generos</option>
                     {guardianGenders.map((gender) => (
                         <option key={gender.id} value={gender.id}>
@@ -422,7 +497,14 @@ export function FormAddChildren() {
                 <Col>
                     <Form.Label className='mb-1'>Caracterisitca Telefonica</Form.Label>
 
-                    <select id="phoneFeature" name='phoneFeature' value={selectedPhoneFeature} onChange={handlePhoneFeatureChange} className='form-control'>
+                    <select 
+                        id="phoneFeature" 
+                        name='phoneFeature' 
+                        value={selectedPhoneFeature} 
+                        onChange={handlePhoneFeatureChange} 
+                        className='form-control'
+                        required
+                    >
                     <option value="">Phone Features</option>
                     {phoneFeatures.map((phoneFeature) => (
                         <option key={phoneFeature.id} value={phoneFeature.id}>
@@ -431,9 +513,16 @@ export function FormAddChildren() {
                     ))}
                 </select>
                 </Col>
+
                 <Col>
                     <Form.Label className='mb-1'>Telefono</Form.Label>
-                    <Form.Control type="number" placeholder="Ingrese un telefono" name='telefono' />
+                    <Form.Control 
+                        type="number" 
+                        placeholder="Ingrese un telefono" 
+                        name='telefono' 
+                        required
+                    />
+
                 </Col>
             </Row>
 
@@ -441,7 +530,14 @@ export function FormAddChildren() {
                 <Col>
                     <Form.Label className='mb-1'>Madre/padre o Tutor?</Form.Label>
 
-                    <select id="guardianType" name='guardianType' value={selectedGuardianType} onChange={handleGuardianTypeChange} className='form-control'>
+                    <select 
+                        id="guardianType" 
+                        name='guardianType' 
+                        value={selectedGuardianType} 
+                        onChange={handleGuardianTypeChange} 
+                        className='form-control'
+                        required
+                    >
                     <option value="">Madre/padre o Tutor?</option>
                     {guardianTypes.map((guardianType) => (
                         <option key={guardianType.id} value={guardianType.id}>
@@ -460,17 +556,35 @@ export function FormAddChildren() {
             <Row className="mb-3">
                 <Col>
                     <Form.Label className='mb-1'>Calle</Form.Label>
-                    <Form.Control type="text" placeholder="Ingrese una calle" name="calle"/>
+                    <Form.Control 
+                        type="text" 
+                        placeholder="Ingrese una calle" 
+                        name="calle"
+                        required
+                    />
+                   
                 </Col>
                 <Col>
                     <Form.Label className='mb-1'>Numero</Form.Label>
-                    <Form.Control type="number" placeholder="Ingrese un numero" name="numero_casa"/>
+                    <Form.Control 
+                        type="number" 
+                        placeholder="Ingrese un numero" 
+                        name="numero_casa"
+                        
+                    />
                 </Col>
             </Row>
 
             <div className='mb-3'>
                 <Form.Label className='mb-1'>Barrio</Form.Label>
-                <select id="neighborhood" name="neighborhood" value={selectedNeighborhood} onChange={handleNeighborhoodChange} className='form-control'>
+                <select 
+                    id="neighborhood" 
+                    name="neighborhood" 
+                    value={selectedNeighborhood} 
+                    onChange={handleNeighborhoodChange} 
+                    className='form-control'
+                    
+                >
                     <option value="">Localidad</option>
                     {neighborhoods.map((neighborhood) => (
                         <option key={neighborhood.id} value={neighborhood.id}>
@@ -482,7 +596,14 @@ export function FormAddChildren() {
 
             <div className='mb-3'>
                 <Form.Label className='mb-1'>Localidad</Form.Label>
-                <select id="locality" name="locality" value={selectedLocality} onChange={handleLocalityChange} className='form-control'>
+                <select 
+                    id="locality" 
+                    name="locality" 
+                    value={selectedLocality} 
+                    onChange={handleLocalityChange} 
+                    className='form-control'
+                    
+                >
                     <option value="">Localidad</option>
                     {localities.map((locality) => (
                         <option key={locality.id} value={locality.id}>
@@ -490,6 +611,7 @@ export function FormAddChildren() {
                         </option>
                     ))}
                 </select>
+
             </div>
 
 
