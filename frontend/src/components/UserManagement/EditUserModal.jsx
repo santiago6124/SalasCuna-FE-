@@ -9,32 +9,51 @@ import { Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 
 import React, { useState, useEffect } from "react";
-import { getAllRoles } from "../../api/salasCuna.api";
+import { getAllRoles, getAllDepartments } from "../../api/salasCuna.api";
 
 export default function UpdateUser(props) {
   const [selectedUser, setSelectedUser] = useState("");
   const [user, setUser] = useState([]);
-  const [roleOptions, setRolesOptions] = useState([]);
+  const [roleOptions, setRoleOptions] = useState([]);
   const [role, setRole] = useState("");
+  const [departmentOptions, setDepartmentOptions] = useState([]);
+  const [department, setDepartment] = useState("");
+
+  useEffect(() => {
+    loadRoles();
+    loadDepartments();
+    setSelectedUser(props.id);
+    loadSelectedUser(props.id);
+  }, []);
+
+
+  const loadRoles = async () => {
+    try {
+      const response = await getAllRoles();
+      setRoleOptions(response.data);
+    } catch (error) {
+      console.error("Error fetching role options:", error);
+    }
+  };
 
   const handleRoleChange = (event) => {
     setRole(event.target.value);
   };
 
-  useEffect(() => {
-    loadRoles();
-    setSelectedUser(props.id);
-    loadSelectedUser(props.id);
-  }, []);
 
-  const loadRoles = async () => {
+  const loadDepartments = async () => {
     try {
-      const response = await getAllRoles();
-      setRolesOptions(response.data);
+      const response = await getAllDepartments();
+      setDepartmentOptions(response.data);
     } catch (error) {
-      console.error("Error fetching role options:", error);
+      console.error("Error fetching department options:", error);
     }
   };
+
+  const handleDepartmentChange = (event) => {
+    setDepartment(event.target.value);
+  };
+
 
   async function loadSelectedUser(user_id) {
     try {
@@ -214,13 +233,22 @@ export default function UpdateUser(props) {
               {/* Departamento */}
               <Col className="col-md-6 rs mb-1">
                 <Form.Label className="mb-1">Departamento</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Ingresar Departamento"
+                <Form.Select
+                  as="select"
                   name="department"
                   defaultValue={user ? user.department : ""}
+                  onChange={handleDepartmentChange}
                   required
-                />
+                >
+                  <option value="" disabled>
+                    Seleccionar Departamento
+                  </option>
+                  {departmentOptions.map((department) => (
+                    <option key={department.id} value={department.id}>
+                      {department.department}
+                    </option>
+                  ))}
+                </Form.Select>
               </Col>
             </Row>
             <div className="Form-Control">
