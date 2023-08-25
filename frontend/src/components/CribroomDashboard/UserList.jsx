@@ -64,6 +64,12 @@ export default function UserList() {
     console.log("Edit clicked for row with id:", rowId);
   };
 
+  const handleEditClick = (rowId) => {
+    setSelectedUser(rowId);
+    setModalEditShow(true);
+    console.log("Edit clicked for row with id:", rowId);
+  };
+
   // SEARCH FUNCTION (Update to function on user list)
 
   const updateKeyword = (keyword) => {
@@ -74,11 +80,6 @@ export default function UserList() {
     setFilteredUsers(filtered);
   };
 
-  const handleEditClick = (rowId) => {
-    setSelectedUser(rowId);
-    setModalEditShow(true);
-    console.log("Edit clicked for row with id:", rowId);
-  };
 
   return (
     <>
