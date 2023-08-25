@@ -59,7 +59,6 @@ export default function UpdateUser(props) {
 
   const handleEditUser = async (event) => {
     event.preventDefault();
-    alert("AAAAAAAAAAAAa")
     const formData = new FormData(event.target);
     const payload = {
       email: formData.get("email"),
@@ -76,7 +75,6 @@ export default function UpdateUser(props) {
     };
     if (selectedUser) {
       try {
-        alert("entro al try")
         let response = await fetch(
           "http://127.0.0.1:8000/api/user/" + selectedUser + "/",
           {
@@ -96,8 +94,6 @@ export default function UpdateUser(props) {
       } catch (error) {
         alert(error);
       }
-    } else {
-      alert("???")
     }
   };
 
