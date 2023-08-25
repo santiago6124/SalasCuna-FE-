@@ -58,7 +58,7 @@ export default function UpdateUser(props) {
   }
 
   const handleEditUser = async (event) => {
-    event.preventDefaut();
+    event.preventDefault();
     alert("AAAAAAAAAAAAa")
     const formData = new FormData(event.target);
     const payload = {
