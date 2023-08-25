@@ -57,8 +57,9 @@ export default function UpdateUser(props) {
     }
   }
 
-  const handleEdit = async (event) => {
+  const handleEditUser = async (event) => {
     event.preventDefaut();
+    alert("AAAAAAAAAAAAa")
     const formData = new FormData(event.target);
     const payload = {
       email: formData.get("email"),
@@ -75,6 +76,7 @@ export default function UpdateUser(props) {
     };
     if (selectedUser) {
       try {
+        alert("entro al try")
         let response = await fetch(
           "http://127.0.0.1:8000/api/user/" + selectedUser + "/",
           {
@@ -94,6 +96,8 @@ export default function UpdateUser(props) {
       } catch (error) {
         alert(error);
       }
+    } else {
+      alert("???")
     }
   };
 
@@ -101,7 +105,7 @@ export default function UpdateUser(props) {
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
       <div className="contenedor-form-wrapper">
         <Container fluid className="conteiner-form-signup">
-          <Form onSubmit={handleEdit} className="conteiner-form-edit">
+          <Form onSubmit={handleEditUser} className="conteiner-form-edit">
             <h1 className="titulo">Editar Usuario</h1>
             <div className="contenedor-linea">
               <hr className="linea"></hr>
@@ -268,12 +272,11 @@ export default function UpdateUser(props) {
               </Col>
             </Row>
 
-            <div className="contenedor-boton-createuser">
-              <Button
+            <div className= "contenedor-boton-createuser">
+              <Button type="submit"
                 className="boton mt-1"
                 boton
                 variant="primary"
-                type="submit"
               >
                 Editar
               </Button>
