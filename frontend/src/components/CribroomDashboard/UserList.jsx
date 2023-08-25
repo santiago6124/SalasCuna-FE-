@@ -5,6 +5,7 @@ import "./CribroomDashboard.css";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import UpdateUser from "../UserManagement/EditUserModal";
+import DeleteUser from "../UserManagement/DeleteUserModal";
 
 //React  and React Functions Import
 import React, { useEffect, useState } from "react";
@@ -97,7 +98,18 @@ export default function UserList() {
               onHide={() => {
                 setModalEditShow(false);
                 setSelectedUser(""); 
-                /* window.location.reload(); */
+                window.location.reload();
+              }}
+            />
+          )}
+          {selectedUser && (
+              <DeleteUser
+              id={selectedUser}
+              show={modalDeleteShow}
+              onHide={() => {
+                setModalDeleteShow(false);
+                setSelectedUser(""); 
+                /*window.location.reload();*/
               }}
             />
           )}
