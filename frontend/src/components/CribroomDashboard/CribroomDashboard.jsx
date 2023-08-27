@@ -115,7 +115,7 @@ export default function CribroomDashboard() {
                 onHide={() => {
                   setModalDeleteShow(false);
                   setSelectedCribroom(""); // Reset selectedCribroom after closing modal
-                  window.location.reload();
+                  /*window.location.reload();*/
                 }}
               />
             )}

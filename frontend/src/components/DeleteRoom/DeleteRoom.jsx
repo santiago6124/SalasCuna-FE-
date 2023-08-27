@@ -18,14 +18,14 @@ export default function DeleteRoom(props) {
     console.log(selectedCribroom);
     try {
       const payload = {
-        is_active: "False",
+        is_active: "false",
       };
 
       console.log("making fetch");
       let response = await fetch(
         "http://127.0.0.1:8000/api/cribroom/" + selectedCribroom + "/",
         {
-          method: "PUT",
+          method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },
