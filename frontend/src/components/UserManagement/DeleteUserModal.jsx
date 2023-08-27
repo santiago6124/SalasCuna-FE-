@@ -25,7 +25,7 @@ export default function DeleteUser(props) {
       let response = await fetch(
         "http://127.0.0.1:8000/api/user/" + selectedUser + "/",
         {
-          method: "PUT",
+          method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },
