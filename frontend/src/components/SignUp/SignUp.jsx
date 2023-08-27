@@ -34,7 +34,7 @@ const SignUp = () => {
 
   return (
     <div className="body">
-        <Container fluid className="conteiner-form-signup">
+        <Container className="conteiner-form-signup">
           <Form onSubmit={signupUser} className="conteiner-form-edit">
             <h1 className="titulo">Agregar Usuario</h1>
             <div className="contenedor-linea">
@@ -200,7 +200,7 @@ const SignUp = () => {
                 variant="primary"
                 type="submit"
               >
-                Editar
+                Agregar Usuario
               </Button>
             </div>
           </Form>
