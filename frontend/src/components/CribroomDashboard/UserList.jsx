@@ -109,7 +109,7 @@ export default function UserList() {
               onHide={() => {
                 setModalDeleteShow(false);
                 setSelectedUser(""); 
-                /*window.location.reload();*/
+                window.location.reload();
               }}
             />
           )}
