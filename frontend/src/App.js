@@ -23,6 +23,7 @@ import Payout from "./components/Payout/Payout";
 import CribroomDashboard from "./components/CribroomDashboard/CribroomDashboard";
 import { FaExpeditedssl } from "react-icons/fa";
 import { FormEditChildren } from "../src/components/FormEditChildren/FormEditChildren";
+import PayoutTest from "./components/Payout/PayoutTest";
 
 function App() {
   return (
@@ -87,7 +88,7 @@ function App() {
             />
             <Route
               path="/maestro-montos"
-              element={<PublicRoute children={<Payout />} />}
+              element={<PrivateRoute children={<PayoutTest />} />}
             />
             <Route
               path="/informe-tecnico"
