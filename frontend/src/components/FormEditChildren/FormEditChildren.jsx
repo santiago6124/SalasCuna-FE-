@@ -15,7 +15,7 @@ export function FormEditChildren() {
     }, []);
 
     const getChildren = async () => {
-        let response = await fetch('http://127.0.0.1:8000/api/all-objects/');
+        let response = await fetch('/api/all-objects/');
         let data = await response.json();
         console.log(data);
     };
@@ -98,7 +98,7 @@ export function FormEditChildren() {
 
     const GenderList = async () => {
         try {
-          const response = await axios.get('http://127.0.0.1:8000/api/GenderListView/');
+          const response = await axios.get('/api/GenderListView/');
           setChildGender(response.data);
           setGuardianGender(response.data);
         } catch (error) {
@@ -109,7 +109,7 @@ export function FormEditChildren() {
 
     const CribroomList = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/CribroomListView/');
+            const response = await axios.get('/api/cribroom/');
             setCribroom(response.data);
             }   catch (error)  {
                 console.log('Error fetching Salas Cunas:', error);
@@ -118,7 +118,7 @@ export function FormEditChildren() {
 
     const ShiftList = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/ShiftListView/');
+            const response = await axios.get('/api/ShiftListView/');
             setShift(response.data);
             } catch (error) {
                 console.log('Error fetching Turnos:', error);
@@ -127,7 +127,7 @@ export function FormEditChildren() {
 
     const LocalityList = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/LocalityListView/');
+            const response = await axios.get('/api/LocalityListView/');
             setLocality(response.data);
             } catch(error) {
                 console.error('Error fetching localidad:', error);
@@ -136,7 +136,7 @@ export function FormEditChildren() {
 
     const NeighborhoodList = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/NeighborhoodListView/');
+            const response = await axios.get('/api/NeighborhoodListView/');
             setNeighborhood(response.data);
             } catch(error) {
                 console.error('Error fetching barrio:', error);
@@ -145,7 +145,7 @@ export function FormEditChildren() {
 
     const ChildStateList = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/ChildStateListView/');
+            const response = await axios.get('/api/ChildStateListView/');
             setChildState(response.data);
             } catch(error) {
                 console.error('Error fetching estados:', error);
@@ -156,7 +156,7 @@ export function FormEditChildren() {
     
     const GuardianTypeList = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/GuardianTypeListView/');
+            const response = await axios.get('/api/GuardianTypeListView/');
             setGuardianType(response.data);
             } catch(error) {
                 console.error('Error fetching estados:', error);
@@ -165,7 +165,7 @@ export function FormEditChildren() {
 
     const PhoneFeatureList = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/PhoneFeatureListView/');
+            const response = await axios.get('/api/PhoneFeatureListView/');
             setPhoneFeature(response.data);
             } catch(error) {
                 console.error('Error fetching estados:', error);
@@ -210,7 +210,7 @@ export function FormEditChildren() {
   
     try {
      console.log(childId + " id");
-     let response = await fetch(`http://127.0.0.1:8000/api/child/${childId}/`, {
+     let response = await fetch(`/api/child/${childId}/`, {
        method: 'PUT',
        headers: {
            'Content-Type': 'application/json'
@@ -268,20 +268,11 @@ export function FormEditChildren() {
             </Form.Group>
 
 
-            <Row className="mb-3">
-                <Col>
-                    <Form.Group className="mb-3">
-                        <Form.Label className='mb-1'>Fecha De Nacimiento</Form.Label>
-                        <Form.Control type="date" placeholder="" name="fechaNacimientoChield" required/>
-                    </Form.Group>
-                </Col>
-                <Col>
-                    <Form.Group className="mb-3">
-                        <Form.Label className='mb-1'>Edad</Form.Label>
-                        <Form.Control type="number" placeholder="" name="edadChild" required/>
-                    </Form.Group>
-                </Col>
-            </Row>
+            
+            <Form.Group className="mb-3">
+                <Form.Label className='mb-1'>Fecha De Nacimiento</Form.Label>
+                <Form.Control type="date" placeholder="" name="fechaNacimientoChield" required/>
+            </Form.Group>
 
             <Row className="mb-3">
                 <Col>

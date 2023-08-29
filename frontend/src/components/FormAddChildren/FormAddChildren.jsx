@@ -17,7 +17,7 @@ export function FormAddChildren() {
     }, []);
 
     const getChildren = async () => {
-        let response = await fetch('http://127.0.0.1:8000/api/all-objects/');
+        let response = await fetch('/api/child/?no_depth');
         let data = await response.json();
         console.log(data);
     };
@@ -57,6 +57,7 @@ export function FormAddChildren() {
             first_name: formData.get("nombreChield"),
             last_name: formData.get("apellidoChield"),
             dni: formData.get("dniChield"),
+
             birthdate: formData.get("fechaNacimientoChield"),
             street: formData.get("calle"),
             house_number: formData.get("numero_casa"),
@@ -99,7 +100,7 @@ export function FormAddChildren() {
         
 
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/child/', {
+            const response = await fetch('/api/child/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -197,7 +198,7 @@ export function FormAddChildren() {
 
     const GenderList = async () => {
         try {
-          const response = await axios.get('http://127.0.0.1:8000/api/GenderListView/');
+          const response = await axios.get('/api/GenderListView/');
           setChildGender(response.data);
           setGuardianGender(response.data);
         } catch (error) {
@@ -208,7 +209,7 @@ export function FormAddChildren() {
 
     const CribroomList = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/CribroomListView/');
+            const response = await axios.get('/api/cribroom/');
             setCribroom(response.data);
             }   catch (error)  {
                 console.log('Error fetching Salas Cunas:', error);
@@ -217,7 +218,7 @@ export function FormAddChildren() {
 
     const ShiftList = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/ShiftListView/');
+            const response = await axios.get('/api/ShiftListView/');
             setShift(response.data);
             } catch (error) {
                 console.log('Error fetching Turnos:', error);
@@ -226,7 +227,7 @@ export function FormAddChildren() {
 
     const LocalityList = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/LocalityListView/');
+            const response = await axios.get('/api/LocalityListView/');
             setLocality(response.data);
             } catch(error) {
                 console.error('Error fetching localidad:', error);
@@ -235,7 +236,7 @@ export function FormAddChildren() {
 
     const NeighborhoodList = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/NeighborhoodListView/');
+            const response = await axios.get('/api/NeighborhoodListView/');
             setNeighborhood(response.data);
             } catch(error) {
                 console.error('Error fetching barrio:', error);
@@ -244,7 +245,7 @@ export function FormAddChildren() {
 
     const ChildStateList = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/ChildStateListView/');
+            const response = await axios.get('/api/ChildStateListView/');
             setChildState(response.data);
             } catch(error) {
                 console.error('Error fetching estados:', error);
@@ -255,7 +256,7 @@ export function FormAddChildren() {
     
     const GuardianTypeList = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/GuardianTypeListView/');
+            const response = await axios.get('/api/GuardianTypeListView/');
             setGuardianType(response.data);
             } catch(error) {
                 console.error('Error fetching estados:', error);
@@ -264,7 +265,7 @@ export function FormAddChildren() {
 
     const PhoneFeatureList = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/PhoneFeatureListView/');
+            const response = await axios.get('/api/PhoneFeatureListView/');
             setPhoneFeature(response.data);
             } catch(error) {
                 console.error('Error fetching estados:', error);
@@ -325,72 +326,36 @@ export function FormAddChildren() {
                 />
 
                 
-            <Row className="mb-3">
-                <Col>
-                    <Form.Label className='mb-1'>Fecha De Nacimiento</Form.Label>
-                    <Form.Control 
-                        type="date" 
-                        placeholder="" 
-                        name="fechaNacimientoChield" 
-                        className="mb-3"
-                        required
-                    />
-                </Col>
-                <Col>
-                    <Form.Label className='mb-1'>Edad</Form.Label>
-                    <Form.Control 
-                        type="date" 
-                        placeholder="" 
-                        name="age" 
-                        className="mb-3"
-                        required
-                    />
-                </Col>
-            </Row>
+
+                <Form.Label className='mb-1'>Fecha De Nacimiento</Form.Label>
+                <Form.Control 
+                    type="date" 
+                    placeholder="" 
+                    name="fechaNacimientoChield"
+                    className='mb-3' 
+                    required
+                />
 
 
-            <Row className="mb-3">
-                <Col>
-                    <div>
-                        <Form.Label className='mb-1'>Genero</Form.Label>
-                        <select 
-                            id="gender" 
-                            name="generoChield" 
-                            value={selectedGeneroChield} 
-                            onChange={handleGeneroChieldChange} 
-                            className='form-control'
-                            required
-                            >
-                            <option value="">Generos</option>
-                            {chieldGenders.map((gender) => (
-                                <option key={gender.id} value={gender.id}>
-                                    {gender.gender}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                </Col>
-                <Col>
-                    <div>
-                        <Form.Label className='mb-1'>Estado</Form.Label>
-                        <select 
-                            id="child_state" 
-                            name="estado" 
-                            value={selectedChildState} 
-                            onChange={handleChildStateChange} 
-                            className='form-control'
-                            required
-                            >
-                            <option value="">Estado</option>
-                            {childStates.map((child_state) => (
-                                <option key={child_state.id} value={child_state.id}>
-                                    {child_state.name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                </Col>
-            </Row>
+
+            <Form.Label className='mb-1'>Genero</Form.Label>
+            <select 
+                id="gender" 
+                name="generoChield" 
+                value={selectedGeneroChield} 
+                onChange={handleGeneroChieldChange} 
+                className='form-control mb-3'
+                required
+                >
+                <option value="">Generos</option>
+                {chieldGenders.map((gender) => (
+                    <option key={gender.id} value={gender.id}>
+                        {gender.gender}
+                    </option>
+                ))}
+            </select>
+                    
+
             
             <Row className="mb-3">
                 <Col>
