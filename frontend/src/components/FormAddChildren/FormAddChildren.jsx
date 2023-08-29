@@ -327,14 +327,14 @@ export function FormAddChildren() {
 
                 
 
-                <Form.Label className='mb-1'>Fecha De Nacimiento</Form.Label>
-                <Form.Control 
-                    type="date" 
-                    placeholder="" 
-                    name="fechaNacimientoChield"
-                    className='mb-3' 
-                    required
-                />
+            <Form.Label className='mb-1'>Fecha De Nacimiento</Form.Label>
+            <Form.Control 
+                type="date" 
+                placeholder="" 
+                name="fechaNacimientoChield"
+                className='mb-3' 
+                required
+            />
 
 
 
