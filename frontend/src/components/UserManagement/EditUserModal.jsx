@@ -58,7 +58,7 @@ export default function UpdateUser(props) {
   async function loadSelectedUser(user_id) {
     try {
       const responseUsers = await fetch(
-        "http://127.0.0.1:8000/api/user/" + user_id + "/",
+        `/api/user/${user_id}/`,
         { method: "GET" }
       );
       if (responseUsers.ok) {
@@ -95,7 +95,7 @@ export default function UpdateUser(props) {
     if (selectedUser) {
       try {
         let response = await fetch(
-          "http://127.0.0.1:8000/api/user/" + selectedUser + "/",
+          `/api/user/${selectedUser}/`,
           {
             method: "PUT",
             headers: {

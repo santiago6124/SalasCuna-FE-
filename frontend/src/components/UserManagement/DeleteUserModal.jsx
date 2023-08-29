@@ -23,7 +23,7 @@ export default function DeleteUser(props) {
 
       console.log("making fetch");
       let response = await fetch(
-        "http://127.0.0.1:8000/api/user/" + selectedUser + "/",
+        `/api/user/${selectedUser}/`,
         {
           method: "PATCH",
           headers: {
