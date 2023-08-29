@@ -4,8 +4,11 @@ import SearchBar from "../SearchBar/SearchBar";
 import "./CribroomDashboard.css";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import AddIcon from "@mui/icons-material/Add";
 import UpdateUser from "../UserManagement/EditUserModal";
 import DeleteUser from "../UserManagement/DeleteUserModal";
+
+import { Button } from "react-bootstrap";
 
 //React  and React Functions Import
 import React, { useEffect, useState } from "react";
@@ -119,12 +122,22 @@ export default function UserList() {
               <div className="contenedor-linea-cb">
                 <hr className="linea-cb"></hr>
               </div>
+              
               <div>
                 <SearchBar
                   keyword={keyword}
                   onChange={updateKeyword}
                   placeholder={"Buscar Usuario"}
                 />
+                <div className="add-payout-button mb-3 ">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      startIcon={<AddIcon />}
+                    >
+                      Add Payout
+                    </Button>
+                  </div>
               </div>
               <div className="DataGrid-Wrapper">
                 <DataGrid
