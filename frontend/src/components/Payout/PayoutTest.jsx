@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-import "./AddPayoutModal"
-import "./DeletePayoutModal"
-import "./EditPayoutModal"
+import Col from "react-bootstrap/Col/";
+import Row from "react-bootstrap/Row/";
 
 //Style imports
 import "./Payout.css";
@@ -22,7 +21,7 @@ import Menu from "../Menu/Menu";
 export default function PayoutTest() {
   const [zoneOptions, setZoneOptions] = useState([]);
   const [selectedZone, setSelectedZone] = useState("");
-  const [payout, setPayout ] = useState("")
+  const [payout, setPayout] = useState("");
 
   useEffect(() => {
     loadZones();
@@ -68,8 +67,8 @@ export default function PayoutTest() {
               <div className="contenedor-linea-cb">
                 <hr className="linea-cb"></hr>
               </div>
-              <div>
-                <div className="col-md-2">
+              <Row>
+                <Col className="col-md-2">
                   <Form.Label className="mb-1">Seleccionar Zona</Form.Label>
                   <Form.Select as="select" name="zone">
                     <option value="" disabled>
@@ -81,19 +80,20 @@ export default function PayoutTest() {
                       </option>
                     ))}
                   </Form.Select>
-                </div>
-                <div>
-                  <div className="add-payout-button mb-3 ">
+                </Col>
+                <Col>
+                  <div className="add-payout-button mb-3">
                     <Button
                       variant="contained"
                       color="primary"
                       startIcon={<AddIcon />}
+                      className="add-payout-button mb-3"
                     >
                       Add Payout
                     </Button>
                   </div>
-                </div>
-              </div>
+                </Col>
+              </Row>
               <div className="DataGrid-Wrapper">
                 <DataGrid
                   style={{ borderRadius: "15px", margin: "20px" }}
