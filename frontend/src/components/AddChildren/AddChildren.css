@@ -1,10 +1,14 @@
 .conteiner-form {
     padding: 30px;
-    margin: 100px;
+    margin-top: 600px;
     width: 500px;
     border-radius: 18px;
     box-shadow: 1px 4px 10px 0px rgba(0, 0, 0, 0.37);
     background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 50%;
+    left: 50%; 
+    transform: translate(-50%, -50%);
 }
 
 .titulo {
@@ -28,7 +32,6 @@
 .boton-qr {
     width: 60px;
 }
-
 
 .contenedor-boton-qr {
     display: flex;
