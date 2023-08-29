@@ -137,16 +137,16 @@ export default function PayoutTest() {
               </div>
               <div>
                 <div className="col-md-2">
-                <Form.Label className="mb-1">Seleccionar Zona</Form.Label>
+                  <Form.Label className="mb-1">Seleccionar Zona</Form.Label>
                   <Form.Select as="select" name="role">
-                    <option value="" disabled selected>
-                      Seleccionar zona
+                    <option value="" disabled>
+                      Seleccionar Zona
                     </option>
-                    {/*                   {rolesList.map((role) => (
-                    <option key={role.id} value={role.id}>
-                      {role.name}
-                    </option>
-                  ))} */}
+                    {zoneOptions.map((zone) => (
+                      <option key={zone.id} value={zone.id}>
+                        {zone.name}
+                      </option>
+                    ))}
                   </Form.Select>
                 </div>
                 <div>
