@@ -15,7 +15,7 @@ export function FormEditChildren() {
     }, []);
 
     const getChildren = async () => {
-        let response = await fetch('http://127.0.0.1:8000/api/all-objects/');
+        let response = await fetch('/api/all-objects/');
         let data = await response.json();
         console.log(data);
     };
@@ -98,7 +98,7 @@ export function FormEditChildren() {
 
     const GenderList = async () => {
         try {
-          const response = await axios.get('http://127.0.0.1:8000/api/GenderListView/');
+          const response = await axios.get('/api/GenderListView/');
           setChildGender(response.data);
           setGuardianGender(response.data);
         } catch (error) {
@@ -109,7 +109,7 @@ export function FormEditChildren() {
 
     const CribroomList = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/CribroomListView/');
+            const response = await axios.get('/api/cribroom/');
             setCribroom(response.data);
             }   catch (error)  {
                 console.log('Error fetching Salas Cunas:', error);
@@ -118,7 +118,7 @@ export function FormEditChildren() {
 
     const ShiftList = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/ShiftListView/');
+            const response = await axios.get('/api/ShiftListView/');
             setShift(response.data);
             } catch (error) {
                 console.log('Error fetching Turnos:', error);
@@ -127,7 +127,7 @@ export function FormEditChildren() {
 
     const LocalityList = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/LocalityListView/');
+            const response = await axios.get('/api/LocalityListView/');
             setLocality(response.data);
             } catch(error) {
                 console.error('Error fetching localidad:', error);
@@ -136,7 +136,7 @@ export function FormEditChildren() {
 
     const NeighborhoodList = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/NeighborhoodListView/');
+            const response = await axios.get('/api/NeighborhoodListView/');
             setNeighborhood(response.data);
             } catch(error) {
                 console.error('Error fetching barrio:', error);
@@ -145,7 +145,7 @@ export function FormEditChildren() {
 
     const ChildStateList = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/ChildStateListView/');
+            const response = await axios.get('/api/ChildStateListView/');
             setChildState(response.data);
             } catch(error) {
                 console.error('Error fetching estados:', error);
@@ -156,7 +156,7 @@ export function FormEditChildren() {
     
     const GuardianTypeList = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/GuardianTypeListView/');
+            const response = await axios.get('/api/GuardianTypeListView/');
             setGuardianType(response.data);
             } catch(error) {
                 console.error('Error fetching estados:', error);
@@ -165,7 +165,7 @@ export function FormEditChildren() {
 
     const PhoneFeatureList = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/PhoneFeatureListView/');
+            const response = await axios.get('/api/PhoneFeatureListView/');
             setPhoneFeature(response.data);
             } catch(error) {
                 console.error('Error fetching estados:', error);
@@ -187,6 +187,7 @@ export function FormEditChildren() {
         first_name: formData.get("nombreChield"),
         last_name: formData.get("apellidoChield"),
         dni: formData.get("dniChield"),
+        age: formData.get("edadChield"),
         birthdate: formData.get("fechaNacimientoChield"),
         house_number: formData.get("numero_casa"),
         registration_date: formData.get("fechaAlta"),
@@ -209,7 +210,7 @@ export function FormEditChildren() {
   
     try {
      console.log(childId + " id");
-     let response = await fetch(`http://127.0.0.1:8000/api/child/${childId}/`, {
+     let response = await fetch(`/api/child/${childId}/`, {
        method: 'PUT',
        headers: {
            'Content-Type': 'application/json'
@@ -253,29 +254,31 @@ export function FormEditChildren() {
 
             <Form.Group className="mb-3">
                 <Form.Label className="mb-1">Nombre</Form.Label>
-                <Form.Control type="text" placeholder="Ingrese un nombre" name="nombreChield" />
+                <Form.Control type="text" placeholder="Ingrese un nombre" name="nombreChield" required/>
             </Form.Group>
 
             <Form.Group className="mb-3">
                 <Form.Label className='mb-1'>Apellido</Form.Label>
-                <Form.Control type="text" placeholder="Ingrese un apellido"name="apellidoChield" />
+                <Form.Control type="text" placeholder="Ingrese un apellido"name="apellidoChield" required/>
             </Form.Group>
 
             <Form.Group className="mb-3">
                 <Form.Label className='mb-1'>DNI</Form.Label>
-                <Form.Control type="number" placeholder="Ingrese un DNI"name="dniChield" />
+                <Form.Control type="number" placeholder="Ingrese un DNI"name="dniChield" required/>
             </Form.Group>
+
+
             
             <Form.Group className="mb-3">
                 <Form.Label className='mb-1'>Fecha De Nacimiento</Form.Label>
-                <Form.Control type="date" placeholder="" name="fechaNacimientoChield" />
+                <Form.Control type="date" placeholder="" name="fechaNacimientoChield" required/>
             </Form.Group>
 
             <Row className="mb-3">
                 <Col>
                     <div>
                         <Form.Label className='mb-1'>Genero</Form.Label>
-                        <select id="gender" name="generoChield" value={selectedGeneroChield} onChange={handleGeneroChieldChange} className='form-control'>
+                        <select id="gender" name="generoChield" value={selectedGeneroChield} onChange={handleGeneroChieldChange} className='form-control' required>
                             <option value="">Generos</option>
                             {chieldGenders.map((gender) => (
                                 <option key={gender.id} value={gender.id}>
@@ -288,7 +291,7 @@ export function FormEditChildren() {
                 <Col>
                     <div>
                         <Form.Label className='mb-1'>Estado</Form.Label>
-                        <select id="child_state" name="estado" value={selectedChildState} onChange={handleChildStateChange} className='form-control'>
+                        <select id="child_state" name="estado" value={selectedChildState} onChange={handleChildStateChange} className='form-control'required>
                             <option value="">Estado</option>
                             {childStates.map((child_state) => (
                                 <option key={child_state.id} value={child_state.id}>
@@ -304,7 +307,7 @@ export function FormEditChildren() {
                 <Col>
                     <div>
                         <Form.Label className='mb-1'>Sala Cuna</Form.Label>
-                        <select id="cribroom" name="salacuna" value={selectedSalaCuna} onChange={handleSalaCunaChange} className='form-control'>
+                        <select id="cribroom" name="salacuna" value={selectedSalaCuna} onChange={handleSalaCunaChange} className='form-control' required>
                             <option value="">Sala Cuna</option>
                             {salas.map((cribroom) => (
                                 <option key={cribroom.id} value={cribroom.id}>
@@ -318,7 +321,7 @@ export function FormEditChildren() {
             
             <div className='mb-3'>
                 <Form.Label className='mb-1'>Turno</Form.Label>
-                <select id="shift" name="turno" value={selectedTurno} onChange={handleTurnoChange} className='form-control'>
+                <select id="shift" name="turno" value={selectedTurno} onChange={handleTurnoChange} className='form-control' >
                     <option value="">Turnos</option>
                     {shifts.map((shift) => (
                         <option key={shift.id} value={shift.id}>
@@ -332,11 +335,11 @@ export function FormEditChildren() {
             <Row className="mb-5">
                 <Col>
                     <Form.Label className='mb-1'>Fecha de baja</Form.Label>
-                    <Form.Control type="date" placeholder="" name="fechaBaja"/>
+                    <Form.Control type="date" placeholder="" name="fechaBaja" />
                 </Col>
                 <Col>
                     <Form.Label className='mb-1'>Fecha de alta</Form.Label>
-                    <Form.Control type="date" placeholder="" name="fechaAlta"/>
+                    <Form.Control type="date" placeholder="" name="fechaAlta" required/>
                 </Col>
             </Row>
 
@@ -349,22 +352,22 @@ export function FormEditChildren() {
 
             <Form.Group className="mb-3">
                 <Form.Label className='mb-1'>Nombre</Form.Label>
-                <Form.Control type="text" placeholder="Ingrese un nombre" name="nombreGuardian" />
+                <Form.Control type="text" placeholder="Ingrese un nombre" name="nombreGuardian" required/>
             </Form.Group>
 
             <Form.Group className="mb-3">
                 <Form.Label className='mb-1'>Apellido</Form.Label>
-                <Form.Control type="text" placeholder="Ingrese un apellido" name="apellidoGuardian"/>
+                <Form.Control type="text" placeholder="Ingrese un apellido" name="apellidoGuardian" required/>
             </Form.Group>
 
             <Form.Group className="mb-3">
                 <Form.Label className='mb-1'>DNI</Form.Label>
-                <Form.Control type="number" placeholder="Ingrese un DNI" name='dniGuardian' />
+                <Form.Control type="number" placeholder="Ingrese un DNI" name='dniGuardian' required/>
             </Form.Group>
 
             <div className='mb-3'>
                 <Form.Label className='mb-1'>Genero</Form.Label>
-                <select id="gender" name='generoGuardian' value={selectedGeneroGuardian} onChange={handleGeneroGuardianChange} className='form-control'>
+                <select id="gender" name='generoGuardian' value={selectedGeneroGuardian} onChange={handleGeneroGuardianChange} className='form-control' required>
                     <option value="">Generos</option>
                     {guardianGenders.map((gender) => (
                         <option key={gender.id} value={gender.id}>
@@ -378,7 +381,7 @@ export function FormEditChildren() {
                 <Col>
                     <Form.Label className='mb-1'>Caracterisitca Telefonica</Form.Label>
 
-                    <select id="phoneFeature" name='phoneFeature' value={selectedPhoneFeature} onChange={handlePhoneFeatureChange} className='form-control'>
+                    <select id="phoneFeature" name='phoneFeature' value={selectedPhoneFeature} onChange={handlePhoneFeatureChange} className='form-control' required>
                     <option value="">Phone Features</option>
                     {phoneFeatures.map((phoneFeature) => (
                         <option key={phoneFeature.id} value={phoneFeature.id}>
@@ -389,7 +392,7 @@ export function FormEditChildren() {
                 </Col>
                 <Col>
                     <Form.Label className='mb-1'>Telefono</Form.Label>
-                    <Form.Control type="number" placeholder="Ingrese un telefono" name='telefono' />
+                    <Form.Control type="number" placeholder="Ingrese un telefono" name='telefono' required/>
                 </Col>
             </Row>
 
@@ -397,7 +400,7 @@ export function FormEditChildren() {
                 <Col>
                     <Form.Label className='mb-1'>Madre/padre o Tutor?</Form.Label>
 
-                    <select id="guardianType" name='guardianType' value={selectedGuardianType} onChange={handleGuardianTypeChange} className='form-control'>
+                    <select id="guardianType" name='guardianType' value={selectedGuardianType} onChange={handleGuardianTypeChange} className='form-control' required>
                     <option value="">Madre/padre o Tutor?</option>
                     {guardianTypes.map((guardianType) => (
                         <option key={guardianType.id} value={guardianType.id}>
@@ -416,17 +419,17 @@ export function FormEditChildren() {
             <Row className="mb-3">
                 <Col>
                     <Form.Label className='mb-1'>Calle</Form.Label>
-                    <Form.Control type="text" placeholder="Ingrese una calle" name="calle"/>
+                    <Form.Control type="text" placeholder="Ingrese una calle" name="calle" required/>
                 </Col>
                 <Col>
                     <Form.Label className='mb-1'>Numero</Form.Label>
-                    <Form.Control type="number" placeholder="Ingrese un numero" name="numero_casa"/>
+                    <Form.Control type="number" placeholder="Ingrese un numero" name="numero_casa" />
                 </Col>
             </Row>
 
             <div className='mb-3'>
                 <Form.Label className='mb-1'>Barrio</Form.Label>
-                <select id="neighborhood" name="neighborhood" value={selectedNeighborhood} onChange={handleNeighborhoodChange} className='form-control'>
+                <select id="neighborhood" name="neighborhood" value={selectedNeighborhood} onChange={handleNeighborhoodChange} className='form-control' required>
                     <option value="">Localidad</option>
                     {neighborhoods.map((neighborhood) => (
                         <option key={neighborhood.id} value={neighborhood.id}>
@@ -438,7 +441,7 @@ export function FormEditChildren() {
 
             <div className='mb-3'>
                 <Form.Label className='mb-1'>Localidad</Form.Label>
-                <select id="locality" name="locality" value={selectedLocality} onChange={handleLocalityChange} className='form-control'>
+                <select id="locality" name="locality" value={selectedLocality} onChange={handleLocalityChange} className='form-control' required>
                     <option value="">Localidad</option>
                     {localities.map((locality) => (
                         <option key={locality.id} value={locality.id}>

@@ -47,18 +47,13 @@ export default function DropdownCribroomList() {
     if (selectedCribroom) {
       try {
         console.log('ID de la Cribroom seleccionada:', selectedCribroom);
-        const res = await axios.get('http://127.0.0.1:8000/api/child/?padron_cribroom_id=' + selectedCribroom);
+        const res = await axios.get('/api/child/?padron_cribroom_id=' + selectedCribroom);
         console.log('API Response:', res.data);
         const updateChild = await res.data.map (child => {
-          const matchEstado = child.child_state.id;
-          if (matchEstado === 1){
-            console.log(matchEstado);
-            return {...child,child_state: 'Activo'}
-          }
-          else {
-            console.log(matchEstado);
-            return {...child, child_state: 'Inactivo'}
-          }
+
+        return {...child,is_active: child.is_active ? 'Activo' : 'Inactivo'}
+
+            
         })
 
         setChild(updateChild);
@@ -106,7 +101,7 @@ export default function DropdownCribroomList() {
   const handleDelete = async (childId) => {
     try {
       console.log(childId + " id");
-     const response = await axios.patch(`http://127.0.0.1:8000/api/child/${childId}/?disenroll=True` );
+      const response = await axios.patch(`/api/child/${childId}/?disenroll=True` );
       console.log("Response after updating child state:", response.data);
 
 
@@ -116,20 +111,14 @@ export default function DropdownCribroomList() {
     }
   };
 
-  const getRowClassName = (params) => {
-    if (params.row.child_state.id === 2) {
-      return 'inactive-row'; 
-      
-    }
-    return '';
-  };
+  
   
   const columns = [
     { field: 'id', headerName: '#', width: 50 , headerAlign: 'center' , align: 'center'},
     { field: 'first_name' , headerName: 'Nombre' , width: 150 , headerAlign: 'center' , align: 'center'},
     { field: 'last_name', headerName: 'Apellido' , width: 150 , headerAlign: 'center', align: 'center'},
     { field: 'dni', headerName: 'DNI' , width: 150 , headerAlign: 'center', align: 'center'},
-    { field: 'child_state', headerName: 'Estado' , width: 140 , headerAlign: 'center', align: 'center'},
+    { field: 'is_active', headerName: 'Estado' , width: 140 , headerAlign: 'center', align: 'center'},
     {
         field: 'actions',
         type: 'actions',
@@ -199,7 +188,6 @@ export default function DropdownCribroomList() {
             rows={childs}
             columns={columns}
             autoHeight
-            getRowClassName={getRowClassName}
             initialState={{
               pagination: { paginationModel: { pageSize: 6 } },
             }}
