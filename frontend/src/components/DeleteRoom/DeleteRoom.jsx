@@ -23,7 +23,7 @@ export default function DeleteRoom(props) {
 
       console.log("making fetch");
       let response = await fetch(
-        "http://127.0.0.1:8000/api/cribroom/" + selectedCribroom + "/",
+        `/api/cribroom/${selectedCribroom}/`,
         {
           method: "PATCH",
           headers: {
