@@ -1,27 +1,27 @@
 import axios from "axios";
 
 export const getAllCribrooms = () => {
-  return axios.get("http://127.0.0.1:8000/api/cribroom/");
+  return axios.get("/api/cribroom/");
 };
 
 export const getAllCribroomsWithoutDepth = () => {
-  return axios.get("http://127.0.0.1:8000/api/cribroom/?no_depth");
+  return axios.get("/api/cribroom/?no_depth");
 };
 
 export const getAllZones = () => {
-  return axios.get("http://127.0.0.1:8000/api/zone/");
+  return axios.get("/api/zone/");
 };
 
 export const getAllLocalities = () => {
-  return axios.get("http://127.0.0.1:8000/api/LocalityListView/");
+  return axios.get("/api/LocalityListView/");
 };
 
 export const getAllShifts = async () => {
-  return axios.get("http://127.0.0.1:8000/api/ShiftListView/");
+  return axios.get("/api/ShiftListView/");
 };
 
 export const getAllUsers = async () => {
-  return axios.get("http://127.0.0.1:8000/api/user/");
+  return axios.get("/api/user/");
 };
 
 export const getAllRoles = async () => {
