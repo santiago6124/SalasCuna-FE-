@@ -11,15 +11,21 @@ import axios from "axios";
 
 export function AddPayout(props) {
 
+  const [zone, setZone] = useState("")
+
+  const handleZoneChange = (event) => {
+    setZone(event.target.value);
+  }
+
   const handleAdd = async (event) =>{
     event.preventDefault();
-    const formData = new FormData(event.target);
-    const payload = {
-      amount : formData.get("amount"),
-      date : formData.get("date"),
-      zone : formData.get("zone"),
-    };
     try {
+      const formData = new FormData(event.target);
+      const payload = {
+        amount : formData.get("amount"),
+        date : formData.get("date"),
+        zone : formData.get("zone"),
+      }; 
       let response = await fetch(
         "http://127.0.0.1:8000/api/payout/",
         {
@@ -54,16 +60,17 @@ export function AddPayout(props) {
                 type="text"
                 placeholder="Agregar el monto del pago"
                 name="amount"
+                required
               />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label className="mb-1">Fecha</Form.Label>
-              <Form.Control type="date" name="date" />
+              <Form.Control type="date" name="date" required/>
             </Form.Group>
             <div className="col-md-2">
               <Form.Label className="mb-1">Seleccionar Zona</Form.Label>
-              <Form.Select as="select" name="zone">
-                <option value="" disabled>
+              <Form.Select as="select" name="zone" value={zone} onChange={handleZoneChange} required>
+                <option value="" disabled selected>
                   Seleccionar Zona
                 </option>
                 {props.zones.map((zone) => (
