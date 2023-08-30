@@ -109,7 +109,7 @@ export const AuthProvider = ({children}) => {
     useEffect(() => {
 
         if (loading) {
-            updateToken()
+            setLoading(false)
         }
 
         let fourMinutes = 1000 * 60 * 4
