@@ -7,6 +7,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import UpdateUser from "../UserManagement/EditUserModal";
 import DeleteUser from "../UserManagement/DeleteUserModal";
+import { Link } from "react-router-dom";
 
 import Button from "@mui/material/Button";
 import Col from "react-bootstrap/Col/";
@@ -133,14 +134,16 @@ export default function UserList() {
                 </Col>
                 <Col>
                   <div className="add-payout-button mb-3">
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      startIcon={<AddIcon />}
-                      className="add-payout-button mb-3"
-                    >
-                      Aniadir Usuario
-                    </Button>
+                    <Link to={"/signup"}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        startIcon={<AddIcon />}
+                        className="add-payout-button mb-3"
+                      >
+                        Aniadir Usuario
+                      </Button>
+                    </Link>
                   </div>
                 </Col>
               </Row>

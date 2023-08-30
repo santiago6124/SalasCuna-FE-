@@ -5,7 +5,6 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import axios from "axios"; // Import Axios for API calls
 
-
 import "./SignUp.css";
 
 const SignUp = () => {
@@ -22,7 +21,9 @@ const SignUp = () => {
     // Fetch the roles from the backend API
     const fetchRoles = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/RoleViewSet/?exclude_directora");
+        const response = await axios.get(
+          "http://127.0.0.1:8000/api/RoleViewSet/?exclude_directora"
+        );
         setRolesList(response.data); // Update the state with the list of roles
       } catch (error) {
         console.error("Error fetching roles:", error);
@@ -33,7 +34,8 @@ const SignUp = () => {
   }, []);
 
   return (
-    <div className="body">
+    <body className="body">
+      <div>
         <Container className="conteiner-form-signup">
           <Form onSubmit={signupUser} className="conteiner-form-edit">
             <h1 className="titulo">Agregar Usuario</h1>
@@ -206,6 +208,7 @@ const SignUp = () => {
           </Form>
         </Container>
       </div>
+    </body>
   );
 };
 
