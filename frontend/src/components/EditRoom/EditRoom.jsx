@@ -10,7 +10,7 @@ import { Button } from "react-bootstrap";
 
 import React, { useState, useEffect } from "react";
 
-import { getAllShifts, getAllZones, getAllCribroomsWithoutDepth } from "../../api/salasCuna.api";
+import { getAllShifts, getAllZones } from "../../api/salasCuna.api";
 
 export function UpdateRoom(props) {
   const [zoneOptions, setZoneOptions] = useState([]);
@@ -48,7 +48,7 @@ export function UpdateRoom(props) {
   async function loadSelectedCribroom(cribroomId) {
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/api/cribroom/?no_depth&id=" + cribroomId,
+        `/api/cribroom/?no_depth&id=${cribroomId}`,
         { method: "GET" }
       );
       if (response.ok) {
@@ -74,11 +74,13 @@ export function UpdateRoom(props) {
       house_number: formData.get("house_numberCR"),
       shift: formData.get("shiftCR"),
       zone: formData.get("zoneCR"),
+      CUIT: formData.get("CUITCR"),
+      entity: formData.get("entityCR"),
     };
     if (selectedCribroom) {
       try {
         let response = await fetch(
-          "http://127.0.0.1:8000/api/cribroom/" + selectedCribroom + "/",
+          `/api/cribroom/${selectedCribroom}/?no_depth`,
           {
             method: "PUT",
             headers: {
@@ -146,6 +148,27 @@ export function UpdateRoom(props) {
                 defaultValue={cribroom ? cribroom.max_capacity : ""}
               />
             </Form.Group>
+            <Form.Group className="mb-3">
+              <Row>
+                <Col>
+                  <Form.Label className="mb-1">CUIT</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="editar el CUIT de la entidad de la sala cuna"
+                    name="CUITCR"
+                    defaultValue={cribroom ? cribroom.CUIT : ""}
+                  />
+                </Col>
+                <Col>
+                <Form.Label className="mb-1">Entidad</Form.Label>
+                <Form.Control
+                type="text"
+                placeholder="Editar la entidad de la sala cuna"
+                defaultValue = {cribroom? cribroom.entity:""}
+                name="entityCR"/>
+                </Col>
+              </Row>
+            </Form.Group>
             <Row className="mb-1">
               <Col xs={9}>
                 <Form.Label className="mb-1">Calle</Form.Label>
@@ -175,7 +198,7 @@ export function UpdateRoom(props) {
                     <Form.Select
                       name="shiftCR"
                       as="select"
-                      value={selectedShift ? selectedShift: cribroom.shift}
+                      value={selectedShift ? selectedShift : cribroom.shift}
                       className="mb-1"
                       onChange={handleShiftChange}
                     >
@@ -196,7 +219,7 @@ export function UpdateRoom(props) {
                 <Form.Select
                   name="zoneCR"
                   as="select"
-                  value={selectedZone ? selectedZone: cribroom.zone}
+                  value={selectedZone ? selectedZone : cribroom.zone}
                   onChange={handleZoneChange}
                 >
                   <option value="" disabled>

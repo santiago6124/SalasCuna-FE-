@@ -1,6 +1,5 @@
 import Menu from "../Menu/Menu";
 import SearchBar from "../SearchBar/SearchBar";
-import UpdateRoomModaled from "../EditRoom/EditRoom";
 import {UpdateRoom} from "../EditRoom/EditRoom";
 import DeleteRoom from "../DeleteRoom/DeleteRoom";
 import "./CribroomDashboard.css";
@@ -17,25 +16,19 @@ import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 
 //UI Icons Imports
 import DeleteIcon from "@mui/icons-material/Delete";
-import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import EditIcon from "@mui/icons-material/Edit";
 
 export default function CribroomDashboard() {
   const [cribrooms, setCribrooms] = useState([]);
   const [filteredCribroom, setFilteredCribroom] = useState([]);
   const [keyword, setKeyword] = useState("");
-  const [zoneOptions, setZoneOptions] = useState([]);
-  const [shiftOptions, setShiftOptions] = useState([]);
-  const [locality, setLocalities] = useState([]);
   const [selectedCribroom, setSelectedCribroom] = useState("");
   const [cribroomName, setCribroomName] = useState("");
 
-  const [modalShow, setModalShow] = useState(false);
-  const [confirmed, setConfirmed] = useState(false);
+// Modal variables
   const [modalEditShow, setModalEditShow] = useState(false);
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
-  const [confirmedEdit, setEditConfirmed] = useState(false);
-  const [confirmedDelete, setDeleteConfirmed] = useState(false);
+
 
   useEffect(() => {
     listCribroom();
@@ -44,7 +37,6 @@ export default function CribroomDashboard() {
   const listCribroom = async () => {
     try {
       const responseLocality = await getAllLocalities();
-      setLocalities(responseLocality.data);
       const response = await getAllCribroomsWithoutDepth();
       const localityData = responseLocality.data;
       const cribroomData = response.data;
@@ -94,17 +86,7 @@ export default function CribroomDashboard() {
     setFilteredCribroom(filtered);
     console.log(filteredCribroom);
   };
-  const handleCribroomChange = async (event) => {
-    setSelectedCribroom(event.target.value);
-  };
 
-  const handleConfirmClick = async (event) => {
-    setEditConfirmed(true);
-  };
-
-  const hanldeEditConfirmClick = async (event) => {
-    setDeleteConfirmed(true);
-  };
   return (
     <>
       <body>
@@ -133,7 +115,7 @@ export default function CribroomDashboard() {
                 onHide={() => {
                   setModalDeleteShow(false);
                   setSelectedCribroom(""); // Reset selectedCribroom after closing modal
-                  window.location.reload();
+                  /*window.location.reload();*/
                 }}
               />
             )}

@@ -12,9 +12,9 @@
   display: flex;
   justify-content: center;
 }
-.header{
-    margin-bottom: 50px;
-    padding: 5px;
+.header {
+  margin-bottom: 50px;
+  padding: 5px;
 }
 
 .conteiner-form-cb {
@@ -78,14 +78,23 @@
   align-items: center;
 }
 
-.DataGrid{
-    margin: 10px;
-    width: auto;
-    height: auto;
-    border-radius: 10px;
+.DataGrid {
+  margin: 10px;
+  width: auto;
+  height: auto;
+  border-radius: 10px;
 }
 
-.DataGrid-Wrapper{
-    border-radius: 15px;
-    overflow:hidden
+.DataGrid-Wrapper {
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.add-payout-button {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 20px;
+  margin-top: 100px;
+  padding: 8px;
 }

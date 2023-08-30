@@ -21,6 +21,7 @@ import { SelectRoom } from "./components/SelectRoom/SelectRoom";
 import { FormAddChildren } from "./components/FormAddChildren/FormAddChildren";
 import Payout from "./components/Payout/Payout";
 import CribroomDashboard from "./components/CribroomDashboard/CribroomDashboard";
+import UserList from "./components/CribroomDashboard/UserList";
 import { FaExpeditedssl } from "react-icons/fa";
 import { FormEditChildren } from "../src/components/FormEditChildren/FormEditChildren";
 
@@ -96,6 +97,10 @@ function App() {
             <Route
               path="/gestion-sala"
               element={<PrivateRoute children={<CribroomDashboard />} />}
+            />
+            <Route
+              path="/listar-usuarios"
+              element={<PrivateRoute children={<UserList />} />}
             />
           </Routes>
         </AuthProvider>

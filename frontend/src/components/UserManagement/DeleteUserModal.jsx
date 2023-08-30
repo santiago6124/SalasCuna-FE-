@@ -1,4 +1,4 @@
-import "./DeleteRoom.css";
+import "../DeleteRoom/DeleteRoom.css";
 
 import Button from "react-bootstrap/esm/Button";
 import Modal from "react-bootstrap/Modal";
@@ -6,16 +6,16 @@ import Alert from "@mui/material/Alert";
 
 import React, { useState, useEffect } from "react";
 
-export default function DeleteRoom(props) {
-  const [selectedCribroom, setSelectedCribroom] = useState("");
+export default function DeleteUser(props) {
+  const [selectedUser, setSelectedUser] = useState("");
 
   useEffect(() => {
-    setSelectedCribroom(props.id);
+    setSelectedUser(props.id);
   }, []);
 
   const handleDelete = async (event) => {
     event.preventDefault();
-    console.log(selectedCribroom);
+    console.log(selectedUser);
     try {
       const payload = {
         is_active: "false",
@@ -23,7 +23,7 @@ export default function DeleteRoom(props) {
 
       console.log("making fetch");
       let response = await fetch(
-        `/api/deleteCR/${selectedCribroom}/`,
+        `/api/user/${selectedUser}/`,
         {
           method: "PATCH",
           headers: {
@@ -34,7 +34,7 @@ export default function DeleteRoom(props) {
       );
       props.onHide();
     } catch (err) {
-      alert("Error al eliminar la sala cuna");
+      alert("Error al eliminar el usuario", err);
     }
   };
 
@@ -48,22 +48,19 @@ export default function DeleteRoom(props) {
     >
       <div>
         <Modal.Title className="titulo-eliminar">
-          Eliminar Sala Cuna
+          Eliminar Usuario
         </Modal.Title>
       </div>
       <div className="contenedor-linea-eliminar">
         <hr className="linea-eliminar"></hr>
       </div>
       <div className="par">
-        <p>Esta seguro que desea Eliminar la Sala Cuna {selectedCribroom}?</p>
-        <p>Esto hara que su estado pase a ser Inactivo,</p>
+        <p>Esta seguro que desea Eliminar este Usuario {selectedUser}?</p>
+        <p>Esto hara que su estado pase a ser Inactivo</p>
       </div>
       <div className="par">
         <Alert severity="warning">
-          <p>Los chicos que esten en esta sala cuna tambien</p>
-          <p>
-            pasaran a estar en <strong>estado Inactivo</strong>
-          </p>
+          <p>Este usuario no podra seguir utilizando los servicios de SalasCuna</p>
         </Alert>
       </div>
       <Modal.Footer>
