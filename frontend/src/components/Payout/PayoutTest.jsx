@@ -44,6 +44,9 @@ export default function PayoutTest() {
       const response = await fetch("/api/zone/");
       let jsonData = await response.json();
       setZoneOptions(jsonData);
+      const responsePO = await fetch("api/payout/")
+      let payouts = await responsePO.json()
+      setPayout(payouts);
     } catch (error) {
       console.error("Error fetching zona options:", error);
     }
