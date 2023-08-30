@@ -8,7 +8,9 @@ import AddIcon from "@mui/icons-material/Add";
 import UpdateUser from "../UserManagement/EditUserModal";
 import DeleteUser from "../UserManagement/DeleteUserModal";
 
-import { Button } from "react-bootstrap";
+import Button from "@mui/material/Button";
+import Col from "react-bootstrap/Col/";
+import Row from "react-bootstrap/Row/";
 
 //React  and React Functions Import
 import React, { useEffect, useState } from "react";
@@ -84,7 +86,6 @@ export default function UserList() {
     setFilteredUsers(filtered);
   };
 
-
   return (
     <>
       <body>
@@ -94,51 +95,55 @@ export default function UserList() {
           </header>
 
           <>
-          {selectedUser && (
+            {selectedUser && (
               <UpdateUser
-              id={selectedUser}
-              show={modalEditShow}
-              onHide={() => {
-                setModalEditShow(false);
-                setSelectedUser(""); 
-                window.location.reload();
-              }}
-            />
-          )}
-          {selectedUser && (
+                id={selectedUser}
+                show={modalEditShow}
+                onHide={() => {
+                  setModalEditShow(false);
+                  setSelectedUser("");
+                  window.location.reload();
+                }}
+              />
+            )}
+            {selectedUser && (
               <DeleteUser
-              id={selectedUser}
-              show={modalDeleteShow}
-              onHide={() => {
-                setModalDeleteShow(false);
-                setSelectedUser(""); 
-                window.location.reload();
-              }}
-            />
-          )}
+                id={selectedUser}
+                show={modalDeleteShow}
+                onHide={() => {
+                  setModalDeleteShow(false);
+                  setSelectedUser("");
+                  window.location.reload();
+                }}
+              />
+            )}
 
             <>
               <h1 className="titulo-cb">Usuarios</h1>
               <div className="contenedor-linea-cb">
                 <hr className="linea-cb"></hr>
               </div>
-              
-              <div>
-                <SearchBar
-                  keyword={keyword}
-                  onChange={updateKeyword}
-                  placeholder={"Buscar Usuario"}
-                />
-                <div className="add-payout-button mb-3 ">
+              <Row>
+                <Col className="col-md-2">
+                  <SearchBar
+                    keyword={keyword}
+                    onChange={updateKeyword}
+                    placeholder={"Buscar Usuario"}
+                  />
+                </Col>
+                <Col>
+                  <div className="add-payout-button mb-3">
                     <Button
                       variant="contained"
                       color="primary"
                       startIcon={<AddIcon />}
+                      className="add-payout-button mb-3"
                     >
-                      Add Payout
+                      Aniadir Usuario
                     </Button>
                   </div>
-              </div>
+                </Col>
+              </Row>
               <div className="DataGrid-Wrapper">
                 <DataGrid
                   style={{ borderRadius: "15px", margin: "20px" }}
