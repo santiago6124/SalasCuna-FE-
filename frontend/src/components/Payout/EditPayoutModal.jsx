@@ -10,12 +10,40 @@ import React, { useState, useEffect } from "react";
 
 
 export function EditPayout(props) {
+
+  const handleEdit = async (event) =>{
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const payload = {
+      amount : formData.get("amount"),
+      date : formData.get("date"),
+      zone : formData.get("zone"),
+    };
+    try {
+      let response = await fetch(
+        "http://127.0.0.1:8000/api/payout/",
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+      if (response.ok) {
+        props.onHide();
+      }
+    } catch (error) {
+      console.log(error);
+    };
+  }
+
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
       <div className="contenedor-form-wrapper">
         <Container fluid className="conteiner-form-room">
-          <Form className="conteiner-form-edit">
-            <h1 className="titulo">Agregar Pago</h1>
+          <Form onSubmit={handleEdit} className="conteiner-form-edit">
+            <h1 className="titulo">Modificar Pago</h1>
             <div className="contenedor-linea">
               <hr className="linea"></hr>
             </div>

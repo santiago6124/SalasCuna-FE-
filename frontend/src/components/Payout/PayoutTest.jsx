@@ -17,12 +17,15 @@ import { Form } from "react-bootstrap";
 
 import Menu from "../Menu/Menu";
 import { AddPayout } from "./AddPayoutModal";
+import { EditPayout } from "./EditPayoutModal";
 
 export default function PayoutTest() {
   const [zoneOptions, setZoneOptions] = useState([]);
   const [selectedZone, setSelectedZone] = useState("");
   const [payout, setPayout] = useState("");
+  const [selectedPayout, setSelectedPayout] = useState("");
   const [modalAddShow, setModalAddShow] = useState(false);
+  const [modalEditShow, setModalEditShow] = useState(false);
 
   useEffect(() => {
     loadZones();
@@ -63,6 +66,10 @@ export default function PayoutTest() {
   const handleAddClick = async () => {
     setModalAddShow(true);
   }
+
+  const handleEditClick = async (rowId) => {
+    setModalEditShow(true);
+  }
   return (
     <>
       <body>
@@ -77,6 +84,15 @@ export default function PayoutTest() {
                 onHide={() => {
                   setModalAddShow(false);
                   window.location.reload();
+                }}
+              />
+              <EditPayout
+                id={selectedPayout}
+                show={modalEditShow}
+                onHide={() => {
+                  setModalEditShow(false);
+                  window.location.reload();
+                  setSelectedPayout("");
                 }}
               />
             </>
