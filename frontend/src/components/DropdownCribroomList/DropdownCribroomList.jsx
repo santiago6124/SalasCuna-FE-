@@ -10,7 +10,7 @@ import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
-import { getAllCribrooms } from '../../api/salasCuna.api';
+import { getAllCribroomsWithoutDepth } from '../../api/salasCuna.api';
 import { GridActionsCell, GridActionsCellItem } from '@mui/x-data-grid';
 
 import { DataGrid } from '@mui/x-data-grid';
@@ -47,7 +47,7 @@ export default function DropdownCribroomList() {
     if (selectedCribroom) {
       try {
         console.log('ID de la Cribroom seleccionada:', selectedCribroom);
-        const res = await axios.get('/api/child/?padron_cribroom_id=' + selectedCribroom);
+        const res = await axios.get('/api/child/?no_depth&cribroom_id=' + selectedCribroom);
         console.log('API Response:', res.data);
         const updateChild = await res.data.map (child => {
 
@@ -71,7 +71,7 @@ export default function DropdownCribroomList() {
 
   const handleLoadCribroomOptions = async (inputValue) => {
   try {
-    const response = await getAllCribrooms();
+    const response = await getAllCribroomsWithoutDepth();
     setCribrooms(response.data);
     console.log('All Cribrooms:', response.data); // Verifica las opciones de sala cuna
 
