@@ -126,8 +126,8 @@ export default function PayoutTest() {
               <Row>
                 <Col className="col-md-2">
                   <Form.Label className="mb-1">Seleccionar Zona</Form.Label>
-                  <Form.Select as="select" name="zone" onChange={handleZoneChange}>
-                    <option value="" disabled>
+                  <Form.Select as="select" name="zone" onChange={handleZoneChange} defaultValue="place">
+                    <option value="place" disabled>
                       Seleccionar Zona
                     </option>
                     {zoneOptions.map((zone) => (
