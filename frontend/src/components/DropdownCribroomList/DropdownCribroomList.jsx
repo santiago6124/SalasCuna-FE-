@@ -153,17 +153,13 @@ export default function DropdownCribroomList() {
           <div className="container">
             <div className="dropdown-container">
                 <Form.Label className='mb-1'>Salas Cunas</Form.Label>
-                <AsyncSelect cacheOptions  loadOptions={handleLoadCribroomOptions} onChange={(selectedOption) => {if (selectedOption) {setSelectedCribroom(selectedOption.value);}}} defaultOptions />
-            </div>
-
-            <div className="button-container">
-              <Button
-                as="input"
-                type="button"
-                value="Cargar"
-                size="m"
-                onClick={handleCargarClick}
-              />
+                <AsyncSelect cacheOptions  loadOptions={handleLoadCribroomOptions}  onChange={(selectedOption) => {
+                  if (selectedOption) {
+                    setSelectedCribroom(selectedOption.value);
+                    handleCargarClick(); // Llamar a la función para cargar los chicos
+                  }
+                  }}
+                defaultOptions/>
             </div>
           </div>
         </Col>
