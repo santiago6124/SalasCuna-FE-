@@ -4,7 +4,6 @@ import axios from "axios";
 import Col from "react-bootstrap/Col/";
 import Row from "react-bootstrap/Row/";
 
-//Style imports
 import "./Payout.css";
 
 //UI imports
@@ -46,7 +45,7 @@ export default function PayoutTest() {
   const loadPayout = async (zoneId) => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/payout/?zone=${zoneId}`
+        `/api/payout/?zone=${zoneId}`
       );
       const jsonData = response.data;
       setPayout(jsonData);
@@ -54,6 +53,10 @@ export default function PayoutTest() {
       console.error("Error fetching cribrooms:", error);
     }
   };
+
+  const handleZoneChange = async (event) => {
+    setSelectedZone(event.target.value)
+  }
   return (
     <>
       <body>
@@ -70,7 +73,7 @@ export default function PayoutTest() {
               <Row>
                 <Col className="col-md-2">
                   <Form.Label className="mb-1">Seleccionar Zona</Form.Label>
-                  <Form.Select as="select" name="zone">
+                  <Form.Select as="select" name="zone" onChange={handleZoneChange}>
                     <option value="" disabled>
                       Seleccionar Zona
                     </option>
@@ -97,7 +100,7 @@ export default function PayoutTest() {
               <div className="DataGrid-Wrapper">
                 <DataGrid
                   style={{ borderRadius: "15px", margin: "20px" }}
-                  rows={""}
+                  rows={payout}
                   columns={[
                     {
                       field: "id",
