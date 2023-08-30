@@ -16,11 +16,13 @@ import { GridActionsCellItem } from "@mui/x-data-grid";
 import { Form } from "react-bootstrap";
 
 import Menu from "../Menu/Menu";
+import { AddPayout } from "./AddPayoutModal";
 
 export default function PayoutTest() {
   const [zoneOptions, setZoneOptions] = useState([]);
   const [selectedZone, setSelectedZone] = useState("");
   const [payout, setPayout] = useState("");
+  const [modalAddShow, setModalAddShow] = useState(false);
 
   useEffect(() => {
     loadZones();
@@ -57,6 +59,11 @@ export default function PayoutTest() {
   const handleZoneChange = async (event) => {
     setSelectedZone(event.target.value)
   }
+
+  const handleAddClick = async () => {
+    setModalAddShow(true);
+    console.log("aaa")
+  }
   return (
     <>
       <body>
@@ -64,6 +71,17 @@ export default function PayoutTest() {
           <header className="header">
             <Menu />
           </header>
+            <>
+              <AddPayout
+                zones={zoneOptions}
+                show={modalAddShow}
+                onHide={() => {
+                  setModalAddShow(false);
+                  setSelectedZone("");
+                  window.location.reload();
+                }}
+              />
+            </>
           <>
             <>
               <h1 className="titulo-cb">Maestro Montos</h1>
@@ -91,6 +109,7 @@ export default function PayoutTest() {
                       color="primary"
                       startIcon={<AddIcon />}
                       className="add-payout-button mb-3"
+                      onClick={() => handleAddClick()}
                     >
                       Add Payout
                     </Button>

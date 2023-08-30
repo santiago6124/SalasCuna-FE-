@@ -7,9 +7,38 @@ import { Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 
 import React, { useState, useEffect } from "react";
-
+import axios from "axios";
 
 export function AddPayout(props) {
+
+  const handleEdit = async (event) =>{
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const payload = {
+      amount : formData.get("amount"),
+      date : formData.get("date"),
+      zone : formData.get("zone"),
+    };
+    try {
+      let response = await fetch(
+        "http://127.0.0.1:8000/api/payout/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+      if (response.ok) {
+        console.log("Added payout")
+        props.onHide();
+      }
+    } catch (error) {
+      console.log(error);
+    };
+  }
+  
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
       <div className="contenedor-form-wrapper">
@@ -34,11 +63,11 @@ export function AddPayout(props) {
             </Form.Group>
             <div className="col-md-2">
               <Form.Label className="mb-1">Seleccionar Zona</Form.Label>
-              <Form.Select as="select" name="role">
+              <Form.Select as="select" name="zone">
                 <option value="" disabled>
                   Seleccionar Zona
                 </option>
-                {zoneOptions.map((zone) => (
+                {props.zones.map((zone) => (
                   <option key={zone.id} value={zone.id}>
                     {zone.name}
                   </option>
