@@ -88,6 +88,7 @@ export default function PayoutTest() {
               />
               <EditPayout
                 id={selectedPayout}
+                zones={zoneOptions}
                 show={modalEditShow}
                 onHide={() => {
                   setModalEditShow(false);
@@ -156,6 +157,7 @@ export default function PayoutTest() {
                           <GridActionsCellItem
                             variant="primary"
                             icon={<EditIcon />}
+                            onClick={() => handleEditClick()}
                           />
                         </>,
                       ],
