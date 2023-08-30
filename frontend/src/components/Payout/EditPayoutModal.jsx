@@ -14,7 +14,7 @@ export function EditPayout(props) {
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
       <div className="contenedor-form-wrapper">
         <Container fluid className="conteiner-form-room">
-          <Form onSubmit={handleEdit} className="conteiner-form-edit">
+          <Form className="conteiner-form-edit">
             <h1 className="titulo">Agregar Pago</h1>
             <div className="contenedor-linea">
               <hr className="linea"></hr>
