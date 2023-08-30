@@ -21,7 +21,7 @@ export function EditPayout(props) {
     };
     try {
       let response = await fetch(
-        "http://127.0.0.1:8000/api/payout/",
+        `http://127.0.0.1:8000/api/payout/${props.id}`,
         {
           method: "PATCH",
           headers: {
@@ -66,7 +66,7 @@ export function EditPayout(props) {
                 <option value="" disabled>
                   Seleccionar Zona
                 </option>
-                {zoneOptions.map((zone) => (
+                {props.zones.map((zone) => (
                   <option key={zone.id} value={zone.id}>
                     {zone.name}
                   </option>
