@@ -18,6 +18,7 @@ export default function TechnicalReport() {
         const [zoneOptions, setZoneOptions] = useState([]);
         const [selectedZone, setSelectedZone] = useState("");
         const [cribrooms, setCribrooms] = useState([]);
+        const [unmodifiedCribrooms, setUnmodifiedCribrooms] = useState([]);
         const [startDate, setStartDate] = useState(""); // New state for start date
         const [endDate, setEndDate] = useState("");     // New state for end date    
         const [selectedCribrooms, setSelectedCribrooms] = useState([]); // New state for selected crib rooms
@@ -87,12 +88,29 @@ export default function TechnicalReport() {
           if (selectedZone) {
             loadCribrooms(selectedZone);
           }
+          else {
+            defaultCribrooms()    
+        }
         }, [selectedZone]);
     
+        async function defaultCribrooms() {
+            try {
+                const response = await axios.get(`http://127.0.0.1:8000/api/cribroom/?no_depth`);
+                const jsonData = response.data
+                setCribrooms(jsonData)
+            } catch(error) {
+                console.error("Error fetching cribrooms:", error);
+            }
+            
+        }
+
         const loadCribrooms = async (zoneId) => {
           try {
             const response = await axios.get(`http://127.0.0.1:8000/api/cribroom/?zone=${zoneId}`);
             const jsonData = response.data;
+            if (jsonData.length == 0) {
+                alert("No hay Salas Cunas en la zona seleccionada");
+            }
             setCribrooms(jsonData);
           } catch (error) {
             console.error("Error fetching cribrooms:", error);
