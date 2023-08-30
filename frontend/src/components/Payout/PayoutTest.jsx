@@ -18,6 +18,7 @@ import { Form } from "react-bootstrap";
 import Menu from "../Menu/Menu";
 import { AddPayout } from "./AddPayoutModal";
 import { EditPayout } from "./EditPayoutModal";
+import DeletePayout from "./DeletePayoutModal";
 
 export default function PayoutTest() {
   const [zoneOptions, setZoneOptions] = useState([]);
@@ -26,6 +27,7 @@ export default function PayoutTest() {
   const [selectedPayout, setSelectedPayout] = useState("");
   const [modalAddShow, setModalAddShow] = useState(false);
   const [modalEditShow, setModalEditShow] = useState(false);
+  const [modalDeleteShow, setModalDeleteShow] = useState(false);
 
   useEffect(() => {
     loadZones();
@@ -100,6 +102,15 @@ export default function PayoutTest() {
                   setModalEditShow(false);
                   window.location.reload();
                   setSelectedPayout("");
+                }}
+              />
+              <DeletePayout
+                id={selectedPayout}
+                show={modalDeleteShow}
+                onHide={() => {
+                  setModalDeleteShow(false);
+                  window.location.reload();
+                  setSelectedPayout('');
                 }}
               />
             </>
