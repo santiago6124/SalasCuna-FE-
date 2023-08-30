@@ -67,8 +67,14 @@ export default function PayoutTest() {
     setModalAddShow(true);
   }
 
-  const handleEditClick = async (rowId) => {
+  const handleEditClick = async (payoutID) => {
     setModalEditShow(true);
+    setSelectedPayout(payoutID);
+  }
+
+  const handleDeleteClick = async (payoutID) => {
+    setModalDeleteShow(true);
+    setSelectedPayout(payoutID);
   }
   return (
     <>
@@ -152,12 +158,13 @@ export default function PayoutTest() {
                         <GridActionsCellItem
                           icon={<DeleteIcon />}
                           label="Delete"
+                          onClick={() => handleDeleteClick(params.row.id)}
                         />,
                         <>
                           <GridActionsCellItem
                             variant="primary"
                             icon={<EditIcon />}
-                            onClick={() => handleEditClick()}
+                            onClick={() => handleEditClick(params.row.id)}
                           />
                         </>,
                       ],
