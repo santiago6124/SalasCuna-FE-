@@ -21,9 +21,9 @@ export function EditPayout(props) {
     };
     try {
       let response = await fetch(
-        `http://127.0.0.1:8000/api/payout/${props.id}`,
+        `http://127.0.0.1:8000/api/payout/${props.id}/`,
         {
-          method: "PATCH",
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
@@ -62,7 +62,7 @@ export function EditPayout(props) {
             </Form.Group>
             <div className="col-md-2">
               <Form.Label className="mb-1">Seleccionar Zona</Form.Label>
-              <Form.Select as="select" name="role">
+              <Form.Select as="select" name="zone">
                 <option value="" disabled>
                   Seleccionar Zona
                 </option>
