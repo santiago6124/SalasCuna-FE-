@@ -62,7 +62,6 @@ export default function PayoutTest() {
 
   const handleAddClick = async () => {
     setModalAddShow(true);
-    console.log("aaa")
   }
   return (
     <>
@@ -77,7 +76,6 @@ export default function PayoutTest() {
                 show={modalAddShow}
                 onHide={() => {
                   setModalAddShow(false);
-                  setSelectedZone("");
                   window.location.reload();
                 }}
               />
@@ -127,7 +125,7 @@ export default function PayoutTest() {
                       width: 250,
                     },
                     { field: "amount", headerName: "Monto", width: 250 },
-                    { field: "Date", headerName: "Fecha", width: 250 },
+                    { field: "date", headerName: "Fecha", width: 250 },
                     {
                       field: "actions",
                       type: "actions",

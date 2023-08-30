@@ -31,7 +31,6 @@ export function AddPayout(props) {
         }
       );
       if (response.ok) {
-        console.log("Added payout")
         props.onHide();
       }
     } catch (error) {
