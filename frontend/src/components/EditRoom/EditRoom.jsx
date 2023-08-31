@@ -10,7 +10,11 @@ import { Button } from "react-bootstrap";
 
 import React, { useState, useEffect } from "react";
 
-import { getAllShifts, getAllZones } from "../../api/salasCuna.api";
+import {
+  getAllShifts,
+  getAllZones,
+  getAllCribroomsWithoutDepth,
+} from "../../api/salasCuna.api";
 
 export function UpdateRoom(props) {
   const [zoneOptions, setZoneOptions] = useState([]);
@@ -56,7 +60,10 @@ export function UpdateRoom(props) {
         const crib = data[0];
         setCribroom(crib);
       } else {
-        console.error("Error fetching selected cribroom data:", response.statusText);
+        console.error(
+          "Error fetching selected cribroom data:",
+          response.statusText
+        );
       }
     } catch (error) {
       console.error("Error fetching selected cribroom data:", error);
@@ -70,7 +77,7 @@ export function UpdateRoom(props) {
       name: formData.get("nameCR"),
       code: formData.get("codeCR"),
       max_capacity: formData.get("max_capacityCR"),
-      street: formData.get("streetCR") ? formData.get("streetCR"): "", // if null, empty string in order to not broke xd
+      street: formData.get("streetCR") ? formData.get("streetCR") : "", // if null, empty string in order to not broke xd
       house_number: formData.get("house_numberCR"),
       shift: formData.get("shiftCR"),
       zone: formData.get("zoneCR"),
@@ -108,8 +115,6 @@ export function UpdateRoom(props) {
   function handleZoneChange(event) {
     setSelectedZone(event.target.value);
   }
-
-
 
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>

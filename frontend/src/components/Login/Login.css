@@ -1,11 +1,17 @@
-.body {
+.body-login {
   background-image: url("../../media/fondo.png");
   width: 100%;
+  height: 570px;
   padding-top: 10px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+}
+
+.header-login {
+  margin-bottom: 50px;
+  padding: 5px;
 }
 .contenedor-form-wrapper {
   display: flex;

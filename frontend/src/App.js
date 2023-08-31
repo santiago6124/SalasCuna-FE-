@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import "./App.css";
-import Navbar from "./components/Menu/Menu";
 import PrivateRoute from "./utils/PrivateRoute";
 import { PublicRoute } from "./utils/PublicRoute";
 
@@ -24,6 +23,8 @@ import CribroomDashboard from "./components/CribroomDashboard/CribroomDashboard"
 import UserList from "./components/CribroomDashboard/UserList";
 import { FaExpeditedssl } from "react-icons/fa";
 import { FormEditChildren } from "../src/components/FormEditChildren/FormEditChildren";
+import PayoutTest from "./components/Payout/PayoutTest";
+import { Public } from "@mui/icons-material";
 
 function App() {
   return (
@@ -42,11 +43,11 @@ function App() {
             />
             <Route
               path="/reset-password"
-              element={<PublicRoute children={<ResetPassword />} />}
+              element={<PrivateRoute children={<ResetPassword />} />}
             />
             <Route
               path="/password/reset/confirm/:uid/:token"
-              element={<PublicRoute children={<ResetPasswordConfirm />} />}
+              element={<PrivateRoute children={<ResetPasswordConfirm />} />}
             />
             <Route
               path="/activate/:uid/:token"
@@ -55,44 +56,44 @@ function App() {
 
             <Route
               path="/generate-padron"
-              element={<PublicRoute children={<GeneratePadron />} />}
+              element={<PrivateRoute children={<GeneratePadron />} />}
             />
 
             <Route
               path="/añadir-chico"
-              element={<PublicRoute children={<AddChildrenPage />} />}
+              element={<PrivateRoute children={<AddChildrenPage />} />}
             />
 
             <Route
               path="/children-management"
-              element={<PublicRoute children={<AddChildrenPage />} />}
+              element={<PrivateRoute children={<AddChildrenPage />} />}
             />
 
             <Route
               path="/children-management/new"
-              element={<PublicRoute children={<FormAddChildren />} />}
+              element={<PrivateRoute children={<FormAddChildren />} />}
             />
 
             <Route
               path="/children-management/edit"
-              element={<PublicRoute children={<FormEditChildren />} />}
+              element={<PrivateRoute children={<FormEditChildren />} />}
             />
 
             <Route
               path="/crear-sala"
-              element={<PublicRoute children={<CreateRoomPage />} />}
+              element={<PrivateRoute children={<CreateRoomPage />} />}
             />
             <Route
               path="/editar-sala"
-              element={<PublicRoute children={<SelectRoom />} />}
+              element={<PrivateRoute children={<SelectRoom />} />}
             />
             <Route
               path="/maestro-montos"
-              element={<PublicRoute children={<Payout />} />}
+              element={<PrivateRoute children={<PayoutTest />} />}
             />
             <Route
               path="/informe-tecnico"
-              element={<PublicRoute children={<TechnicalReport />} />}
+              element={<PrivateRoute children={<TechnicalReport />} />}
             />
             <Route
               path="/gestion-sala"
