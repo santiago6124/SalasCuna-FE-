@@ -9,35 +9,35 @@ import { Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 
 import React, { useState, useEffect } from "react";
-import { getAllRoles, getAllDepartments } from "../../api/salasCuna.api";
+import { getAllGroup, getAllDepartments } from "../../api/salasCuna.api";
 
 export default function UpdateUser(props) {
   const [selectedUser, setSelectedUser] = useState("");
   const [user, setUser] = useState([]);
-  const [roleOptions, setRoleOptions] = useState([]);
-  const [role, setRole] = useState("");
+  const [groupOptions, setGroupOptions] = useState([]);
+  const [group, setGroup] = useState("");
   const [departmentOptions, setDepartmentOptions] = useState([]);
   const [department, setDepartment] = useState("");
 
   useEffect(() => {
-    loadRoles();
+    loadGroup();
     loadDepartments();
     setSelectedUser(props.id);
     loadSelectedUser(props.id);
   }, []);
 
 
-  const loadRoles = async () => {
+  const loadGroup = async () => {
     try {
-      const response = await getAllRoles();
-      setRoleOptions(response.data);
+      const response = await getAllGroup();
+      setGroupOptions(response.data);
     } catch (error) {
-      console.error("Error fetching role options:", error);
+      console.error("Error fetching group options:", error);
     }
   };
 
-  const handleRoleChange = (event) => {
-    setRole(event.target.value);
+  const handleGroupChange = (event) => {
+    setGroup(event.target.value);
   };
 
 
@@ -84,7 +84,7 @@ export default function UpdateUser(props) {
       first_name: formData.get("first_name"),
       last_name: formData.get("last_name"),
       dni: formData.get("dni"),
-      role: formData.get("role"),
+      group: formData.get("group"),
       phone_number: formData.get("phone_number"),
       city: formData.get("city"),
       department: formData.get("department"),
@@ -184,17 +184,17 @@ export default function UpdateUser(props) {
                 <Form.Label className="mb-1">Rol</Form.Label>
                 <Form.Select
                   as="select"
-                  name="role"
-                  defaultValue={user ? user.role : ""}
-                  onChange={handleRoleChange}
+                  name="group"
+                  defaultValue={user ? user.group : ""}
+                  onChange={handleGroupChange}
                   required
                 >
                   <option value="" disabled selected>
                     Seleccionar Rol
                   </option>
-                  {roleOptions.map((role) => (
-                    <option key={role.id} value={role.id}>
-                      {role.name}
+                  {groupOptions.map((group) => (
+                    <option key={group.id} value={group.id}>
+                      {group.name}
                     </option>
                   ))}
                 </Form.Select>

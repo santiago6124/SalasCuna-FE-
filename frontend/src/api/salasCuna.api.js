@@ -24,8 +24,8 @@ export const getAllUsers = async () => {
   return axios.get("/api/user/");
 };
 
-export const getAllRoles = async () => {
-  return axios.get("/api/RoleViewSet/");
+export const getAllGroup = async () => {
+  return axios.get("/api/GroupViewSet/");
 }
 
 export const getAllDepartments = async () => {

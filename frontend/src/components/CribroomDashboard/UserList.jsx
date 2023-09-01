@@ -16,7 +16,7 @@ import Row from "react-bootstrap/Row/";
 //React  and React Functions Import
 import React, { useEffect, useState } from "react";
 
-import { getAllRoles, getAllUsers } from "../../api/salasCuna.api";
+import { getAllGroup, getAllUsers } from "../../api/salasCuna.api";
 
 //DataGrid Import
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
@@ -39,20 +39,20 @@ export default function UserList() {
       const responseUsers = await getAllUsers();
       setUsers(responseUsers.data);
       const userData = responseUsers.data;
-      const responseRoles = await getAllRoles();
-      const rolesData = responseRoles.data;
+      const responseGroup = await getAllGroup();
+      const GroupData = responseGroup.data;
       const displayUsers = await userData.map((user) => {
-        const matchingRole = rolesData.find((role) => role.id === user.role);
-        if (matchingRole) {
+        const matchingGroup = GroupData.find((group) => group.id === user.group);
+        if (matchingGroup) {
           return {
             ...user,
-            role: matchingRole.name,
+            group: matchingGroup.name,
             is_active: user.is_active ? "Activo" : "Inactivo",
           };
         } else {
           return {
             ...user,
-            role: "Sin Rol",
+            group: "Sin Rol",
             is_active: user.is_active ? "Activo" : "Inactivo",
           };
         }
@@ -103,7 +103,7 @@ export default function UserList() {
                 onHide={() => {
                   setModalEditShow(false);
                   setSelectedUser("");
-                  window.location.reload();
+                  /* window.location.reload(); */
                 }}
               />
             )}
@@ -114,7 +114,7 @@ export default function UserList() {
                 onHide={() => {
                   setModalDeleteShow(false);
                   setSelectedUser("");
-                  window.location.reload();
+                  /* window.location.reload(); */
                 }}
               />
             )}
@@ -162,7 +162,7 @@ export default function UserList() {
                       headerName: "Numero Tel.",
                       width: 150,
                     },
-                    { field: "role", headerName: "Rol", width: 150 },
+                    { field: "group", headerName: "Rol", width: 150 },
                     { field: "is_active", headerName: "Estado", width: 150 },
                     {
                       field: "actions",
