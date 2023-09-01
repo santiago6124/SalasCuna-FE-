@@ -31,3 +31,4 @@ export const getAllRoles = async () => {
 export const getAllDepartments = async () => {
   return axios.get("/api/department/")
 }
+

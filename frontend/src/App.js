@@ -24,6 +24,7 @@ import CribroomDashboard from "./components/CribroomDashboard/CribroomDashboard"
 import UserList from "./components/CribroomDashboard/UserList";
 import { FaExpeditedssl } from "react-icons/fa";
 import { FormEditChildren } from "../src/components/FormEditChildren/FormEditChildren";
+import menuTest from "../src/pages/menuTest/menuTest.jsx";
 
 function App() {
   return (
@@ -101,6 +102,10 @@ function App() {
             <Route
               path="/listar-usuarios"
               element={<PrivateRoute children={<UserList />} />}
+            />
+            <Route
+              path="/menuTest"
+              element={<PublicRoute children={<menuTest />} />}
             />
           </Routes>
         </AuthProvider>

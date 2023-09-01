@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 
 import AuthContext from "../../context/AuthContext";
 
-const Menu = ({link1Text, link1Path, link2Text, link2Path}) => {
+const Menu = () => {
 
   let {user, logoutUser} = useContext(AuthContext)
 
@@ -21,14 +21,6 @@ const Menu = ({link1Text, link1Path, link2Text, link2Path}) => {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
-          <Nav className="me-auto my-2 my-lg-0" style={{ maxHeight: '100px' }} navbarScroll>
-            <Link to={link1Path}>
-              <Nav className="titulo">{link1Text}</Nav>
-            </Link>
-            <Link to={link2Path}>
-              <Nav className="titulo">{link2Text}</Nav>
-            </Link>
-          </Nav>
           <Nav>
             {user ? (
               <Button className="boton" variant="primary" onClick={logoutUser}>

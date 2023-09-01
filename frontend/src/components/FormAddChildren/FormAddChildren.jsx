@@ -100,23 +100,32 @@ export function FormAddChildren() {
         
 
         try {
-            const response = await fetch('/api/child/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload),
-            })
-            console.log(payload);
-    
-            if (response.ok) {
-                console.log('Child added successfully');
-                window.location.reload(); 
+            if (loadingCapacity) {
+                console.log('Cargando capacidad...');
             } else {
-                console.log('Failed to add child');
-                
-            }
-        } catch (error) {
+                if (capacity) {
+                    const response = await fetch('/api/child/?no_depth', {     
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(payload),
+                    })
+                    const data = await response.json();
+                    console.log("Response: ", data);
+                    console.log(payload);
+            
+                    if (response.ok) {
+                        console.log('Child added successfully');
+                        window.location.reload(); 
+                    } else {
+                        console.log('Failed to add child');
+                        
+                    }
+                } else {
+                    alert('La sala cuna está llena. No se puede agregar más niños.');          
+                } 
+        }}catch (error) {
             console.error('An error occurred while adding child:', error);
         }
     };
@@ -130,6 +139,8 @@ export function FormAddChildren() {
     const [childStates, setChildState] = useState([]);
     const [guardianTypes, setGuardianType] = useState([]); 
     const [phoneFeatures, setPhoneFeature] = useState([]); 
+    const [capacity, setCapacity] = useState([]);
+    const [loadingCapacity, setLoadingCapacity] = useState(true);
 
     const [selectedGeneroChield, setSelectedGeneroChield] = useState('');
     const [selectedGeneroGuardian, setSelectedGeneroGuardian] = useState('');
@@ -192,9 +203,27 @@ export function FormAddChildren() {
         ChildStateList();
         GuardianTypeList();
         PhoneFeatureList();
-        
+        GetCirbroomCapacity();
         }, []);
 
+
+    const GetCirbroomCapacity = async (selectedSalaCuna) => {
+        try {
+            const response = await fetch(`http://127.0.0.1:8000/api/cribroom/${selectedSalaCuna}/?no_depth`);
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data); // Muestra la respuesta en la consola
+                setCapacity(data.reachMax);
+            } else {
+                console.error('Error al obtener la capacidad de la sala cuna');
+            }
+        } catch (error) {
+            console.error('Error al realizar la solicitud:', error);
+        } finally {
+            setLoadingCapacity(false); // Marcar como no cargando después de obtener la capacidad
+        }
+        
+    }
 
     const GenderList = async () => {
         try {
@@ -248,7 +277,7 @@ export function FormAddChildren() {
             const response = await axios.get('/api/ChildStateListView/');
             setChildState(response.data);
             } catch(error) {
-                console.error('Error fetching estados:', error);
+                
             };
     };
 
@@ -276,7 +305,7 @@ export function FormAddChildren() {
    navigate('/children-management');
   };
 
-  
+ 
 
   return (   
     <Form className="conteiner-form" onSubmit={handleSubmit}>
@@ -599,8 +628,6 @@ export function FormAddChildren() {
             <div className="contenedor-boton mb-1 ">
                 <Button as="input" type="submit" value="Cargar" size="lg"/>
             </div>
-        </Form>
-
-        
-  )
+        </Form>  
+  );
 }
