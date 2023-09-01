@@ -19,7 +19,6 @@ export function FormAddChildren() {
     const getChildren = async () => {
         let response = await fetch('/api/child/?no_depth');
         let data = await response.json();
-        console.log(data);
     };
 
     const handleSubmit = async (event) => {

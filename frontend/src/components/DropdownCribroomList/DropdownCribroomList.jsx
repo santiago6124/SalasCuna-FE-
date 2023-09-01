@@ -38,23 +38,29 @@ export default function DropdownCribroomList() {
   const navigate = useNavigate();
 
   const handleNewClick = () => {
-  navigate('/children-management/new');
+    const objCribroom = cribrooms[selectedCribroom-1]
+    console.log(objCribroom)
+    if (!objCribroom.reachMax)
+      navigate('/children-management/new');
+    else {
+      window.alert("La Sala Cuna seleccionada está llena")
+    }
   };
 
 
 
-  const handleCargarClick = async () => {
+  async function handleCargarClick() {
     if (selectedCribroom) {
       try {
         console.log('ID de la Cribroom seleccionada:', selectedCribroom);
         const res = await axios.get('/api/child/?no_depth&cribroom_id=' + selectedCribroom);
         console.log('API Response:', res.data);
-        const updateChild = await res.data.map (child => {
+        const updateChild = await res.data.map(child => {
 
-        return {...child,is_active: child.is_active ? 'Activo' : 'Inactivo'}
+          return { ...child, is_active: child.is_active ? 'Activo' : 'Inactivo' };
 
-            
-        })
+
+        });
 
         setChild(updateChild);
         setShowNewButton(true);
@@ -66,7 +72,7 @@ export default function DropdownCribroomList() {
     } else {
       console.log('Ninguna Cribroom seleccionada');
     }
-  };
+  }
 
 
   const handleLoadCribroomOptions = async (inputValue) => {
