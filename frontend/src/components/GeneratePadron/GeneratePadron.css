@@ -47,3 +47,76 @@
 th {
   font-size: 1.5vh;
 }
+
+.container-report {
+  width: 800px;
+  padding: 30px;
+  border-radius: 18px;
+  box-shadow: 1px 4px 10px 0px rgba(0, 0, 0, 0.37);
+  background-color: rgb(255, 255, 255);
+}
+
+.container-titulo-report {
+  text-align: center;
+}
+
+.contenedor-linea-report {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.linea-report {
+  margin-top: 1px;
+  height: 4px;
+  border: 2px solid #ef7e0e;
+  background-color: #ef7e0e;
+  width: 1200px;
+}
+
+.input-select {
+  width: 200px;
+  margin: 15px;
+  padding: 5px;
+}
+
+.container-botones-report {
+  margin-left: 220px;
+  display: flex;
+}
+
+.btn-1-report {
+  margin-right: 15px;
+}
+
+.tabla-report {
+  text-align: center;
+}
+
+.DataGrid-Wrapper {
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.DataGrid {
+  margin: 10px;
+  width: auto;
+  height: auto;
+  border-radius: 10px;
+}
+
+.col-md-2{
+    margin: 20px;
+}
+.header-report{
+    margin-bottom: 50px;
+    padding: 5px;
+}
+
+.add-payout-button {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
