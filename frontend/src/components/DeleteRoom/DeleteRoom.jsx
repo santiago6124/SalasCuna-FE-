@@ -23,7 +23,7 @@ export default function DeleteRoom(props) {
 
       console.log("making fetch");
       let response = await fetch(
-        `/api/deleteCR/${selectedCribroom}/`,
+        `/api/cribroom/${selectedCribroom}/?delete`,
         {
           method: "PATCH",
           headers: {
@@ -34,7 +34,7 @@ export default function DeleteRoom(props) {
       );
       props.onHide();
     } catch (err) {
-      alert("Error al eliminar la sala cuna");
+      alert("Error al eliminar la sala cuna", err);
     }
   };
 
