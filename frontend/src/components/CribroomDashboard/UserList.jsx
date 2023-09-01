@@ -42,7 +42,7 @@ export default function UserList() {
       const responseGroup = await getAllGroup();
       const GroupData = responseGroup.data;
       const displayUsers = await userData.map((user) => {
-        const matchingGroup = GroupData.find((group) => group.id === user.group);
+        const matchingGroup = GroupData.find((group) => group.id === user.groups[0]);
         if (matchingGroup) {
           return {
             ...user,
