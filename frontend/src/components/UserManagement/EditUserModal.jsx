@@ -65,7 +65,7 @@ export default function UpdateUser(props) {
         const userData = await responseUsers.json();
         const userr = userData;
         setUser(userr);
-        } else {
+      } else {
         console.error(
           "Error fetching selected user data:",
           responseUsers.statusText
@@ -79,13 +79,12 @@ export default function UpdateUser(props) {
   const handleEditUser = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    const grupo = [formData.get("group")]
     const payload = {
       email: formData.get("email"),
       first_name: formData.get("first_name"),
       last_name: formData.get("last_name"),
       dni: formData.get("dni"),
-      groups: grupo,
+      group: formData.get("group"),
       phone_number: formData.get("phone_number"),
       city: formData.get("city"),
       department: formData.get("department"),
@@ -186,7 +185,7 @@ export default function UpdateUser(props) {
                 <Form.Select
                   as="select"
                   name="group"
-                  defaultValue={user ? user.groups : ""}
+                  defaultValue={user ? user.group : ""}
                   onChange={handleGroupChange}
                   required
                 >
