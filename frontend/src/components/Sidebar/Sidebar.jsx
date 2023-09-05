@@ -1,12 +1,15 @@
 import React from 'react';
 import './Sidebar.css';
-import { faHourglass1 } from '@fortawesome/free-solid-svg-icons';
 
 const Sidebar = ({ isOpen, closeSidebar }) => {
+  if (!isOpen) {
+    return null; 
+  }
+
   return (
-    <div className={`sidebar ${isOpen ? 'open' : ''}`}>
-      <button onClick={closeSidebar}>Cerrar Sidebar</button>
-      {<h1>Texto</h1>}
+    <div className="sidebar">
+      
+      <h1>HOLA</h1>
     </div>
   );
 };
