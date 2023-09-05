@@ -60,7 +60,8 @@ export default function PayoutTest() {
       const jsonData = response.data;
       setPayout(jsonData);
     } catch (error) {
-      console.error("Error fetching cribrooms:", error);
+      console.error("Error fetching payouts:", error);
+      handlePermissions(error.response.status);
     }
   };
 
