@@ -31,3 +31,10 @@ export const getAllGroup = async () => {
 export const getAllDepartments = async () => {
   return axios.get("/api/department/")
 }
+
+export const handlePermissions = async (status) => {
+  if (status === 403) {
+    alert("Acceso restringido: No tienes permisos para acceder a esta pagina");
+    window.location.assign("/");
+  }
+}
