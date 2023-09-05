@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import "./App.css";
-import Navbar from "./components/Menu/Menu";
 import PrivateRoute from "./utils/PrivateRoute";
 import { PublicRoute } from "./utils/PublicRoute";
 
@@ -24,7 +23,8 @@ import CribroomDashboard from "./components/CribroomDashboard/CribroomDashboard"
 import UserList from "./components/CribroomDashboard/UserList";
 import { FaExpeditedssl } from "react-icons/fa";
 import { FormEditChildren } from "../src/components/FormEditChildren/FormEditChildren";
-import menuTest from "../src/pages/menuTest/menuTest.jsx";
+import  MenuTest  from "./pages/menuTest/menuTest";
+
 
 function App() {
   return (
@@ -104,8 +104,8 @@ function App() {
               element={<PrivateRoute children={<UserList />} />}
             />
             <Route
-              path="/menuTest"
-              element={<PublicRoute children={<menuTest />} />}
+              path="/navbarTest"
+              element={<PublicRoute children={<MenuTest />} />}
             />
           </Routes>
         </AuthProvider>

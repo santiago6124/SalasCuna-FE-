@@ -1,23 +1,25 @@
-import React from 'react'
-import Sidebar from '../../components/Sidebar/Sidebar';
+import React, { useState } from 'react';
+import './menuTest.css';
 import Menu from '../../components/Menu/Menu';
+import Sidebar from '../../components/Sidebar/Sidebar';
 
+export default function MenuTest() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+  const openSidebar = () => {
+    setIsSidebarOpen(true);
+  };
 
-export default function menuTest() {
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+  };
+
   return (
-    <div>
-            <header>
-                <div>
-                    <Menu />
-                </div>
-            </header>
-            <body className='body'>
-            <div>
-               <h1>TEXTO</h1>
-            </div>
-            </body>
-        </div>
-  )
+    <div className="App">
+      <Menu openSidebar={openSidebar} />
+      <Sidebar isOpen={isSidebarOpen} closeSidebar={closeSidebar} />
+      {/* Resto de tu contenido */}
+    </div>
+  );
 }
 

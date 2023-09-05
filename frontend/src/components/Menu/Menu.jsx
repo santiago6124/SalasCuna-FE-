@@ -7,28 +7,34 @@ import Navbar from 'react-bootstrap/Navbar';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+
 import AuthContext from "../../context/AuthContext";
 
-const Menu = () => {
+export default function Menu({openSidebar}) {
 
   let {user, logoutUser} = useContext(AuthContext)
 
   return (
     <Navbar expand="lg" className="navbar">
       <Container fluid>
-        <Navbar.Brand href="/">
+          <span  className="circle-icon" onClick={openSidebar}> 
+            <FontAwesomeIcon icon={faBars} size='xl' className='bar' /> 
+          </span>
+        <Navbar.Brand >
           <img src={logo} alt="logo de" className="logo" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
-          <Nav>
+          <Nav className='boton'> 
             {user ? (
-              <Button className="boton" variant="primary" onClick={logoutUser}>
+              <Button variant="primary" onClick={logoutUser}>
                 Log Out
               </Button>
             ) : (
               <Link to="/login">
-                <Button className="boton" variant="primary">
+                <Button variant="primary">
                   Log In
                 </Button>
               </Link>
@@ -40,4 +46,4 @@ const Menu = () => {
   );
 }
 
-export default Menu;
+

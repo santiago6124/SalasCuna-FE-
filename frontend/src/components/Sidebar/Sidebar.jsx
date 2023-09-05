@@ -1,33 +1,14 @@
-import { Diversity1 } from '@mui/icons-material'
-import { Menu } from '@mui/material'
-import { useState } from 'react';
+import React from 'react';
+import './Sidebar.css';
+import { faHourglass1 } from '@fortawesome/free-solid-svg-icons';
 
-import Button from 'react-bootstrap/Button';
-import Offcanvas from 'react-bootstrap/Offcanvas';
-
-function Sidebar() {
-
-    const [show, setShow] = useState(false);
-
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+const Sidebar = ({ isOpen, closeSidebar }) => {
   return (
-    <>
-      <Button variant="primary" onClick={handleShow}>
-        Launch
-      </Button>
+    <div className={`sidebar ${isOpen ? 'open' : ''}`}>
+      <button onClick={closeSidebar}>Cerrar Sidebar</button>
+      {<h1>Texto</h1>}
+    </div>
+  );
+};
 
-      <Offcanvas show={show} onHide={handleClose}>
-        <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Offcanvas</Offcanvas.Title>
-        </Offcanvas.Header>
-        <Offcanvas.Body>
-          Some text as placeholder. In real life you can have the elements you
-          have chosen. Like, text, images, lists, etc.
-        </Offcanvas.Body>
-      </Offcanvas>
-    </>
-  )
-}
-
-export default Sidebar
+export default Sidebar;
