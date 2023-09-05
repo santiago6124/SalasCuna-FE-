@@ -60,6 +60,10 @@ export default function CribroomDashboard() {
       setFilteredCribroom(updatedCribrooms);  
     } catch (error) {
       console.log("Error fetching SalasCunas:", error);
+      if (error.response.status === 403) {
+        alert('Acceso restringido: No tienes permisos para acceder a esta pagina')
+        window.location.assign('/')
+      }
     }
   };
 

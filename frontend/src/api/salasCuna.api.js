@@ -13,7 +13,7 @@ export const getAllZones = () => {
 };
 
 export const getAllLocalities = () => {
-  return axios.get("/api/LocalityListView/");
+  return axios.get("/api/LocalityListView/") ;
 };
 
 export const getAllShifts = async () => {
