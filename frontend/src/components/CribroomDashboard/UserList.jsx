@@ -16,7 +16,7 @@ import Row from "react-bootstrap/Row/";
 //React  and React Functions Import
 import React, { useEffect, useState } from "react";
 
-import { getAllGroup, getAllUsers } from "../../api/salasCuna.api";
+import { getAllGroup, getAllUsers, handlePermissions } from "../../api/salasCuna.api";
 
 //DataGrid Import
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
@@ -61,6 +61,7 @@ export default function UserList() {
       setFilteredUsers(displayUsers);
     } catch (error) {
       console.log("Error fetching users", error);
+      handlePermissions(error.response.status);
     }
   };
 
