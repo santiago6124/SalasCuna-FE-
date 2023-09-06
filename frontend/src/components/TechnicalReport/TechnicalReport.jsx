@@ -99,7 +99,7 @@ export default function TechnicalReport() {
   async function defaultCribrooms() {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/cribroom/?no_depth`
+        `/api/cribroom/?no_depth`
       );
       const jsonData = response.data;
       setCribrooms(jsonData);
@@ -112,7 +112,7 @@ export default function TechnicalReport() {
   const loadCribrooms = async (zoneId) => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/cribroom/?zone=${zoneId}`
+        `/api/cribroom/?zone=${zoneId}`
       );
       const jsonData = response.data;
       if (jsonData.length == 0) {
@@ -126,7 +126,7 @@ export default function TechnicalReport() {
 
   const loadZones = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/zone/");
+      const response = await axios.get("/api/zone/");
       const jsonData = response.data;
       setZoneOptions(jsonData);
     } catch (error) {
