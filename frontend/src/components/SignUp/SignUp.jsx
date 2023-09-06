@@ -22,7 +22,7 @@ const SignUp = () => {
     const fetchRoles = async () => {
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/RoleViewSet/?exclude_directora"
+          "/api/GroupViewSet/?exclude_directora"
         );
         setRolesList(response.data); // Update the state with the list of roles
       } catch (error) {

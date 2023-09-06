@@ -6,6 +6,7 @@ import axios from "axios";
 import { DataGrid } from "@mui/x-data-grid";
 import Button from "react-bootstrap/Button/";
 import Menu from "../Menu/Menu";
+import { getAllZones, handlePermissions } from "../../api/salasCuna.api";
 
 const GeneratePadron = () => {
   const [zoneOptions, setZoneOptions] = useState([]);
@@ -32,18 +33,19 @@ const GeneratePadron = () => {
   const loadCribrooms = async (zoneId) => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/cribroom/?zone=${zoneId}`
+        `/api/cribroom/?zone=${zoneId}`
       );
       const jsonData = response.data;
       setCribrooms(jsonData);
     } catch (error) {
       console.error("Error fetching cribrooms:", error);
+      handlePermissions(error.response.status);
     }
   };
 
   const loadZones = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/zone/");
+      const response = await getAllZones();
       const jsonData = response.data;
       setZoneOptions(jsonData);
     } catch (error) {

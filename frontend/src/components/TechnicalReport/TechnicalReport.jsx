@@ -12,6 +12,7 @@ import axios from "axios"; // Import axios
 import { useState, useEffect } from "react";
 import DownloadPDF from "./DownloadPDF/DownloadPDF";
 import Menu from "../Menu/Menu";
+import { handlePermissions } from "../../api/salasCuna.api";
 
 export default function TechnicalReport() {
   const [zoneOptions, setZoneOptions] = useState([]);
@@ -104,6 +105,7 @@ export default function TechnicalReport() {
       setCribrooms(jsonData);
     } catch (error) {
       console.error("Error fetching cribrooms:", error);
+      handlePermissions(error.response.status)
     }
   }
 
