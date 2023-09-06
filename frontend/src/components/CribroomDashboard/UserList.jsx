@@ -142,7 +142,7 @@ export default function UserList() {
                         startIcon={<AddIcon />}
                         className="add-payout-button mb-3"
                       >
-                        Aniadir Usuario
+                        Agregar Usuario
                       </Button>
                     </Link>
                   </div>
