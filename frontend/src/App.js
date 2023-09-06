@@ -23,8 +23,8 @@ import CribroomDashboard from "./components/CribroomDashboard/CribroomDashboard"
 import UserList from "./components/CribroomDashboard/UserList";
 import { FaExpeditedssl } from "react-icons/fa";
 import { FormEditChildren } from "../src/components/FormEditChildren/FormEditChildren";
-import PayoutTest from "./components/Payout/PayoutTest";
 import { Public } from "@mui/icons-material";
+import UserDashboard from "./components/UserDashboard/UserDashboard";
 
 function App() {
   return (
@@ -89,7 +89,7 @@ function App() {
             />
             <Route
               path="/maestro-montos"
-              element={<PrivateRoute children={<PayoutTest />} />}
+              element={<PrivateRoute children={<Payout />} />}
             />
             <Route
               path="/informe-tecnico"
@@ -102,6 +102,10 @@ function App() {
             <Route
               path="/listar-usuarios"
               element={<PrivateRoute children={<UserList />} />}
+            />
+            <Route
+            path="home-page"
+            element={<PrivateRoute children={<UserDashboard/>}/>}
             />
           </Routes>
         </AuthProvider>
