@@ -24,7 +24,8 @@ import UserList from "./components/CribroomDashboard/UserList";
 import { FaExpeditedssl } from "react-icons/fa";
 import { FormEditChildren } from "../src/components/FormEditChildren/FormEditChildren";
 import { Public } from "@mui/icons-material";
-import UserDashboard from "./components/UserDashboard/UserDashboard";
+import AdminDashboard from "./components/UserDashboard/UserDashboard";
+import TSDashboard from "./components/UserDashboard/TSDashboard";
 
 function App() {
   return (
@@ -105,7 +106,7 @@ function App() {
             />
             <Route
             path="home-page"
-            element={<PrivateRoute children={<UserDashboard/>}/>}
+            element={<PrivateRoute children={<TSDashboard/>}/>}
             />
           </Routes>
         </AuthProvider>

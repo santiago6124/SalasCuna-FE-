@@ -20,15 +20,13 @@ import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
 import ArrowCircleRightOutlinedIcon from "@mui/icons-material/ArrowCircleRightOutlined";
 
-export default function AdminDashboard() {
+export default function TSDashboard() {
   const [cribrooms, setCribrooms] = useState([]);
   const [filteredCribroom, setFilteredCribroom] = useState([]);
   const [keyword, setKeyword] = useState("");
-  const [userhistory, setUserHistory] = useState([]);
 
   useEffect(() => {
     listCribroom();
-    listUserHistory();
   }, []);
 
   const listCribroom = async () => {
@@ -62,15 +60,41 @@ export default function AdminDashboard() {
     }
   };
 
-  const listUserHistory = async () => {
-    try {
-      const userResponse = await getUserHistory();
-      console.log("USER HISTORY", userResponse.data[0]);
-      setUserHistory(userResponse.data);
-    } catch (error) {
-      console.log(`ERROR USERHISTORY`, error);
-    }
-  };
+  /* const listCribroom = async () => {
+  try {
+    const responseLocality = await getAllLocalities();
+    const response = await getAllCribroomsWithoutDepth();
+    const localityData = responseLocality.data;
+    const cribroomData = response.data;
+    const loggedInUserId = "user123"; // Replace with the actual user ID of the logged-in user
+
+    const updatedCribrooms = await cribroomData.map((cribroom) => {
+      const matchingLocality = localityData.find(
+        (locality) => locality.id === cribroom.locality
+      );
+      if (matchingLocality && cribroom.user === loggedInUserId) {
+        return {
+          ...cribroom,
+          locality: matchingLocality.locality,
+          is_active: cribroom.is_active ? "Activo" : "Inactivo",
+        };
+      } else {
+        return null; // Exclude cribrooms not designated for the logged-in user
+      }
+    });
+
+    // Remove null values and update state
+    const filteredCribrooms = updatedCribrooms.filter(
+      (cribroom) => cribroom !== null
+    );
+    setCribrooms(filteredCribrooms);
+    setFilteredCribroom(filteredCribrooms);
+  } catch (error) {
+    console.log("Error fetching SalasCunas:", error);
+    handlePermissions(error.response.status);
+  }
+};
+ */
 
   const responsive = [
     { breakPoint: 1280, cardsToShow: 5 },
@@ -81,7 +105,7 @@ export default function AdminDashboard() {
       <header className="header-home">
         <Menu />
       </header>
-      <h1 className="titulo-home">Pagina de Administrador/a</h1>
+      <h1 className="titulo-home">Pagina Trabajador/a Social</h1>
       <div className="contenedor-linea-home">
         <hr className="linea-home"></hr>
       </div>
@@ -100,6 +124,16 @@ export default function AdminDashboard() {
             <ArrowCircleLeftOutlinedIcon className="ArrowCircleLeftOutlinedIcon" />
           }
         >
+          <Link to={"/children-management/new"}>
+            <Button
+              className="button-slider "
+              boton
+              variant="primary"
+              type="submit"
+            >
+              Agregar chico
+            </Button>
+          </Link>
           <Link to={"/gestion-sala"}>
             <Button
               className="button-slider "
@@ -107,58 +141,7 @@ export default function AdminDashboard() {
               variant="primary"
               type="submit"
             >
-              Gestionar Salas
-            </Button>
-          </Link>
-          <Link to={"/maestro-montos"}>
-            <Button
-              className="button-slider "
-              boton
-              variant="primary"
-              type="submit"
-            >
-              Maestro Montos
-            </Button>
-          </Link>
-
-          <Link to={"/generate-padron"}>
-            <Button
-              className="button-slider"
-              boton
-              variant="primary"
-              type="submit"
-            >
-              Generar Padron
-            </Button>
-          </Link>
-          <Link to={"/children-management"}>
-            <Button
-              className="button-slider"
-              boton
-              variant="primary"
-              type="submit"
-            >
-              Gestionar Chicos
-            </Button>
-          </Link>
-          <Link to={"/informe-tecnico"}>
-            <Button
-              className="button-slider"
-              boton
-              variant="primary"
-              type="submit"
-            >
-              Informe Tecnico
-            </Button>
-          </Link>
-          <Link to={"/listar-usuarios"}>
-            <Button
-              className="button-slider"
-              boton
-              variant="primary"
-              type="submit"
-            >
-              Usuarios
+              Ver Salas Cuna
             </Button>
           </Link>
         </Slider>
@@ -186,27 +169,6 @@ export default function AdminDashboard() {
               { field: "id", headerName: "ID", width: 70 },
               { field: "name", headerName: "Nombre", width: 250 },
               { field: "user", headerName: "Usuario", width: 130 },
-            ]}
-          ></DataGrid>
-        </div>
-        <div>
-          <h4 className="datatitle"> Actividad Reciente</h4>
-          <DataGrid
-            pageSizeOptions={[4]}
-            initialState={{
-              pagination: { paginationModel: { pageSize: 4 } },
-            }}
-            style={{
-              borderRadius: "15px",
-              marginLeft: "50px",
-              width: "auto",
-              height: 350,
-              margin: "25px",
-            }}
-            rows={userhistory}
-            columns={[
-              { field: "id", headerName: "ID", width: 70 },
-              { field: "object_repr", headerName: "Usuario", width: 250 },
             ]}
           ></DataGrid>
         </div>

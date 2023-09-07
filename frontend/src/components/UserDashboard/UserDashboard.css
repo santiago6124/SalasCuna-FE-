@@ -83,19 +83,21 @@
   padding-right: 10px;
 }
 
+.DataGrid-Wrapper {
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding-right: 10px;
+}
+
 .DataGrid {
   width: auto;
   height: auto;
   border-radius: 10px;
 }
-
-.DataGrid-Wrapper {
-  border-radius: 15px;
-  overflow: hidden;
-}
-
-/* Add this CSS to your UserDashboard.css file */
-/* Adjust the positioning and styling as needed */
 
 .container-slider {
   position: relative;
