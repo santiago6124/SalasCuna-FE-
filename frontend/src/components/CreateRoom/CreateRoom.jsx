@@ -5,6 +5,7 @@ import Row from "react-bootstrap/Row/";
 import Form from "react-bootstrap/Form/";
 import { Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
+import axios from "axios";
 
 import React, { useState, useEffect } from "react";
 import { getAllShifts, getAllZones } from "../../api/salasCuna.api";
@@ -52,17 +53,18 @@ export function CreateRoom() {
         house_number: formData.get("house_numberCR"),
         shift: formData.get("shiftCR"),
         zone: formData.get("zoneCR"),
+        entity: "Alguien importante",
+        CUIT: "6969696"
     };
   
     try {
-     let response = await axios.post('http://127.0.0.1:8000/api/cribroom/', {
-      body: JSON.stringify(payload)});
-
-    if (response.ok) {
-      console.log('Child added successfully');
-      window.location.reload();
+      let response = await axios.post('/api/cribroom/', payload);
+      console.log(response)
+      if (response.request.status === 201) {
+        console.log('Cribroom added successfully');
+        window.location.reload();
   } else {
-      console.log('Failed to add child');
+      console.log('Failed to add Cribroom');
   }
 
      } catch (err) {
