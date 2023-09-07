@@ -68,6 +68,7 @@ export function CreateRoom() {
       zone: formData.get("zoneCR"),
       CUIT: formData.get("CUITCR"),
       entity: formData.get("entityCR"),
+      user: formData.get("UserCR"),
     };
 
     try {
