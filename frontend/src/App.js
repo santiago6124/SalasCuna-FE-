@@ -38,8 +38,8 @@ function App() {
               element={<PublicRoute children={<Login />} />}
             />
             <Route
-              path="/signup"
-              element={<PublicRoute children={<Signup />} />}
+              path="/agregar-usuario"
+              element={<PrivateRoute children={<Signup />} />}
             />
             <Route
               path="/reset-password"
