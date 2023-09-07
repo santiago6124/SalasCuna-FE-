@@ -1,28 +1,27 @@
 import React, { useState, useEffect } from "react";
-
-const SearchComponent = () => {
+import axios from "axios";
+function SearchComponent() {
 
   const [chico, setChico] = useState([]);
   const [search, setSearch] = useState("");
 
-  const URL = "http://127.0.0.1:8000/api/child/";
+  const URL = "/api/child/";
 
-  const showData = async () => {
-    const response = await fetch(URL);
-    const data = await response.json();
+  async function showData() {
+    const response = await axios.get(URL);
+    const data = await response.data;
     //console.log(data)
     setChico(data);
-  };
+  }
   //función de búsqueda
-  const searcher = (e) => {
+  function searcher(e) {
     setSearch(e.target.value);
-  };
+  }
 
   const results = !search
     ? chico
-    : chico.filter((dato) =>
-        dato.name.toLowerCase().includes(search.toLocaleLowerCase())
-      );
+    : chico.filter((dato) => dato.name.toLowerCase().includes(search.toLocaleLowerCase())
+    );
 
   useEffect(() => {
     showData();
@@ -36,8 +35,7 @@ const SearchComponent = () => {
         onChange={searcher}
         type="text"
         placeholder="Search"
-        className="form-control"
-      />
+        className="form-control" />
       <table className="table table-striped table-hover mt-5 shadow-lg">
         <thead>
           <tr className="bg-curso text-white">
@@ -56,5 +54,5 @@ const SearchComponent = () => {
       </table>
     </div>
   );
-};
+}
 export default SearchComponent;

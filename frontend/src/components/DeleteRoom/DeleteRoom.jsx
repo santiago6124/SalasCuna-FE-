@@ -13,7 +13,7 @@ export default function DeleteRoom(props) {
     setSelectedCribroom(props.id);
   }, []);
 
-  const handleDelete = async (event) => {
+  async function handleDelete(event) {
     event.preventDefault();
     console.log(selectedCribroom);
     try {
@@ -36,7 +36,7 @@ export default function DeleteRoom(props) {
     } catch (err) {
       alert("Error al eliminar la sala cuna", err);
     }
-  };
+  }
 
 
   return (

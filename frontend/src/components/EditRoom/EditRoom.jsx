@@ -15,6 +15,7 @@ import {
   getAllZones,
   getAllCribroomsWithoutDepth,
 } from "../../api/salasCuna.api";
+import axios from "axios";
 
 export function UpdateRoom(props) {
   const [zoneOptions, setZoneOptions] = useState([]);
@@ -31,53 +32,42 @@ export function UpdateRoom(props) {
     loadSelectedCribroom(props.id); // Load selected cribroom data
   }, []);
 
-  const loadZones = async () => {
+  async function loadZones() {
     try {
       const response = await getAllZones();
       setZoneOptions(response.data);
     } catch (error) {
       console.error("Error fetching zona options:", error);
     }
-  };
+  }
 
-  const loadShifts = async () => {
+  async function loadShifts() {
     try {
       const response = await getAllShifts();
       setShiftOptions(response.data);
     } catch (error) {
       console.error("Error fetching shift options:", error);
     }
-  };
+  }
 
   async function loadSelectedCribroom(cribroomId) {
     try {
-      const response = await fetch(
-        `/api/cribroom/?no_depth&id=${cribroomId}`,
-        { method: "GET" }
-      );
-      if (response.ok) {
-        const data = await response.json(); // Extract JSON data
-        const crib = data[0];
-        setCribroom(crib);
-      } else {
-        console.error(
-          "Error fetching selected cribroom data:",
-          response.statusText
-        );
-      }
+      const response = await axios.get(`/api/cribroom/?no_depth&id=${cribroomId}`);
+      let data = await response.data; // Extract JSON data
+      setCribroom(data[0]);
     } catch (error) {
       console.error("Error fetching selected cribroom data:", error);
     }
   }
 
-  const handleEdit = async (event) => {
+  async function handleEdit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const payload = {
       name: formData.get("nameCR"),
       code: formData.get("codeCR"),
       max_capacity: formData.get("max_capacityCR"),
-      street: formData.get("streetCR") ? formData.get("streetCR") : "", // if null, empty string in order to not broke xd
+      street: formData.get("streetCR") ? formData.get("streetCR") : "",
       house_number: formData.get("house_numberCR"),
       shift: formData.get("shiftCR"),
       zone: formData.get("zoneCR"),
@@ -106,7 +96,7 @@ export function UpdateRoom(props) {
         alert(err);
       }
     }
-  };
+  }
 
   function handleShiftChange(event) {
     setSelectedShift(event.target.value);

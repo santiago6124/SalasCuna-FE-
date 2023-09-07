@@ -7,7 +7,6 @@ import { Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 
 export function AddPayout(props) {
 

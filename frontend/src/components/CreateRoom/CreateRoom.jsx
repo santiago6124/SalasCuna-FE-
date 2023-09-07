@@ -7,6 +7,7 @@ import { Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 
 import React, { useState, useEffect } from "react";
+import { getAllShifts, getAllZones } from "../../api/salasCuna.api";
 
 
 export function CreateRoom() {
@@ -21,9 +22,9 @@ export function CreateRoom() {
 
   const loadZones = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/zone/");
-      let jsonData = await response.json();
-      setZoneOptions(jsonData);
+      const response = await getAllZones();
+      let data = await response.data;
+      setZoneOptions(data);
     } catch (error) {
       console.error("Error fetching zona options:", error);
     }
@@ -31,9 +32,9 @@ export function CreateRoom() {
 
   const loadShifts = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/ShiftListView/");
-      let jsonData = await response.json();
-      setShiftOptions(jsonData);
+      const response = await getAllShifts();
+      let data = await response.data;
+      setShiftOptions(data);
     } catch (error) {
       console.error("Error fetching shift options:", error);
     }

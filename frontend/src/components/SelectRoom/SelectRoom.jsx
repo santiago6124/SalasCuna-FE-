@@ -7,6 +7,7 @@ import Button from "react-bootstrap/esm/Button";
 import React, { useEffect, useState } from "react";
 
 import {UpdateRoom} from "../EditRoom/EditRoom";
+import { getAllCribrooms } from "../../api/salasCuna.api";
 
 export function SelectRoom() {
   const [cribroomOptions, setCribroom] = useState([]);
@@ -18,10 +19,9 @@ export function SelectRoom() {
   }, []);
   const LoadCribrooms = async () => {
     try {
-      let response = await fetch("http://127.0.0.1:8000/api/cribroom/");
-      let jsonData = await response.json();
-      console.log(jsonData);
-      setCribroom(jsonData);
+      let response = await getAllCribrooms();
+      let data = await response.data;
+      setCribroom(data);
     } catch (error) {
       console.error("Error fetching Cribroom Options", error);
     }

@@ -7,6 +7,7 @@ import Form from 'react-bootstrap/Form/';
 import {Button} from 'react-bootstrap';
 
 import { useNavigate, useLocation } from 'react-router-dom';
+import { getAllCribrooms, getAllGenders, getAllGuardianTypes, getAllLocalities, getAllNeighborhood, getAllPhoneFeatures, getAllShifts } from '../../api/salasCuna.api';
 
 export function FormEditChildren() {
 
@@ -18,6 +19,7 @@ export function FormEditChildren() {
         let response = await fetch('/api/all-objects/');
         let data = await response.json();
         console.log(data);
+        // ESTO PARA QUE PINCHILA SIRVE ?????
     };
 
 
@@ -98,7 +100,7 @@ export function FormEditChildren() {
 
     const GenderList = async () => {
         try {
-          const response = await axios.get('/api/GenderListView/');
+          const response = await getAllGenders();
           setChildGender(response.data);
           setGuardianGender(response.data);
         } catch (error) {
@@ -109,7 +111,7 @@ export function FormEditChildren() {
 
     const CribroomList = async () => {
         try {
-            const response = await axios.get('/api/cribroom/');
+            const response = await getAllCribrooms();
             setCribroom(response.data);
             }   catch (error)  {
                 console.log('Error fetching Salas Cunas:', error);
@@ -118,7 +120,7 @@ export function FormEditChildren() {
 
     const ShiftList = async () => {
         try {
-            const response = await axios.get('/api/ShiftListView/');
+            const response = await getAllShifts();
             setShift(response.data);
             } catch (error) {
                 console.log('Error fetching Turnos:', error);
@@ -127,7 +129,7 @@ export function FormEditChildren() {
 
     const LocalityList = async () => {
         try {
-            const response = await axios.get('/api/LocalityListView/');
+            const response = await getAllLocalities();
             setLocality(response.data);
             } catch(error) {
                 console.error('Error fetching localidad:', error);
@@ -136,7 +138,7 @@ export function FormEditChildren() {
 
     const NeighborhoodList = async () => {
         try {
-            const response = await axios.get('/api/NeighborhoodListView/');
+            const response = await getAllNeighborhood();
             setNeighborhood(response.data);
             } catch(error) {
                 console.error('Error fetching barrio:', error);
@@ -156,7 +158,7 @@ export function FormEditChildren() {
     
     const GuardianTypeList = async () => {
         try {
-            const response = await axios.get('/api/GuardianTypeListView/');
+            const response = await getAllGuardianTypes();
             setGuardianType(response.data);
             } catch(error) {
                 console.error('Error fetching estados:', error);
@@ -165,7 +167,7 @@ export function FormEditChildren() {
 
     const PhoneFeatureList = async () => {
         try {
-            const response = await axios.get('/api/PhoneFeatureListView/');
+            const response = await getAllPhoneFeatures();
             setPhoneFeature(response.data);
             } catch(error) {
                 console.error('Error fetching estados:', error);

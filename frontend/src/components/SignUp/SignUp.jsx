@@ -3,11 +3,11 @@ import { Button, Container, Form } from "react-bootstrap";
 import AuthContext from "../../context/AuthContext";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import axios from "axios"; // Import Axios for API calls
 
 import "./SignUp.css";
+import { getAllGroup } from "../../api/salasCuna.api";
 
-const SignUp = () => {
+function SignUp() {
   const [role, setRole] = useState("");
   const [rolesList, setRolesList] = useState([]); // State to store the list of roles
 
@@ -21,9 +21,7 @@ const SignUp = () => {
     // Fetch the roles from the backend API
     const fetchRoles = async () => {
       try {
-        const response = await axios.get(
-          "/api/GroupViewSet/?exclude_directora"
-        );
+        const response = await getAllGroup();
         setRolesList(response.data); // Update the state with the list of roles
       } catch (error) {
         console.error("Error fetching roles:", error);
@@ -52,8 +50,7 @@ const SignUp = () => {
                     type="text"
                     placeholder="Ingresar E-mail"
                     name="email"
-                    required
-                  />
+                    required />
                 </Form.Group>
               </Col>
             </div>
@@ -65,8 +62,7 @@ const SignUp = () => {
                   type="text"
                   placeholder="Ingresar nombre"
                   name="first_name"
-                  required
-                />
+                  required />
               </Col>
 
               {/* Apellido Label */}
@@ -76,8 +72,7 @@ const SignUp = () => {
                   type="text"
                   placeholder="Ingresar Apellido"
                   name="last_name"
-                  required
-                />
+                  required />
               </Col>
             </Row>
             <Row>
@@ -88,8 +83,7 @@ const SignUp = () => {
                   type="number"
                   placeholder="Ingresar El Dni"
                   name="dni"
-                  required
-                />
+                  required />
               </Col>
 
               {/* Rol label (Dropdown) */}
@@ -122,8 +116,7 @@ const SignUp = () => {
                     type="number"
                     placeholder="Ingresar Nro De Telefono"
                     name="phone_number"
-                    required
-                  />
+                    required />
                 </Form.Group>
               </Col>
             </div>
@@ -136,8 +129,7 @@ const SignUp = () => {
                   type="text"
                   placeholder="Ingresar Ciudad"
                   name="city"
-                  required
-                />
+                  required />
               </Col>
 
               {/* Departamento */}
@@ -147,8 +139,7 @@ const SignUp = () => {
                   type="text"
                   placeholder="Ingresar Departamento"
                   name="department"
-                  required
-                />
+                  required />
               </Col>
             </Row>
             <div className="Form-Control">
@@ -160,8 +151,7 @@ const SignUp = () => {
                     type="text"
                     placeholder="Ingresar Direccion"
                     name="address"
-                    required
-                  />
+                    required />
                 </Form.Group>
               </Col>
             </div>
@@ -175,8 +165,7 @@ const SignUp = () => {
                     placeholder="Ingrese su contraseña"
                     name="password"
                     minLength="8"
-                    required
-                  />
+                    required />
                 </Form.Group>
               </Col>
 
@@ -189,8 +178,7 @@ const SignUp = () => {
                     placeholder="Ingrese su contraseña de nuevo"
                     name="re_password"
                     minLength="8"
-                    required
-                  />
+                    required />
                 </Form.Group>
               </Col>
             </Row>
@@ -210,6 +198,6 @@ const SignUp = () => {
       </div>
     </body>
   );
-};
+}
 
 export default SignUp;
