@@ -8,17 +8,20 @@ import { Button } from "react-bootstrap";
 import axios from "axios";
 
 import React, { useState, useEffect } from "react";
-import { getAllShifts, getAllZones } from "../../api/salasCuna.api";
+import { getAllShifts, getAllUsers, getAllZones } from "../../api/salasCuna.api";
 
 
 export function CreateRoom() {
   const [zoneOptions, setZoneOptions] = useState([]);
   const [shiftOptions, setShiftOptions] = useState([]);
+  const [userOptions, setUserOptions] = useState([]);
   const [selectedZona, setSelectedZone] = useState("");
   const [selectedShift, setSelectedShift] = useState("");
+  const [selectedUser, setSelectedUser] = useState("");
   useEffect(() => {
     loadZones();
     loadShifts();
+    loadUser();
   }, []);
 
   async function loadZones() {
@@ -38,6 +41,16 @@ export function CreateRoom() {
       setShiftOptions(data);
     } catch (error) {
       console.error("Error fetching shift options:", error);
+    }
+  }
+
+  async function loadUser() {
+    try{
+      const response = await getAllUsers();
+      let data = await response.data;
+      setUserCROptions(data);
+    } catch (error) {
+      console.error("Error fetching UserCR options", error);
     }
   }
 
@@ -77,13 +90,15 @@ export function CreateRoom() {
 
   function handleShiftChange(event) {
     setSelectedShift(event.target.value);
-
-  }
+  };
 
   function handleZoneChange(event) {
     setSelectedZone(event.target.value);
+  };
 
-  }
+  function handleUserChange(event) {
+    setSelectedUser(event.target.value);
+  };
 
   return (
     <div className="body">
@@ -193,6 +208,32 @@ export function CreateRoom() {
                     </option>
                   ))}
                 </Form.Select>
+              </Col>
+            </Row>
+
+            <Row className="mb-3">
+              <Col>
+                <Form.Group>
+                  <Form.Label className="mb-1">Encargado</Form.Label>
+                  <Form.Group className="mb-3">
+                    <Form.Select
+                      name="UserCR"
+                      as="select"
+                      value={selectedUser}
+                      className="mb-1"
+                      onChange={handleUserChange}
+                    >
+                      <option value="" disabled>
+                        Seleccionar Encargado
+                      </option>
+                      {userOptions.map((user) => (
+                        <option key={user.id} value={user.id}>
+                          {user.first_name} {user.last_name}
+                        </option>
+                      ))}
+                    </Form.Select>
+                  </Form.Group>
+                </Form.Group>
               </Col>
             </Row>
             <div className="contenedor-boton-qr ">
