@@ -15,7 +15,7 @@
   justify-content: center;
 }
 .header-home {
-  margin-bottom: 50px;
+  margin-bottom: 30px;
   padding: 5px;
 }
 
@@ -80,8 +80,7 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  padding: 15px;
-  padding-left: 20px;
+  padding-right: 10px;
 }
 
 .DataGrid {
@@ -94,4 +93,37 @@
 .DataGrid-Wrapper {
   border-radius: 15px;
   overflow: hidden;
+}
+
+/* Add this CSS to your UserDashboard.css file */
+/* Adjust the positioning and styling as needed */
+
+.container-slider {
+  position: relative;
+}
+
+.ArrowCircleLeftOutlinedIcon,
+.ArrowCircleRightOutlinedIcon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 24px; /* Adjust the font size as needed */
+  color: #000; /* Change the color as needed */
+}
+
+.ArrowCircleLeftOutlinedIcon {
+  left: 0;
+}
+
+.ArrowCircleRightOutlinedIcon {
+  right: 0;
+}
+
+.button-slider {
+  padding: 5px;
+  padding-left: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }

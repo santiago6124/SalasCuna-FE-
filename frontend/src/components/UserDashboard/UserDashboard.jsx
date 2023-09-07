@@ -5,13 +5,65 @@ import Slider from "react-styled-carousel";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
+import React, { useEffect, useState } from "react";
+
+import {
+  getAllCribroomsWithoutDepth,
+  getAllLocalities,
+  handlePermissions,
+} from "../../api/salasCuna.api";
+
+//DataGrid Import
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+
 import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
 import ArrowCircleRightOutlinedIcon from "@mui/icons-material/ArrowCircleRightOutlined";
 
 export default function UserDashboard() {
+  const [cribrooms, setCribrooms] = useState([]);
+  const [filteredCribroom, setFilteredCribroom] = useState([]);
+  const [keyword, setKeyword] = useState("");
+  const [selectedCribroom, setSelectedCribroom] = useState("");
+  const [cribroomName, setCribroomName] = useState("");
+
+  useEffect(() => {
+    listCribroom();
+  }, []);
+
+  const listCribroom = async () => {
+    try {
+      const responseLocality = await getAllLocalities();
+      const response = await getAllCribroomsWithoutDepth();
+      const localityData = responseLocality.data;
+      const cribroomData = response.data;
+      const updatedCribrooms = await cribroomData.map((cribroom) => {
+        const matchingLocality = localityData.find(
+          (locality) => locality.id === cribroom.locality
+        );
+        if (matchingLocality) {
+          return {
+            ...cribroom,
+            locality: matchingLocality.locality,
+            is_active: cribroom.is_active ? "Activo" : "Inactivo",
+          };
+        } else {
+          return {
+            ...cribroom,
+            is_active: cribroom.is_active ? "Activo" : "Inactivo",
+          };
+        }
+      });
+      setCribrooms(updatedCribrooms);
+      setFilteredCribroom(updatedCribrooms);
+    } catch (error) {
+      console.log("Error fetching SalasCunas:", error);
+      handlePermissions(error.response.status);
+    }
+  };
+
   const responsive = [
-    { breakPoint: 1280, cardsToShow: 4 },
-    { breakPoint: 760, cardsToShow: 2 },
+    { breakPoint: 1280, cardsToShow: 5 },
+    { breakPoint: 760, cardsToShow: 3 },
   ];
   return (
     <body>
@@ -29,21 +81,22 @@ export default function UserDashboard() {
           responsive={responsive}
           autoSlide={false}
           infiniteLoop={true}
-          padding="15px"
+          padding="30px"
+          RightArrow={
+            <ArrowCircleRightOutlinedIcon className="ArrowCircleRightOutlinedIcon" />
+          }
+          LeftArrow={
+            <ArrowCircleLeftOutlinedIcon className="ArrowCircleLeftOutlinedIcon" />
+          }
         >
           <Link to={"/gestion-sala"}>
-            <Button
-              className="boton mt-1"
-              boton
-              variant="primary"
-              type="submit"
-            >
-              Gestionar Las Salas
+            <Button className="boton " boton variant="primary" type="submit">
+              Gestionar Salas
             </Button>
           </Link>
           <Link to={"/maestro-montos"}>
             <Button
-              className="boton mt-1"
+              className="button-slider "
               boton
               variant="primary"
               type="submit"
@@ -54,7 +107,7 @@ export default function UserDashboard() {
 
           <Link to={"/generate-padron"}>
             <Button
-              className="boton mt-1"
+              className="button-slider"
               boton
               variant="primary"
               type="submit"
@@ -64,7 +117,7 @@ export default function UserDashboard() {
           </Link>
           <Link to={"/children-management"}>
             <Button
-              className="boton mt-1"
+              className="button-slider"
               boton
               variant="primary"
               type="submit"
@@ -72,19 +125,9 @@ export default function UserDashboard() {
               Gestionar Chicos
             </Button>
           </Link>
-          <Link>
-            <Button
-              className="boton mt-1"
-              boton
-              variant="primary"
-              type="submit"
-            >
-              Accion Rapida
-            </Button>
-          </Link>
           <Link to={"/informe-tecnico"}>
             <Button
-              className="boton mt-1"
+              className="button-slider"
               boton
               variant="primary"
               type="submit"
@@ -94,7 +137,7 @@ export default function UserDashboard() {
           </Link>
           <Link to={"/listar-usuarios"}>
             <Button
-              className="boton mt-1"
+              className="button-slider"
               boton
               variant="primary"
               type="submit"
@@ -106,6 +149,21 @@ export default function UserDashboard() {
       </div>
       <div className="contenedor-linea-home">
         <hr className="linea-home"></hr>
+      </div>
+      <div>
+        <DataGrid
+          pageSizeOptions={[4]}
+          initialState={{
+            pagination: { paginationModel: { pageSize: 4 } },
+          }}
+          style={{ borderRadius: "15px", margin: "50px", width: 300 }}
+          rows={filteredCribroom}
+          columns={[
+            { field: "id", headerName: "ID", width: 70 },
+            { field: "name", headerName: "Nombre", width: 120 },
+            { field: "user", headerName: "Usuario", width: 130 },
+          ]}
+        ></DataGrid>
       </div>
     </body>
   );
