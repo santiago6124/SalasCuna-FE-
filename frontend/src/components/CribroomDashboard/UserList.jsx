@@ -34,7 +34,7 @@ export default function UserList() {
     listUsers();
   }, []);
 
-  const listUsers = async () => {
+  async function listUsers() {
     try {
       const responseUsers = await getAllUsers();
       setUsers(responseUsers.data);
@@ -63,30 +63,29 @@ export default function UserList() {
       console.log("Error fetching users", error);
       handlePermissions(error.response.status);
     }
-  };
+  }
 
-  const handleDeleteClick = (rowId, CRName) => {
+  function handleDeleteClick(rowId, CRName) {
     setSelectedUser(rowId);
     setUsername(users.first_name);
     setModalDeleteShow(true);
     console.log("Edit clicked for row with id:", rowId);
-  };
+  }
 
-  const handleEditClick = (rowId) => {
+  function handleEditClick(rowId) {
     setSelectedUser(rowId);
     setModalEditShow(true);
     console.log("Edit clicked for row with id:", rowId);
-  };
+  }
 
   // SEARCH FUNCTION (Update to function on user list)
-
-  const updateKeyword = (keyword) => {
+  function updateKeyword(keyword) {
     const filtered = users.filter((user) => {
       return `${user.first_name.toLowerCase()}`.includes(keyword.toLowerCase());
     });
     setKeyword(keyword);
     setFilteredUsers(filtered);
-  };
+  }
 
   return (
     <>

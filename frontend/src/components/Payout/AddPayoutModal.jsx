@@ -1,41 +1,26 @@
 import Modal from "react-bootstrap/Modal";
-
-import Col from "react-bootstrap/Col/";
-import Row from "react-bootstrap/Row/";
 import Form from "react-bootstrap/Form/";
 import { Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
-
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import axios from "axios";
 
 export function AddPayout(props) {
-
   const [zone, setZone] = useState("")
-
-  const handleZoneChange = (event) => {
+  function handleZoneChange(event) {
     setZone(event.target.value);
   }
-
-  const handleAdd = async (event) =>{
+  async function handleAdd(event) {
     event.preventDefault();
     try {
       const formData = new FormData(event.target);
       const payload = {
-        amount : formData.get("amount"),
-        date : formData.get("date"),
-        zone : formData.get("zone"),
-      }; 
-      let response = await fetch(
-        "http://127.0.0.1:8000/api/payout/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
-      if (response.ok) {
+        amount: formData.get("amount"),
+        date: formData.get("date"),
+        zone: formData.get("zone"),
+      };
+      let response = await axios.post(`/api/payout/`, payload);
+      if (response.request.status === 201) {
         props.onHide();
       }
     } catch (error) {
@@ -52,7 +37,6 @@ export function AddPayout(props) {
             <div className="contenedor-linea">
               <hr className="linea"></hr>
             </div>
-
             <Form.Group className="mb-3">
               <Form.Label className="mb-1">Monto</Form.Label>
               <Form.Control

@@ -1,10 +1,9 @@
 import "../DeleteRoom/DeleteRoom.css";
-
 import Button from "react-bootstrap/esm/Button";
 import Modal from "react-bootstrap/Modal";
 import Alert from "@mui/material/Alert";
-
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function DeleteUser(props) {
   const [selectedUser, setSelectedUser] = useState("");
@@ -13,31 +12,25 @@ export default function DeleteUser(props) {
     setSelectedUser(props.id);
   }, []);
 
-  const handleDelete = async (event) => {
+  async function handleDelete(event) {
     event.preventDefault();
     console.log(selectedUser);
     try {
       const payload = {
         is_active: "false",
       };
-
       console.log("making fetch");
-      let response = await fetch(
-        `/api/user/${selectedUser}/`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
-      props.onHide();
+      let response = await axios.patch(`/api/user/${selectedUser}/`, payload);
+      if (response.request.status === 201) {
+        console.log('Child added successfully');
+        props.onHide();
+      } else {
+        console.log('Failed to add child');
+      }
     } catch (err) {
       alert("Error al eliminar el usuario", err);
     }
-  };
-
+  }
 
   return (
     <Modal

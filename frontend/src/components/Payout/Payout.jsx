@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
 import Col from "react-bootstrap/Col/";
 import Row from "react-bootstrap/Row/";
-
 import "./Payout.css";
 
 //UI imports
@@ -14,12 +12,11 @@ import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import { Form } from "react-bootstrap";
-
 import Menu from "../Menu/Menu";
 import { AddPayout } from "./AddPayoutModal";
 import { EditPayout } from "./EditPayoutModal";
 import DeletePayout from "./DeletePayoutModal";
-import { handlePermissions } from "../../api/salasCuna.api";
+import { getAllZones, handlePermissions } from "../../api/salasCuna.api";
 
 export default function PayoutTest() {
   const [zoneOptions, setZoneOptions] = useState([]);
@@ -40,20 +37,20 @@ export default function PayoutTest() {
     }
   }, [selectedZone]);
 
-  const loadZones = async () => {
+  async function loadZones() {
     try {
-      const response = await fetch("/api/zone/");
-      let jsonData = await response.json();
-      setZoneOptions(jsonData);
-      const responsePO = await fetch("api/payout/");
-      let payouts = await responsePO.json();
+      const response = await getAllZones();
+      let data = await response.data;
+      setZoneOptions(data);
+      const responsePO = await axios.get("/api/payout/");
+      let payouts = await responsePO.data;
       setPayout(payouts);
     } catch (error) {
       console.error("Error fetching zona options:", error);
     }
-  };
+  }
 
-  const loadPayout = async (zoneId) => {
+  async function loadPayout(zoneId) {
     try {
       const response = await axios.get(`/api/payout/?zone=${zoneId}`);
       const jsonData = response.data;
@@ -62,25 +59,26 @@ export default function PayoutTest() {
       console.error("Error fetching payouts:", error);
       handlePermissions(error.response.status);
     }
-  };
+  }
 
-  const handleZoneChange = async (event) => {
+  async function handleZoneChange(event) {
     setSelectedZone(event.target.value);
-  };
+  }
 
-  const handleAddClick = async () => {
+  async function handleAddClick() {
     setModalAddShow(true);
-  };
+  }
 
-  const handleEditClick = async (payoutID) => {
+  async function handleEditClick(payoutID) {
     setModalEditShow(true);
     setSelectedPayout(payoutID);
-  };
+  }
 
-  const handleDeleteClick = async (payoutID) => {
+  async function handleDeleteClick(payoutID) {
     setModalDeleteShow(true);
     setSelectedPayout(payoutID);
-  };
+  }
+
   return (
     <>
       <body>

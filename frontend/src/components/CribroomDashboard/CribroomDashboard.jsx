@@ -35,7 +35,7 @@ export default function CribroomDashboard() {
     listCribroom();
   }, []);
 
-  const listCribroom = async () => {
+  async function listCribroom() {
     try {
       const responseLocality = await getAllLocalities();
       const response = await getAllCribroomsWithoutDepth();
@@ -65,29 +65,28 @@ export default function CribroomDashboard() {
     }
   };
 
-  const handleEditClick = (rowId) => {
+  function handleEditClick(rowId) {
     setSelectedCribroom(rowId);
-    setModalEditShow(true)
+    setModalEditShow(true);
     console.log("Edit clicked for row with id:", rowId);
-  };
+  }
 
-  const handleDeleteClick = (rowId, CRName) => {
+  function handleDeleteClick(rowId, CRName) {
     setSelectedCribroom(rowId);
     setCribroomName(CRName);
     setModalDeleteShow(true);
     console.log("Edit clicked for row with id:", rowId);
-  };
+  }
 
   // SEARCH FUNCTION
-
-  const updateKeyword = (keyword) => {
+  function updateKeyword(keyword) {
     const filtered = cribrooms.filter((cribroom) => {
       return `${cribroom.name.toLowerCase()}`.includes(keyword.toLowerCase());
     });
-    setKeyword(keyword)
+    setKeyword(keyword);
     setFilteredCribroom(filtered);
     console.log(filteredCribroom);
-  };
+  }
 
   return (
     <>

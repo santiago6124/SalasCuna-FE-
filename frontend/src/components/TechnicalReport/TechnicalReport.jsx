@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import "./TechnicalReport.css";
-
 import Col from "react-bootstrap/Col/";
 import Row from "react-bootstrap/Row/";
 import Form from "react-bootstrap/Form/";
@@ -18,25 +17,22 @@ export default function TechnicalReport() {
   const [zoneOptions, setZoneOptions] = useState([]);
   const [selectedZone, setSelectedZone] = useState("");
   const [cribrooms, setCribrooms] = useState([]);
-  const [unmodifiedCribrooms, setUnmodifiedCribrooms] = useState([]);
   const [startDate, setStartDate] = useState(""); // New state for start date
   const [endDate, setEndDate] = useState(""); // New state for end date
   const [selectedCribrooms, setSelectedCribrooms] = useState([]); // New state for selected crib rooms
-  const handleCheckboxChange = (event, row) => {
+  function handleCheckboxChange(event, row) {
     const updatedSelectedCribrooms = event.target.checked
       ? [...selectedCribrooms, row] // Add to selected crib rooms
       : selectedCribrooms.filter((crib) => crib.id !== row.id); // Remove from selected crib rooms
     setSelectedCribrooms(updatedSelectedCribrooms);
-  };
-
+  }
   const iframeRef = useRef();
-  const handlePdfClick = () => {
+  function handlePdfClick() {
     // Implement your PDF generation logic here
     console.log("Generate PDF logic will be implemented here");
     console.log("Selected Start Date:", startDate);
     console.log("Selected End Date:", endDate);
     console.log("Selected Crib Rooms:", selectedCribrooms);
-
     // Iterate through each selected cribroom and send a GET request
     selectedCribrooms.forEach((cribroom) => {
       const url = `/api/technical-report/${cribroom.id}/${startDate}/${endDate}/`;
@@ -83,7 +79,7 @@ export default function TechnicalReport() {
           console.error("Error fetching data:", error);
         });
     });
-  };
+  }
   useEffect(() => {
     loadZones();
   }, []);
@@ -107,7 +103,7 @@ export default function TechnicalReport() {
     }
   }
 
-  const loadCribrooms = async (zoneId) => {
+  async function loadCribrooms(zoneId) {
     try {
       const response = await axios.get(
         `/api/cribroom/?zone=${zoneId}`
@@ -120,9 +116,9 @@ export default function TechnicalReport() {
     } catch (error) {
       console.error("Error fetching cribrooms:", error);
     }
-  };
+  }
 
-  const loadZones = async () => {
+  async function loadZones() {
     try {
       const response = await getAllZones();
       const jsonData = response.data;
@@ -130,11 +126,11 @@ export default function TechnicalReport() {
     } catch (error) {
       console.error("Error fetching zone options:", error);
     }
-  };
+  }
 
-  const handleSelectChange = (event) => {
+  function handleSelectChange(event) {
     setSelectedZone(event.target.value);
-  };
+  }
 
   const columns = [
     { field: "code", headerName: "Codigo", width: 250 },

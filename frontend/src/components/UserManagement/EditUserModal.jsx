@@ -1,13 +1,11 @@
 import "./EditUserModal.css";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
-
 import Col from "react-bootstrap/Col/";
 import Row from "react-bootstrap/Row/";
 import Form from "react-bootstrap/Form/";
 import { Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
-
 import React, { useState, useEffect } from "react";
 import { getAllGroup, getAllDepartments } from "../../api/salasCuna.api";
 
@@ -26,7 +24,6 @@ export default function UpdateUser(props) {
     loadSelectedUser(props.id);
   }, []);
 
-
   async function loadGroup() {
     try {
       const response = await getAllGroup();
@@ -40,7 +37,6 @@ export default function UpdateUser(props) {
     setGroup(event.target.value);
   }
 
-
   async function loadDepartments() {
     try {
       const response = await getAllDepartments();
@@ -53,7 +49,6 @@ export default function UpdateUser(props) {
   function handleDepartmentChange(event) {
     setDepartment(event.target.value);
   }
-
 
   async function loadSelectedUser(user_id) {
     try {
@@ -83,17 +78,8 @@ export default function UpdateUser(props) {
     };
     if (selectedUser) {
       try {
-        let response = await fetch(
-          `/api/user/${selectedUser}/`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload),
-          }
-        );
-        if (response.ok) {
+        let response = await axios.put(`/api/user/${selectedUser}/`, payload);
+        if (response.request.status === 201) {
           console.log("Updated User");
           props.onHide();
         } else {

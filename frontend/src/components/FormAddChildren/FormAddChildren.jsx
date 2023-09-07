@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import '../AddChildren/AddChildren.css';
 
@@ -7,24 +7,22 @@ import Row from 'react-bootstrap/Row/';
 import Form from 'react-bootstrap/Form/';
 import {Button} from 'react-bootstrap';
 import axios from 'axios';
-
 import { useNavigate } from 'react-router-dom';
 import { getAllCribrooms, getAllGenders, getAllGuardianTypes, getAllLocalities, getAllNeighborhood, getAllPhoneFeatures, getAllShifts } from '../../api/salasCuna.api';
 
 export function FormAddChildren() {
-
     useEffect(() => {
         getChildren();
     }, []);
 
-    const getChildren = async () => {
+    async function getChildren() {
         let response = await axios.get('/api/child/?no_depth');
         let data = await response.data;
         console.log(data);
-    };
+    }
 
-    const handleSubmit = async (event) => {
-        event.preventDefault()
+    async function handleSubmit(event) {
+        event.preventDefault();
 
         // **Form 1: Añadir Niños/as**
         // 1. Nombre: "nombreChield"
@@ -37,7 +35,6 @@ export function FormAddChildren() {
         // 8. Turno: "turno"
         // 9. Fecha de baja: "fechaBaja"
         // 10. Fecha de alta: "fechaAlta"
-        
         // **Form 2: Añadir Tutor/a**
         // 1. Nombre: "nombreGuardian"
         // 2. Apellido: "apellidoGuardian"
@@ -46,33 +43,28 @@ export function FormAddChildren() {
         // 5. Caracterisitca Telefonica: "phoneFeature"
         // 6. Telefono: "telefono"
         // 7. Madre/padre o Tutor?: "guardianType"
-        
         // **Form 3: Añadir Domicilio**
         // 1. Calle: "calle"
         // 2. Numero: "numero_casa"
         // 3. Barrio: "neighborhood"
         // 4. Localidad: "locality"
-
         const formData = new FormData(event.target);
         const payload = {
             first_name: formData.get("nombreChield"),
             last_name: formData.get("apellidoChield"),
             dni: formData.get("dniChield"),
-
             birthdate: formData.get("fechaNacimientoChield"),
             street: formData.get("calle"),
             house_number: formData.get("numero_casa"),
             registration_date: formData.get("fechaAlta"),
             disenroll_date: formData.get("fechaBaja"),
-
             locality: formData.get("locality"),
             gender: formData.get("generoChield"),
             cribroom: formData.get("salacuna"),
             shift: formData.get("turno"),
-
             child_state: formData.get("estado"),
             // guardian
-            neighborhood : formData.get("neighborhood"),
+            neighborhood: formData.get("neighborhood"),
             guardian_first_name: formData.get("nombreGuardian"),
             guardian_last_name: formData.get("apellidoGuardian"),
             guardian_dni: formData.get("dniGuardian"),
@@ -89,7 +81,6 @@ export function FormAddChildren() {
             // guardian_guardian_Type_id
             // guardian_gender_id  <select id="gender" name="generoGuardian" class="form-control"><option value="">
             // neighborhood_neighborhood 
-            
             // gender: formData.get("generoChield"),
             // cribroom: formData.get("salacuna"),
             // shift: formData.get("turno"),
@@ -97,30 +88,20 @@ export function FormAddChildren() {
             // child_state: formData.get("estado"),
         };
 
-
-        
-
         try {
-            const response = await fetch('/api/child/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload),
-            })
-            console.log(payload);
-    
-            if (response.ok) {
+            let response = await axios.post(`/api/child/`, payload);
+            console.log(response);
+            if (response.request.status === 201) {
                 console.log('Child added successfully');
-                window.location.reload(); 
+                window.location.reload();
             } else {
                 console.log('Failed to add child');
-                
             }
-        } catch (error) {
-            console.error('An error occurred while adding child:', error);
+        } catch (err) {
+            alert(":c");
+            console.log(err);
         }
-    };
+    }
 
     const [chieldGenders, setChildGender] = useState([]); 
     const [guardianGenders, setGuardianGender] = useState([]);
@@ -131,7 +112,6 @@ export function FormAddChildren() {
     const [childStates, setChildState] = useState([]);
     const [guardianTypes, setGuardianType] = useState([]); 
     const [phoneFeatures, setPhoneFeature] = useState([]); 
-
     const [selectedGeneroChield, setSelectedGeneroChield] = useState('');
     const [selectedGeneroGuardian, setSelectedGeneroGuardian] = useState('');
     const [selectedSalaCuna, setSelectedSalacuna] = useState('');
@@ -141,47 +121,31 @@ export function FormAddChildren() {
     const [selectedChildState, setSelectedChildState] = useState('');
     const [selectedPhoneFeature, setSelectedPhoneFeature] = useState('');
     const [selectedGuardianType, setSelectedGuardianType] = useState('');
-    
 
-    const handleGeneroChieldChange = (event) => {
+    function handleGeneroChieldChange(event) {
         setSelectedGeneroChield(event.target.value);
-        
     };
-    
-    const handleGeneroGuardianChange = (event) => {
+    function handleGeneroGuardianChange(event) {
         setSelectedGeneroGuardian(event.target.value);
-        
     };
-
-    const handleSalaCunaChange = (event) => {
+    function handleSalaCunaChange(event) {
         setSelectedSalacuna(event.target.value);
-        
     };
-    const handleTurnoChange = (event) => {
-        setSelectedTurno (event.target.value);
-        
+    function handleTurnoChange(event) {
+        setSelectedTurno(event.target.value);
     };
-    const handleLocalityChange = (event) => {
+    function handleLocalityChange(event) {
         setSelectedLocality(event.target.value);
-        
     };
-    const handleNeighborhoodChange = (event) => {
+    function handleNeighborhoodChange(event) {
         setSelectedNeighborhood(event.target.value);
-        
     };
-    const handleChildStateChange = (event) => {
-        setSelectedChildState(event.target.value);
-        
-    };
-    const handlePhoneFeatureChange = (event) => {
+    function handlePhoneFeatureChange(event) {
         setSelectedPhoneFeature(event.target.value);
-        
     };
-    const handleGuardianTypeChange = (event) => {
+    function handleGuardianTypeChange(event) {
         setSelectedGuardianType(event.target.value);
-        
     };
-    
 
     useEffect(() => {
         getChildren();
@@ -193,56 +157,53 @@ export function FormAddChildren() {
         ChildStateList();
         GuardianTypeList();
         PhoneFeatureList();
-        
         }, []);
 
-
-    const GenderList = async () => {
+    async function GenderList() {
         try {
-          const response = await getAllGenders();
-          setChildGender(response.data);
-          setGuardianGender(response.data);
+            const response = await getAllGenders();
+            setChildGender(response.data);
+            setGuardianGender(response.data);
         } catch (error) {
-          console.error('Error fetching generos:', error);
+            console.error('Error fetching generos:', error);
         }
-      };
+    }
 
-
-    const CribroomList = async () => {
+    async function CribroomList() {
         try {
             const response = await getAllCribrooms();
             setCribroom(response.data);
-            }   catch (error)  {
-                console.log('Error fetching Salas Cunas:', error);
-            };
-    };
+        } catch (error) {
+            console.log('Error fetching Salas Cunas:', error);
+        };
+    }
 
-    const ShiftList = async () => {
+    async function ShiftList() {
         try {
             const response = await getAllShifts();
             setShift(response.data);
-            } catch (error) {
-                console.log('Error fetching Turnos:', error);
-            };
-    };
+        } catch (error) {
+            console.log('Error fetching Turnos:', error);
+        };
+    }
 
-    const LocalityList = async () => {
+    async function LocalityList() {
         try {
             const response = await getAllLocalities();
             setLocality(response.data);
-            } catch(error) {
-                console.error('Error fetching localidad:', error);
-            };
-    };
+        } catch (error) {
+            console.error('Error fetching localidad:', error);
+        };
+    }
 
-    const NeighborhoodList = async () => {
+    async function NeighborhoodList() {
         try {
             const response = await getAllNeighborhood();
             setNeighborhood(response.data);
-            } catch(error) {
-                console.error('Error fetching barrio:', error);
-            };
-    };
+        } catch (error) {
+            console.error('Error fetching barrio:', error);
+        };
+    }
 
     const ChildStateList = async () => {
         try {

@@ -3,33 +3,31 @@ import { Button, Container, Form } from "react-bootstrap";
 import AuthContext from "../../context/AuthContext";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-
 import "./SignUp.css";
 import { getAllGroup } from "../../api/salasCuna.api";
 
 function SignUp() {
   const [role, setRole] = useState("");
   const [rolesList, setRolesList] = useState([]); // State to store the list of roles
-
   const { signupUser } = useContext(AuthContext);
 
-  const handleRoleChange = (event) => {
+  function handleRoleChange(event) {
     setRole(event.target.value);
-  };
+  }
 
   useEffect(() => {
-    // Fetch the roles from the backend API
-    const fetchRoles = async () => {
-      try {
-        const response = await getAllGroup();
-        setRolesList(response.data); // Update the state with the list of roles
-      } catch (error) {
-        console.error("Error fetching roles:", error);
-      }
-    };
-
     fetchRoles();
   }, []);
+
+  // Fetch the roles from the backend API
+  async function fetchRoles() {
+    try {
+      const response = await getAllGroup();
+      setRolesList(response.data); // Update the state with the list of roles
+    } catch (error) {
+      console.error("Error fetching roles:", error);
+    }
+  }
 
   return (
     <body className="body">
@@ -40,7 +38,6 @@ function SignUp() {
             <div className="contenedor-linea">
               <hr className="linea"></hr>
             </div>
-
             <div className="Form-Control">
               {/* Email Label */}
               <Col>
@@ -85,7 +82,6 @@ function SignUp() {
                   name="dni"
                   required />
               </Col>
-
               {/* Rol label (Dropdown) */}
               <Col className="col-md-6 rs mb-1">
                 <Form.Label className="mb-1">Rol</Form.Label>
@@ -106,7 +102,6 @@ function SignUp() {
                 </Form.Select>
               </Col>
             </Row>
-
             {/*Phone number Label*/}
             <div className="Form-Control">
               <Col>
@@ -120,7 +115,6 @@ function SignUp() {
                 </Form.Group>
               </Col>
             </div>
-
             <Row>
               {/* Ciudad */}
               <Col className="col-md-6 ls mb-1">
@@ -131,7 +125,6 @@ function SignUp() {
                   name="city"
                   required />
               </Col>
-
               {/* Departamento */}
               <Col className="col-md-6 rs mb-1">
                 <Form.Label className="mb-1">Departamento</Form.Label>
@@ -168,7 +161,6 @@ function SignUp() {
                     required />
                 </Form.Group>
               </Col>
-
               {/*Repeat Password Label*/}
               <Col className="col-md-6 rs mb-1">
                 <Form.Group className="mb-1">
@@ -182,7 +174,6 @@ function SignUp() {
                 </Form.Group>
               </Col>
             </Row>
-
             <div className="contenedor-boton-createuser">
               <Button
                 className="boton mt-1"

@@ -13,7 +13,6 @@ import React, { useState, useEffect } from "react";
 import {
   getAllShifts,
   getAllZones,
-  getAllCribroomsWithoutDepth,
 } from "../../api/salasCuna.api";
 import axios from "axios";
 
@@ -76,24 +75,18 @@ export function UpdateRoom(props) {
     };
     if (selectedCribroom) {
       try {
-        let response = await fetch(
-          `/api/cribroom/${selectedCribroom}/?no_depth`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload),
-          }
-        );
-        if (response.ok) {
+        let response = await axios.put(`/api/cribroom/${selectedCribroom}/?no_depth`, payload);
+        console.log(response);
+        if (response.request.status === 201) {
           console.log("Cribroom Updated");
           props.onHide();
         } else {
-          console.log("Failed to Update");
+          console.log('Failed to Update');
         }
+
       } catch (err) {
-        alert(err);
+          alert(":c");
+          console.log(err);
       }
     }
   }

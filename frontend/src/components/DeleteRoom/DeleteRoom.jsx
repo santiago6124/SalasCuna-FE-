@@ -3,7 +3,7 @@ import "./DeleteRoom.css";
 import Button from "react-bootstrap/esm/Button";
 import Modal from "react-bootstrap/Modal";
 import Alert from "@mui/material/Alert";
-
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 
 export default function DeleteRoom(props) {
@@ -22,16 +22,7 @@ export default function DeleteRoom(props) {
       };
 
       console.log("making fetch");
-      let response = await fetch(
-        `/api/cribroom/${selectedCribroom}/?delete`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
+      const response = await axios.patch(`/api/cribroom/${selectedCribroom}/?delete`, payload);
       props.onHide();
     } catch (err) {
       alert("Error al eliminar la sala cuna", err);
