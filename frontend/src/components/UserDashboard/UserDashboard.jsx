@@ -18,7 +18,7 @@ export default function UserDashboard() {
       <header className="header-home">
         <Menu />
       </header>
-      <h1 className="titulo-home">Directora</h1>
+      <h1 className="titulo-home">Pagina de Administrador/a</h1>
       <div className="contenedor-linea-home">
         <hr className="linea-home"></hr>
       </div>
