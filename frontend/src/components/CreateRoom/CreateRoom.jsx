@@ -48,7 +48,7 @@ export function CreateRoom() {
     try{
       const response = await getAllUsers();
       let data = await response.data;
-      setUserCROptions(data);
+      setUserOptions(data);
     } catch (error) {
       console.error("Error fetching UserCR options", error);
     }
