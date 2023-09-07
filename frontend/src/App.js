@@ -26,6 +26,8 @@ import { FormEditChildren } from "../src/components/FormEditChildren/FormEditChi
 import PayoutTest from "./components/Payout/PayoutTest";
 import { Public } from "@mui/icons-material";
 
+import { FilesToDb } from "../src/components/FilesToDb/FilesToDb";
+
 function App() {
   return (
     <Router>
@@ -102,6 +104,10 @@ function App() {
             <Route
               path="/listar-usuarios"
               element={<PrivateRoute children={<UserList />} />}
+            />
+            <Route
+              path="/files-to-db"
+              element={<PublicRoute children={<FilesToDb />} />}
             />
           </Routes>
         </AuthProvider>
