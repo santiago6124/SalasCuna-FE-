@@ -73,13 +73,35 @@ export default function UserDashboard() {
             </Button>
           </Link>
           <Link>
-          <Button className="boton mt-1" boton variant="primary" type="submit">
-            Accion Rapida
-          </Button>
+            <Button
+              className="boton mt-1"
+              boton
+              variant="primary"
+              type="submit"
+            >
+              Accion Rapida
+            </Button>
           </Link>
-          <Button className="boton mt-1" boton variant="primary" type="submit">
-            Accion Rapida
-          </Button>
+          <Link to={"/informe-tecnico"}>
+            <Button
+              className="boton mt-1"
+              boton
+              variant="primary"
+              type="submit"
+            >
+              Informe Tecnico
+            </Button>
+          </Link>
+          <Link to={"/listar-usuarios"}>
+            <Button
+              className="boton mt-1"
+              boton
+              variant="primary"
+              type="submit"
+            >
+              Usuarios
+            </Button>
+          </Link>
         </Slider>
       </div>
       <div className="contenedor-linea-home">
