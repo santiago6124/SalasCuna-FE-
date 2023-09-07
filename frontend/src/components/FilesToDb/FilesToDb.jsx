@@ -71,7 +71,7 @@ export function FilesToDb() {
         console.log(cribroom);
 
         for (let rowIndex = 7; rowIndex < parsedData.length; rowIndex++) {
-          if (parsedData[rowIndex][parsedDataKeys[1]] == cribroom.code ) {
+          if (parsedData[rowIndex][parsedDataKeys[1]] == cribroom.code && typeof parsedData[rowIndex][parsedDataKeys[0]] === 'number' ) {
             console.log('parsedData[rowIndex][parsedDataKeys[1]]: ' , parsedData[rowIndex][parsedDataKeys[1]]);
             console.log('name: ' , parsedData[rowIndex][parsedDataKeys[3]]);
 
