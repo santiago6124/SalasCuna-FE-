@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import { FaQrcode } from 'react-icons/fa';
+import { getAllGenders } from '../../api/salasCuna.api';
 
 export function AddTutor() {
 
@@ -21,7 +22,7 @@ export function AddTutor() {
 
     const ListGenero = async () => {
         try {
-          const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
+          const response = await getAllGenders();
           setGeneros(response.data.gender);
         } catch (error) {
           console.error('Error fetching generos:', error);

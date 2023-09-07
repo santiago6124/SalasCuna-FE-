@@ -12,7 +12,7 @@ import axios from "axios"; // Import axios
 import { useState, useEffect } from "react";
 import DownloadPDF from "./DownloadPDF/DownloadPDF";
 import Menu from "../Menu/Menu";
-import { handlePermissions } from "../../api/salasCuna.api";
+import { getAllCribroomsWithoutDepth, getAllZones, handlePermissions } from "../../api/salasCuna.api";
 
 export default function TechnicalReport() {
   const [zoneOptions, setZoneOptions] = useState([]);
@@ -39,7 +39,7 @@ export default function TechnicalReport() {
 
     // Iterate through each selected cribroom and send a GET request
     selectedCribrooms.forEach((cribroom) => {
-      const url = `http://127.0.0.1:8000/api/technical-report/${cribroom.id}/${startDate}/${endDate}/`;
+      const url = `/api/technical-report/${cribroom.id}/${startDate}/${endDate}/`;
 
       fetch(url)
         .then((response) => {
@@ -98,9 +98,7 @@ export default function TechnicalReport() {
 
   async function defaultCribrooms() {
     try {
-      const response = await axios.get(
-        `/api/cribroom/?no_depth`
-      );
+      const response = await getAllCribroomsWithoutDepth();
       const jsonData = response.data;
       setCribrooms(jsonData);
     } catch (error) {
@@ -114,11 +112,11 @@ export default function TechnicalReport() {
       const response = await axios.get(
         `/api/cribroom/?zone=${zoneId}`
       );
-      const jsonData = response.data;
-      if (jsonData.length == 0) {
+      const data = response.data;
+      if (data.length == 0) {
         alert("No hay Salas Cunas en la zona seleccionada");
       }
-      setCribrooms(jsonData);
+      setCribrooms(data);
     } catch (error) {
       console.error("Error fetching cribrooms:", error);
     }
@@ -126,7 +124,7 @@ export default function TechnicalReport() {
 
   const loadZones = async () => {
     try {
-      const response = await axios.get("/api/zone/");
+      const response = await getAllZones();
       const jsonData = response.data;
       setZoneOptions(jsonData);
     } catch (error) {

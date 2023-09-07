@@ -6,6 +6,7 @@ import Form from 'react-bootstrap/Form/';
 import {Button} from 'react-bootstrap';
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import { getAllCribroomsWithoutDepth, getAllGenders, getAllShifts } from '../../api/salasCuna.api';
 
 export function AddChildren() {
     useEffect(() => {
@@ -100,7 +101,7 @@ export function AddChildren() {
 
     const ListGenero = async () => {
         try {
-          const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
+          const response = await getAllGenders();
           setGeneros(response.data.gender);
         } catch (error) {
           console.error('Error fetching generos:', error);
@@ -109,8 +110,8 @@ export function AddChildren() {
 
     const ListSalasCuna = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
-            setSalas(response.data.cribroom);
+            const response = await getAllCribroomsWithoutDepth();
+            setSalas(response.data);
             }   catch (error)  {
                 console.log('Error fetching Salas Cunas:', error);
             };
@@ -118,8 +119,8 @@ export function AddChildren() {
 
     const ListShift = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
-            setTurno(response.data.shift);
+            const response = await getAllShifts();
+            setTurno(response.data);
             } catch (error) {
                 console.log('Error fetching Turnos:', error);
             };

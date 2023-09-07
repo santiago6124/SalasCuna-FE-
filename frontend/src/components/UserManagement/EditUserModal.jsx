@@ -27,56 +27,45 @@ export default function UpdateUser(props) {
   }, []);
 
 
-  const loadGroup = async () => {
+  async function loadGroup() {
     try {
       const response = await getAllGroup();
       setGroupOptions(response.data);
     } catch (error) {
       console.error("Error fetching group options:", error);
     }
-  };
+  }
 
-  const handleGroupChange = (event) => {
+  function handleGroupChange(event) {
     setGroup(event.target.value);
-  };
+  }
 
 
-  const loadDepartments = async () => {
+  async function loadDepartments() {
     try {
       const response = await getAllDepartments();
       setDepartmentOptions(response.data);
     } catch (error) {
       console.error("Error fetching department options:", error);
     }
-  };
+  }
 
-  const handleDepartmentChange = (event) => {
+  function handleDepartmentChange(event) {
     setDepartment(event.target.value);
-  };
+  }
 
 
   async function loadSelectedUser(user_id) {
     try {
-      const responseUsers = await fetch(
-        `/api/user/${user_id}/`,
-        { method: "GET" }
-      );
-      if (responseUsers.ok) {
-        const userData = await responseUsers.json();
-        const userr = userData;
-        setUser(userr);
-      } else {
-        console.error(
-          "Error fetching selected user data:",
-          responseUsers.statusText
-        );
-      }
+      const response = await axios.get(`/api/user/${user_id}/`);
+      const data = await response.data;
+      setUser(data);
     } catch (error) {
       console.error("Error fetching selected user data:", error);
     }
   }
 
-  const handleEditUser = async (event) => {
+  async function handleEditUser(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const payload = {
@@ -114,7 +103,7 @@ export default function UpdateUser(props) {
         alert(error);
       }
     }
-  };
+  }
 
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>

@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import { getAllLocalities } from '../../api/salasCuna.api';
 
 export function AddResidence() {
 
@@ -29,8 +30,8 @@ export function AddResidence() {
 
     const ListLocality = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
-            setLocalities(response.data.locality);
+            const response = await getAllLocalities();
+            setLocalities(response.data);
             } catch(error) {
                 console.error('Error fetching localidad:', error);
             };
