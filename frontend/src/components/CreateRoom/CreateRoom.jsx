@@ -53,8 +53,8 @@ export function CreateRoom() {
         house_number: formData.get("house_numberCR"),
         shift: formData.get("shiftCR"),
         zone: formData.get("zoneCR"),
-        entity: "Alguien importante",
-        CUIT: "6969696"
+        CUIT: formData.get("CUITCR"),
+        entity: formData.get("entityCR"),
     };
   
     try {
@@ -118,6 +118,27 @@ const handleZoneChange = (event) => {
                 placeholder="Editar La Capacidad Maxima De La Sala"
                 name="max_capacityCR"
               />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Row>
+                <Col>
+                  <Form.Label className="mb-1">CUIT</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="editar el CUIT de la entidad de la sala cuna"
+                    name="CUITCR"
+                    defaultValue={cribroom ? cribroom.CUIT : ""}
+                  />
+                </Col>
+                <Col>
+                <Form.Label className="mb-1">Entidad</Form.Label>
+                <Form.Control
+                type="text"
+                placeholder="Editar la entidad de la sala cuna"
+                defaultValue = {cribroom? cribroom.entity:""}
+                name="entityCR"/>
+                </Col>
+              </Row>
             </Form.Group>
             <Row className="mb-1">
               <Col xs={9}>
