@@ -47,6 +47,9 @@ export function getAllGroup() {
 export function getAllDepartments() {
   return axios.get("/api/department/");
 }
+export function getUserHistory(){
+  return axios.get("/api/logEntry/");
+}
 
 export async function handlePermissions(status) {
   if (status === 403) {

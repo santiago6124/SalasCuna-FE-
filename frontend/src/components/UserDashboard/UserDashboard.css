@@ -84,7 +84,6 @@
 }
 
 .DataGrid {
-  margin: 10px;
   width: auto;
   height: auto;
   border-radius: 10px;
@@ -126,4 +125,9 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+}
+
+.datatitle {
+  padding: 5px;
+  margin-left: 50px;
 }

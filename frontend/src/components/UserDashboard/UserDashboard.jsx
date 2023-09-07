@@ -11,6 +11,7 @@ import {
   getAllCribroomsWithoutDepth,
   getAllLocalities,
   handlePermissions,
+  getUserHistory
 } from "../../api/salasCuna.api";
 
 //DataGrid Import
@@ -23,11 +24,12 @@ export default function UserDashboard() {
   const [cribrooms, setCribrooms] = useState([]);
   const [filteredCribroom, setFilteredCribroom] = useState([]);
   const [keyword, setKeyword] = useState("");
-  const [selectedCribroom, setSelectedCribroom] = useState("");
-  const [cribroomName, setCribroomName] = useState("");
+  const [userhistory,setUserHistory]=useState([])
+
 
   useEffect(() => {
     listCribroom();
+    listUserHistory
   }, []);
 
   const listCribroom = async () => {
@@ -61,6 +63,8 @@ export default function UserDashboard() {
     }
   };
 
+  const listUserHistory=async() =>{
+  }
   const responsive = [
     { breakPoint: 1280, cardsToShow: 5 },
     { breakPoint: 760, cardsToShow: 3 },
@@ -90,7 +94,12 @@ export default function UserDashboard() {
           }
         >
           <Link to={"/gestion-sala"}>
-            <Button className="boton " boton variant="primary" type="submit">
+            <Button
+              className="button-slider "
+              boton
+              variant="primary"
+              type="submit"
+            >
               Gestionar Salas
             </Button>
           </Link>
@@ -151,12 +160,13 @@ export default function UserDashboard() {
         <hr className="linea-home"></hr>
       </div>
       <div>
+        <h4 className="datatitle"> Salas Cuna</h4>
         <DataGrid
           pageSizeOptions={[4]}
           initialState={{
             pagination: { paginationModel: { pageSize: 4 } },
           }}
-          style={{ borderRadius: "15px", margin: "50px", width: 300 }}
+          style={{ borderRadius: "15px", marginLeft: "50px", width: 300 }}
           rows={filteredCribroom}
           columns={[
             { field: "id", headerName: "ID", width: 70 },
