@@ -21,7 +21,7 @@ export function CreateRoom() {
     loadShifts();
   }, []);
 
-  const loadZones = async () => {
+  async function loadZones() {
     try {
       const response = await getAllZones();
       let data = await response.data;
@@ -29,9 +29,9 @@ export function CreateRoom() {
     } catch (error) {
       console.error("Error fetching zona options:", error);
     }
-  };
+  }
 
-  const loadShifts = async () => {
+  async function loadShifts() {
     try {
       const response = await getAllShifts();
       let data = await response.data;
@@ -39,51 +39,51 @@ export function CreateRoom() {
     } catch (error) {
       console.error("Error fetching shift options:", error);
     }
-  };
+  }
 
-  const handleSubmit = async (event) => {
-    event.preventDefault()
+  async function handleSubmit(event) {
+    event.preventDefault();
 
     const formData = new FormData(event.target);
     const payload = {
-        name: formData.get("nameCR"),
-        code: formData.get("codeCR"),
-        max_capacity: formData.get("max_capacityCR"),
-        street: formData.get("streetCR"),
-        house_number: formData.get("house_numberCR"),
-        shift: formData.get("shiftCR"),
-        zone: formData.get("zoneCR"),
-        CUIT: formData.get("CUITCR"),
-        entity: formData.get("entityCR"),
+      name: formData.get("nameCR"),
+      code: formData.get("codeCR"),
+      max_capacity: formData.get("max_capacityCR"),
+      street: formData.get("streetCR"),
+      house_number: formData.get("house_numberCR"),
+      shift: formData.get("shiftCR"),
+      zone: formData.get("zoneCR"),
+      CUIT: formData.get("CUITCR"),
+      entity: formData.get("entityCR"),
     };
-  
+
     try {
       let response = await axios.post('/api/cribroom/', payload);
-      console.log(response)
+      console.log(response);
       if (response.request.status === 201) {
         console.log('Cribroom added successfully');
         window.location.reload();
-  } else {
-      console.log('Failed to add Cribroom');
+      } else {
+        console.log('Failed to add Cribroom');
+      }
+
+    } catch (err) {
+      alert(":c");
+      console.log(err);
+    }
+
   }
 
-     } catch (err) {
-      alert(":c")
-      console.log(err)
-     }
 
-  }
-
-
-  const handleShiftChange = (event) => {
+  function handleShiftChange(event) {
     setSelectedShift(event.target.value);
-    
-};
 
-const handleZoneChange = (event) => {
-  setSelectedZone(event.target.value);
-  
-};
+  }
+
+  function handleZoneChange(event) {
+    setSelectedZone(event.target.value);
+
+  }
 
   return (
     <div className="body">
@@ -127,7 +127,6 @@ const handleZoneChange = (event) => {
                     type="text"
                     placeholder="editar el CUIT de la entidad de la sala cuna"
                     name="CUITCR"
-                    defaultValue={cribroom ? cribroom.CUIT : ""}
                   />
                 </Col>
                 <Col>
@@ -135,7 +134,6 @@ const handleZoneChange = (event) => {
                 <Form.Control
                 type="text"
                 placeholder="Editar la entidad de la sala cuna"
-                defaultValue = {cribroom? cribroom.entity:""}
                 name="entityCR"/>
                 </Col>
               </Row>
