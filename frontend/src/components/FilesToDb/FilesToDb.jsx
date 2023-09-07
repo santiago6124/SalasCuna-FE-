@@ -172,27 +172,6 @@ export function FilesToDb() {
         onChange={handleFileUpload}
       />
 
-      {data.length > 0 && (
-        <table className="table">
-          <thead>
-            <tr>
-              {Object.keys(data[0]).map((key) => (
-                <th key={key}>{key}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((row, index) => (
-              <tr key={index}>
-                {Object.values(row).map((value, index) => (
-                  <td key={index}>{value}</td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-
       <br /><br />
     </div>
   );
