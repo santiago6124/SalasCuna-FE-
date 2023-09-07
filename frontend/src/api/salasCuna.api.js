@@ -48,9 +48,9 @@ export function getAllDepartments() {
   return axios.get("/api/department/");
 }
 
-export const handlePermissions = async (status) => {
+export async function handlePermissions(status) {
   if (status === 403) {
     alert("Acceso restringido: No tienes permisos para acceder a esta pagina");
-    window.location.assign("/");
+    window.location.assign("/home-page");
   }
-};
+}
