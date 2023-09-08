@@ -107,7 +107,7 @@ function App() {
             />
             <Route
               path="/files-to-db"
-              element={<PublicRoute children={<FilesToDb />} />}
+              element={<PrivateRoute children={<FilesToDb />} />}
             />
           </Routes>
         </AuthProvider>

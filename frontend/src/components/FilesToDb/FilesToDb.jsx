@@ -1,10 +1,29 @@
 import { useState } from "react";
 import * as XLSX from "xlsx";
+import axios from "axios";
 
 import './FilesToDb.css';
 
 export function FilesToDb() {
   const [data, setData] = useState([]);
+  const [response, setResponse] = useState(null); // Add this state variable
+
+  const sendPostRequest = async (cribroomData) => {
+    try {
+      let response = await axios.post('/api/cribroom/', cribroomData);
+      console.log(response);
+      if (response.request.status === 201) {
+        console.log('Cribroom added successfully');
+        window.location.reload();
+      } else {
+        console.log('Failed to add Cribroom');
+      }
+
+    } catch (err) {
+      alert(":c");
+      console.log(err);
+    }
+  };
 
   const handleFileUpload = (e) => {
     const files = e.target.files;
@@ -42,33 +61,21 @@ export function FilesToDb() {
         var cribroom = {
           "name": parsedData[0]['Sala Cuna:'],
           "entity": parsedData[4]['Sala Cuna:'],
-          // "CUIT": "",
-          "code": files[i].name.split('-')[1],
-          // "max_capacity": 0,
+          "CUIT": 12,
+          "street": 'NO ESPECIFICADO',
+          // "code": files[i].name.split('-')[1],
+          "code": 12321,
+          "max_capacity": 0,
           "is_active": true,
-          // "street": "",
-          // "house_number": 0,
-          "locality": {
-              "id": localityResponse.id,
-          },
-          // "department": {
-          //     "id": 7,
-          //     "department": "South Kevinland"
-          // },
-          // "neighborhood": {
-          //     "id": 14,
-          //     "neighborhood": "town"
-          // },
-          // "shift": {
-          //     "id": 19,
-          //     "name": "get"
-          // },
-          // "zone": {
-          //     "id": 16,
-          //     "name": "Port Brittany"
-          // }
-        }
+          "house_number": 0,
+          "locality": 2,
+          "department": 7,
+          "neighborhood": 7,
+          "shift": 7,
+          "zone": 7,
+        };
         console.log(cribroom);
+        sendPostRequest(cribroom);
 
         for (let rowIndex = 7; rowIndex < parsedData.length; rowIndex++) {
           if (parsedData[rowIndex][parsedDataKeys[1]] == cribroom.code && typeof parsedData[rowIndex][parsedDataKeys[0]] === 'number' ) {
