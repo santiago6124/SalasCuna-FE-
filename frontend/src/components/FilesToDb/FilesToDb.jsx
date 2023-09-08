@@ -14,7 +14,7 @@ export function FilesToDb() {
       console.log(response);
       if (response.request.status === 201) {
         console.log('Cribroom added successfully');
-        window.location.reload();
+        // window.location.reload();
       } else {
         console.log('Failed to add Cribroom');
       }
@@ -24,6 +24,16 @@ export function FilesToDb() {
       console.log(err);
     }
   };
+
+  const sendGetRequest = (localityExistURL) => {
+    axios.get(localityExistURL)
+    .then((response) => {
+      console.log('data response', response.data); // Log the response data here
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+  }
 
   const handleFileUpload = (e) => {
     const files = e.target.files;
@@ -56,7 +66,12 @@ export function FilesToDb() {
         var locality =  {
           "locality": parsedData[8][parsedDataKeys[11]]
         }
+        // ?locality=Stephenhaven
+        var localityExistURL  = `/api/LocalityListView/?locality=${locality.locality}`;
         var localityResponse = {'id':1};
+
+        // Use Axios to make the GET request
+        sendGetRequest(localityExistURL);
 
         var cribroom = {
           "name": parsedData[0]['Sala Cuna:'],
