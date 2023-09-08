@@ -13,13 +13,22 @@ import axios from 'axios';
 import { getAllCribroomsWithoutDepth } from '../../api/salasCuna.api';
 import { GridActionsCell, GridActionsCellItem } from '@mui/x-data-grid';
 
-import { DataGrid, GridToolbar, GridToolbarExport } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar, GridToolbarExport, GridToolbarContainer } from '@mui/x-data-grid';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import AsyncSelect from 'react-select/async';
 
+import { ExportButton } from './ExcelExport/ExportButton';
+
+function CustomToolbar(props) {
+  return (
+    <GridToolbarContainer {...props}>
+      <ExportButton />
+    </GridToolbarContainer>
+  );
+}
 
 export default function DropdownCribroomList() {
   const [cribrooms, setCribrooms] = useState([]);
@@ -218,6 +227,15 @@ export default function DropdownCribroomList() {
 
         )}
       </div>
+      <div style={{ height: '100vh', width: '100%' }}>
+      <DataGrid
+        columns={columns}
+        rows={childs}
+        components={{
+          Toolbar: CustomToolbar,
+        }}
+      />
+    </div>
     </div>
   )
 };
