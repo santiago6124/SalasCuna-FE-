@@ -26,6 +26,7 @@ import { FormEditChildren } from "../src/components/FormEditChildren/FormEditChi
 import { Public } from "@mui/icons-material";
 import AdminDashboard from "./components/UserDashboard/UserDashboard";
 import TSDashboard from "./components/UserDashboard/TSDashboard";
+import { CreateRoom } from "./components/CreateRoom/CreateRoom";
 
 function App() {
   return (

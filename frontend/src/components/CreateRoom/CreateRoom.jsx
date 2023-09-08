@@ -6,6 +6,7 @@ import Form from "react-bootstrap/Form/";
 import { Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import axios from "axios";
+import Menu from "../Menu/Menu";
 
 import React, { useState, useEffect } from "react";
 import { getAllShifts, getAllUsers, getAllZones } from "../../api/salasCuna.api";
@@ -102,9 +103,8 @@ export function CreateRoom() {
   };
 
   return (
-    <div className="body">
-      <div className="contenedor-form-wrapper">
-        <Container fluid className="conteiner-form-room">
+    <body className="body">
+        <Container fluid className="conteiner-form-createroom">
           <Form onSubmit={handleSubmit} className="conteiner-form-edit">
             <h1 className="titulo">Agregar Sala Cuna</h1>
             <div className="contenedor-linea">
@@ -168,11 +168,11 @@ export function CreateRoom() {
               </Col>
             </Row>
 
-            <Row className="mb-3">
+            <Row className="mb-1">
               <Col>
                 <Form.Group>
                   <Form.Label className="mb-1">Turno</Form.Label>
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-1">
                     <Form.Select
                       name="shiftCR"
                       as="select"
@@ -212,11 +212,9 @@ export function CreateRoom() {
               </Col>
             </Row>
 
-            <Row className="mb-3">
+            <Row>
               <Col>
-                <Form.Group>
-                  <Form.Label className="mb-1">Encargado</Form.Label>
-                  <Form.Group className="mb-3">
+                  <Form.Label>Encargado</Form.Label>
                     <Form.Select
                       name="UserCR"
                       as="select"
@@ -233,8 +231,6 @@ export function CreateRoom() {
                         </option>
                       ))}
                     </Form.Select>
-                  </Form.Group>
-                </Form.Group>
               </Col>
             </Row>
             <div className="contenedor-boton-qr ">
@@ -244,7 +240,7 @@ export function CreateRoom() {
             </div>
           </Form>
         </Container>
-      </div>
-    </div>
+
+    </body>
   );
 }

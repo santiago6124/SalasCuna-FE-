@@ -124,16 +124,6 @@ export default function TSDashboard() {
             <ArrowCircleLeftOutlinedIcon className="ArrowCircleLeftOutlinedIcon" />
           }
         >
-          <Link to={"/children-management/new"}>
-            <Button
-              className="button-slider "
-              boton
-              variant="primary"
-              type="submit"
-            >
-              Agregar chico
-            </Button>
-          </Link>
           <Link to={"/gestion-sala"}>
             <Button
               className="button-slider "
@@ -141,7 +131,58 @@ export default function TSDashboard() {
               variant="primary"
               type="submit"
             >
-              Ver Salas Cuna
+              Gestionar Salas
+            </Button>
+          </Link>
+          <Link to={"/maestro-montos"}>
+            <Button
+              className="button-slider "
+              boton
+              variant="primary"
+              type="submit"
+            >
+              Maestro Montos
+            </Button>
+          </Link>
+
+          <Link to={"/generate-padron"}>
+            <Button
+              className="button-slider"
+              boton
+              variant="primary"
+              type="submit"
+            >
+              Generar Padron
+            </Button>
+          </Link>
+          <Link to={"/children-management"}>
+            <Button
+              className="button-slider"
+              boton
+              variant="primary"
+              type="submit"
+            >
+              Gestionar Chicos
+            </Button>
+          </Link>
+          <Link to={"/informe-tecnico"}>
+            <Button
+              className="button-slider"
+              boton
+              variant="primary"
+              type="submit"
+            >
+              Informe Tecnico
+            </Button>
+          </Link>
+          <Link to={"/listar-usuarios"}>
+            <Button
+              className="button-slider"
+              boton
+              variant="primary"
+              type="submit"
+            >
+              Usuarios
             </Button>
           </Link>
         </Slider>
