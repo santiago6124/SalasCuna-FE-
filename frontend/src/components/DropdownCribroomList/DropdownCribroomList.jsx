@@ -13,7 +13,7 @@ import axios from 'axios';
 import { getAllCribroomsWithoutDepth } from '../../api/salasCuna.api';
 import { GridActionsCell, GridActionsCellItem } from '@mui/x-data-grid';
 
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar, GridToolbarExport } from '@mui/x-data-grid';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -184,15 +184,38 @@ export default function DropdownCribroomList() {
   
       <div>
         {childs.length > 0 && (
+          // <DataGrid
+          //   rows={childs}
+          //   columns={columns}
+          //   autoHeight
+          //   initialState={{
+          //     pagination: { paginationModel: { pageSize: 6 } },
+          //   }}
+          //   pageSizeOptions={[6]}
+          // />
+
           <DataGrid
             rows={childs}
             columns={columns}
             autoHeight
-            initialState={{
-              pagination: { paginationModel: { pageSize: 6 } },
+            components ={{
+              Toolbar: GridToolbar, // Enable the default toolbar
+              Export: GridToolbarExport, // Enable the export menu
             }}
-            pageSizeOptions={[6]}
+            exportOptions={{
+              excelOptions: {
+                fileName: 'child_data', // Set the file name
+                columnsStyles: {
+                  // Customize column styles if needed
+                  first_name: { font: { bold: true } },
+                  last_name: { font: { bold: true } },
+                  dni: { font: { bold: true } },
+                  is_active: { font: { bold: true } },
+                },
+              },
+            }}
           />
+
         )}
       </div>
     </div>
