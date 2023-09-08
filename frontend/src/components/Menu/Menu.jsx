@@ -9,23 +9,30 @@ import { Link } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 
 import AuthContext from '../../context/AuthContext';
 import Sidebar from '../../components/Sidebar/Sidebar'; // Importa Sidebar
+import Profile from '../../components/Profile/Profile'
 
 export default function Menu() {
   let { user, logoutUser } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false); // Estado para la barra lateral
+  const [showModal, setShowModal] = useState(false);
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
+  };
+
+  const toggleModal = () => {
+    setShowModal(!showModal); // Cambia el estado del modal al hacer clic en el icono
   };
 
   return (
     <Navbar expand="lg" className="navbar">
       <Container fluid>
         <span
-          className={`circle-icon ${isOpen ? 'clicked' : ''}`}
+          className={`circle-icon-bar ${isOpen ? 'clicked' : ''}`}
           onClick={toggleSidebar}
         >
           <FontAwesomeIcon icon={faBars} size="xl" className="bar" />
@@ -37,9 +44,12 @@ export default function Menu() {
         <Navbar.Collapse id="navbarScroll">
           <Nav className="boton">
             {user ? (
-              <Button variant="primary" onClick={logoutUser}>
-                Log Out
-              </Button>
+              <span
+                className='circle-icon-user'
+                onClick={toggleModal}
+              >
+                <FontAwesomeIcon icon={faCircleUser} size='2xl' style={{color: "#f1862e",}} />
+              </span>
             ) : (
               <Link to="/login">
                 <Button variant="primary">Log In</Button>
@@ -49,6 +59,7 @@ export default function Menu() {
         </Navbar.Collapse>
       </Container>
       <Sidebar isOpen={isOpen} /> {/* Pasa el estado isOpen a Sidebar */}
+      <Profile show={showModal} handleClose={toggleModal} />
     </Navbar>
   );
 }
