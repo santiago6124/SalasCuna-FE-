@@ -10,7 +10,7 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 
 import {
-  getAllCribroomsWithoutDepth,
+  getAllCribrooms,
   getAllLocalities,
   handlePermissions,
   getUserHistory,
@@ -39,10 +39,10 @@ export default function TSDashboard() {
       const response = await axios.get(
         `/api/cribroom/?user=${user.user.user_id}`
       );
-      const responseUser = await axios.get(`/api/user/${user.user.user_id}/`);
       const localityData = responseLocality.data;
       const cribroomData = response.data;
-      const userData = responseUser.data;
+      const first_name = user.user.first_name;
+      const last_name = user.user.Last_name;
       const updatedCribrooms = await cribroomData.map((cribroom) => {
         const matchingLocality = localityData.find(
           (locality) => locality.id === cribroom.locality
@@ -52,13 +52,13 @@ export default function TSDashboard() {
             ...cribroom,
             locality: matchingLocality.locality,
             is_active: cribroom.is_active ? "Activo" : "Inactivo",
-            user: user.user.first_name + "  " + user.user.last_name,
+            user: first_name + "  " + last_name,
           };
         } else {
           return {
             ...cribroom,
             is_active: cribroom.is_active ? "Activo" : "Inactivo",
-            user: userData.first_name + "  " + userData.last_name,
+            user: first_name + "  " + last_name,
           };
         }
       });
@@ -165,20 +165,28 @@ export default function TSDashboard() {
             rows={filteredCribroom}
             columns={[
               { field: "id", headerName: "ID", width: 70 },
-              { field: "name", headerName: "Nombre", width: 200 },
-              { field: "user", headerName: "Usuario", width: 130 },
+              { field: "name", headerName: "Nombre", width: 150 },
+              { field: "street", headerName: "Direccion", width: 150 },
               {
+                field: "house_number",
+                headerName: "Numero de Calle",
+                width: 150,
+              },
+              {
+                field: "max_capacity",
+                headerName: "Cap. Maxima",
+                width: 150,
+              },
+              /*               {
+              { field: "actualCapacity", headerName:"Cap. Acual" },
                 field: "actions",
                 type: "actions",
                 headerName: "Acciones",
                 width: 80,
                 getActions: () => [
-                  <GridActionsCellItem
-                    icon={<AddIcon />}
-                    label="More Info"
-                  />,
+                  <GridActionsCellItem icon={<AddIcon />} label="More Info" />,
                 ],
-              },
+              }, */
             ]}
           ></DataGrid>
         </div>
