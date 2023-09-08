@@ -4,6 +4,7 @@ import "./UserDashboard.css";
 import Slider from "react-styled-carousel";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 import React, { useContext, useEffect, useState } from "react";
 
@@ -25,18 +26,20 @@ export default function TSDashboard() {
   const [cribrooms, setCribrooms] = useState([]);
   const [filteredCribroom, setFilteredCribroom] = useState([]);
   const [keyword, setKeyword] = useState("");
-  const user = useContext(AuthContext)
+  const user = useContext(AuthContext);
 
   useEffect(() => {
-    listCribroom();
+    listCribroom(user);
   }, []);
 
-  const listCribroom = async () => {
+  const listCribroom = async (user) => {
     try {
       const responseLocality = await getAllLocalities();
-      const response = await axios.get(`/api/cribroom/${user.id}`);
+      const response = await axios.get(`/api/cribroom/?user=${user.user.user_id }`);
+      const responseUser = await axios.get(`/api/user/${user.user.user_id}/`);
       const localityData = responseLocality.data;
       const cribroomData = response.data;
+      const userData = responseUser.data;
       const updatedCribrooms = await cribroomData.map((cribroom) => {
         const matchingLocality = localityData.find(
           (locality) => locality.id === cribroom.locality
@@ -46,11 +49,13 @@ export default function TSDashboard() {
             ...cribroom,
             locality: matchingLocality.locality,
             is_active: cribroom.is_active ? "Activo" : "Inactivo",
+            user: userData.first_name + "  " + userData.last_name,
           };
         } else {
           return {
             ...cribroom,
             is_active: cribroom.is_active ? "Activo" : "Inactivo",
+            user: userData.first_name + "  " + userData.last_name,
           };
         }
       });
@@ -61,42 +66,6 @@ export default function TSDashboard() {
       handlePermissions(error.response.status);
     }
   };
-
-  /* const listCribroom = async () => {
-  try {
-    const responseLocality = await getAllLocalities();
-    const response = await getAllCribroomsWithoutDepth();
-    const localityData = responseLocality.data;
-    const cribroomData = response.data;
-    const loggedInUserId = "user123"; // Replace with the actual user ID of the logged-in user
-
-    const updatedCribrooms = await cribroomData.map((cribroom) => {
-      const matchingLocality = localityData.find(
-        (locality) => locality.id === cribroom.locality
-      );
-      if (matchingLocality && cribroom.user === loggedInUserId) {
-        return {
-          ...cribroom,
-          locality: matchingLocality.locality,
-          is_active: cribroom.is_active ? "Activo" : "Inactivo",
-        };
-      } else {
-        return null; // Exclude cribrooms not designated for the logged-in user
-      }
-    });
-
-    // Remove null values and update state
-    const filteredCribrooms = updatedCribrooms.filter(
-      (cribroom) => cribroom !== null
-    );
-    setCribrooms(filteredCribrooms);
-    setFilteredCribroom(filteredCribrooms);
-  } catch (error) {
-    console.log("Error fetching SalasCunas:", error);
-    handlePermissions(error.response.status);
-  }
-};
- */
 
   const responsive = [
     { breakPoint: 1280, cardsToShow: 5 },
