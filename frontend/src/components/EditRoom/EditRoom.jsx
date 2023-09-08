@@ -104,7 +104,7 @@ export function UpdateRoom(props) {
       <div className="contenedor-form-wrapper">
         <Container fluid className="conteiner-form-room">
           <Form onSubmit={handleEdit} className="conteiner-form-edit">
-            <h1 className="titulo">Agregar Sala Cuna</h1>
+            <h1 className="titulo">Editar Sala Cuna</h1>
             <div className="contenedor-linea">
               <hr className="linea"></hr>
             </div>
@@ -142,7 +142,7 @@ export function UpdateRoom(props) {
                   <Form.Label className="mb-1">CUIT</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="editar el CUIT de la entidad de la sala cuna"
+                    placeholder="Editar el CUIT de la entidad de la sala cuna"
                     name="CUITCR"
                     defaultValue={cribroom ? cribroom.CUIT : ""}
                   />

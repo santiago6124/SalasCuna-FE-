@@ -4,6 +4,7 @@ import "./UserDashboard.css";
 import Slider from "react-styled-carousel";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import AddIcon from "@mui/icons-material/Add";
 import axios from "axios";
 
 import React, { useContext, useEffect, useState } from "react";
@@ -35,7 +36,9 @@ export default function TSDashboard() {
   const listCribroom = async (user) => {
     try {
       const responseLocality = await getAllLocalities();
-      const response = await axios.get(`/api/cribroom/?user=${user.user.user_id }`);
+      const response = await axios.get(
+        `/api/cribroom/?user=${user.user.user_id}`
+      );
       const responseUser = await axios.get(`/api/user/${user.user.user_id}/`);
       const localityData = responseLocality.data;
       const cribroomData = response.data;
@@ -68,8 +71,8 @@ export default function TSDashboard() {
   };
 
   const responsive = [
-    { breakPoint: 1280, cardsToShow: 5 },
-    { breakPoint: 760, cardsToShow: 3 },
+    { breakPoint: 1280, cardsToShow: 3 },
+    { breakPoint: 760, cardsToShow: 2 },
   ];
   return (
     <body>
@@ -105,27 +108,6 @@ export default function TSDashboard() {
               Gestionar Salas
             </Button>
           </Link>
-          <Link to={"/maestro-montos"}>
-            <Button
-              className="button-slider "
-              boton
-              variant="primary"
-              type="submit"
-            >
-              Maestro Montos
-            </Button>
-          </Link>
-
-          <Link to={"/generate-padron"}>
-            <Button
-              className="button-slider"
-              boton
-              variant="primary"
-              type="submit"
-            >
-              Generar Padron
-            </Button>
-          </Link>
           <Link to={"/children-management"}>
             <Button
               className="button-slider"
@@ -133,29 +115,33 @@ export default function TSDashboard() {
               variant="primary"
               type="submit"
             >
-              Gestionar Chicos
+              Gestion Chicos
             </Button>
           </Link>
-          <Link to={"/informe-tecnico"}>
-            <Button
-              className="button-slider"
-              boton
-              variant="primary"
-              type="submit"
-            >
-              Informe Tecnico
-            </Button>
-          </Link>
-          <Link to={"/listar-usuarios"}>
-            <Button
-              className="button-slider"
-              boton
-              variant="primary"
-              type="submit"
-            >
-              Usuarios
-            </Button>
-          </Link>
+          <Button
+            className="button-slider "
+            boton
+            variant="primary"
+            type="submit"
+          >
+            Proximamente...
+          </Button>
+          <Button
+            className="button-slider"
+            boton
+            variant="primary"
+            type="submit"
+          >
+            Proximamente...
+          </Button>
+          <Button
+            className="button-slider"
+            boton
+            variant="primary"
+            type="submit"
+          >
+            Proximamente...
+          </Button>
         </Slider>
       </div>
       <div className="contenedor-linea-home">
@@ -179,8 +165,20 @@ export default function TSDashboard() {
             rows={filteredCribroom}
             columns={[
               { field: "id", headerName: "ID", width: 70 },
-              { field: "name", headerName: "Nombre", width: 250 },
+              { field: "name", headerName: "Nombre", width: 200 },
               { field: "user", headerName: "Usuario", width: 130 },
+              {
+                field: "actions",
+                type: "actions",
+                headerName: "Acciones",
+                width: 80,
+                getActions: () => [
+                  <GridActionsCellItem
+                    icon={<AddIcon />}
+                    label="More Info"
+                  />,
+                ],
+              },
             ]}
           ></DataGrid>
         </div>
