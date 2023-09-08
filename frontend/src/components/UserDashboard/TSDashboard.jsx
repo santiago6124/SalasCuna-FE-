@@ -5,7 +5,7 @@ import Slider from "react-styled-carousel";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import {
   getAllCribroomsWithoutDepth,
@@ -19,11 +19,13 @@ import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 
 import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
 import ArrowCircleRightOutlinedIcon from "@mui/icons-material/ArrowCircleRightOutlined";
+import AuthContext from "../../context/AuthContext";
 
 export default function TSDashboard() {
   const [cribrooms, setCribrooms] = useState([]);
   const [filteredCribroom, setFilteredCribroom] = useState([]);
   const [keyword, setKeyword] = useState("");
+  const user = useContext(AuthContext)
 
   useEffect(() => {
     listCribroom();
@@ -32,7 +34,7 @@ export default function TSDashboard() {
   const listCribroom = async () => {
     try {
       const responseLocality = await getAllLocalities();
-      const response = await getAllCribroomsWithoutDepth();
+      const response = await axios.get(`/api/cribroom/${user.id}`);
       const localityData = responseLocality.data;
       const cribroomData = response.data;
       const updatedCribrooms = await cribroomData.map((cribroom) => {
