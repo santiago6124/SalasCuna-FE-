@@ -52,7 +52,7 @@ export default function TSDashboard() {
             ...cribroom,
             locality: matchingLocality.locality,
             is_active: cribroom.is_active ? "Activo" : "Inactivo",
-            user: userData.first_name + "  " + userData.last_name,
+            user: user.user.first_name + "  " + user.user.last_name,
           };
         } else {
           return {
