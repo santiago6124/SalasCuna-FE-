@@ -38,8 +38,10 @@ export function FilesToDb() {
       var localityResponse = await axios.get(localityURL);
       if (localityResponse.data.length === 0) {
         var localityResponse = await axios.post('/api/LocalityListCreateView/', locality);
+        localityResponse = localityResponse.data['id'];
       } else {
         console.log("The array is not empty. (localityResponse)");
+        localityResponse = localityResponse.data[0]['id'];
       }
 
       var cribroom = {
@@ -55,7 +57,7 @@ export function FilesToDb() {
         "neighborhood": 7,
         "shift": 7,
         "zone": 7,
-        "locality": localityResponse.data['id']
+        "locality": localityResponse
       };
       var cribroomResponse = await axios.post('/api/cribroom/', cribroom);
 
@@ -75,17 +77,21 @@ export function FilesToDb() {
           var phoneFeatureResponse = await axios.get(phoneFeatureURL);
           if (phoneFeatureResponse.data.length === 0) {
             var phoneFeatureResponse = await axios.post('/api/PhoneFeatureListCreateView/', phoneFeature);
-            console.log('phoneFeatureResponse:' , phoneFeatureResponse);
+            phoneFeatureResponse = phoneFeatureResponse.data['id']
           } else {
-            console.log("The array is not empty.");
+            phoneFeatureResponse = phoneFeatureResponse.data[0]['id'];
           }
+
+          console.log('phoneFeatureResponse:' , phoneFeatureResponse);
 
           var guardian = {
                 "first_name": parsedData[rowIndex][parsedDataKeys[14]],
                 "last_name": parsedData[rowIndex][parsedDataKeys[14]],
                 "dni": parsedData[rowIndex][parsedDataKeys[15]],
-                "phone_number": parsedData[rowIndex][parsedDataKeys[13]],
-                "phone_Feature": phoneFeatureResponse.data['id'],
+                "phone_number": parsedData[rowIndex][parsedDataKeys[13]].toString().split('/')[0],
+                "phone_Feature": phoneFeatureResponse,
+                'guardian_Type' : 1,
+                'gender' : 1,
                 // "guardian_Type": {
                 //     "id": 2,
                 //     "type": "Guardian"
@@ -95,7 +101,9 @@ export function FilesToDb() {
                 //     "gender": "Female"
                 // }
           }
-          var guardianResponse = {'id':1};
+          console.log('guardian: ', guardian);
+          var guardianResponse = await axios.post('/api/GuardianListCreateView/', guardian);
+          console.log('guardianResponse: ', guardianResponse);
 
           var neighborhood_or_department = {
               "neighborhood": parsedData[rowIndex][parsedDataKeys[10]]
