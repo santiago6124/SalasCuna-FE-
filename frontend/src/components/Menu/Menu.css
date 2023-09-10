@@ -1,14 +1,17 @@
 /* Menu.css */
 .navbar {
-    background-color: #EBEBEB;
-    box-shadow: 0px 2px 15px 0px #615e5ea2;
-    text-decoration: none;
-    color: darkslategray;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-  }
+  background-color: #ffffff;
+  box-shadow: 0px 1px 24px 0px rgba(0, 0, 0, 0.25);
+  text-decoration: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  position: relative; /* Asegura que el z-index funcione correctamente */
+  z-index: 1; /* Valor más alto que la barra lateral */
+  height: 65px;
+ 
+}
   
   .logo {
     width: 200px;
@@ -22,7 +25,37 @@
     margin: 3px;
   }
   
-  .boton {
-    margin: 3px;
+  .bar{
+    color: #bfbfbf;
+    border-radius: 50%;
+    padding: 10px;
   }
+  
+  .bar:hover{
+    background-color: #ececec;
+  }
+
+.boton{
+  margin-left: auto;
+  margin-right: 20px;
+}
+
+.circle-icon-bar {
+  background-color: #fff;
+  border-radius: 30%; 
+  padding: 10px; 
+  padding-right: 15px;
+  padding-left: 5px;
+  cursor: pointer;
+}
+
+.circle-icon-user{
+  cursor: pointer;
+}
+
+
+
+
+
+
   

@@ -25,6 +25,8 @@ import { FormEditChildren } from "../src/components/FormEditChildren/FormEditChi
 import Dashboard from "./pages/Dashboard";
 
 import { FilesToDb } from "../src/components/FilesToDb/FilesToDb";
+import  MenuTest  from "./pages/menuTest/menuTest";
+
 
 function App() {
   return (

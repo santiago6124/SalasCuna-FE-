@@ -112,6 +112,9 @@ export function FormAddChildren() {
     const [childStates, setChildState] = useState([]);
     const [guardianTypes, setGuardianType] = useState([]); 
     const [phoneFeatures, setPhoneFeature] = useState([]); 
+    const [capacity, setCapacity] = useState([]);
+    const [loadingCapacity, setLoadingCapacity] = useState(true);
+
     const [selectedGeneroChield, setSelectedGeneroChield] = useState('');
     const [selectedGeneroGuardian, setSelectedGeneroGuardian] = useState('');
     const [selectedSalaCuna, setSelectedSalacuna] = useState('');
@@ -157,9 +160,29 @@ export function FormAddChildren() {
         ChildStateList();
         GuardianTypeList();
         PhoneFeatureList();
+        GetCirbroomCapacity();
         }, []);
 
-    async function GenderList() {
+
+    const GetCirbroomCapacity = async (selectedSalaCuna) => {
+        try {
+            const response = await fetch(`http://127.0.0.1:8000/api/cribroom/${selectedSalaCuna}/?no_depth`);
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data); // Muestra la respuesta en la consola
+                setCapacity(data.reachMax);
+            } else {
+                console.error('Error al obtener la capacidad de la sala cuna');
+            }
+        } catch (error) {
+            console.error('Error al realizar la solicitud:', error);
+        } finally {
+            setLoadingCapacity(false); // Marcar como no cargando después de obtener la capacidad
+        }
+        
+    }
+
+    const GenderList = async () => {
         try {
             const response = await getAllGenders();
             setChildGender(response.data);
@@ -210,7 +233,7 @@ export function FormAddChildren() {
             const response = await axios.get('/api/ChildStateListView/');
             setChildState(response.data);
             } catch(error) {
-                console.error('Error fetching estados:', error);
+                
             };
     };
 
@@ -238,7 +261,7 @@ export function FormAddChildren() {
    navigate('/children-management');
   };
 
-  
+ 
 
   return (   
     <Form className="conteiner-form" onSubmit={handleSubmit}>
@@ -561,8 +584,6 @@ export function FormAddChildren() {
             <div className="contenedor-boton mb-1 ">
                 <Button as="input" type="submit" value="Cargar" size="lg"/>
             </div>
-        </Form>
-
-        
-  )
+        </Form>  
+  );
 }
