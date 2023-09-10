@@ -27,6 +27,58 @@ function getExcelData(apiRef) {
 }
 
 async function handleExport(apiRef, selectedCribroomId) {
+
+  try {
+    var cribroomURL = `/api/cribroom/${selectedCribroomId}/`;
+    var cribroomResponse = await axios.get(cribroomURL);
+    console.log(cribroomResponse);
+    cribroomResponse = cribroomResponse['data'];
+
+  } catch (error) {
+    console.error("An error occurred (cribroom request):", error);
+  }
+
+  try {
+    var childURL = `/api/child/?cribroom_id=${selectedCribroomId}`;
+    var childResponse = await axios.get(childURL);
+    console.log(childResponse);
+    childResponse = childResponse['data'];
+
+  } catch (error) {
+    console.error("An error occurred (child request):", error);
+  }
+
+  var rowValuesDict = {
+    '1': ['Sala Cuna:', cribroomResponse['code']],
+    '2': [cribroomResponse['name']],
+    '3': ['Mes', 'generate'],
+    '4': ['Año', 'generate', '', '', '', '', '', '', '', '', '', '', '', '', '', 'CANTIDAD DE NIÑOS', 'amount'],
+    '5': ['Provincia de Córdoba'],
+    '6': [cribroomResponse['entity']],
+    '7': [''],
+    '8': [''],
+    '9':[
+      'N°',
+      'SALA CUNA',
+      'APELLIDO',
+      'NOMBRE',
+      'N° DNI',
+      'FECHA DE NACIMIENTO',
+      'EDAD',
+      'SEXO',
+      'CALLE',
+      'NUMERO',
+      'DEPARTAMENTO',
+      'LOCALIDAD',
+      'CARACTERISTICA TELEFONICA',
+      'TELEFONO',
+      'APELLIDO Y NOMBRE MADRE',
+      'DNI',
+      'TURNO',
+      'ESTADO',
+    ],
+  }
+
   const data = getExcelData(apiRef);
 
   const rows = data.map((row) => {
@@ -37,62 +89,50 @@ async function handleExport(apiRef, selectedCribroomId) {
     return mRow;
   });
 
-  // Create a new worksheet
-  const worksheet = XLSX.utils.json_to_sheet(rows);
+  let count = 0;
+  const childRows = childResponse.map((child) => {
+    count+=1;
 
-  // Add the first blank row
-  XLSX.utils.sheet_add_aoa(worksheet, [[]], { origin: 'A1' });
+    rowValuesDict[Object.keys(rowValuesDict).length+1] = [
+      count,
+      cribroomResponse['code'],
+      child['last_name'],
+      child['first_name'],
+      child['dni'],
+      child['birthdate'],
+      'child["age"]',
+      child['gender']['gender'],
+      child['street'],
+      child['house_number'],
+      child['neighborhood']['neighborhood'],
+      child['locality']['locality'],
+      child['guardian']['phone_Feature']['feature'],
+      child['guardian']['phone_number'],
+      child['guardian']['first_name'],
+      child['guardian']['dni'],
+      child['shift']['name'],
+      child['is_active'] == true ? 'Activo' : 'Baja',
+    ];
+  });
 
-  try {
-    var cribroomURL = `/api/cribroom/${selectedCribroomId}/`;
-    var cribroomResponse = await axios.get(cribroomURL);
-    console.log(cribroomResponse);
-
-  } catch (error) {
-    console.error("An error occurred (cribroom request):", error);
-  }
-
-  try {
-    var childURL = `/api/child/?cribroom_id=${selectedCribroomId}`;
-    var childResponse = await axios.get(childURL);
-    console.log(childResponse);
-
-  } catch (error) {
-    console.error("An error occurred (child request):", error);
-  }
-
-  const firstRowValues = [
-    'selectedCribroomId',
-    selectedCribroomId,
-  ];
-  console.log('firstRowValues: ', firstRowValues);
-
-  // Add the second row with specified cell values
-  const secondRowValues = [
-    'N°',
-    'SALA CUNA',
-    'APELLIDO',
-    'NOMBRE',
-    'N° DNI',
-    'FECHA DE NACIMIENTO',
-    'EDAD',
-    'SEXO',
-    'CALLE',
-    'NUMERO',
-    'DEPARTAMENTO',
-    'LOCALIDAD',
-    'CARACTERISTICA TELEFONICA',
-    'TELEFONO',
-    'APELLIDO Y NOMBRE MADRE',
-    'DNI',
-    'TURNO',
-    'ESTADO',
-  ];
-  XLSX.utils.sheet_add_aoa(worksheet, [secondRowValues], { origin: 'A3' });
-
-  // Create a new workbook and add the worksheet
+  // Create a new workbook
   const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, config.sheetName);
+
+  // Create a new worksheet
+  const worksheet = XLSX.utils.aoa_to_sheet([]); // An empty worksheet
+
+  // Populate the worksheet with values from rowValuesDict
+  let startRow = 1; // Starting row to add values
+  for (const rowNum in rowValuesDict) {
+    if (rowValuesDict.hasOwnProperty(rowNum)) {
+      const rowData = rowValuesDict[rowNum];
+      XLSX.utils.sheet_add_aoa(worksheet, [rowData], { origin: `A${startRow}` });
+      startRow++;
+    }
+  }
+
+  // Add the worksheet to the workbook
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Metadata');
 
   // Trigger the file download
   XLSX.writeFile(workbook, config.fileName, { compression: true });
