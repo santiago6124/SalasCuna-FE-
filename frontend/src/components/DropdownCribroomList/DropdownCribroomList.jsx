@@ -43,11 +43,12 @@ export default function DropdownCribroomList() {
 
   const [selectedCribroomId, setSelectedCribroomId] = useState(null); // State variable to hold the selected cribroom ID
 
-  const handleEditClick = (childId) => {
   const navigate = useNavigate();
-    navigate('/children-management/edit', { state: { childId } });
-    console.log("id chico" + childId);
-  }
+
+  const handleEditClick = (childId) => {
+  navigate('/children-management/edit', { state: { childId } });
+      console.log("id chico" + childId);
+    }
   function handleNewClick() {
     navigate('/children-management/new');
   }
