@@ -6,19 +6,10 @@ import Form from 'react-bootstrap/Form/';
 import {Button} from 'react-bootstrap';
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import { getAllCribroomsWithoutDepth, getAllGenders, getAllShifts } from '../../api/salasCuna.api';
 
 export function AddChildren() {
-    useEffect(() => {
-        getChildren();
-    }, []);
-
-    const getChildren = async () => {
-        let response = await fetch('http://127.0.0.1:8000/api/all-objects/');
-        let data = await response.json();
-        console.log(data);
-    };
-
-    const handleSubmit = async (event) => {
+    async function handleSubmit(event) {
         event.preventDefault();
 
         const formData = new FormData(event.target);
@@ -38,25 +29,20 @@ export function AddChildren() {
         };
 
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/child/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload),
-            });
-
-            if (response.ok) {
+            let response = await axios.post('/api/child/', payload);
+            console.log(response);
+            if (response.request.status === 201) {
                 console.log('Child added successfully');
-                // Perform any additional actions if needed
+                window.location.reload();
             } else {
-                console.log('Failed to add child');
-                // Handle the error if needed
+                console.log('Failed to add Child');
             }
-        } catch (error) {
-            console.error('An error occurred while adding child:', error);
+
+        } catch (err) {
+            alert(":c");
+            console.log(err);
         }
-    };
+    }
 
     const [tutores, setTutores] = useState([]); 
     const [genders, setGeneros] = useState([]); 
@@ -68,62 +54,61 @@ export function AddChildren() {
     const [selectedSalaCuna, setSelectedSalacuna] = useState('');
     const [selectedTurno, setSelectedTurno] = useState('');
 
-    const handleGeneroChange = (event) => {
+    function handleGeneroChange(event) {
         setSelectedGenero(event.target.value);
-    };
-    const handleTutorChange = (event) => {
+    }
+    function handleTutorChange(event) {
         setSelectedTutor(event.target.value);
-    };
-    const handleSalaCunaChange = (event) => {
+    }
+    function handleSalaCunaChange(event) {
         setSelectedSalacuna(event.target.value);
-    };
-    const handleTurnoChange = (event) => {
-        setSelectedTurno (event.target.value);
-    };
+    }
+    function handleTurnoChange(event) {
+        setSelectedTurno(event.target.value);
+    }
 
     useEffect(() => {
-        getChildren();
         ListTutors();
         ListGenero();
         ListSalasCuna();
         ListShift();
     }, []);
 
-    const ListTutors = async () => {
+    async function ListTutors() {
         try {
             const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
             setTutores(response.data.guardian);
-            } catch(error) {
-                console.error('Error fetching tutores:', error);
-            };
-    };
-
-    const ListGenero = async () => {
-        try {
-          const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
-          setGeneros(response.data.gender);
         } catch (error) {
-          console.error('Error fetching generos:', error);
+            console.error('Error fetching tutores:', error);
+        };
+    }
+
+    async function ListGenero() {
+        try {
+            const response = await getAllGenders();
+            setGeneros(response.data.gender);
+        } catch (error) {
+            console.error('Error fetching generos:', error);
         }
-      };
+    }
 
-    const ListSalasCuna = async () => {
+    async function ListSalasCuna() {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
-            setSalas(response.data.cribroom);
-            }   catch (error)  {
-                console.log('Error fetching Salas Cunas:', error);
-            };
-    };
+            const response = await getAllCribroomsWithoutDepth();
+            setSalas(response.data);
+        } catch (error) {
+            console.log('Error fetching Salas Cunas:', error);
+        };
+    }
 
-    const ListShift = async () => {
+    async function ListShift() {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
-            setTurno(response.data.shift);
-            } catch (error) {
-                console.log('Error fetching Turnos:', error);
-            };
-    };
+            const response = await getAllShifts();
+            setTurno(response.data);
+        } catch (error) {
+            console.log('Error fetching Turnos:', error);
+        };
+    }
 
     return (
         <Form className="conteiner-form" onSubmit={handleSubmit}>

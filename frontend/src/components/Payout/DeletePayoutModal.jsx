@@ -1,33 +1,25 @@
 import "../DeleteRoom/DeleteRoom.css"
-
 import Button from "react-bootstrap/esm/Button";
 import Modal from "react-bootstrap/Modal";
 import Alert from "@mui/material/Alert";
-
-import React, { useState, useEffect } from "react";
-
-
-
+import axios from "axios";
+import React from "react";
 
 export default function DeletePayout(props) {
-
-    const handleDelete = async (event) => {
-        event.preventDefault();
-        try {    
-          let response = await fetch(
-            `http://127.0.0.1:8000/api/payout/${props.id}/`,
-            {
-              method: "DELETE",
-              headers: {
-                "Content-Type": "application/json",
-              }
-            }
-          );
+    async function handleDelete(event) {
+      event.preventDefault();
+      try {
+        let response = await axios.delete(`/api/payout/${props.id}/`);
+        if (response.request.status === 201) {
+          console.log('Child added successfully');
           props.onHide();
-        } catch (err) {
-          alert("Error al eliminar el payout");
+      } else {
+          console.log('Failed to add child');
         }
-      };
+      } catch (err) {
+        alert("Error al eliminar el payout");
+      }
+  }
 
     return (
         <Modal

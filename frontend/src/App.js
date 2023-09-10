@@ -23,8 +23,11 @@ import CribroomDashboard from "./components/CribroomDashboard/CribroomDashboard"
 import UserList from "./components/CribroomDashboard/UserList";
 import { FaExpeditedssl } from "react-icons/fa";
 import { FormEditChildren } from "../src/components/FormEditChildren/FormEditChildren";
-import PayoutTest from "./components/Payout/PayoutTest";
 import { Public } from "@mui/icons-material";
+import AdminDashboard from "./components/UserDashboard/UserDashboard";
+import TSDashboard from "./components/UserDashboard/TSDashboard";
+import { CreateRoom } from "./components/CreateRoom/CreateRoom";
+import Dashboard from "./pages/Dashboard";
 
 import { FilesToDb } from "../src/components/FilesToDb/FilesToDb";
 
@@ -40,8 +43,8 @@ function App() {
               element={<PublicRoute children={<Login />} />}
             />
             <Route
-              path="/signup"
-              element={<PublicRoute children={<Signup />} />}
+              path="/agregar-usuario"
+              element={<PrivateRoute children={<Signup />} />}
             />
             <Route
               path="/reset-password"
@@ -91,7 +94,7 @@ function App() {
             />
             <Route
               path="/maestro-montos"
-              element={<PrivateRoute children={<PayoutTest />} />}
+              element={<PrivateRoute children={<Payout />} />}
             />
             <Route
               path="/informe-tecnico"
@@ -108,6 +111,12 @@ function App() {
             <Route
               path="/files-to-db"
               element={<PrivateRoute children={<FilesToDb />} />}
+            path="home-page"
+            element={<PrivateRoute children={<TSDashboard/>}/>}
+            />
+            <Route
+            path="dashboard"
+            element={<PrivateRoute children={<Dashboard/>}/>}
             />
           </Routes>
         </AuthProvider>

@@ -5,92 +5,106 @@ import Row from "react-bootstrap/Row/";
 import Form from "react-bootstrap/Form/";
 import { Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
+import axios from "axios";
+import Menu from "../Menu/Menu";
 
 import React, { useState, useEffect } from "react";
+import { getAllShifts, getAllUsers, getAllZones } from "../../api/salasCuna.api";
 
 
 export function CreateRoom() {
   const [zoneOptions, setZoneOptions] = useState([]);
   const [shiftOptions, setShiftOptions] = useState([]);
+  const [userOptions, setUserOptions] = useState([]);
   const [selectedZona, setSelectedZone] = useState("");
   const [selectedShift, setSelectedShift] = useState("");
+  const [selectedUser, setSelectedUser] = useState("");
   useEffect(() => {
     loadZones();
     loadShifts();
+    loadUser();
   }, []);
 
-  const loadZones = async () => {
+  async function loadZones() {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/zone/");
-      let jsonData = await response.json();
-      setZoneOptions(jsonData);
+      const response = await getAllZones();
+      let data = await response.data;
+      setZoneOptions(data);
     } catch (error) {
       console.error("Error fetching zona options:", error);
     }
-  };
+  }
 
-  const loadShifts = async () => {
+  async function loadShifts() {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/ShiftListView/");
-      let jsonData = await response.json();
-      setShiftOptions(jsonData);
+      const response = await getAllShifts();
+      let data = await response.data;
+      setShiftOptions(data);
     } catch (error) {
       console.error("Error fetching shift options:", error);
     }
-  };
+  }
 
-  const handleSubmit = async (event) => {
-    event.preventDefault()
+  async function loadUser() {
+    try{
+      const response = await getAllUsers();
+      let data = await response.data;
+      setUserOptions(data);
+    } catch (error) {
+      console.error("Error fetching UserCR options", error);
+    }
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
 
     const formData = new FormData(event.target);
     const payload = {
-        name: formData.get("nameCR"),
-        code: formData.get("codeCR"),
-        max_capacity: formData.get("max_capacityCR"),
-        street: formData.get("streetCR"),
-        house_number: formData.get("house_numberCR"),
-        shift: formData.get("shiftCR"),
-        zone: formData.get("zoneCR"),
+      name: formData.get("nameCR"),
+      code: formData.get("codeCR"),
+      max_capacity: formData.get("max_capacityCR"),
+      street: formData.get("streetCR"),
+      house_number: formData.get("house_numberCR"),
+      shift: formData.get("shiftCR"),
+      zone: formData.get("zoneCR"),
+      CUIT: formData.get("CUITCR"),
+      entity: formData.get("entityCR"),
+      user: formData.get("UserCR"),
     };
-  
+
     try {
-     let response = await fetch('http://127.0.0.1:8000/api/cribroom/', {
-       method: 'POST',
-       headers: {
-           'Content-Type': 'application/json'
-       },
-       body: JSON.stringify(payload),
-    });
+      let response = await axios.post('/api/cribroom/', payload);
+      console.log(response);
+      if (response.request.status === 201) {
+        console.log('Cribroom added successfully');
+        window.location.reload();
+      } else {
+        console.log('Failed to add Cribroom');
+      }
 
-    if (response.ok) {
-      console.log('Child added successfully');
-      window.location.reload();
-  } else {
-      console.log('Failed to add child');
-  }
-
-     } catch (err) {
-      alert(":c")
-      console.log(err)
-     }
+    } catch (err) {
+      alert(":c");
+      console.log(err);
+    }
 
   }
 
 
-  const handleShiftChange = (event) => {
+  function handleShiftChange(event) {
     setSelectedShift(event.target.value);
-    
-};
+  };
 
-const handleZoneChange = (event) => {
-  setSelectedZone(event.target.value);
-  
-};
+  function handleZoneChange(event) {
+    setSelectedZone(event.target.value);
+  };
+
+  function handleUserChange(event) {
+    setSelectedUser(event.target.value);
+  };
 
   return (
-    <div className="body">
-      <div className="contenedor-form-wrapper">
-        <Container fluid className="conteiner-form-room">
+    <body className="body">
+        <Container fluid className="conteiner-form-createroom">
           <Form onSubmit={handleSubmit} className="conteiner-form-edit">
             <h1 className="titulo">Agregar Sala Cuna</h1>
             <div className="contenedor-linea">
@@ -121,6 +135,25 @@ const handleZoneChange = (event) => {
                 name="max_capacityCR"
               />
             </Form.Group>
+            <Form.Group className="mb-3">
+              <Row>
+                <Col>
+                  <Form.Label className="mb-1">CUIT</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="editar el CUIT de la entidad de la sala cuna"
+                    name="CUITCR"
+                  />
+                </Col>
+                <Col>
+                <Form.Label className="mb-1">Entidad</Form.Label>
+                <Form.Control
+                type="text"
+                placeholder="Editar la entidad de la sala cuna"
+                name="entityCR"/>
+                </Col>
+              </Row>
+            </Form.Group>
             <Row className="mb-1">
               <Col xs={9}>
                 <Form.Label className="mb-1">Calle</Form.Label>
@@ -135,11 +168,11 @@ const handleZoneChange = (event) => {
               </Col>
             </Row>
 
-            <Row className="mb-3">
+            <Row className="mb-1">
               <Col>
                 <Form.Group>
                   <Form.Label className="mb-1">Turno</Form.Label>
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-1">
                     <Form.Select
                       name="shiftCR"
                       as="select"
@@ -178,6 +211,28 @@ const handleZoneChange = (event) => {
                 </Form.Select>
               </Col>
             </Row>
+
+            <Row>
+              <Col>
+                  <Form.Label>Encargado</Form.Label>
+                    <Form.Select
+                      name="UserCR"
+                      as="select"
+                      value={selectedUser}
+                      className="mb-1"
+                      onChange={handleUserChange}
+                    >
+                      <option value="" disabled>
+                        Seleccionar Encargado
+                      </option>
+                      {userOptions.map((user) => (
+                        <option key={user.id} value={user.id}>
+                          {user.first_name} {user.last_name}
+                        </option>
+                      ))}
+                    </Form.Select>
+              </Col>
+            </Row>
             <div className="contenedor-boton-qr ">
               <Button className="boton-edit mt-3" boton variant="primary" type="submit">
                 Crear Sala Cuna
@@ -185,7 +240,7 @@ const handleZoneChange = (event) => {
             </div>
           </Form>
         </Container>
-      </div>
-    </div>
+
+    </body>
   );
 }

@@ -6,19 +6,20 @@ import axios from "axios";
 import { DataGrid } from "@mui/x-data-grid";
 import Button from "react-bootstrap/Button/";
 import Menu from "../Menu/Menu";
+import { getAllZones, handlePermissions } from "../../api/salasCuna.api";
 
-const GeneratePadron = () => {
+function GeneratePadron() {
   const [zoneOptions, setZoneOptions] = useState([]);
   const [selectedZone, setSelectedZone] = useState("");
   const [cribrooms, setCribrooms] = useState([]);
-  const handlePdfClick = () => {
+  function handlePdfClick() {
     // Implement your PDF generation logic here
     console.log("Generate PDF logic will be implemented here");
-  };
-  const handleExcelClick = () => {
+  }
+  function handleExcelClick() {
     // Implement your Excel generation logic here
     console.log("Generate Excel logic will be implemented here");
-  };
+  }
   useEffect(() => {
     loadZones();
   }, []);
@@ -29,31 +30,32 @@ const GeneratePadron = () => {
     }
   }, [selectedZone]);
 
-  const loadCribrooms = async (zoneId) => {
+  async function loadCribrooms(zoneId) {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/cribroom/?zone=${zoneId}`
+        `/api/cribroom/?zone=${zoneId}`
       );
       const jsonData = response.data;
       setCribrooms(jsonData);
     } catch (error) {
       console.error("Error fetching cribrooms:", error);
+      handlePermissions(error.response.status);
     }
-  };
+  }
 
-  const loadZones = async () => {
+  async function loadZones() {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/zone/");
+      const response = await getAllZones();
       const jsonData = response.data;
       setZoneOptions(jsonData);
     } catch (error) {
       console.error("Error fetching zone options:", error);
     }
-  };
+  }
 
-  const handleSelectChange = (event) => {
+  function handleSelectChange(event) {
     setSelectedZone(event.target.value);
-  };
+  }
 
   const columns = [
     { field: "code", headerName: "Codigo" },
@@ -128,12 +130,11 @@ const GeneratePadron = () => {
             rows={cribrooms}
             columns={columns}
             columnBuffer={2}
-            columnThreshold={2}
-          />
+            columnThreshold={2} />
         </div>
       </body>
     </>
   );
-};
+}
 
 export default GeneratePadron;

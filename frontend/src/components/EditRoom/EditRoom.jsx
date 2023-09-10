@@ -13,8 +13,8 @@ import React, { useState, useEffect } from "react";
 import {
   getAllShifts,
   getAllZones,
-  getAllCribroomsWithoutDepth,
 } from "../../api/salasCuna.api";
+import axios from "axios";
 
 export function UpdateRoom(props) {
   const [zoneOptions, setZoneOptions] = useState([]);
@@ -31,53 +31,42 @@ export function UpdateRoom(props) {
     loadSelectedCribroom(props.id); // Load selected cribroom data
   }, []);
 
-  const loadZones = async () => {
+  async function loadZones() {
     try {
       const response = await getAllZones();
       setZoneOptions(response.data);
     } catch (error) {
       console.error("Error fetching zona options:", error);
     }
-  };
+  }
 
-  const loadShifts = async () => {
+  async function loadShifts() {
     try {
       const response = await getAllShifts();
       setShiftOptions(response.data);
     } catch (error) {
       console.error("Error fetching shift options:", error);
     }
-  };
+  }
 
   async function loadSelectedCribroom(cribroomId) {
     try {
-      const response = await fetch(
-        `/api/cribroom/?no_depth&id=${cribroomId}`,
-        { method: "GET" }
-      );
-      if (response.ok) {
-        const data = await response.json(); // Extract JSON data
-        const crib = data[0];
-        setCribroom(crib);
-      } else {
-        console.error(
-          "Error fetching selected cribroom data:",
-          response.statusText
-        );
-      }
+      const response = await axios.get(`/api/cribroom/?no_depth&id=${cribroomId}`);
+      let data = await response.data; // Extract JSON data
+      setCribroom(data[0]);
     } catch (error) {
       console.error("Error fetching selected cribroom data:", error);
     }
   }
 
-  const handleEdit = async (event) => {
+  async function handleEdit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const payload = {
       name: formData.get("nameCR"),
       code: formData.get("codeCR"),
       max_capacity: formData.get("max_capacityCR"),
-      street: formData.get("streetCR") ? formData.get("streetCR") : "", // if null, empty string in order to not broke xd
+      street: formData.get("streetCR") ? formData.get("streetCR") : "",
       house_number: formData.get("house_numberCR"),
       shift: formData.get("shiftCR"),
       zone: formData.get("zoneCR"),
@@ -86,27 +75,21 @@ export function UpdateRoom(props) {
     };
     if (selectedCribroom) {
       try {
-        let response = await fetch(
-          `/api/cribroom/${selectedCribroom}/?no_depth`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload),
-          }
-        );
-        if (response.ok) {
+        let response = await axios.put(`/api/cribroom/${selectedCribroom}/?no_depth`, payload);
+        console.log(response);
+        if (response.request.status === 201) {
           console.log("Cribroom Updated");
           props.onHide();
         } else {
-          console.log("Failed to Update");
+          console.log('Failed to Update');
         }
+
       } catch (err) {
-        alert(err);
+          alert(":c");
+          console.log(err);
       }
     }
-  };
+  }
 
   function handleShiftChange(event) {
     setSelectedShift(event.target.value);
@@ -121,7 +104,7 @@ export function UpdateRoom(props) {
       <div className="contenedor-form-wrapper">
         <Container fluid className="conteiner-form-room">
           <Form onSubmit={handleEdit} className="conteiner-form-edit">
-            <h1 className="titulo">Agregar Sala Cuna</h1>
+            <h1 className="titulo">Editar Sala Cuna</h1>
             <div className="contenedor-linea">
               <hr className="linea"></hr>
             </div>
@@ -159,7 +142,7 @@ export function UpdateRoom(props) {
                   <Form.Label className="mb-1">CUIT</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="editar el CUIT de la entidad de la sala cuna"
+                    placeholder="Editar el CUIT de la entidad de la sala cuna"
                     name="CUITCR"
                     defaultValue={cribroom ? cribroom.CUIT : ""}
                   />

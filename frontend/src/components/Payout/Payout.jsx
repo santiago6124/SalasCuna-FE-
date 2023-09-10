@@ -1,225 +1,201 @@
 import React, { useEffect, useState } from "react";
-
+import axios from "axios";
 import Col from "react-bootstrap/Col/";
 import Row from "react-bootstrap/Row/";
-import Form from "react-bootstrap/Form/";
-import { Button } from "react-bootstrap";
-import axios from "axios";
+import "./Payout.css";
+
+//UI imports
 import { DataGrid } from "@mui/x-data-grid";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import Button from "@mui/material/Button";
+import AddIcon from "@mui/icons-material/Add";
+import { GridActionsCellItem } from "@mui/x-data-grid";
+import { Form } from "react-bootstrap";
+import Menu from "../Menu/Menu";
+import { AddPayout } from "./AddPayoutModal";
+import { EditPayout } from "./EditPayoutModal";
+import DeletePayout from "./DeletePayoutModal";
+import { getAllZones, handlePermissions } from "../../api/salasCuna.api";
 
-export default function Payout() {
+export default function PayoutTest() {
   const [zoneOptions, setZoneOptions] = useState([]);
-  const [selectedZona, setSelectedZone] = useState("");
-  const [zone1Payouts, setZone1Payouts] = useState([]);
-  const [zone2Payouts, setZone2Payouts] = useState([]);
-  const [editedPayout, setEditedPayout] = useState(null);
-  const handleEditClick = (payout) => {
-    setEditedPayout(payout);
-  };
-  const handleEditSubmit = async (event) => {
-    event.preventDefault();
+  const [selectedZone, setSelectedZone] = useState("");
+  const [payout, setPayout] = useState("");
+  const [selectedPayout, setSelectedPayout] = useState("");
+  const [modalAddShow, setModalAddShow] = useState(false);
+  const [modalEditShow, setModalEditShow] = useState(false);
+  const [modalDeleteShow, setModalDeleteShow] = useState(false);
 
-    const formData = new FormData(event.target);
-    const updatedPayout = {
-      amount: formData.get("amount"),
-      date: formData.get("date"),
-    };
-
-    try {
-      const response = await axios.put(
-        `http://127.0.0.1:8000/api/payout/${editedPayout.id}/`, // Use the correct endpoint with the primary key
-        updatedPayout
-      );
-
-      if (response.status === 200) {
-        console.log("Payout updated successfully");
-        // Refresh the UI or update the payouts state as needed
-        setEditedPayout(null); // Clear the editedPayout state
-      } else {
-        console.log("Failed to update payout");
-      }
-    } catch (error) {
-      console.error("An error occurred while updating payout:", error);
-    }
-  };
   useEffect(() => {
     loadZones();
-    loadZone1Payouts();
-    loadZone2Payouts();
   }, []);
-  const loadZone1Payouts = async () => {
-    try {
-      const response = await fetch(
-        "http://127.0.0.1:8000/api/payout/?zone_id_filter=1"
-      );
-      const jsonData = await response.json();
-      setZone1Payouts(jsonData);
-    } catch (error) {
-      console.error("Error fetching Zone 1 payouts:", error);
-    }
-  };
 
-  const loadZone2Payouts = async () => {
-    try {
-      const response = await fetch(
-        "http://127.0.0.1:8000/api/payout/?zone_id_filter=2"
-      );
-      const jsonData = await response.json();
-      setZone2Payouts(jsonData);
-    } catch (error) {
-      console.error("Error fetching Zone 2 payouts:", error);
+  useEffect(() => {
+    if (selectedZone) {
+      loadPayout(selectedZone);
     }
-  };
+  }, [selectedZone]);
 
-  const loadZones = async () => {
+  async function loadZones() {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/zone/");
-      let jsonData = await response.json();
-      setZoneOptions(jsonData);
+      const response = await getAllZones();
+      let data = await response.data;
+      setZoneOptions(data);
+      const responsePO = await axios.get("/api/payout/");
+      let payouts = await responsePO.data;
+      setPayout(payouts);
     } catch (error) {
       console.error("Error fetching zona options:", error);
     }
-  };
+  }
 
-  const handleSelectChange = (event) => {
-    setSelectedZone(event.target.value);
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    const formData = new FormData(event.target);
-    const payload = {
-      amount: formData.get("amount"),
-      date: formData.get("date"),
-      zone: selectedZona, // Use the selectedZona state here
-    };
-
+  async function loadPayout(zoneId) {
     try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/payout/",
-        payload
-      );
-
-      console.log(payload);
-
-      if (response.status === 201) {
-        console.log("Payout added successfully");
-        // Perform any further actions, such as refreshing the UI
-      } else {
-        console.log("Failed to add payout");
-      }
+      const response = await axios.get(`/api/payout/?zone=${zoneId}`);
+      const jsonData = response.data;
+      setPayout(jsonData);
     } catch (error) {
-      console.error("An error occurred while adding payout:", error);
+      console.error("Error fetching payouts:", error);
+      handlePermissions(error.response.status);
     }
-  };
+  }
+
+  async function handleZoneChange(event) {
+    setSelectedZone(event.target.value);
+  }
+
+  async function handleAddClick() {
+    setModalAddShow(true);
+  }
+
+  async function handleEditClick(payoutID) {
+    setModalEditShow(true);
+    setSelectedPayout(payoutID);
+  }
+
+  async function handleDeleteClick(payoutID) {
+    setModalDeleteShow(true);
+    setSelectedPayout(payoutID);
+  }
 
   return (
-    <div className="container-report mt-5 mx-auto">
-      <div className="container-titulo-report ">
-        <h1> Maestro Montos </h1>
-      </div>
-      <div className="contenedor-linea-report">
-        <hr className="linea-report"></hr>
-      </div>
-      <form onSubmit={handleSubmit}>
-        <label>Amount:</label>
-        <input type="number" name="amount" required />
-        <br />
-        <label>Date:</label>
-        <input type="date" name="date" required />
-        <br />
-        <Form.Label className="mb-1">Zona</Form.Label>
-        <Form.Select
-          name="zoneCR"
-          as="select"
-          value={selectedZona}
-          onChange={handleSelectChange}
-        >
-          <option value="" disabled>
-            Seleccionar Zona
-          </option>
-          {zoneOptions.map((zone) => (
-            <option key={zone.id} value={zone.id}>
-              {zone.name}
-            </option>
-          ))}
-        </Form.Select>
-        <br />
-        <button type="submit">Add Payout</button>
-      </form>
-
-      {editedPayout && (
-        <div>
-          <h2>Edit Payout</h2>
-          <form onSubmit={handleEditSubmit}>
-            <label>Amount:</label>
-            <input
-              type="number"
-              name="amount"
-              defaultValue={editedPayout.amount}
-              required
+    <>
+      <body>
+        <div className="cribroom-dashboard">
+          <header className="header">
+            <Menu />
+          </header>
+          <>
+            <AddPayout
+              zones={zoneOptions}
+              show={modalAddShow}
+              onHide={() => {
+                setModalAddShow(false);
+                window.location.reload();
+              }}
             />
-            <br />
-            <label>Date:</label>
-            <input
-              type="date"
-              name="date"
-              defaultValue={editedPayout.date}
-              required
+            <EditPayout
+              id={selectedPayout}
+              zones={zoneOptions}
+              show={modalEditShow}
+              onHide={() => {
+                setModalEditShow(false);
+                window.location.reload();
+                setSelectedPayout("");
+              }}
             />
-            <br />
-            <button type="submit">Update Payout</button>
-          </form>
+            <DeletePayout
+              id={selectedPayout}
+              show={modalDeleteShow}
+              onHide={() => {
+                setModalDeleteShow(false);
+                window.location.reload();
+                setSelectedPayout("");
+              }}
+            />
+          </>
+          <>
+            <>
+              <h1 className="titulo-cb">Maestro Montos</h1>
+              <div className="contenedor-linea-cb">
+                <hr className="linea-cb"></hr>
+              </div>
+              <Row>
+                <Col className="col-md-2">
+                  <Form.Label className="mb-1">Seleccionar Zona</Form.Label>
+                  <Form.Select
+                    as="select"
+                    name="zone"
+                    onChange={handleZoneChange}
+                    defaultValue="place"
+                  >
+                    <option value="place" disabled>
+                      Seleccionar Zona
+                    </option>
+                    {zoneOptions.map((zone) => (
+                      <option key={zone.id} value={zone.id}>
+                        {zone.name}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </Col>
+                <Col>
+                  <div className="add-payout-button mb-3">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      startIcon={<AddIcon />}
+                      className="add-payout-button mb-3"
+                      onClick={() => handleAddClick()}
+                    >
+                      Add Payout
+                    </Button>
+                  </div>
+                </Col>
+              </Row>
+              <div className="DataGrid-Wrapper">
+                <DataGrid
+                  style={{ borderRadius: "15px", margin: "20px" }}
+                  rows={payout}
+                  columns={[
+                    {
+                      field: "id",
+                      headerName: "Id de pago",
+                      width: 250,
+                    },
+                    { field: "amount", headerName: "Monto", width: 250 },
+                    { field: "date", headerName: "Fecha", width: 250 },
+                    {
+                      field: "actions",
+                      type: "actions",
+                      headerName: "Acciones",
+                      width: 80,
+                      getActions: (params) => [
+                        <GridActionsCellItem
+                          icon={<DeleteIcon />}
+                          label="Delete"
+                          onClick={() => handleDeleteClick(params.row.id)}
+                        />,
+                        <>
+                          <GridActionsCellItem
+                            variant="primary"
+                            icon={<EditIcon />}
+                            onClick={() => handleEditClick(params.row.id)}
+                          />
+                        </>,
+                      ],
+                    },
+                  ]}
+                  autoHeight
+                  autoWidth
+                  pageSize={5}
+                />
+              </div>
+            </>
+          </>
         </div>
-      )}
-
-      <div>
-        <h2>Zone 1 Payouts</h2>
-        <DataGrid
-          rows={zone1Payouts}
-          columns={[
-            { field: "id", headerName: "ID", width: 70 },
-            { field: "amount", headerName: "Amount", width: 130 },
-            { field: "date", headerName: "Date", width: 130 },
-            {
-              field: "actions",
-              headerName: "Actions",
-              width: 120,
-              renderCell: (params) => (
-                <Button onClick={() => handleEditClick(params.row)}>
-                  Edit
-                </Button>
-              ),
-            },
-          ]}
-          autoHeight
-          pageSize={5}
-        />
-      </div>
-      <div>
-        <h2>Zone 2 Payouts</h2>
-        <DataGrid
-          rows={zone2Payouts}
-          columns={[
-            { field: "id", headerName: "ID", width: 70 },
-            { field: "amount", headerName: "Amount", width: 130 },
-            { field: "date", headerName: "Date", width: 130 },
-            {
-              field: "actions",
-              headerName: "Actions",
-              width: 120,
-              renderCell: (params) => (
-                <Button onClick={() => handleEditClick(params.row)}>
-                  Edit
-                </Button>
-              ),
-            },
-          ]}
-          autoHeight
-          pageSize={5}
-        />
-      </div>
-    </div>
+      </body>
+    </>
   );
 }

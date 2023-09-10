@@ -1,37 +1,26 @@
 import Modal from "react-bootstrap/Modal";
-
-import Col from "react-bootstrap/Col/";
-import Row from "react-bootstrap/Row/";
 import Form from "react-bootstrap/Form/";
 import { Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
-
-import React, { useState, useEffect } from "react";
-
+import React from "react";
+import axios from "axios";
 
 export function EditPayout(props) {
-
-  const handleEdit = async (event) =>{
+  async function handleEdit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const payload = {
-      amount : formData.get("amount"),
-      date : formData.get("date"),
-      zone : formData.get("zone"),
+      amount: formData.get("amount"),
+      date: formData.get("date"),
+      zone: formData.get("zone"),
     };
     try {
-      let response = await fetch(
-        `http://127.0.0.1:8000/api/payout/${props.id}/`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
-      if (response.ok) {
+      let response = await axios.put(`/api/payout/${props.id}/`, payload);
+      if (response.request.status === 201) {
+        console.log('Child added successfully');
         props.onHide();
+      } else {
+        console.log('Failed to add child');
       }
     } catch (error) {
       console.log(error);

@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import "./TechnicalReport.css";
-
 import Col from "react-bootstrap/Col/";
 import Row from "react-bootstrap/Row/";
 import Form from "react-bootstrap/Form/";
@@ -12,33 +11,31 @@ import axios from "axios"; // Import axios
 import { useState, useEffect } from "react";
 import DownloadPDF from "./DownloadPDF/DownloadPDF";
 import Menu from "../Menu/Menu";
+import { getAllCribroomsWithoutDepth, getAllZones, handlePermissions } from "../../api/salasCuna.api";
 
 export default function TechnicalReport() {
   const [zoneOptions, setZoneOptions] = useState([]);
   const [selectedZone, setSelectedZone] = useState("");
   const [cribrooms, setCribrooms] = useState([]);
-  const [unmodifiedCribrooms, setUnmodifiedCribrooms] = useState([]);
   const [startDate, setStartDate] = useState(""); // New state for start date
   const [endDate, setEndDate] = useState(""); // New state for end date
   const [selectedCribrooms, setSelectedCribrooms] = useState([]); // New state for selected crib rooms
-  const handleCheckboxChange = (event, row) => {
+  function handleCheckboxChange(event, row) {
     const updatedSelectedCribrooms = event.target.checked
       ? [...selectedCribrooms, row] // Add to selected crib rooms
       : selectedCribrooms.filter((crib) => crib.id !== row.id); // Remove from selected crib rooms
     setSelectedCribrooms(updatedSelectedCribrooms);
-  };
-
+  }
   const iframeRef = useRef();
-  const handlePdfClick = () => {
+  function handlePdfClick() {
     // Implement your PDF generation logic here
     console.log("Generate PDF logic will be implemented here");
     console.log("Selected Start Date:", startDate);
     console.log("Selected End Date:", endDate);
     console.log("Selected Crib Rooms:", selectedCribrooms);
-
     // Iterate through each selected cribroom and send a GET request
     selectedCribrooms.forEach((cribroom) => {
-      const url = `http://127.0.0.1:8000/api/technical-report/${cribroom.id}/${startDate}/${endDate}/`;
+      const url = `/api/technical-report/${cribroom.id}/${startDate}/${endDate}/`;
 
       fetch(url)
         .then((response) => {
@@ -82,7 +79,7 @@ export default function TechnicalReport() {
           console.error("Error fetching data:", error);
         });
     });
-  };
+  }
   useEffect(() => {
     loadZones();
   }, []);
@@ -97,44 +94,43 @@ export default function TechnicalReport() {
 
   async function defaultCribrooms() {
     try {
-      const response = await axios.get(
-        `http://127.0.0.1:8000/api/cribroom/?no_depth`
-      );
+      const response = await getAllCribroomsWithoutDepth();
       const jsonData = response.data;
       setCribrooms(jsonData);
+    } catch (error) {
+      console.error("Error fetching cribrooms:", error);
+      handlePermissions(error.response.status)
+    }
+  }
+
+  async function loadCribrooms(zoneId) {
+    try {
+      const response = await axios.get(
+        `/api/cribroom/?zone=${zoneId}`
+      );
+      const data = response.data;
+      if (data.length == 0) {
+        alert("No hay Salas Cunas en la zona seleccionada");
+      }
+      setCribrooms(data);
     } catch (error) {
       console.error("Error fetching cribrooms:", error);
     }
   }
 
-  const loadCribrooms = async (zoneId) => {
+  async function loadZones() {
     try {
-      const response = await axios.get(
-        `http://127.0.0.1:8000/api/cribroom/?zone=${zoneId}`
-      );
-      const jsonData = response.data;
-      if (jsonData.length == 0) {
-        alert("No hay Salas Cunas en la zona seleccionada");
-      }
-      setCribrooms(jsonData);
-    } catch (error) {
-      console.error("Error fetching cribrooms:", error);
-    }
-  };
-
-  const loadZones = async () => {
-    try {
-      const response = await axios.get("http://127.0.0.1:8000/api/zone/");
+      const response = await getAllZones();
       const jsonData = response.data;
       setZoneOptions(jsonData);
     } catch (error) {
       console.error("Error fetching zone options:", error);
     }
-  };
+  }
 
-  const handleSelectChange = (event) => {
+  function handleSelectChange(event) {
     setSelectedZone(event.target.value);
-  };
+  }
 
   const columns = [
     { field: "code", headerName: "Codigo", width: 250 },
