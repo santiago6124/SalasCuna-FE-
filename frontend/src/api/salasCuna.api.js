@@ -57,7 +57,4 @@ export async function handlePermissions(status) {
     window.location.assign("/home-page");
   }
 }
-export const getAllDepartments = async () => {
-  return axios.get("/api/department/")
-}
 

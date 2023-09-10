@@ -62,7 +62,7 @@ export const AuthProvider = ({children}) => {
             setAuthTokens(data)
             setUser(jwt_decode(data.access))
             localStorage.setItem('authTokens', JSON.stringify(data))
-            history('/gestion-sala')
+            history('/home-page')
         } else {
             alert('Something went wrong')
         }
