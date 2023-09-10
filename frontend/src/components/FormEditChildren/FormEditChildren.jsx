@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
 import Col from 'react-bootstrap/Col/';
 import Row from 'react-bootstrap/Row/';
 import Form from 'react-bootstrap/Form/';
 import {Button} from 'react-bootstrap';
-
 import { useNavigate, useLocation } from 'react-router-dom';
+import { getAllCribrooms, getAllGenders, getAllGuardianTypes, getAllLocalities, getAllNeighborhood, getAllPhoneFeatures, getAllShifts } from '../../api/salasCuna.api';
 
 export function FormEditChildren() {
-
     useEffect(() => {
         getChildren();
     }, []);
 
-    const getChildren = async () => {
+    async function getChildren() {
         let response = await fetch('/api/all-objects/');
         let data = await response.json();
         console.log(data);
+        // ESTO PARA QUE PINCHILA SIRVE ?????
     };
-
 
     const [chieldGenders, setChildGender] = useState([]); 
     const [guardianGenders, setGuardianGender] = useState([]);
@@ -30,7 +28,6 @@ export function FormEditChildren() {
     const [childStates, setChildState] = useState([]);
     const [guardianTypes, setGuardianType] = useState([]); 
     const [phoneFeatures, setPhoneFeature] = useState([]); 
-
     const [selectedGeneroChield, setSelectedGeneroChield] = useState('');
     const [selectedGeneroGuardian, setSelectedGeneroGuardian] = useState('');
     const [selectedSalaCuna, setSelectedSalacuna] = useState('');
@@ -40,47 +37,34 @@ export function FormEditChildren() {
     const [selectedChildState, setSelectedChildState] = useState('');
     const [selectedPhoneFeature, setSelectedPhoneFeature] = useState('');
     const [selectedGuardianType, setSelectedGuardianType] = useState('');
-    
 
-    const handleGeneroChieldChange = (event) => {
+    function handleGeneroChieldChange(event) {
         setSelectedGeneroChield(event.target.value);
-        
-    };
-    
-    const handleGeneroGuardianChange = (event) => {
+    }
+    function handleGeneroGuardianChange(event) {
         setSelectedGeneroGuardian(event.target.value);
-        
-    };
-
-    const handleSalaCunaChange = (event) => {
+    }
+    function handleSalaCunaChange(event) {
         setSelectedSalacuna(event.target.value);
-        
-    };
-    const handleTurnoChange = (event) => {
-        setSelectedTurno (event.target.value);
-        
-    };
-    const handleLocalityChange = (event) => {
+    }
+    function handleTurnoChange(event) {
+        setSelectedTurno(event.target.value);
+    }
+    function handleLocalityChange(event) {
         setSelectedLocality(event.target.value);
-        
-    };
-    const handleNeighborhoodChange = (event) => {
+    }
+    function handleNeighborhoodChange(event) {
         setSelectedNeighborhood(event.target.value);
-        
-    };
-    const handleChildStateChange = (event) => {
+    }
+    function handleChildStateChange(event) {
         setSelectedChildState(event.target.value);
-        
-    };
-    const handlePhoneFeatureChange = (event) => {
+    }
+    function handlePhoneFeatureChange(event) {
         setSelectedPhoneFeature(event.target.value);
-        
-    };
-    const handleGuardianTypeChange = (event) => {
+    }
+    function handleGuardianTypeChange(event) {
         setSelectedGuardianType(event.target.value);
-        
-    };
-    
+    }
 
     useEffect(() => {
         getChildren();
@@ -92,148 +76,131 @@ export function FormEditChildren() {
         ChildStateList();
         GuardianTypeList();
         PhoneFeatureList();
-        
         }, []);
 
-
-    const GenderList = async () => {
+    async function GenderList() {
         try {
-          const response = await axios.get('/api/GenderListView/');
-          setChildGender(response.data);
-          setGuardianGender(response.data);
+            const response = await getAllGenders();
+            setChildGender(response.data);
+            setGuardianGender(response.data);
         } catch (error) {
-          console.error('Error fetching generos:', error);
+            console.error('Error fetching generos:', error);
         }
-      };
+    }
 
-
-    const CribroomList = async () => {
+    async function CribroomList() {
         try {
-            const response = await axios.get('/api/cribroom/');
+            const response = await getAllCribrooms();
             setCribroom(response.data);
-            }   catch (error)  {
-                console.log('Error fetching Salas Cunas:', error);
-            };
-    };
+        } catch (error) {
+            console.log('Error fetching Salas Cunas:', error);
+        };
+    }
 
-    const ShiftList = async () => {
+    async function ShiftList() {
         try {
-            const response = await axios.get('/api/ShiftListView/');
+            const response = await getAllShifts();
             setShift(response.data);
-            } catch (error) {
-                console.log('Error fetching Turnos:', error);
-            };
-    };
+        } catch (error) {
+            console.log('Error fetching Turnos:', error);
+        };
+    }
 
-    const LocalityList = async () => {
+    async function LocalityList() {
         try {
-            const response = await axios.get('/api/LocalityListView/');
+            const response = await getAllLocalities();
             setLocality(response.data);
-            } catch(error) {
-                console.error('Error fetching localidad:', error);
-            };
-    };
+        } catch (error) {
+            console.error('Error fetching localidad:', error);
+        };
+    }
 
-    const NeighborhoodList = async () => {
+    async function NeighborhoodList() {
         try {
-            const response = await axios.get('/api/NeighborhoodListView/');
+            const response = await getAllNeighborhood();
             setNeighborhood(response.data);
-            } catch(error) {
-                console.error('Error fetching barrio:', error);
-            };
-    };
+        } catch (error) {
+            console.error('Error fetching barrio:', error);
+        };
+    }
 
-    const ChildStateList = async () => {
+    async function ChildStateList() {
         try {
             const response = await axios.get('/api/ChildStateListView/');
             setChildState(response.data);
-            } catch(error) {
-                console.error('Error fetching estados:', error);
-            };
-    };
+        } catch (error) {
+            console.error('Error fetching estados:', error);
+        };
+    }
 
     const navigate = useNavigate();
     
-    const GuardianTypeList = async () => {
+    async function GuardianTypeList() {
         try {
-            const response = await axios.get('/api/GuardianTypeListView/');
+            const response = await getAllGuardianTypes();
             setGuardianType(response.data);
-            } catch(error) {
-                console.error('Error fetching estados:', error);
-            };
-    };
+        } catch (error) {
+            console.error('Error fetching estados:', error);
+        };
+    }
 
-    const PhoneFeatureList = async () => {
+    async function PhoneFeatureList() {
         try {
-            const response = await axios.get('/api/PhoneFeatureListView/');
+            const response = await getAllPhoneFeatures();
             setPhoneFeature(response.data);
-            } catch(error) {
-                console.error('Error fetching estados:', error);
-            };
-    };
+        } catch (error) {
+            console.error('Error fetching estados:', error);
+        };
+    }
 
-  const handleNewClick = () => {
-   navigate('/children-management');
-  };
+  function handleNewClick() {
+        navigate('/children-management');
+    }
 
   const location = useLocation();
     const childId = location?.state?.childId;
 
-  const handleSubmit = async (event) => {
-    event.preventDefault()
+  async function handleSubmit(event) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const payload = {
+            first_name: formData.get("nombreChield"),
+            last_name: formData.get("apellidoChield"),
+            dni: formData.get("dniChield"),
+            age: formData.get("edadChield"),
+            birthdate: formData.get("fechaNacimientoChield"),
+            house_number: formData.get("numero_casa"),
+            registration_date: formData.get("fechaAlta"),
+            disenroll_date: formData.get("fechaBaja"),
+            locality: formData.get("locality"),
+            gender: formData.get("generoChild"),
+            cribroom: formData.get("salacuna"),
+            shift: formData.get("turno"),
+            child_state: formData.get("estado"),
+            neightborhood: formData.get("neightborhood"),
+            guardian_first_name: formData.get("nombreGuardian"),
+            guardian_last_name: formData.get("apellidoGuardian"),
+            guardian_dni: formData.get("dniGuardian"),
+            guardian_phone_number: formData.get("telefono"),
+            guardian_phone_Feature: formData.get("phoneFeature"),
+            guardian_guardian_Type_id: formData.get("guardianType"),
+            giardian_gender_id: formData.get("generoGuardian"),
+        };
 
-    const formData = new FormData(event.target);
-    const payload = {
-        first_name: formData.get("nombreChield"),
-        last_name: formData.get("apellidoChield"),
-        dni: formData.get("dniChield"),
-        age: formData.get("edadChield"),
-        birthdate: formData.get("fechaNacimientoChield"),
-        house_number: formData.get("numero_casa"),
-        registration_date: formData.get("fechaAlta"),
-        disenroll_date: formData.get("fechaBaja"),
-        locality: formData.get("locality"),
-        gender: formData.get("generoChild"),
-        cribroom: formData.get("salacuna"),
-        shift: formData.get("turno"),
-        child_state: formData.get("estado"),
-        neightborhood: formData.get("neightborhood"),
-        guardian_first_name:formData.get("nombreGuardian"),
-        guardian_last_name: formData.get("apellidoGuardian"),
-        guardian_dni: formData.get("dniGuardian"),
-        guardian_phone_number: formData.get("telefono"),
-        guardian_phone_Feature: formData.get("phoneFeature"),
-        guardian_guardian_Type_id: formData.get("guardianType"),
-        giardian_gender_id: formData.get("generoGuardian"),
-        
-    };
-  
-    try {
-     console.log(childId + " id");
-     let response = await fetch(`/api/child/${childId}/`, {
-       method: 'PUT',
-       headers: {
-           'Content-Type': 'application/json'
-       },
-       body: JSON.stringify(payload),
-    });
-    console.log(response + "response");
-    if (response.ok) {
-      console.log('Child edited successfully');
-      window.location.reload();
-  } else {
-      console.log('Failed to edit child');
-  }
-
-     } catch (err) {
-      alert(":c")
-      console.log(err)
-     }
-
-  }
-
-
-
+        try {
+            console.log(childId + " id");
+            let response = await axios.put(`/api/cribroom/${childId}/`, payload);
+            if (response.request.status === 201) {
+                console.log('Child edited successfully');
+                window.location.reload();
+            } else {
+                console.log('Failed to edit child');
+            }
+        } catch (err) {
+            alert(":c");
+            console.log(err);
+        }
+    }
 
   return (
     <Form className="conteiner-form" onSubmit={handleSubmit}>

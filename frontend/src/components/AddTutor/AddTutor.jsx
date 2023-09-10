@@ -1,32 +1,28 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import React, { useEffect, useState } from 'react'; 
-import axios from 'axios';
-
-import { FaQrcode } from 'react-icons/fa';
+import { getAllGenders } from '../../api/salasCuna.api';
 
 export function AddTutor() {
-
-    const [genders, setGeneros] = useState([]); 
-
-    const [selectedGenero, setSelectedGenero] = useState('');
-
-    const handleGeneroChange = (event) => {
-        setSelectedGenero(event.target.value);
-    };
-
     useEffect(() => {
         ListGenero();
     }, []);
 
-    const ListGenero = async () => {
+    const [genders, setGeneros] = useState([]); 
+    const [selectedGenero, setSelectedGenero] = useState('');
+
+    function handleGeneroChange(event) {
+        setSelectedGenero(event.target.value);
+    }
+    
+    async function ListGenero() {
         try {
-          const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
-          setGeneros(response.data.gender);
+            const response = await getAllGenders();
+            setGeneros(response.data.gender);
         } catch (error) {
-          console.error('Error fetching generos:', error);
+            console.error('Error fetching generos:', error);
         }
-      };
+    }
 
     return (
         <Form className='conteiner-form'>

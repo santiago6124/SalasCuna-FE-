@@ -3,13 +3,9 @@ import { Button, Container, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
 import Menu from "../Menu/Menu";
-
 import "./Login.css";
 
-export const Login = () => {
-
-  
-
+export function Login() {
   let { loginUser } = useContext(AuthContext);
   return (
     <>
@@ -31,8 +27,7 @@ export const Login = () => {
                   type="text"
                   placeholder="Ingrese su nombre de usuario"
                   name="username"
-                  required
-                />
+                  required />
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label className="mb-1">Contraseña</Form.Label>
@@ -41,8 +36,7 @@ export const Login = () => {
                   placeholder="Ingrese su contraseña"
                   name="password"
                   minLength="8"
-                  required
-                />
+                  required />
               </Form.Group>
               <div className="contenedor-boton-createuser">
                 <Button
@@ -70,4 +64,4 @@ export const Login = () => {
       </body>
     </>
   );
-};
+}

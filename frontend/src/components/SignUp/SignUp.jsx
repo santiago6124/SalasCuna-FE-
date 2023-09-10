@@ -3,35 +3,31 @@ import { Button, Container, Form } from "react-bootstrap";
 import AuthContext from "../../context/AuthContext";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import axios from "axios"; // Import Axios for API calls
-
 import "./SignUp.css";
+import { getAllGroup } from "../../api/salasCuna.api";
 
-const SignUp = () => {
+function SignUp() {
   const [role, setRole] = useState("");
   const [rolesList, setRolesList] = useState([]); // State to store the list of roles
-
   const { signupUser } = useContext(AuthContext);
 
-  const handleRoleChange = (event) => {
+  function handleRoleChange(event) {
     setRole(event.target.value);
-  };
+  }
 
   useEffect(() => {
-    // Fetch the roles from the backend API
-    const fetchRoles = async () => {
-      try {
-        const response = await axios.get(
-          "http://127.0.0.1:8000/api/RoleViewSet/?exclude_directora"
-        );
-        setRolesList(response.data); // Update the state with the list of roles
-      } catch (error) {
-        console.error("Error fetching roles:", error);
-      }
-    };
-
     fetchRoles();
   }, []);
+
+  // Fetch the roles from the backend API
+  async function fetchRoles() {
+    try {
+      const response = await getAllGroup();
+      setRolesList(response.data); // Update the state with the list of roles
+    } catch (error) {
+      console.error("Error fetching roles:", error);
+    }
+  }
 
   return (
     <body className="body">
@@ -42,7 +38,6 @@ const SignUp = () => {
             <div className="contenedor-linea">
               <hr className="linea"></hr>
             </div>
-
             <div className="Form-Control">
               {/* Email Label */}
               <Col>
@@ -52,8 +47,7 @@ const SignUp = () => {
                     type="text"
                     placeholder="Ingresar E-mail"
                     name="email"
-                    required
-                  />
+                    required />
                 </Form.Group>
               </Col>
             </div>
@@ -65,8 +59,7 @@ const SignUp = () => {
                   type="text"
                   placeholder="Ingresar nombre"
                   name="first_name"
-                  required
-                />
+                  required />
               </Col>
 
               {/* Apellido Label */}
@@ -76,8 +69,7 @@ const SignUp = () => {
                   type="text"
                   placeholder="Ingresar Apellido"
                   name="last_name"
-                  required
-                />
+                  required />
               </Col>
             </Row>
             <Row>
@@ -88,10 +80,8 @@ const SignUp = () => {
                   type="number"
                   placeholder="Ingresar El Dni"
                   name="dni"
-                  required
-                />
+                  required />
               </Col>
-
               {/* Rol label (Dropdown) */}
               <Col className="col-md-6 rs mb-1">
                 <Form.Label className="mb-1">Rol</Form.Label>
@@ -112,7 +102,6 @@ const SignUp = () => {
                 </Form.Select>
               </Col>
             </Row>
-
             {/*Phone number Label*/}
             <div className="Form-Control">
               <Col>
@@ -122,12 +111,10 @@ const SignUp = () => {
                     type="number"
                     placeholder="Ingresar Nro De Telefono"
                     name="phone_number"
-                    required
-                  />
+                    required />
                 </Form.Group>
               </Col>
             </div>
-
             <Row>
               {/* Ciudad */}
               <Col className="col-md-6 ls mb-1">
@@ -136,10 +123,8 @@ const SignUp = () => {
                   type="text"
                   placeholder="Ingresar Ciudad"
                   name="city"
-                  required
-                />
+                  required />
               </Col>
-
               {/* Departamento */}
               <Col className="col-md-6 rs mb-1">
                 <Form.Label className="mb-1">Departamento</Form.Label>
@@ -147,8 +132,7 @@ const SignUp = () => {
                   type="text"
                   placeholder="Ingresar Departamento"
                   name="department"
-                  required
-                />
+                  required />
               </Col>
             </Row>
             <div className="Form-Control">
@@ -160,8 +144,7 @@ const SignUp = () => {
                     type="text"
                     placeholder="Ingresar Direccion"
                     name="address"
-                    required
-                  />
+                    required />
                 </Form.Group>
               </Col>
             </div>
@@ -175,11 +158,9 @@ const SignUp = () => {
                     placeholder="Ingrese su contraseña"
                     name="password"
                     minLength="8"
-                    required
-                  />
+                    required />
                 </Form.Group>
               </Col>
-
               {/*Repeat Password Label*/}
               <Col className="col-md-6 rs mb-1">
                 <Form.Group className="mb-1">
@@ -189,12 +170,10 @@ const SignUp = () => {
                     placeholder="Ingrese su contraseña de nuevo"
                     name="re_password"
                     minLength="8"
-                    required
-                  />
+                    required />
                 </Form.Group>
               </Col>
             </Row>
-
             <div className="contenedor-boton-createuser">
               <Button
                 className="boton mt-1"
@@ -210,6 +189,6 @@ const SignUp = () => {
       </div>
     </body>
   );
-};
+}
 
 export default SignUp;

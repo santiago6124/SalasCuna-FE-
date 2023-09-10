@@ -3,10 +3,9 @@ import Col from "react-bootstrap/Col/";
 import Row from "react-bootstrap/Row/";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/esm/Button";
-
 import React, { useEffect, useState } from "react";
-
 import {UpdateRoom} from "../EditRoom/EditRoom";
+import { getAllCribrooms } from "../../api/salasCuna.api";
 
 export function SelectRoom() {
   const [cribroomOptions, setCribroom] = useState([]);
@@ -16,20 +15,19 @@ export function SelectRoom() {
   useEffect(() => {
     LoadCribrooms();
   }, []);
-  const LoadCribrooms = async () => {
+  async function LoadCribrooms() {
     try {
-      let response = await fetch("http://127.0.0.1:8000/api/cribroom/");
-      let jsonData = await response.json();
-      console.log(jsonData);
-      setCribroom(jsonData);
+      let response = await getAllCribrooms();
+      let data = await response.data;
+      setCribroom(data);
     } catch (error) {
       console.error("Error fetching Cribroom Options", error);
     }
-  };
+  }
 
-  const handleConfirmClick = () => {
+  function handleConfirmClick() {
     setConfirmed(true);
-  };
+  }
 
   return (
     <body className="body">

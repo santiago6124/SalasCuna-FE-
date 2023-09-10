@@ -6,13 +6,10 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-
 import AuthContext from "../../context/AuthContext";
 
-const Menu = ({link1Text, link1Path, link2Text, link2Path}) => {
-
-  let {user, logoutUser} = useContext(AuthContext)
-
+function Menu({ link1Text, link1Path, link2Text, link2Path }) {
+  let { user, logoutUser } = useContext(AuthContext);
   return (
     <Navbar expand="lg" className="navbar">
       <Container fluid>

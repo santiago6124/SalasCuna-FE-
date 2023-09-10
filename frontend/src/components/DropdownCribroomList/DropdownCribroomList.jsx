@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import '../DropdownCribroomList/DropdownCribroomList.css';
 
@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
 import { getAllCribroomsWithoutDepth } from '../../api/salasCuna.api';
-import { GridActionsCell, GridActionsCellItem } from '@mui/x-data-grid';
+import { GridActionsCellItem } from '@mui/x-data-grid';
 
 import { DataGrid, GridToolbar, GridToolbarExport, GridToolbarContainer } from '@mui/x-data-grid';
 
@@ -19,6 +19,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import AsyncSelect from 'react-select/async';
+
 
 import { ExportButton } from './ExcelExport/ExportButton';
 
@@ -39,92 +40,73 @@ export default function DropdownCribroomList() {
   const [childs, setChild] = useState([]);
   const [selectedCribroom, setSelectedCribroom] = useState('');
   const [showNewButton, setShowNewButton] = useState(false);
+
   const [selectedCribroomId, setSelectedCribroomId] = useState(null); // State variable to hold the selected cribroom ID
 
   const handleEditClick = (childId) => {
+  const navigate = useNavigate();
     navigate('/children-management/edit', { state: { childId } });
     console.log("id chico" + childId);
-  };
+  }
+  function handleNewClick() {
+    navigate('/children-management/new');
+  }
 
- 
-
-  const navigate = useNavigate();
-
-  const handleNewClick = () => {
-  navigate('/children-management/new');
-  };
-
-
-
-  const handleCargarClick = async () => {
+  async function handleCargarClick() {
     if (selectedCribroom) {
       try {
         console.log('ID de la Cribroom seleccionada:', selectedCribroom);
         const res = await axios.get('/api/child/?no_depth&cribroom_id=' + selectedCribroom);
         console.log('API Response:', res.data);
-        const updateChild = await res.data.map (child => {
-
-        return {...child,is_active: child.is_active ? 'Activo' : 'Inactivo'}
-
-            
-        })
-
+        const updateChild = await res.data.map(child => {
+          return { ...child, is_active: child.is_active ? 'Activo' : 'Inactivo' };
+        });
         setChild(updateChild);
         setShowNewButton(true);
         setSelectedCribroomId(selectedCribroom); // Update the selected cribroom ID
-
       } catch (error) {
         console.log('Error fetching Chicos:', error);
       }
     } else {
       console.log('Ninguna Cribroom seleccionada');
     }
-  };
+  }
 
-
-  const handleLoadCribroomOptions = async (inputValue) => {
-  try {
-    const response = await getAllCribroomsWithoutDepth();
-    setCribrooms(response.data);
-    console.log('All Cribrooms:', response.data); // Verifica las opciones de sala cuna
-
-    if (!inputValue) {
-      console.log('No inputValue. Returning all cribrooms.');
-      return response.data.map(cribroom => ({
+  async function handleLoadCribroomOptions(inputValue) {
+    try {
+      const response = await getAllCribroomsWithoutDepth();
+      setCribrooms(response.data);
+      console.log('All Cribrooms:', response.data); // Verifica las opciones de sala cuna
+      if (!inputValue) {
+        console.log('No inputValue. Returning all cribrooms.');
+        return response.data.map(cribroom => ({
+          value: cribroom.id,
+          label: cribroom.name,
+        }));
+      }
+      const filteredOptions = response.data.filter(cribroom =>
+        cribroom.name.toLowerCase().startsWith(inputValue.toLowerCase())
+      );
+      console.log('Filtered Options:', filteredOptions); // Verifica las opciones filtradas
+      return filteredOptions.map(cribroom => ({
         value: cribroom.id,
         label: cribroom.name,
       }));
+    } catch (error) {
+      console.log('Error fetching Cribrooms:', error);
+      return [];
     }
-
-    const filteredOptions = response.data.filter(cribroom =>
-      cribroom.name.toLowerCase().startsWith(inputValue.toLowerCase())
-    );
-    console.log('Filtered Options:', filteredOptions); // Verifica las opciones filtradas
-
-    return filteredOptions.map(cribroom => ({
-      value: cribroom.id,
-      label: cribroom.name,
-    }));
-  } catch (error) {
-    console.log('Error fetching Cribrooms:', error);
-    return [];
   }
-};
 
-  const handleDelete = async (childId) => {
+  async function handleDelete(childId) {
     try {
       console.log(childId + " id");
-      const response = await axios.patch(`/api/child/${childId}/?disenroll=True` );
+      const response = await axios.patch(`/api/child/${childId}/?disenroll=True`);
       console.log("Response after updating child state:", response.data);
-
-
-      
     } catch (err) {
       alert("Error updating child state");
     }
-  };
-
-  
+  }
   
   const columns = [
     { field: 'id', headerName: '#', width: 50 , headerAlign: 'center' , align: 'center'},
@@ -151,13 +133,8 @@ export default function DropdownCribroomList() {
             onClick={() => handleEditClick(params.row.id)}
           />,
         ]
-        
     },
-    
-
 ];
-  
-       
 
   return (
     <div className='CRUD'>

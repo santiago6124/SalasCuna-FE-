@@ -1,13 +1,11 @@
 import "./EditUserModal.css";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
-
 import Col from "react-bootstrap/Col/";
 import Row from "react-bootstrap/Row/";
 import Form from "react-bootstrap/Form/";
 import { Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
-
 import React, { useState, useEffect } from "react";
 import { getAllGroup, getAllDepartments } from "../../api/salasCuna.api";
 
@@ -26,66 +24,51 @@ export default function UpdateUser(props) {
     loadSelectedUser(props.id);
   }, []);
 
-
-  const loadGroup = async () => {
+  async function loadGroup() {
     try {
       const response = await getAllGroup();
       setGroupOptions(response.data);
     } catch (error) {
       console.error("Error fetching group options:", error);
     }
-  };
+  }
 
-  const handleGroupChange = (event) => {
+  function handleGroupChange(event) {
     setGroup(event.target.value);
-  };
+  }
 
-
-  const loadDepartments = async () => {
+  async function loadDepartments() {
     try {
       const response = await getAllDepartments();
       setDepartmentOptions(response.data);
     } catch (error) {
       console.error("Error fetching department options:", error);
     }
-  };
+  }
 
-  const handleDepartmentChange = (event) => {
+  function handleDepartmentChange(event) {
     setDepartment(event.target.value);
-  };
-
+  }
 
   async function loadSelectedUser(user_id) {
     try {
-      const responseUsers = await fetch(
-        `/api/user/${user_id}/`,
-        { method: "GET" }
-      );
-      if (responseUsers.ok) {
-        const userData = await responseUsers.json();
-        const userr = userData;
-        setUser(userr);
-        } else {
-        console.error(
-          "Error fetching selected user data:",
-          responseUsers.statusText
-        );
-      }
+      const response = await axios.get(`/api/user/${user_id}/`);
+      const data = await response.data;
+      setUser(data);
     } catch (error) {
       console.error("Error fetching selected user data:", error);
     }
   }
 
-  const handleEditUser = async (event) => {
+  async function handleEditUser(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
-    const grupo = [formData.get("group")]
     const payload = {
       email: formData.get("email"),
       first_name: formData.get("first_name"),
       last_name: formData.get("last_name"),
       dni: formData.get("dni"),
-      groups: grupo,
+      group: formData.get("group"),
       phone_number: formData.get("phone_number"),
       city: formData.get("city"),
       department: formData.get("department"),
@@ -95,17 +78,8 @@ export default function UpdateUser(props) {
     };
     if (selectedUser) {
       try {
-        let response = await fetch(
-          `/api/user/${selectedUser}/`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload),
-          }
-        );
-        if (response.ok) {
+        let response = await axios.put(`/api/user/${selectedUser}/`, payload);
+        if (response.request.status === 201) {
           console.log("Updated User");
           props.onHide();
         } else {
@@ -115,7 +89,7 @@ export default function UpdateUser(props) {
         alert(error);
       }
     }
-  };
+  }
 
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
@@ -186,7 +160,7 @@ export default function UpdateUser(props) {
                 <Form.Select
                   as="select"
                   name="group"
-                  defaultValue={user ? user.groups : ""}
+                  defaultValue={user ? user.group : ""}
                   onChange={handleGroupChange}
                   required
                 >

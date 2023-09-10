@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import { getAllLocalities } from '../../api/salasCuna.api';
 
 export function AddResidence() {
 
@@ -14,12 +15,12 @@ export function AddResidence() {
     const [selectedLocality, setSelectedLocality] = useState('');
     const [selectedNeighborhood, setSelectedNeighborhood] = useState('');
 
-    const handleLocalityChange = (event) => {
+    function handleLocalityChange(event) {
         setSelectedLocality(event.target.value);
-    };
-    const handleNeighborhoodChange = (event) => {
+    }
+    function handleNeighborhoodChange(event) {
         setSelectedNeighborhood(event.target.value);
-    };
+    }
 
 
     useEffect(() => {
@@ -27,23 +28,23 @@ export function AddResidence() {
         ListNeighborhood();
     }, []);
 
-    const ListLocality = async () => {
+    async function ListLocality() {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
-            setLocalities(response.data.locality);
-            } catch(error) {
-                console.error('Error fetching localidad:', error);
-            };
-    };
+            const response = await getAllLocalities();
+            setLocalities(response.data);
+        } catch (error) {
+            console.error('Error fetching localidad:', error);
+        };
+    }
 
-    const ListNeighborhood = async () => {
+    async function ListNeighborhood() {
         try {
             const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
             setNeighborhoods(response.data.neighborhood);
-            } catch(error) {
-                console.error('Error fetching barrio:', error);
-            };
-    };
+        } catch (error) {
+            console.error('Error fetching barrio:', error);
+        };
+    }
 
     return (
         <Form className='conteiner-form'>
