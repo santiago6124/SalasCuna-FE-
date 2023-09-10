@@ -60,6 +60,7 @@ export function FilesToDb() {
         "locality": localityResponse
       };
       var cribroomResponse = await axios.post('/api/cribroom/', cribroom);
+      cribroomResponse = cribroomResponse.data['id'];
 
       cribroom['code'] = files[i].name.split('-')[1];
 
@@ -103,52 +104,71 @@ export function FilesToDb() {
           }
           console.log('guardian: ', guardian);
           var guardianResponse = await axios.post('/api/GuardianListCreateView/', guardian);
-          console.log('guardianResponse: ', guardianResponse);
+          guardianResponse = guardianResponse.data['id'];
 
           var neighborhood_or_department = {
               "neighborhood": parsedData[rowIndex][parsedDataKeys[10]]
           }
-          var neighborhood_or_departmentResponse = {'id':1};
+          var neighborhood_or_departmentURL = `/api/NeighborhoodListCreateView/?neighborhood=${neighborhood_or_department.neighborhood}`;
+
+          var neighborhood_or_departmentResponse = await axios.get(neighborhood_or_departmentURL);
+          if (neighborhood_or_departmentResponse.data.length === 0) {
+            var neighborhood_or_departmentResponse = await axios.post('/api/NeighborhoodListCreateView/', neighborhood_or_department);
+            neighborhood_or_departmentResponse = neighborhood_or_departmentResponse.data['id']
+          } else {
+            neighborhood_or_departmentResponse = neighborhood_or_departmentResponse.data[0]['id'];
+          }
 
           var gender = {
             "gender": parsedData[rowIndex][parsedDataKeys[7]]
           }
-          var genderResponse = {'id':1};
+          var genderURL = `/api/GenderListCreateView/?gender=${gender.gender}`;
+
+          var genderResponse = await axios.get(genderURL);
+          if (genderResponse.data.length === 0) {
+            var genderResponse = await axios.post('/api/GenderListCreateView/', gender);
+            genderResponse = genderResponse.data['id']
+          } else {
+            genderResponse = genderResponse.data[0]['id'];
+          }
 
           var shift = {
             "name": parsedData[rowIndex][parsedDataKeys[16]]
           }
-          var shiftResponse = {'id':1};
+          var shiftURL = `/api/ShiftListCreateView/?shift=${shift.name}`;
+
+          var shiftResponse = await axios.get(shiftURL);
+          if (shiftResponse.data.length === 0) {
+            var shiftResponse = await axios.post('/api/ShiftListCreateView/', shift);
+            shiftResponse = shiftResponse.data['id']
+          } else {
+            shiftResponse = shiftResponse.data[0]['id'];
+          }
+          console.log('shiftResponse: ', shiftResponse);
+          console.log('shift: ', shift);
 
           var child = {
-              "guardian": {
-                  "id": guardianResponse.id,
-              },
+              "guardian": guardianResponse,
               "first_name": parsedData[rowIndex][parsedDataKeys[3]],
               "last_name": parsedData[rowIndex][parsedDataKeys[2]],
               "dni": parsedData[rowIndex][parsedDataKeys[4]],
-              "birthdate": parsedData[rowIndex][parsedDataKeys[5]],
+              // "birthdate": parsedData[rowIndex][parsedDataKeys[5]],
+              "birthdate": '1913-06-15',
               "street": parsedData[rowIndex][parsedDataKeys[8]],
               "house_number": parsedData[rowIndex][parsedDataKeys[9]],
-              // "registration_date": "2022-07-23",
+              "registration_date": "2022-07-23",
               // "disenroll_date": "2023-08-09",
               "is_active": parsedData[rowIndex][parsedDataKeys[17]] == 'BAJA' ? false : true,
-              "locality": {
-                  "id": localityResponse.id,
-              },
-              "neighborhood": {
-                  "id": neighborhood_or_departmentResponse.id,
-              },
-              "gender": {
-                  "id": genderResponse.id,
-              },
-              "cribroom": {
-                  "id": 0,
-              },
-              "shift": {
-                  "id": shiftResponse.id,
-              },
+              "locality": localityResponse,
+              "neighborhood": neighborhood_or_departmentResponse,
+              "gender": genderResponse,
+              "cribroom": cribroomResponse,
+              "shift": shiftResponse,
           }
+          console.log('child: ', child);
+          var childResponse = await axios.post('/api/ChildListCreateView/', child);
+          console.log('childResponse: ', childResponse);
+
         }
       }
 
