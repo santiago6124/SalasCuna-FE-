@@ -59,10 +59,10 @@ export function FilesToDb() {
           "max_capacity": 0,
           "is_active": true,
           "house_number": 0,
-          "department": 7,
-          "neighborhood": 7,
-          "shift": 7,
-          "zone": 7,
+          "department": 1,
+          "neighborhood": 1,
+          "shift": 1,
+          "zone": 1,
           "locality": localityResponse
         };
         var cribroomResponse = await axios.post('/api/cribroom/', cribroom);
