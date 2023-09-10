@@ -1,0 +1,6 @@
+.card{
+    -webkit-clip-path: polygon(50% 0%, 59% 14%, 100% 14%, 100% 100%, 0 100%, 0 14%, 40% 14%);
+    clip-path: polygon(50% 0%, 59% 14%, 100% 14%, 100% 100%, 0 100%, 0 14%, 40% 14%);
+    background-color: aqua;
+    height: 400px;
+    }

@@ -15,5 +15,12 @@
 .sidebar.open {
   left: 0; 
 }
+
+.sidebar-button {
+  margin: 8px 0; /* Agrega un margen vertical a los botones */
+  width: 100%; /* Ocupa todo el ancho disponible */
+  text-align: center; 
+  background-color: #ffffff;/* Centra el texto horizontalmente */
+}
   
 
