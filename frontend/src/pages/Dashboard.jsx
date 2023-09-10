@@ -21,6 +21,8 @@ export default function Dashboard() {
           break;
         default:
           setUserGroup(null);
+          alert('No tienes ningun rol asignado. Consultar con administración')
+          window.location.assign("/");
       }
     } catch (error) {
       console.error("Error fetching user data", error);
