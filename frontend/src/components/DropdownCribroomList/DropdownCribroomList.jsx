@@ -191,7 +191,7 @@ export default function DropdownCribroomList() {
         </Col>
       </Row>
   
-      <div>
+      {/* <div>
         {childs.length > 0 && (
           // <DataGrid
           //   rows={childs}
@@ -226,15 +226,17 @@ export default function DropdownCribroomList() {
           />
 
         )}
-      </div>
+      </div> */}
+      
       <div style={{ height: '100vh', width: '100%' }}>
+      {childs.length > 0 && (
       <DataGrid
         columns={columns}
         rows={childs}
         components={{
           Toolbar: CustomToolbar,
         }}
-      />
+      />)}
     </div>
     </div>
   )
