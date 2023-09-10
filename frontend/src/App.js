@@ -20,7 +20,7 @@ import { SelectRoom } from "./components/SelectRoom/SelectRoom";
 import { FormAddChildren } from "./components/FormAddChildren/FormAddChildren";
 import Payout from "./components/Payout/Payout";
 import CribroomDashboard from "./components/CribroomDashboard/CribroomDashboard";
-import UserList from "./components/CribroomDashboard/UserList";
+import UserList from "./components/UserList/UserList";
 import { FormEditChildren } from "../src/components/FormEditChildren/FormEditChildren";
 import Dashboard from "./pages/Dashboard";
 
