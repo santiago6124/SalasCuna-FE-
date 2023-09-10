@@ -7,6 +7,7 @@ import {
   gridVisibleColumnFieldsSelector,
   useGridApiContext,
 } from '@mui/x-data-grid';
+import axios from "axios";
 
 function getExcelData(apiRef) {
   // Select rows and columns
@@ -25,7 +26,7 @@ function getExcelData(apiRef) {
   return data;
 }
 
-function handleExport(apiRef, selectedCribroomId) {
+async function handleExport(apiRef, selectedCribroomId) {
   const data = getExcelData(apiRef);
 
   const rows = data.map((row) => {
@@ -41,6 +42,24 @@ function handleExport(apiRef, selectedCribroomId) {
 
   // Add the first blank row
   XLSX.utils.sheet_add_aoa(worksheet, [[]], { origin: 'A1' });
+
+  try {
+    var cribroomURL = `/api/cribroom/${selectedCribroomId}/`;
+    var cribroomResponse = await axios.get(cribroomURL);
+    console.log(cribroomResponse);
+
+  } catch (error) {
+    console.error("An error occurred (cribroom request):", error);
+  }
+
+  try {
+    var childURL = `/api/child/?cribroom_id=${selectedCribroomId}`;
+    var childResponse = await axios.get(childURL);
+    console.log(childResponse);
+
+  } catch (error) {
+    console.error("An error occurred (child request):", error);
+  }
 
   const firstRowValues = [
     'selectedCribroomId',
