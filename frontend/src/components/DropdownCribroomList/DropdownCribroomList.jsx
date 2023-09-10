@@ -13,21 +13,38 @@ import axios from 'axios';
 import { getAllCribroomsWithoutDepth } from '../../api/salasCuna.api';
 import { GridActionsCellItem } from '@mui/x-data-grid';
 
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar, GridToolbarExport, GridToolbarContainer } from '@mui/x-data-grid';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import AsyncSelect from 'react-select/async';
 
+
+import { ExportButton } from './ExcelExport/ExportButton';
+
+function CustomToolbar(props) {
+  const { selectedCribroomId } = props;
+
+  return (
+    <GridToolbarContainer {...props}>
+      <ExportButton 
+        selectedCribroomId={selectedCribroomId}
+      />
+    </GridToolbarContainer>
+  );
+}
+
 export default function DropdownCribroomList() {
   const [cribrooms, setCribrooms] = useState([]);
   const [childs, setChild] = useState([]);
   const [selectedCribroom, setSelectedCribroom] = useState('');
   const [showNewButton, setShowNewButton] = useState(false);
-  const navigate = useNavigate();
 
-  function handleEditClick(childId) {
+  const [selectedCribroomId, setSelectedCribroomId] = useState(null); // State variable to hold the selected cribroom ID
+
+  const handleEditClick = (childId) => {
+  const navigate = useNavigate();
     navigate('/children-management/edit', { state: { childId } });
     console.log("id chico" + childId);
   }
@@ -46,6 +63,7 @@ export default function DropdownCribroomList() {
         });
         setChild(updateChild);
         setShowNewButton(true);
+        setSelectedCribroomId(selectedCribroom); // Update the selected cribroom ID
       } catch (error) {
         console.log('Error fetching Chicos:', error);
       }
@@ -153,25 +171,21 @@ export default function DropdownCribroomList() {
           )}
         </Col>
       </Row>
-  
-      <div>
+      
+      <div style={{ height: '100vh', width: '100%' }}>
         {childs.length > 0 && (
           <DataGrid
-            rows={childs}
             columns={columns}
-            autoHeight
-            initialState={{
-              pagination: { paginationModel: { pageSize: 6 } },
+            rows={childs}
+            components={{ Toolbar: CustomToolbar }}
+            componentsProps={{
+              toolbar: {
+                selectedCribroomId: selectedCribroomId, // Pass the selected cribroom ID
+              },
             }}
-            pageSizeOptions={[6]}
           />
         )}
       </div>
     </div>
   )
 };
-
-
-
-
-
