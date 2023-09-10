@@ -104,7 +104,8 @@ export function CreateRoom() {
 
   return (
     <body className="body">
-        <Container fluid className="conteiner-form-createroom">
+      <div className="conteiner-form-createroom">
+        <Container>
           <Form onSubmit={handleSubmit} className="conteiner-form-edit">
             <h1 className="titulo">Agregar Sala Cuna</h1>
             <div className="contenedor-linea">
@@ -146,25 +147,31 @@ export function CreateRoom() {
                   />
                 </Col>
                 <Col>
-                <Form.Label className="mb-1">Entidad</Form.Label>
-                <Form.Control
-                type="text"
-                placeholder="Editar la entidad de la sala cuna"
-                name="entityCR"/>
+                  <Form.Label className="mb-1">Entidad</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Editar la entidad de la sala cuna"
+                    name="entityCR"
+                  />
                 </Col>
               </Row>
             </Form.Group>
             <Row className="mb-1">
               <Col xs={9}>
                 <Form.Label className="mb-1">Calle</Form.Label>
-                <Form.Control type="text" placeholder="Editar Calle" name="streetCR"/>
+                <Form.Control
+                  type="text"
+                  placeholder="Editar Calle"
+                  name="streetCR"
+                />
               </Col>
-              <Col >
+              <Col>
                 <Form.Label className="mb-1">Nro</Form.Label>
-                <Form.Control type="number" 
-                placeholder="Nro"
-                name="house_numberCR"
-                 />
+                <Form.Control
+                  type="number"
+                  placeholder="Nro"
+                  name="house_numberCR"
+                />
               </Col>
             </Row>
 
@@ -214,33 +221,38 @@ export function CreateRoom() {
 
             <Row>
               <Col>
-                  <Form.Label>Encargado</Form.Label>
-                    <Form.Select
-                      name="UserCR"
-                      as="select"
-                      value={selectedUser}
-                      className="mb-1"
-                      onChange={handleUserChange}
-                    >
-                      <option value="" disabled>
-                        Seleccionar Encargado
-                      </option>
-                      {userOptions.map((user) => (
-                        <option key={user.id} value={user.id}>
-                          {user.first_name} {user.last_name}
-                        </option>
-                      ))}
-                    </Form.Select>
+                <Form.Label>Encargado</Form.Label>
+                <Form.Select
+                  name="UserCR"
+                  as="select"
+                  value={selectedUser}
+                  className="mb-1"
+                  onChange={handleUserChange}
+                >
+                  <option value="" disabled>
+                    Seleccionar Encargado
+                  </option>
+                  {userOptions.map((user) => (
+                    <option key={user.id} value={user.id}>
+                      {user.first_name} {user.last_name}
+                    </option>
+                  ))}
+                </Form.Select>
               </Col>
             </Row>
             <div className="contenedor-boton-qr ">
-              <Button className="boton-edit mt-3" boton variant="primary" type="submit">
+              <Button
+                className="boton-edit mt-3"
+                boton
+                variant="primary"
+                type="submit"
+              >
                 Crear Sala Cuna
               </Button>
             </div>
           </Form>
         </Container>
-
+      </div>
     </body>
   );
 }

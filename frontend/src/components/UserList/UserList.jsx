@@ -1,7 +1,7 @@
 //CSS, other Components and Aesthetic
 import Menu from "../Menu/Menu";
 import SearchBar from "../SearchBar/SearchBar";
-import "./CribroomDashboard.css";
+import "./UserList.css";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
