@@ -39,8 +39,9 @@
     "redux": "^4.2.1",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.2",
-    "sort-by": "^0.0.2",
-    "web-vitals": "^2.1.4"
+    "sort-by": "^1.2.0",
+    "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -29,6 +29,8 @@ import TSDashboard from "./components/UserDashboard/TSDashboard";
 import { CreateRoom } from "./components/CreateRoom/CreateRoom";
 import Dashboard from "./pages/Dashboard";
 
+import { FilesToDb } from "../src/components/FilesToDb/FilesToDb";
+
 function App() {
   return (
     <Router>
@@ -107,6 +109,8 @@ function App() {
               element={<PrivateRoute children={<UserList />} />}
             />
             <Route
+              path="/files-to-db"
+              element={<PrivateRoute children={<FilesToDb />} />}
             path="home-page"
             element={<PrivateRoute children={<TSDashboard/>}/>}
             />
