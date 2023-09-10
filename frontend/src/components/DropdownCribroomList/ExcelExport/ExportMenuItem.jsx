@@ -25,7 +25,7 @@ function getExcelData(apiRef) {
   return data;
 }
 
-function handleExport(apiRef) {
+function handleExport(apiRef, salaCunaId, childrenListId) {
   const data = getExcelData(apiRef);
 
   const rows = data.map((row) => {
@@ -36,13 +36,46 @@ function handleExport(apiRef) {
     return mRow;
   });
 
+  // Create a new worksheet
   const worksheet = XLSX.utils.json_to_sheet(rows);
-  XLSX.utils.sheet_add_aoa(worksheet, [[...config.columnNames]], {
-    origin: 'A1',
-  });
 
+  // Add the first blank row
+  XLSX.utils.sheet_add_aoa(worksheet, [[]], { origin: 'A1' });
+
+  const firstRowValues = [
+    'Sala Cuna:',
+    salaCunaId,
+  ];
+  console.log('firstRowValues: ', firstRowValues);
+
+  // Add the second row with specified cell values
+  const secondRowValues = [
+    'N°',
+    'SALA CUNA',
+    'APELLIDO',
+    'NOMBRE',
+    'N° DNI',
+    'FECHA DE NACIMIENTO',
+    'EDAD',
+    'SEXO',
+    'CALLE',
+    'NUMERO',
+    'DEPARTAMENTO',
+    'LOCALIDAD',
+    'CARACTERISTICA TELEFONICA',
+    'TELEFONO',
+    'APELLIDO Y NOMBRE MADRE',
+    'DNI',
+    'TURNO',
+    'ESTADO',
+  ];
+  XLSX.utils.sheet_add_aoa(worksheet, [secondRowValues], { origin: 'A3' });
+
+  // Create a new workbook and add the worksheet
   const workbook = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(workbook, worksheet, config.sheetName);
+
+  // Trigger the file download
   XLSX.writeFile(workbook, config.fileName, { compression: true });
 }
 
@@ -50,10 +83,13 @@ export function ExportMenuItem(props) {
   const apiRef = useGridApiContext();
   const { hideMenu } = props;
 
+  const { salaCunaId, childrenListId } = props;
+
+
   return (
     <MenuItem
       onClick={() => {
-        handleExport(apiRef);
+        handleExport(apiRef, salaCunaId, childrenListId);
         // Hide the export menu after the export
         hideMenu?.();
       }}

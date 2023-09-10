@@ -23,9 +23,13 @@ import AsyncSelect from 'react-select/async';
 import { ExportButton } from './ExcelExport/ExportButton';
 
 function CustomToolbar(props) {
+  const { salaCunaId, childrenListId } = props;
   return (
     <GridToolbarContainer {...props}>
-      <ExportButton />
+      <ExportButton 
+      salaCunaId={salaCunaId}
+      childrenListId={childrenListId}
+      />
     </GridToolbarContainer>
   );
 }
@@ -233,8 +237,12 @@ export default function DropdownCribroomList() {
       <DataGrid
         columns={columns}
         rows={childs}
-        components={{
-          Toolbar: CustomToolbar,
+        components={{ Toolbar: CustomToolbar }}
+        componentsProps={{
+          toolbar: {
+            salaCunaId: 1324,
+            childrenListId: 10,
+          },
         }}
       />)}
     </div>

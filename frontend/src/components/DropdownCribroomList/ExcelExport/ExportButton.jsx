@@ -3,9 +3,15 @@ import { ExportMenuItem } from './ExportMenuItem';
 import * as React from 'react';
 
 export function ExportButton(props) {
+
+  const { salaCunaId, childrenListId } = props;
+
   return (
     <GridToolbarExportContainer {...props}>
-      <ExportMenuItem />
+      <ExportMenuItem
+      salaCunaId={salaCunaId}
+      childrenListId={childrenListId}
+      />
     </GridToolbarExportContainer>
   );
 }
