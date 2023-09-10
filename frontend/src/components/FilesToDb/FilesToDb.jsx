@@ -6,36 +6,8 @@ import './FilesToDb.css';
 
 export function FilesToDb() {
   const [data, setData] = useState([]);
-  const [response, setResponse] = useState(null); // Add this state variable
 
-  const sendPostRequest = async (cribroomData) => {
-    try {
-      let response = await axios.post('/api/cribroom/', cribroomData);
-      console.log(response);
-      if (response.request.status === 201) {
-        console.log('Cribroom added successfully');
-        // window.location.reload();
-      } else {
-        console.log('Failed to add Cribroom');
-      }
-
-    } catch (err) {
-      alert(":c");
-      console.log(err);
-    }
-  };
-
-  const sendGetRequest = (localityExistURL) => {
-    axios.get(localityExistURL)
-    .then((response) => {
-      console.log('data response', response.data); // Log the response data here
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
-  }
-
-  const handleFileUpload = (e) => {
+  const handleFileUpload = async (e) => {
     const files = e.target.files;
     const allData = [];
 
@@ -43,145 +15,55 @@ export function FilesToDb() {
       const reader = new FileReader();
       reader.readAsBinaryString(files[i]);
 
-      reader.onload = (e) => {
-        const fileData = e.target.result;
+      const fileData = await new Promise((resolve) => {
+        reader.onload = (e) => resolve(e.target.result);
+      });
 
-        const workbook = XLSX.read(fileData, { type: "binary" });
+      const workbook = XLSX.read(fileData, { type: "binary" });
 
-        const sheetName = workbook.SheetNames[0];
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
+      const parsedData = XLSX.utils.sheet_to_json(sheet);
 
-        const sheet = workbook.Sheets[sheetName];
-        // console.log('workbook.Sheets:' , workbook.Sheets);
-        // console.log('workbook.Sheets:' , workbook.Sheets['PADRON COMPLETO']);
+      allData.push(parsedData);
 
-        const parsedData = XLSX.utils.sheet_to_json(sheet);
+      var parsedDataKeys = Object.keys(parsedData[6]);
+      console.log(parsedDataKeys);
 
-        allData.push(parsedData);
-        console.log('parsedData ', parsedData );
+      var locality = {
+        "locality": parsedData[8][parsedDataKeys[11]]
+      }
+      var localityURL = `/api/LocalityListView/?locality=${locality.locality}`;
 
-        var parsedDataKeys = Object.keys(parsedData[6])
-        console.log(parsedDataKeys);
-        // console.log(parsedData[6]);
+      var localityResponse = await axios.get(localityURL);
+      if (localityResponse.data.length === 0) {
+        var localityResponse = await axios.post('/api/LocalityListCreateView/', locality);
+      } else {
+        console.log("The array is not empty.");
+      }
 
-        var locality =  {
-          "locality": parsedData[8][parsedDataKeys[11]]
-        }
-        // ?locality=Stephenhaven
-        var localityExistURL  = `/api/LocalityListView/?locality=${locality.locality}`;
-        var localityResponse = {'id':1};
-
-        // Use Axios to make the GET request
-        sendGetRequest(localityExistURL);
-
-        var cribroom = {
-          "name": parsedData[0]['Sala Cuna:'],
-          "entity": parsedData[4]['Sala Cuna:'],
-          "CUIT": 12,
-          "street": 'NO ESPECIFICADO',
-          // "code": files[i].name.split('-')[1],
-          "code": 12321,
-          "max_capacity": 0,
-          "is_active": true,
-          "house_number": 0,
-          "locality": 2,
-          "department": 7,
-          "neighborhood": 7,
-          "shift": 7,
-          "zone": 7,
-        };
-        console.log(cribroom);
-        sendPostRequest(cribroom);
-
-        for (let rowIndex = 7; rowIndex < parsedData.length; rowIndex++) {
-          if (parsedData[rowIndex][parsedDataKeys[1]] == cribroom.code && typeof parsedData[rowIndex][parsedDataKeys[0]] === 'number' ) {
-            console.log('parsedData[rowIndex][parsedDataKeys[1]]: ' , parsedData[rowIndex][parsedDataKeys[1]]);
-            console.log('name: ' , parsedData[rowIndex][parsedDataKeys[3]]);
-
-            var phone_Feature = {
-              "feature": parsedData[rowIndex][parsedDataKeys[12]]
-            }
-            var phone_FeatureResponse = {'id':1};
-
-            var guardian = {
-                  "first_name": parsedData[rowIndex][parsedDataKeys[14]],
-                  "last_name": parsedData[rowIndex][parsedDataKeys[14]],
-                  "dni": parsedData[rowIndex][parsedDataKeys[15]],
-                  "phone_number": parsedData[rowIndex][parsedDataKeys[13]],
-                  "phone_Feature": {
-                      "id": phone_FeatureResponse.id,
-                  }, 
-                  // "guardian_Type": {
-                  //     "id": 2,
-                  //     "type": "Guardian"
-                  // },
-                  // "gender": {
-                  //     "id": 2,
-                  //     "gender": "Female"
-                  // }
-            }
-            var guardianResponse = {'id':1};
-
-            var neighborhood_or_department = {
-                "neighborhood": parsedData[rowIndex][parsedDataKeys[10]]
-            }
-            var neighborhood_or_departmentResponse = {'id':1};
-
-            var gender = {
-              "gender": parsedData[rowIndex][parsedDataKeys[7]]
-            }
-            var genderResponse = {'id':1};
-
-            var shift = {
-              "name": parsedData[rowIndex][parsedDataKeys[16]]
-            }
-            var shiftResponse = {'id':1};
-
-            var child = {
-                "guardian": {
-                    "id": guardianResponse.id,
-                },
-                "first_name": parsedData[rowIndex][parsedDataKeys[3]],
-                "last_name": parsedData[rowIndex][parsedDataKeys[2]],
-                "dni": parsedData[rowIndex][parsedDataKeys[4]],
-                "birthdate": parsedData[rowIndex][parsedDataKeys[5]],
-                "street": parsedData[rowIndex][parsedDataKeys[8]],
-                "house_number": parsedData[rowIndex][parsedDataKeys[9]],
-                // "registration_date": "2022-07-23",
-                // "disenroll_date": "2023-08-09",
-                "is_active": parsedData[rowIndex][parsedDataKeys[17]] == 'BAJA' ? false : true,
-                "locality": {
-                    "id": localityResponse.id,
-                },
-                "neighborhood": {
-                    "id": neighborhood_or_departmentResponse.id,
-                },
-                "gender": {
-                    "id": genderResponse.id,
-                },
-                "cribroom": {
-                    "id": 0,
-                },
-                "shift": {
-                    "id": shiftResponse.id,
-                },
-            }
-          }
-        }
-        console.log(child);
-        console.log(phone_Feature);
-        console.log(guardian);
-        console.log(neighborhood_or_department);
-        console.log(gender);
-        console.log(shift);
-
-
-        if (allData.length === files.length) {
-          // Combine data from all files
-          const combinedData = allData.flat();
-          // console.log(combinedData);
-          setData(combinedData);
-        }
+      var cribroom = {
+        "name": parsedData[0]['Sala Cuna:'],
+        "entity": parsedData[4]['Sala Cuna:'],
+        "CUIT": 12,
+        "street": 'NO ESPECIFICADO',
+        "code": 12321,
+        "max_capacity": 0,
+        "is_active": true,
+        "house_number": 0,
+        "department": 7,
+        "neighborhood": 7,
+        "shift": 7,
+        "zone": 7,
+        "locality": localityResponse.data['id']
       };
+      var cribroomResponse = await axios.post('/api/cribroom/', cribroom);
+
+      if (allData.length === files.length) {
+        // Combine data from all files
+        const combinedData = allData.flat();
+        setData(combinedData);
+      }
     }
   }
 
@@ -193,9 +75,7 @@ export function FilesToDb() {
         multiple
         onChange={handleFileUpload}
       />
-
       <br /><br />
     </div>
   );
 }
-
