@@ -4,13 +4,12 @@ import * as React from 'react';
 
 export function ExportButton(props) {
 
-  const { salaCunaId, childrenListId } = props;
+  const { selectedCribroomId } = props;
 
   return (
     <GridToolbarExportContainer {...props}>
       <ExportMenuItem
-      salaCunaId={salaCunaId}
-      childrenListId={childrenListId}
+      selectedCribroomId={selectedCribroomId}
       />
     </GridToolbarExportContainer>
   );

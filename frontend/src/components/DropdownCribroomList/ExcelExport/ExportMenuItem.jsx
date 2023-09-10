@@ -25,7 +25,7 @@ function getExcelData(apiRef) {
   return data;
 }
 
-function handleExport(apiRef, salaCunaId, childrenListId) {
+function handleExport(apiRef, selectedCribroomId) {
   const data = getExcelData(apiRef);
 
   const rows = data.map((row) => {
@@ -43,8 +43,8 @@ function handleExport(apiRef, salaCunaId, childrenListId) {
   XLSX.utils.sheet_add_aoa(worksheet, [[]], { origin: 'A1' });
 
   const firstRowValues = [
-    'Sala Cuna:',
-    salaCunaId,
+    'selectedCribroomId',
+    selectedCribroomId,
   ];
   console.log('firstRowValues: ', firstRowValues);
 
@@ -83,13 +83,13 @@ export function ExportMenuItem(props) {
   const apiRef = useGridApiContext();
   const { hideMenu } = props;
 
-  const { salaCunaId, childrenListId } = props;
+  const { selectedCribroomId } = props;
 
 
   return (
     <MenuItem
       onClick={() => {
-        handleExport(apiRef, salaCunaId, childrenListId);
+        handleExport(apiRef, selectedCribroomId);
         // Hide the export menu after the export
         hideMenu?.();
       }}

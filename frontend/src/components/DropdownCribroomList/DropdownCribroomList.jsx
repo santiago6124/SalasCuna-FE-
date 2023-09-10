@@ -23,12 +23,12 @@ import AsyncSelect from 'react-select/async';
 import { ExportButton } from './ExcelExport/ExportButton';
 
 function CustomToolbar(props) {
-  const { salaCunaId, childrenListId } = props;
+  const { selectedCribroomId } = props;
+
   return (
     <GridToolbarContainer {...props}>
       <ExportButton 
-      salaCunaId={salaCunaId}
-      childrenListId={childrenListId}
+        selectedCribroomId={selectedCribroomId}
       />
     </GridToolbarContainer>
   );
@@ -39,7 +39,7 @@ export default function DropdownCribroomList() {
   const [childs, setChild] = useState([]);
   const [selectedCribroom, setSelectedCribroom] = useState('');
   const [showNewButton, setShowNewButton] = useState(false);
-
+  const [selectedCribroomId, setSelectedCribroomId] = useState(null); // State variable to hold the selected cribroom ID
 
   const handleEditClick = (childId) => {
     navigate('/children-management/edit', { state: { childId } });
@@ -71,7 +71,7 @@ export default function DropdownCribroomList() {
 
         setChild(updateChild);
         setShowNewButton(true);
-
+        setSelectedCribroomId(selectedCribroom); // Update the selected cribroom ID
 
       } catch (error) {
         console.log('Error fetching Chicos:', error);
@@ -194,63 +194,21 @@ export default function DropdownCribroomList() {
           )}
         </Col>
       </Row>
-  
-      {/* <div>
+      
+      <div style={{ height: '100vh', width: '100%' }}>
         {childs.length > 0 && (
-          // <DataGrid
-          //   rows={childs}
-          //   columns={columns}
-          //   autoHeight
-          //   initialState={{
-          //     pagination: { paginationModel: { pageSize: 6 } },
-          //   }}
-          //   pageSizeOptions={[6]}
-          // />
-
           <DataGrid
-            rows={childs}
             columns={columns}
-            autoHeight
-            components ={{
-              Toolbar: GridToolbar, // Enable the default toolbar
-              Export: GridToolbarExport, // Enable the export menu
-            }}
-            exportOptions={{
-              excelOptions: {
-                fileName: 'child_data', // Set the file name
-                columnsStyles: {
-                  // Customize column styles if needed
-                  first_name: { font: { bold: true } },
-                  last_name: { font: { bold: true } },
-                  dni: { font: { bold: true } },
-                  is_active: { font: { bold: true } },
-                },
+            rows={childs}
+            components={{ Toolbar: CustomToolbar }}
+            componentsProps={{
+              toolbar: {
+                selectedCribroomId: selectedCribroomId, // Pass the selected cribroom ID
               },
             }}
           />
-
         )}
-      </div> */}
-      
-      <div style={{ height: '100vh', width: '100%' }}>
-      {childs.length > 0 && (
-      <DataGrid
-        columns={columns}
-        rows={childs}
-        components={{ Toolbar: CustomToolbar }}
-        componentsProps={{
-          toolbar: {
-            salaCunaId: 1324,
-            childrenListId: 10,
-          },
-        }}
-      />)}
-    </div>
+      </div>
     </div>
   )
 };
-
-
-
-
-
