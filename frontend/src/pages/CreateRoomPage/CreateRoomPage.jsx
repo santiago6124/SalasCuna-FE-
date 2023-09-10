@@ -5,7 +5,12 @@ import { CreateRoom } from "../../components/CreateRoom/CreateRoom";
 
 export default function CreateRoomPage() {
   return (
-    <body className="body">
+    <body>
+      <header>
+        <div>
+          <Menu />
+        </div>
+      </header>
       <div>
         <CreateRoom />
       </div>

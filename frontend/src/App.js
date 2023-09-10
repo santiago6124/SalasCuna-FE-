@@ -21,12 +21,7 @@ import { FormAddChildren } from "./components/FormAddChildren/FormAddChildren";
 import Payout from "./components/Payout/Payout";
 import CribroomDashboard from "./components/CribroomDashboard/CribroomDashboard";
 import UserList from "./components/CribroomDashboard/UserList";
-import { FaExpeditedssl } from "react-icons/fa";
 import { FormEditChildren } from "../src/components/FormEditChildren/FormEditChildren";
-import { Public } from "@mui/icons-material";
-import AdminDashboard from "./components/UserDashboard/UserDashboard";
-import TSDashboard from "./components/UserDashboard/TSDashboard";
-import { CreateRoom } from "./components/CreateRoom/CreateRoom";
 import Dashboard from "./pages/Dashboard";
 
 import { FilesToDb } from "../src/components/FilesToDb/FilesToDb";
@@ -111,12 +106,11 @@ function App() {
             <Route
               path="/files-to-db"
               element={<PrivateRoute children={<FilesToDb />} />}
-            path="home-page"
-            element={<PrivateRoute children={<TSDashboard/>}/>}
             />
+
             <Route
-            path="dashboard"
-            element={<PrivateRoute children={<Dashboard/>}/>}
+              path="home-page"
+              element={<PrivateRoute children={<Dashboard />} />}
             />
           </Routes>
         </AuthProvider>
