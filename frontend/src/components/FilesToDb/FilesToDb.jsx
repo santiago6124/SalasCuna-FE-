@@ -54,7 +54,8 @@ export function FilesToDb() {
           "entity": parsedData[4]['Sala Cuna:'],
           "CUIT": 12,
           "street": 'NO ESPECIFICADO',
-          "code": 12321,
+          // "code": 12321,
+          'code' : files[i].name.split('-')[1],
           "max_capacity": 0,
           "is_active": true,
           "house_number": 0,
@@ -67,7 +68,7 @@ export function FilesToDb() {
         var cribroomResponse = await axios.post('/api/cribroom/', cribroom);
         cribroomResponse = cribroomResponse.data['id'];
 
-        cribroom['code'] = files[i].name.split('-')[1];
+        // cribroom['code'] = files[i].name.split('-')[1];
       } catch (error) {
         console.error("An error occurred (cribroom request):", error);
       }
