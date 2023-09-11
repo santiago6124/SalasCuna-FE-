@@ -33,7 +33,7 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
         onClick={() => Redirects("/login")}
       >
         {" "}
-        Login{" "}
+        Iniciar Sesión{" "}
       </Button>
       <Button
         className="sidebar-button"
@@ -42,7 +42,7 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
         onClick={() => Redirects("/agregar-usuario")}
       >
         {" "}
-        SingUp{" "}
+        Agregar Usuario{" "}
       </Button>
       <Button
         className="sidebar-button"
