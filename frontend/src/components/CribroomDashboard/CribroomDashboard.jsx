@@ -18,6 +18,7 @@ import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 //UI Icons Imports
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import axios from "axios";
 
 export default function CribroomDashboard() {
   const [cribrooms, setCribrooms] = useState([]);
@@ -38,10 +39,9 @@ export default function CribroomDashboard() {
   async function listCribroom() {
     try {
       const zonesData = (await getAllZones()).data;
-      const cribroomData = (await getAllCribroomsWithoutDepth()).data;
+      const cribroomData = (await axios.get("/api/cribroomDir/")).data;
       const updatedCribrooms = await cribroomData.map(cribroom => {
         const matchingZone = zonesData.find(zone => zone.id === cribroom.zone);
-        console.log(matchingZone)
         if (matchingZone) {
           return {
             ...cribroom,
