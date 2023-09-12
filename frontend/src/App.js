@@ -40,10 +40,6 @@ function App() {
               element={<PublicRoute children={<Login />} />}
             />
             <Route
-              path="/signup"
-              element={<PublicRoute children={<Signup />} />}
-            />
-            <Route
               path="/agregar-usuario"
               element={<PrivateRoute children={<Signup />} />}
             />
