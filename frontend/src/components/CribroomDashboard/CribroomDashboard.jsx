@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
 
 import {
   getAllCribroomsWithoutDepth,
-  getAllLocalities,
+  getAllZones,
   handlePermissions,
 } from "../../api/salasCuna.api";
 
@@ -37,16 +37,15 @@ export default function CribroomDashboard() {
 
   async function listCribroom() {
     try {
-      const responseLocality = await getAllLocalities();
-      const response = await getAllCribroomsWithoutDepth();
-      const localityData = responseLocality.data;
-      const cribroomData = response.data;
+      const zonesData = (await getAllZones()).data;
+      const cribroomData = (await getAllCribroomsWithoutDepth()).data;
       const updatedCribrooms = await cribroomData.map(cribroom => {
-        const matchingLocality = localityData.find(locality => locality.id === cribroom.locality);
-        if (matchingLocality) {
+        const matchingZone = zonesData.find(zone => zone.id === cribroom.zone);
+        console.log(matchingZone)
+        if (matchingZone) {
           return {
             ...cribroom,
-            locality: matchingLocality.locality,
+            zone: matchingZone.name,
             is_active: cribroom.is_active ? "Activo" : "Inactivo"
             };
         }
@@ -157,8 +156,8 @@ export default function CribroomDashboard() {
                         width: 150,
                       },
                       {
-                        field: "locality",
-                        headerName: "Localidad",
+                        field: "zone",
+                        headerName: "Zona",
                         width: 150,
                       },
                       { field: "is_active", headerName: "Estado", width: 150 },
