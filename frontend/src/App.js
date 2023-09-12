@@ -40,7 +40,7 @@ function App() {
               element={<PublicRoute children={<Login />} />}
             />
             <Route
-              path="/agregar-usuario"
+              path="/users/new"
               element={<PrivateRoute children={<Signup />} />}
             />
             <Route
@@ -62,11 +62,6 @@ function App() {
             />
 
             <Route
-              path="/añadir-chico"
-              element={<PrivateRoute children={<AddChildrenPage />} />}
-            />
-
-            <Route
               path="/children-management"
               element={<PrivateRoute children={<AddChildrenPage />} />}
             />
@@ -82,27 +77,24 @@ function App() {
             />
 
             <Route
-              path="/crear-sala"
+              path="/cribrooms/new"
               element={<PrivateRoute children={<CreateRoomPage />} />}
             />
+
             <Route
-              path="/editar-sala"
-              element={<PrivateRoute children={<SelectRoom />} />}
-            />
-            <Route
-              path="/maestro-montos"
+              path="/payout"
               element={<PrivateRoute children={<Payout />} />}
             />
             <Route
-              path="/informe-tecnico"
+              path="/technical-report"
               element={<PrivateRoute children={<TechnicalReport />} />}
             />
             <Route
-              path="/gestion-sala"
+              path="/cribrooms"
               element={<PrivateRoute children={<CribroomDashboard />} />}
             />
             <Route
-              path="/listar-usuarios"
+              path="/users"
               element={<PrivateRoute children={<UserList />} />}
             />
             <Route
@@ -111,7 +103,7 @@ function App() {
             />
 
             <Route
-              path="home-page"
+              path="home"
               element={<PrivateRoute children={<Dashboard />} />}
             />
           </Routes>
