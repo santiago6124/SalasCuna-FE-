@@ -134,7 +134,7 @@ export default function UserList() {
                 </Col>
                 <Col>
                   <div className="add-payout-button mb-3">
-                    <Link to={"/signup"}>
+                    <Link to={"/users/new"}>
                       <Button
                         variant="contained"
                         color="primary"

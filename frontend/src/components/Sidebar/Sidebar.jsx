@@ -21,7 +21,7 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
         className="sidebar-button"
         type="submit"
         size="m"
-        onClick={() => Redirects("/home-page")}
+        onClick={() => Redirects("/home")}
       >
         {" "}
         Home{" "}
@@ -39,7 +39,7 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
         className="sidebar-button"
         type="submit"
         size="m"
-        onClick={() => Redirects("/agregar-usuario")}
+        onClick={() => Redirects("/users/new")}
       >
         {" "}
         Agregar Usuario{" "}
@@ -56,7 +56,7 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
         className="sidebar-button"
         type="submit"
         size="m"
-        onClick={() => Redirects("/gestion-sala")}
+        onClick={() => Redirects("/cribrooms")}
       >
         Gestionar Salas
       </Button>
@@ -64,7 +64,7 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
         className="sidebar-button"
         type="submit"
         size="m"
-        onClick={() => Redirects("/informe-tecnico")}
+        onClick={() => Redirects("/technical-report")}
       >
         Informe Tecnico
       </Button>
@@ -80,7 +80,7 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
         className="sidebar-button"
         type="submit"
         size="m"
-        onClick={() => Redirects("/listar-usuarios")}
+        onClick={() => Redirects("/users")}
       >
         Listar Usuarios
       </Button>
