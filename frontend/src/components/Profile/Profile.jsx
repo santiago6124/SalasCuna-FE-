@@ -36,7 +36,7 @@ function Profile ()  {
                     <div className="config-item">
                       <div className="config-content">
                         <FontAwesomeIcon icon={faRightFromBracket} size="lg" style={{ color: "#F1862E", marginRight: '8px' }} />
-                        <span className="config-text">Notificaciones</span>
+                        <span className="config-text">Cerrar Sesion</span>
                       </div>
                     </div>
                   </div>
