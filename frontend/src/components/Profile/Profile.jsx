@@ -1,23 +1,54 @@
-import React, { useContext, useState } from 'react';
-import '../Profile/Profile.css'
+import React from 'react';
+import './Profile.css';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
+import Button from 'react-bootstrap/Button';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
+import { faGear } from '@fortawesome/free-solid-svg-icons';
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+ 
+import profileImage from '../../media/Profile.jpg';
 
 
-import Button from 'react-bootstrap/Button'; // Importa Button de react-bootstrap
-import Modal from 'react-bootstrap/Modal'; // Importa Modal de react-bootstrap
+function Profile ()  {
+  return (
+    <OverlayTrigger
+          trigger="click"
+          key={'bottom'}
+          placement={'bottom'}
+          overlay={
+            <Popover id={`popover-positioned-${'bottom'}`} style={{ width: '250px', height: '400px' }}>
+              <Popover.Body>
+                <div className='center-content'>
+                  <img src={profileImage} alt="Perfil" className="circle-image" />
+                  <h3>Messi</h3>
+                  <hr style={{ borderColor: '#A6A6A6', width: '90%',borderWidth: '2px'}} />
 
+                  <div className="config-section">
+                    <div className="config-item">
+                      <div className="config-content">
+                        <FontAwesomeIcon icon={faGear} size="lg" style={{ color: "#F1862E", marginRight: '8px' }} />
+                        <span className="config-text">Configuración</span>
+                      </div>
+                    </div>
+                    <div className="config-item">
+                      <div className="config-content">
+                        <FontAwesomeIcon icon={faRightFromBracket} size="lg" style={{ color: "#F1862E", marginRight: '8px' }} />
+                        <span className="config-text">Notificaciones</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+             </Popover.Body>
+            </Popover>
+          }
+        >
+          <FontAwesomeIcon icon={faCircleUser} size="2xl" style={{ color: "#F1862E" }} />
 
-export default function Profile({ show, handleClose }) {
-    return (
-      <Modal  
-      dialogClassName="modal-90h custom-clip-path"  
-      show={show} 
-      onHide={handleClose} 
-      style={{ width: '250px', 
-               height: '500px'
-            }}>
-        
-    
-        
-      </Modal>
-    );
-  }
+      </OverlayTrigger>
+  );
+}
+
+export default Profile;
