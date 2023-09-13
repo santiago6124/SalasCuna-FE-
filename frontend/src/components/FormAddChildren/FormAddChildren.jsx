@@ -62,7 +62,6 @@ export function FormAddChildren() {
             gender: formData.get("generoChield"),
             cribroom: formData.get("salacuna"),
             shift: formData.get("turno"),
-            child_state: formData.get("estado"),
             // guardian
             neighborhood: formData.get("neighborhood"),
             guardian_first_name: formData.get("nombreGuardian"),
@@ -85,7 +84,6 @@ export function FormAddChildren() {
             // cribroom: formData.get("salacuna"),
             // shift: formData.get("turno"),
             // guardian: formData.get("tutor"),
-            // child_state: formData.get("estado"),
         };
 
         try {
@@ -157,7 +155,6 @@ export function FormAddChildren() {
         ShiftList();
         LocalityList();
         NeighborhoodList();
-        ChildStateList();
         GuardianTypeList();
         PhoneFeatureList();
         GetCirbroomCapacity();
@@ -166,11 +163,9 @@ export function FormAddChildren() {
 
     const GetCirbroomCapacity = async (selectedSalaCuna) => {
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/cribroom/${selectedSalaCuna}/?no_depth`);
-            if (response.ok) {
-                const data = await response.json();
-                console.log(data); // Muestra la respuesta en la consola
-                setCapacity(data.reachMax);
+            let response = await axios.get(`/api/cribroom/${selectedSalaCuna}/?no_depth`);
+            if (response.request.status === 201) {
+                setCapacity(response.data.reachMax);
             } else {
                 console.error('Error al obtener la capacidad de la sala cuna');
             }
@@ -227,15 +222,6 @@ export function FormAddChildren() {
             console.error('Error fetching barrio:', error);
         };
     }
-
-    const ChildStateList = async () => {
-        try {
-            const response = await axios.get('/api/ChildStateListView/');
-            setChildState(response.data);
-            } catch(error) {
-                
-            };
-    };
 
     const navigate = useNavigate();
     
