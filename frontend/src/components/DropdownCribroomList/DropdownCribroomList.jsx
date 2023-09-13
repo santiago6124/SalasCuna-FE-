@@ -41,6 +41,7 @@ export default function DropdownCribroomList() {
   const [cribrooms, setCribrooms] = useState([]);
   const [childs, setChild] = useState([]);
   const [selectedCribroom, setSelectedCribroom] = useState("");
+  const [cribroomCapacity, setCribroomCapacity] = useState("");
   const [showNewButton, setShowNewButton] = useState(false);
 
   const [selectedCribroomId, setSelectedCribroomId] = useState(null); // State variable to hold the selected cribroom ID
@@ -52,7 +53,27 @@ export default function DropdownCribroomList() {
     console.log("id chico" + childId);
   };
   function handleNewClick() {
-    navigate("/children-management/new");
+    if (!cribroomCapacity) {
+      navigate("/children-management/new");
+    }
+    else {
+      window.alert("La cribroom tiene la capacidad máxima")
+    }
+  }
+
+  async function CRCapacity(selectedSalaCuna) {
+    try {
+      let response = await axios.get(`/api/cribroom/?no_depth&id=${selectedSalaCuna}`);
+      console.log(response)
+      if (response.request.status === 200) {
+        setCribroomCapacity(response.data[0].reachMax);
+      } else {
+        console.error('Error al obtener la capacidad de la sala cuna');
+      }
+    } catch (error) {
+      console.error('Error al realizar la solicitud:', error);
+    }
+
   }
 
   async function handleCargarClick() {
@@ -71,6 +92,7 @@ export default function DropdownCribroomList() {
         });
         setChild(updateChild);
         setShowNewButton(true);
+        CRCapacity(selectedCribroom);
         setSelectedCribroomId(selectedCribroom); // Update the selected cribroom ID
       } catch (error) {
         console.log("Error fetching Chicos:", error);
@@ -113,6 +135,7 @@ export default function DropdownCribroomList() {
         `/api/child/${childId}/?disenroll=True`
       );
       console.log("Response after updating child state:", response.data);
+      CRCapacity(selectedCribroom);
     } catch (err) {
       alert("Error updating child state");
     }

@@ -157,25 +157,8 @@ export function FormAddChildren() {
         NeighborhoodList();
         GuardianTypeList();
         PhoneFeatureList();
-        GetCirbroomCapacity();
         }, []);
-
-
-    const GetCirbroomCapacity = async (selectedSalaCuna) => {
-        try {
-            let response = await axios.get(`/api/cribroom/${selectedSalaCuna}/?no_depth`);
-            if (response.request.status === 201) {
-                setCapacity(response.data.reachMax);
-            } else {
-                console.error('Error al obtener la capacidad de la sala cuna');
-            }
-        } catch (error) {
-            console.error('Error al realizar la solicitud:', error);
-        } finally {
-            setLoadingCapacity(false); // Marcar como no cargando después de obtener la capacidad
-        }
         
-    }
 
     const GenderList = async () => {
         try {
