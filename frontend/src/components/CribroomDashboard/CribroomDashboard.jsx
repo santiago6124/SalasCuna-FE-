@@ -38,10 +38,12 @@ export default function CribroomDashboard() {
 
   async function listCribroom() {
     try {
-      const zonesData = (await getAllZones()).data;
-      const cribroomData = (await axios.get("/api/cribroomDir/")).data;
+      const zones = await getAllZones();
+      const cribs = await axios.get("/api/cribroomDir/")
+      const zonesData = zones.data;
+      const cribroomData = cribs.data;
       const updatedCribrooms = await cribroomData.map(cribroom => {
-        const matchingZone = zonesData.find(zone => zone.id === cribroom.zone);
+        const matchingZone = zonesData.find(zone => zone.id === cribroom.zone.id);
         if (matchingZone) {
           return {
             ...cribroom,

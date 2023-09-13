@@ -75,7 +75,7 @@ export function UpdateRoom(props) {
     };
     if (selectedCribroom) {
       try {
-        let response = await axios.put(`/api/cribroom/${selectedCribroom}/?no_depth`, payload);
+        let response = await axios.put(`/api/cribroomDir/${selectedCribroom}/?no_depth`, payload);
         console.log(response);
         if (response.request.status === 200) {
           console.log("Cribroom Updated");
