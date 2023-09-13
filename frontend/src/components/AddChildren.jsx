@@ -1,4 +1,4 @@
-import './AddChildren.css';
+import '../../assets/styles/components/AddChildren.css';
 
 import Col from 'react-bootstrap/Col/';
 import Row from 'react-bootstrap/Row/';
@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form/';
 import {Button} from 'react-bootstrap';
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import { getAllCribroomsWithoutDepth, getAllGenders, getAllShifts } from '../../api/salasCuna.api';
+import { getAllCribroomsWithoutDepth, getAllGenders, getAllShifts } from '../api/salasCuna.api';
 
 export function AddChildren() {
     async function handleSubmit(event) {
