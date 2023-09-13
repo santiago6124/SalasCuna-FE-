@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import Menu from '../components/Menu/Menu';
-import backgroundImage from '../media/Sala-cuna_x4.png'; // Replace this with the path to your background image
+import backgroundImage from '../assets/media/Sala-cuna_x4.png'; // Replace this with the path to your background image
 
 const Home = (logoutUser) => {
     const { user } = useContext(AuthContext);

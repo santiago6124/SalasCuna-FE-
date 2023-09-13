@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import './Menu.css';
-import logo from '../../media/logo.png';
+import logo from '../../assets/media/logo.png'
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
