@@ -9,23 +9,30 @@ import { Link } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
+
 
 import AuthContext from '../../context/AuthContext';
 import Sidebar from '../../components/Sidebar/Sidebar'; // Importa Sidebar
-import Profile from '../../components/Profile/Profile'
+import Profile from '../Profile/Profile';
 
 export default function Menu() {
   let { user, logoutUser } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false); // Estado para la barra lateral
-  const [showModal, setShowModal] = useState(false);
+
+  const [showPopover, setShowPopover] = useState(false);
+  const [popoverTarget, setPopoverTarget] = useState(null);
+
+  const togglePopover = (event) => {
+    setShowPopover(!showPopover);
+    setPopoverTarget(event.target);
+  };
+
+  const handleClosePopover = () => {
+    setShowPopover(false);
+  };
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
-  };
-
-  const toggleModal = () => {
-    setShowModal(!showModal); // Cambia el estado del modal al hacer clic en el icono
   };
 
   return (
@@ -37,7 +44,7 @@ export default function Menu() {
         >
           <FontAwesomeIcon icon={faBars} size="xl" className="bar" />
         </span>
-        <Navbar.Brand>
+        <Navbar.Brand >
           <img src={logo} alt="logo de" className="logo" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
@@ -46,9 +53,9 @@ export default function Menu() {
             {user ? (
               <span
                 className='circle-icon-user'
-                onClick={toggleModal}
+                
               >
-                <FontAwesomeIcon icon={faCircleUser} size='2xl' style={{color: "#f1862e",}} />
+                <Profile/>
               </span>
             ) : (
               <Link to="/login">
@@ -59,7 +66,7 @@ export default function Menu() {
         </Navbar.Collapse>
       </Container>
       <Sidebar isOpen={isOpen} /> {/* Pasa el estado isOpen a Sidebar */}
-      <Profile show={showModal} handleClose={toggleModal} />
+      
     </Navbar>
   );
 }
