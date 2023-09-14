@@ -25,8 +25,6 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
-import AsyncSelect from "react-select/async";
-
 import { ExportButton } from "./ExcelExport/ExportButton";
 
 function CustomToolbar(props) {
@@ -40,15 +38,27 @@ function CustomToolbar(props) {
 }
 
 export default function ChildrenManagement() {
-  const [cribrooms, setCribrooms] = useState([]);
-  const [childs, setChild] = useState([]);
+  const [cribroomOptions, setCribroom] = useState([]);
   const [selectedCribroom, setSelectedCribroom] = useState("");
+  const [childs, setChild] = useState([]);
   const [cribroomCapacity, setCribroomCapacity] = useState("");
   const [showNewButton, setShowNewButton] = useState(false);
-
-  const [selectedCribroomId, setSelectedCribroomId] = useState(null); // State variable to hold the selected cribroom ID
+  const [selectedCribroomId, setSelectedCribroomId] = useState(null);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    LoadCribrooms();
+  }, []);
+  async function LoadCribrooms() {
+    try {
+      let response = await getAllCribroomsWithoutDepth();
+      let data = await response.data;
+      setCribroom(data);
+    } catch (error) {
+      console.error("Error fetching Cribroom Options", error);
+    }
+  }
 
   const handleEditClick = (childId) => {
     navigate("/children-management/edit", { state: { childId } });
@@ -78,58 +88,6 @@ export default function ChildrenManagement() {
     }
   }
 
-  async function handleCargarClick() {
-    if (selectedCribroom) {
-      try {
-        console.log("ID de la Cribroom seleccionada:", selectedCribroom);
-        const res = await axios.get(
-          "/api/child/?no_depth&cribroom_id=" + selectedCribroom
-        );
-        console.log("API Response:", res.data);
-        const updateChild = await res.data.map((child) => {
-          return {
-            ...child,
-            is_active: child.is_active ? "Activo" : "Inactivo",
-          };
-        });
-        setChild(updateChild);
-        setShowNewButton(true);
-        CRCapacity(selectedCribroom);
-        setSelectedCribroomId(selectedCribroom); // Update the selected cribroom ID
-      } catch (error) {
-        console.log("Error fetching Chicos:", error);
-      }
-    } else {
-      console.log("Ninguna Cribroom seleccionada");
-    }
-  }
-
-  async function handleLoadCribroomOptions(inputValue) {
-    try {
-      const response = await getAllCribroomsWithoutDepth();
-      setCribrooms(response.data);
-      console.log("All Cribrooms:", response.data); // Verifica las opciones de sala cuna
-      if (!inputValue) {
-        console.log("No inputValue. Returning all cribrooms.");
-        return response.data.map((cribroom) => ({
-          value: cribroom.id,
-          label: cribroom.name,
-        }));
-      }
-      const filteredOptions = response.data.filter((cribroom) =>
-        cribroom.name.toLowerCase().startsWith(inputValue.toLowerCase())
-      );
-      console.log("Filtered Options:", filteredOptions); // Verifica las opciones filtradas
-      return filteredOptions.map((cribroom) => ({
-        value: cribroom.id,
-        label: cribroom.name,
-      }));
-    } catch (error) {
-      console.log("Error fetching Cribrooms:", error);
-      return [];
-    }
-  }
-
   async function handleDelete(childId) {
     try {
       console.log(childId + " id");
@@ -140,6 +98,37 @@ export default function ChildrenManagement() {
       CRCapacity(selectedCribroom);
     } catch (err) {
       alert("Error updating child state");
+    }
+  }
+  async function handleCribroomChange(event) {
+    setSelectedCribroom(event.target.value);
+  }
+
+  useEffect(() => {
+    if (selectedCribroom) {
+      loadChildren(selectedCribroom);
+    }
+  }, [selectedCribroom]);
+
+  async function loadChildren() {
+    try {
+      console.log("ID de la Cribroom seleccionada:", selectedCribroom);
+      const res = await axios.get(
+        "/api/child/?no_depth&cribroom_id=" + selectedCribroom
+      );
+      console.log("API Response:", res.data);
+      const updateChild = await res.data.map((child) => {
+        return {
+          ...child,
+          is_active: child.is_active ? "Activo" : "Inactivo",
+        };
+      });
+      setChild(updateChild);
+      setShowNewButton(true);
+      CRCapacity(selectedCribroom);
+      setSelectedCribroomId(selectedCribroom); // Update the selected cribroom ID
+    } catch (error) {
+      console.log("Error fetching Chicos:", error);
     }
   }
 
@@ -212,27 +201,24 @@ export default function ChildrenManagement() {
           <Col>
             <div className="container">
               <div className="dropdown-container">
-                <Form.Label className="mb-1">Salas Cunas</Form.Label>
-                <AsyncSelect
-                  cacheOptions
-                  loadOptions={handleLoadCribroomOptions}
-                  onChange={(selectedOption) => {
-                    if (selectedOption) {
-                      setSelectedCribroom(selectedOption.value);
-                    }
-                  }}
-                  defaultOptions
-                />
-              </div>
-
-              <div className="button-container">
-                <Button
-                  as="input"
-                  type="button"
-                  value="Cargar"
-                  size="m"
-                  onClick={handleCargarClick}
-                />
+                <Form.Label className="mb-1 mt-3">
+                  Seleccionar Sala Cuna
+                </Form.Label>
+                <Form.Select
+                  as="select"
+                  value={selectedCribroom}
+                  className="mb-1"
+                  onChange={handleCribroomChange}
+                >
+                  <option value="" disabled>
+                    Seleccionar Sala Cuna
+                  </option>
+                  {cribroomOptions.map((cribroom) => (
+                    <option key={cribroom.id} value={cribroom.id}>
+                      {cribroom.name}
+                    </option>
+                  ))}
+                </Form.Select>
               </div>
             </div>
           </Col>

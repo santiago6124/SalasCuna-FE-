@@ -7,6 +7,8 @@ import { Col } from "react-bootstrap";
 import { Row } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 
+import { useEffect } from "react";
+
 import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
@@ -37,7 +39,7 @@ function CustomToolbar(props) {
   );
 }
 
-export default function DropdownCribroomList() {
+export default function ChildrenManagement() {
   const [cribrooms, setCribrooms] = useState([]);
   const [childs, setChild] = useState([]);
   const [selectedCribroom, setSelectedCribroom] = useState("");
@@ -55,25 +57,25 @@ export default function DropdownCribroomList() {
   function handleNewClick() {
     if (!cribroomCapacity) {
       navigate("/children-management/new");
-    }
-    else {
-      window.alert("La cribroom tiene la capacidad máxima")
+    } else {
+      window.alert("La cribroom tiene la capacidad máxima");
     }
   }
 
   async function CRCapacity(selectedSalaCuna) {
     try {
-      let response = await axios.get(`/api/cribroom/?no_depth&id=${selectedSalaCuna}`);
-      console.log(response)
+      let response = await axios.get(
+        `/api/cribroom/?no_depth&id=${selectedSalaCuna}`
+      );
+      console.log(response);
       if (response.request.status === 200) {
         setCribroomCapacity(response.data[0].reachMax);
       } else {
-        console.error('Error al obtener la capacidad de la sala cuna');
+        console.error("Error al obtener la capacidad de la sala cuna");
       }
     } catch (error) {
-      console.error('Error al realizar la solicitud:', error);
+      console.error("Error al realizar la solicitud:", error);
     }
-
   }
 
   async function handleCargarClick() {
@@ -145,35 +147,35 @@ export default function DropdownCribroomList() {
     {
       field: "id",
       headerName: "#",
-      width: 50,
+      width: 150,
       headerAlign: "center",
       align: "center",
     },
     {
       field: "first_name",
       headerName: "Nombre",
-      width: 150,
+      width: 200,
       headerAlign: "center",
       align: "center",
     },
     {
       field: "last_name",
       headerName: "Apellido",
-      width: 150,
+      width: 200,
       headerAlign: "center",
       align: "center",
     },
     {
       field: "dni",
       headerName: "DNI",
-      width: 150,
+      width: 200,
       headerAlign: "center",
       align: "center",
     },
     {
       field: "is_active",
       headerName: "Estado",
-      width: 140,
+      width: 150,
       headerAlign: "center",
       align: "center",
     },
@@ -200,67 +202,64 @@ export default function DropdownCribroomList() {
   ];
 
   return (
-    <div className="CRUD">
-      <Row className="mb-3">
-        <Col>
-          <div className="container">
-            <div className="dropdown-container">
-              <Form.Label className="mb-1">Salas Cunas</Form.Label>
-              <AsyncSelect
-                cacheOptions
-                loadOptions={handleLoadCribroomOptions}
-                onChange={(selectedOption) => {
-                  if (selectedOption) {
-                    setSelectedCribroom(selectedOption.value);
-                  }
-                }}
-                defaultOptions
-              />
-            </div>
+    <div className="body-cm">
+      <h1 className="titulo-cm">Gestion De Chicos/as</h1>
+      <div className="contenedor-linea-cm">
+        <hr className="linea-cm"></hr>
+      </div>
+      <div>
+        <Row className="mb-3">
+          <Col>
+            <div className="container">
+              <div className="dropdown-container">
+                <Form.Label className="mb-1">Salas Cunas</Form.Label>
+                <AsyncSelect
+                  cacheOptions
+                  loadOptions={handleLoadCribroomOptions}
+                  onChange={(selectedOption) => {
+                    if (selectedOption) {
+                      setSelectedCribroom(selectedOption.value);
+                    }
+                  }}
+                  defaultOptions
+                />
+              </div>
 
-            <div className="button-container">
-              <Button
-                as="input"
-                type="button"
-                value="Cargar"
-                size="m"
-                onClick={handleCargarClick}
-              />
+              <div className="button-container">
+                <Button
+                  as="input"
+                  type="button"
+                  value="Cargar"
+                  size="m"
+                  onClick={handleCargarClick}
+                />
+              </div>
             </div>
-          </div>
-        </Col>
-        <Col>
-          {showNewButton && ( // Mostrar el botón solo si showNewButton es true
-            <div className="contenedor-boton-new">
-              <Button
-                as="input"
-                type="submit"
-                value="New"
-                size="m"
-                onClick={handleNewClick}
-              />
-            </div>
-          )}
-        </Col>
-      </Row>
+          </Col>
+          <Col>
+            {showNewButton && ( // Mostrar el botón solo si showNewButton es true
+              <div className="contenedor-boton-new">
+                <Button
+                  as="input"
+                  type="submit"
+                  value="New"
+                  size="m"
+                  onClick={handleNewClick}
+                />
+              </div>
+            )}
+          </Col>
+        </Row>
 
-      <div style={{ height: "auto", width: "100%" }}>
-        {childs.length > 0 && (
+        <div className="DataGrid-Wrapper">
           <DataGrid
-            pageSizeOptions={[4]}
-            initialState={{
-              pagination: { paginationModel: { pageSize: 4 } },
-            }}
-            columns={columns}
+            style={{ borderRadius: "15px", margin: "20px", width: "" }}
             rows={childs}
-            components={{ Toolbar: CustomToolbar }}
-            componentsProps={{
-              toolbar: {
-                selectedCribroomId: selectedCribroomId, // Pass the selected cribroom ID
-              },
-            }}
+            columns={columns}
+            autoHeight
+            pageSize={5}
           />
-        )}
+        </div>
       </div>
     </div>
   );
