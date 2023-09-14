@@ -60,12 +60,6 @@ function App() {
               path="/generate-padron"
               element={<PrivateRoute children={<GeneratePadron />} />}
             />
-
-            <Route
-              path="/añadir-chico"
-              element={<PrivateRoute children={<AddChildrenPage />} />}
-            />
-
             <Route
               path="/children-management"
               element={<PrivateRoute children={<AddChildrenPage />} />}
@@ -84,10 +78,6 @@ function App() {
             <Route
               path="/crear-sala"
               element={<PrivateRoute children={<CreateRoomPage />} />}
-            />
-            <Route
-              path="/editar-sala"
-              element={<PrivateRoute children={<SelectRoom />} />}
             />
             <Route
               path="/maestro-montos"
