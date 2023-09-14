@@ -45,7 +45,7 @@ function Profile ()  {
             </Popover>
           }
         >
-          <FontAwesomeIcon icon={faCircleUser} size="2xl" style={{ color: "#F1862E" }} />
+          <FontAwesomeIcon icon={faCircleUser} style={{ color: "#F1862E", width:'40', height:'40', marginTop:'2px'}} />
 
       </OverlayTrigger>
   );

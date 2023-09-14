@@ -44,7 +44,7 @@ export default function Menu() {
         >
           <FontAwesomeIcon icon={faBars} size="xl" className="bar" />
         </span>
-        <Navbar.Brand>
+        <Navbar.Brand >
           <img src={logo} alt="logo de" className="logo" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
