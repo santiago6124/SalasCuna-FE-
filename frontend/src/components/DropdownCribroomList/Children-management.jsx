@@ -7,6 +7,8 @@ import { Col } from "react-bootstrap";
 import { Row } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 
+import { useEffect } from "react";
+
 import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
@@ -205,15 +207,59 @@ export default function ChildrenManagement() {
       <div className="contenedor-linea-cm">
         <hr className="linea-cm"></hr>
       </div>
+      <div>
+        <Row className="mb-3">
+          <Col>
+            <div className="container">
+              <div className="dropdown-container">
+                <Form.Label className="mb-1">Salas Cunas</Form.Label>
+                <AsyncSelect
+                  cacheOptions
+                  loadOptions={handleLoadCribroomOptions}
+                  onChange={(selectedOption) => {
+                    if (selectedOption) {
+                      setSelectedCribroom(selectedOption.value);
+                    }
+                  }}
+                  defaultOptions
+                />
+              </div>
 
-      <div className="DataGrid-Wrapper">
-        <DataGrid
-          style={{ borderRadius: "15px", margin: "20px" , width:""}}
-          rows={childs}
-          columns={columns}
-          autoHeight
-          pageSize={5}
-        />
+              <div className="button-container">
+                <Button
+                  as="input"
+                  type="button"
+                  value="Cargar"
+                  size="m"
+                  onClick={handleCargarClick}
+                />
+              </div>
+            </div>
+          </Col>
+          <Col>
+            {showNewButton && ( // Mostrar el botón solo si showNewButton es true
+              <div className="contenedor-boton-new">
+                <Button
+                  as="input"
+                  type="submit"
+                  value="New"
+                  size="m"
+                  onClick={handleNewClick}
+                />
+              </div>
+            )}
+          </Col>
+        </Row>
+
+        <div className="DataGrid-Wrapper">
+          <DataGrid
+            style={{ borderRadius: "15px", margin: "20px", width: "" }}
+            rows={childs}
+            columns={columns}
+            autoHeight
+            pageSize={5}
+          />
+        </div>
       </div>
     </div>
   );
