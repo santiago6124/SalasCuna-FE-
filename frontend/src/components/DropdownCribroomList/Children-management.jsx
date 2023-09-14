@@ -145,35 +145,35 @@ export default function ChildrenManagement() {
     {
       field: "id",
       headerName: "#",
-      width: 50,
+      width: 150,
       headerAlign: "center",
       align: "center",
     },
     {
       field: "first_name",
       headerName: "Nombre",
-      width: 150,
+      width: 200,
       headerAlign: "center",
       align: "center",
     },
     {
       field: "last_name",
       headerName: "Apellido",
-      width: 150,
+      width: 200,
       headerAlign: "center",
       align: "center",
     },
     {
       field: "dni",
       headerName: "DNI",
-      width: 150,
+      width: 200,
       headerAlign: "center",
       align: "center",
     },
     {
       field: "is_active",
       headerName: "Estado",
-      width: 140,
+      width: 150,
       headerAlign: "center",
       align: "center",
     },
@@ -205,14 +205,13 @@ export default function ChildrenManagement() {
       <div className="contenedor-linea-cm">
         <hr className="linea-cm"></hr>
       </div>
-      
+
       <div className="DataGrid-Wrapper">
         <DataGrid
-          style={{ borderRadius: "15px", margin: "20px" }}
+          style={{ borderRadius: "15px", margin: "20px" , width:""}}
           rows={childs}
           columns={columns}
           autoHeight
-          autoWidth
           pageSize={5}
         />
       </div>
