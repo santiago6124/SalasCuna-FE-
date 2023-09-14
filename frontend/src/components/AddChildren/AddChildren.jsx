@@ -76,7 +76,7 @@ export function AddChildren() {
 
     async function ListTutors() {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/ChildRelatedObjectsView/');
+            const response = await axios.get('/api/GuardianListCreateView/');
             setTutores(response.data.guardian);
         } catch (error) {
             console.error('Error fetching tutores:', error);
