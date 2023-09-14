@@ -9,6 +9,7 @@ import { Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 
 import React, { useState, useEffect } from "react";
+import Cookies from 'js-cookie'
 
 import {
   getAllShifts,
@@ -75,7 +76,12 @@ export function UpdateRoom(props) {
     };
     if (selectedCribroom) {
       try {
-        let response = await axios.put(`/api/cribroomDir/${selectedCribroom}/?no_depth`, payload);
+        let response = await axios.put(`/api/cribroomDir/${selectedCribroom}/?no_depth`, payload, {
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken' : Cookies.get('csrftoken')
+          }
+      });
         console.log(response);
         if (response.request.status === 200) {
           console.log("Cribroom Updated");

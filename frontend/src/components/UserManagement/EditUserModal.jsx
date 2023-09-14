@@ -8,6 +8,7 @@ import { Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import { getAllGroup, getAllDepartments } from "../../api/salasCuna.api";
+import Cookies from "js-cookie";
 
 export default function UpdateUser(props) {
   const [selectedUser, setSelectedUser] = useState("");
@@ -78,8 +79,13 @@ export default function UpdateUser(props) {
     };
     if (selectedUser) {
       try {
-        let response = await axios.put(`/api/user/${selectedUser}/`, payload);
-        if (response.request.status === 201) {
+        let response = await axios.put(`/api/user/${selectedUser}/`, payload, {
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken' : Cookies.get('csrftoken')
+          }
+      });
+        if (response.request.status === 200) {
           console.log("Updated User");
           props.onHide();
         } else {

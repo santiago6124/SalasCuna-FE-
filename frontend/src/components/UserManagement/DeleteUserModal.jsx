@@ -4,6 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import Alert from "@mui/material/Alert";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Cookies from 'js-cookie'
 
 export default function DeleteUser(props) {
   const [selectedUser, setSelectedUser] = useState("");
@@ -20,7 +21,12 @@ export default function DeleteUser(props) {
         is_active: "false",
       };
       console.log("making fetch");
-      let response = await axios.patch(`/api/user/${selectedUser}/`, payload);
+      let response = await axios.patch(`/api/user/${selectedUser}/`, payload, {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken' : Cookies.get('csrftoken')
+        }
+    });
       if (response.request.status === 201) {
         console.log('Child added successfully');
         props.onHide();

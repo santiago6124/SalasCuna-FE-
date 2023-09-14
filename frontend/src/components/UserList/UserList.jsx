@@ -37,6 +37,7 @@ export default function UserList() {
   async function listUsers() {
     try {
       const responseUsers = await getAllUsers();
+      console.log(responseUsers)
       setUsers(responseUsers.data);
       const userData = responseUsers.data;
       const responseGroup = await getAllGroup();
@@ -134,7 +135,7 @@ export default function UserList() {
                 </Col>
                 <Col>
                   <div className="add-payout-button mb-3">
-                    <Link to={"/signup"}>
+                    <Link to={"/agregar-usuario"}>
                       <Button
                         variant="contained"
                         color="primary"
