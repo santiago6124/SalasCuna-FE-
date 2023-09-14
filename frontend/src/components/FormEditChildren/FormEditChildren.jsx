@@ -255,19 +255,6 @@ export function FormEditChildren() {
                         </select>
                     </div>
                 </Col>
-                <Col>
-                    <div>
-                        <Form.Label className='mb-1'>Estado</Form.Label>
-                        <select id="child_state" name="estado" value={selectedChildState} onChange={handleChildStateChange} className='form-control'required>
-                            <option value="">Estado</option>
-                            {childStates.map((child_state) => (
-                                <option key={child_state.id} value={child_state.id}>
-                                    {child_state.name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                </Col>
             </Row>
             
             <Row className="mb-3">
