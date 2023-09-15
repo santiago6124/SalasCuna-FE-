@@ -91,18 +91,6 @@ export default function ChildrenManagement() {
     }
   }
 
-  async function handleDelete(childId) {
-    try {
-      console.log(childId + " id");
-      const response = await axios.patch(
-        `/api/child/${childId}/?disenroll=True`
-      );
-      console.log("Response after updating child state:", response.data);
-      CRCapacity(selectedCribroom);
-    } catch (err) {
-      alert("Error updating child state");
-    }
-  }
 
   async function handleCribroomChange(event) {
     setSelectedCribroom(event.target.value);

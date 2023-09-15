@@ -26,7 +26,12 @@ export default function DeleteChildren(props) {
       console.log("making fetch");
       const response = await axios.patch(
         `/api/child/${selectedChild}/?delete`,
-        payload
+        payload, {
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken' : Cookies.get('csrftoken')
+          }
+      }
       );
       props.onHide();
     } catch (err) {

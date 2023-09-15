@@ -198,7 +198,12 @@ export default function EditChildren(props) {
 
     try {
       console.log(childId + " id");
-      let response = await axios.put(`/api/cribroom/${childId}/`, payload);
+      let response = await axios.put(`/api/cribroom/${childId}/`, payload, {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken' : Cookies.get('csrftoken')
+        }
+    });
       if (response.request.status === 201) {
         console.log("Child edited successfully");
         window.location.reload();
