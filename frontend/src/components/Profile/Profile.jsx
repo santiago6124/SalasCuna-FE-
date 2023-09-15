@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './Profile.css';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
@@ -11,8 +11,12 @@ import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
  
 import profileImage from '../../media/Profile.jpg';
 
+import AuthContext from '../../context/AuthContext';
+
 
 function Profile ()  {
+  let { user, logoutUser } = useContext(AuthContext);
+
   return (
     <OverlayTrigger
           trigger="click"
@@ -35,8 +39,10 @@ function Profile ()  {
                     </div>
                     <div className="config-item">
                       <div className="config-content">
-                        <FontAwesomeIcon icon={faRightFromBracket} size="lg" style={{ color: "#F1862E", marginRight: '8px' }} />
-                        <span className="config-text">Cerrar Sesion</span>
+                        <button className="config-button" onClick={() => logoutUser()}>
+                          <FontAwesomeIcon icon={faRightFromBracket} size="lg" style={{ color: "#F1862E", marginRight: '8px' }} />
+                          <span className="config-text">Cerrar Sesion</span>
+                        </button>
                       </div>
                     </div>
                   </div>
