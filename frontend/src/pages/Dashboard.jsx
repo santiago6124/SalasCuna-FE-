@@ -1,14 +1,16 @@
 import TSDashboard from "../components/UserDashboard/TSDashboard";
 import AdminDashboard from "../components/UserDashboard/UserDashboard";
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
+import AuthContext from "../context/AuthContext";
 
 export default function Dashboard() {
   const [userGroup, setUserGroup] = useState(null);
+  let user = useContext(AuthContext)
 
   async function listUser() {
     try {
-      const response = await axios.get("/auth/users/me/");
+      const response = await axios.get(`/auth/users/${user.user.user_id}/`);
       const userData = response.data;
       console.log("user", userData);
 
