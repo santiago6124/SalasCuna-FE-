@@ -7,7 +7,6 @@ import "./CribroomDashboard.css";
 import React, { useEffect, useState } from "react";
 
 import {
-  getAllCribroomsWithoutDepth,
   getAllZones,
   handlePermissions,
 } from "../../api/salasCuna.api";
@@ -117,7 +116,7 @@ export default function CribroomDashboard() {
                 onHide={() => {
                   setModalDeleteShow(false);
                   setSelectedCribroom(""); // Reset selectedCribroom after closing modal
-                  /*window.location.reload();*/
+                  window.location.reload();
                 }}
               />
             )}
