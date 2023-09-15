@@ -30,7 +30,7 @@ export default function DeleteChildren(props) {
       );
       props.onHide();
     } catch (err) {
-      alert("Error al eliminar la sala cuna", err);
+      alert("Error al eliminar al chico/a", err);
     }
   }
 
