@@ -8,6 +8,8 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import { getAllCribroomsWithoutDepth, getAllGenders, getAllShifts } from '../../api/salasCuna.api';
 
+import Cookies from 'js-cookie';
+
 export function AddChildren() {
     async function handleSubmit(event) {
         event.preventDefault();
@@ -29,7 +31,12 @@ export function AddChildren() {
         };
 
         try {
-            let response = await axios.post('/api/child/', payload);
+            let response = await axios.post('/api/child/', payload , {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'X-CSRFToken' : Cookies.get('csrftoken')
+                }
+            });
             console.log(response);
             if (response.request.status === 201) {
                 console.log('Child added successfully');

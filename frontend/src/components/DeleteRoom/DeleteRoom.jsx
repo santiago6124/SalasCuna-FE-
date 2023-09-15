@@ -5,13 +5,14 @@ import Modal from "react-bootstrap/Modal";
 import Alert from "@mui/material/Alert";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import Cookies from 'js-cookie'
 
 export default function DeleteRoom(props) {
   const [selectedCribroom, setSelectedCribroom] = useState("");
 
   useEffect(() => {
     setSelectedCribroom(props.id);
-  }, []);
+  }, [props]);
 
   async function handleDelete(event) {
     event.preventDefault();
@@ -22,7 +23,12 @@ export default function DeleteRoom(props) {
       };
 
       console.log("making fetch");
-      const response = await axios.patch(`/api/cribroom/${selectedCribroom}/?delete`, payload);
+      await axios.patch(`/api/cribroomDir/${selectedCribroom}/?delete`, payload, {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken' : Cookies.get('csrftoken')
+        }
+    });
       props.onHide();
     } catch (err) {
       alert("Error al eliminar la sala cuna", err);

@@ -1,6 +1,7 @@
 import React from "react";
 import {Button} from "react-bootstrap";
 import {useNavigate, useParams} from "react-router-dom";
+import Cookies from "js-cookie";
 
 import './ActivateAccountPage.css';
 
@@ -17,7 +18,8 @@ const ActivateAccountPage = () => {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
-                "Accept": "application/json"
+                "Accept": "application/json",
+                'X-CSRFToken' : Cookies.get('csrftoken')
             },
             body: JSON.stringify({
                 "uid": uidToken,

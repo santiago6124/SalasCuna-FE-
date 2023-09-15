@@ -1,6 +1,7 @@
 import {createContext, useEffect, useState} from "react";
 import jwt_decode from "jwt-decode";
 import {useNavigate} from 'react-router-dom'
+import Cookies from "js-cookie";
 
 
 const AuthContext = createContext();
@@ -34,7 +35,8 @@ export const AuthProvider = ({children}) => {
         let response = await fetch('/auth/users/', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-CSRFToken' : Cookies.get('csrftoken')
             },
             body: JSON.stringify(payload),
         });

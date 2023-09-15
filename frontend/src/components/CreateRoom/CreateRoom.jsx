@@ -10,6 +10,7 @@ import Menu from "../Menu/Menu";
 
 import React, { useState, useEffect } from "react";
 import { getAllShifts, getAllUsers, getAllZones } from "../../api/salasCuna.api";
+import Cookies from "js-cookie";
 
 
 export function CreateRoom() {
@@ -73,7 +74,12 @@ export function CreateRoom() {
     };
 
     try {
-      let response = await axios.post('/api/cribroom/', payload);
+      let response = await axios.post('/api/cribroom/', payload, {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken' : Cookies.get('csrftoken')
+        }
+    });
       console.log(response);
       if (response.request.status === 201) {
         console.log('Cribroom added successfully');
