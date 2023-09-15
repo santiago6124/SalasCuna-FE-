@@ -1,0 +1,6 @@
+.container-page{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Asegura que el contenido esté centrado en la pantalla completa */
+}

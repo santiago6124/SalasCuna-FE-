@@ -26,6 +26,7 @@ import Dashboard from "./pages/Dashboard";
 
 import { FilesToDb } from "../src/components/FilesToDb/FilesToDb";
 import  MenuTest  from "./pages/menuTest/menuTest";
+import EncuestaSAPage from "./pages/EncuestaSAPage/EncuestaSAPage";
 
 
 function App() {
@@ -103,6 +104,11 @@ function App() {
             <Route
               path="home-page"
               element={<PrivateRoute children={<Dashboard />} />}
+            />
+
+            <Route
+              path="encuesta"
+              element={<PrivateRoute children={<EncuestaSAPage />} />}
             />
           </Routes>
         </AuthProvider>

@@ -1,0 +1,12 @@
+.container-titulo-encuesta {
+    width: 700px;
+    height: 100px;
+    border-radius: 16px;
+    border: solid 1px rgb(196, 195, 195);
+    border-top: solid 16px #7CCAE2;
+    margin: 40px auto 0; /* Establece los márgenes automáticos para centrar horizontalmente */
+    display: flex; /* Usamos flexbox para centrar verticalmente */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+}
+

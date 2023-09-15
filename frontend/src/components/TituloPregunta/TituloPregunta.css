@@ -1,0 +1,44 @@
+.container-titulo-pregunta {
+    width: 700px;
+    height: auto;
+    border-radius: 16px;
+    border: solid 1px rgb(196, 195, 195);
+    border-left: solid 16px #FFAA5B;
+    margin: 20px auto 0; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    flex-direction: column;
+    
+}
+
+.pregunta{
+    margin-top: 20px;
+}
+
+.linea-pregunta {
+    border: 1px solid #ef7e0e;
+    width: 600px;
+    margin-top: 7px;
+}
+
+.opciones-container{
+    margin-bottom: 20px;
+    text-align: left;
+    
+}
+
+.opcion {
+    display: flex;
+    align-items: center; /* Alinea verticalmente las cajas de opción */
+    margin-left: 20px; /* Agrega un margen a la izquierda para separar las opciones */
+}
+
+.opcion input[type="checkbox"] {
+    margin-left: 10px; /* Agrega un margen a la derecha del checkbox */
+}
+
+.containerOptions{
+    text-align: left;
+    width: 600px;
+}
