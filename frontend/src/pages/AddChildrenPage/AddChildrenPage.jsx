@@ -1,20 +1,20 @@
 import React from 'react'
-import {AddChildren} from '../../components/AddChildren/AddChildren.jsx'
-import {AddTutor} from '../../components/AddTutor/AddTutor'
-import {AddResidence} from '../../components/AddResidence/AddResidence'
-import {Button} from 'react-bootstrap'
-import { FormAddChildren } from '../../components/FormAddChildren/FormAddChildren.jsx'
-import DropdownCribroomList from '../../components/DropdownCribroomList/DropdownCribroomList.jsx'
+import Menu from '../../components/Menu/Menu.jsx'
+import ChildrenManagement from "../../components/DropdownCribroomList/Children-management.jsx";
+import "../../components/DropdownCribroomList/DropdownCribroomList.css"
 
 export default function AñadirChicoPage() {
     return (
-        <div className="App">
-            <body className='body'>
-                <div>
-                    <DropdownCribroomList />               
-                </div>
-            </body>
-        </div>
-    )
+      <div className="App">
+        <body>
+          <header>
+            <Menu />
+          </header>
+          <div>
+            <ChildrenManagement />
+          </div>
+        </body>
+      </div>
+    );
 };
 
