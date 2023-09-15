@@ -2,8 +2,13 @@ import React from "react";
 import "./DeleteChildren.css";
 
 import { Button, Form } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { Modal } from "react-bootstrap";
+import { Alert } from "react-bootstrap";
 
-export function DeleteChildren() {
+
+export default function DeleteChildren(props) {
   const [selectedChild, setSelectedChild] = useState("");
 
   useEffect(() => {
@@ -12,7 +17,7 @@ export function DeleteChildren() {
 
   async function handleDelete(event) {
     event.preventDefault();
-    console.log(selectedCribroom);
+    console.log(selectedChild);
     try {
       const payload = {
         is_active: "false",
@@ -38,22 +43,16 @@ export function DeleteChildren() {
     >
       <div>
         <Modal.Title className="titulo-eliminar">
-          Eliminar Sala Cuna
+          Eliminar Chicos
         </Modal.Title>
       </div>
       <div className="contenedor-linea-eliminar">
         <hr className="linea-eliminar"></hr>
       </div>
       <div className="par">
-        <p>Esta seguro que desea Eliminar la Sala Cuna {selectedChild.name}?</p>
-        <p>Esto hara que su estado pase a ser Inactivo,</p>
-      </div>
-      <div className="par">
         <Alert severity="warning">
-          <p>Los chicos que esten en esta sala cuna tambien</p>
-          <p>
-            pasaran a estar en <strong>estado Inactivo</strong>
-          </p>
+        <p>Esta seguro que desea Eliminar al Chico/a {selectedChild.name}?</p>
+        <p>Esto hara que su estado pase a ser Inactivo,</p>
         </Alert>
       </div>
       <Modal.Footer>

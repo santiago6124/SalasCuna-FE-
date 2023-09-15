@@ -15,6 +15,9 @@ import axios from "axios";
 import { getAllCribroomsWithoutDepth } from "../../api/salasCuna.api";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 
+import DeleteChildren from "../DeleteChildren/DeleteChildren";
+import EditChildren from "../FormEditChildren/FormEditChildren";
+
 import {
   DataGrid,
   GridToolbar,
@@ -44,6 +47,10 @@ export default function ChildrenManagement() {
   const [cribroomCapacity, setCribroomCapacity] = useState("");
   const [showNewButton, setShowNewButton] = useState(false);
   const [selectedCribroomId, setSelectedCribroomId] = useState(null);
+  const [modalEditShow, setModalEditShow] = useState(false);
+  const [modalDeleteShow, setModalDeleteShow] = useState(false);
+  const [selectedChild, setSelectedChild] = useState("");
+  const [childName, setChildName] = useState("");
 
   const navigate = useNavigate();
 
@@ -60,10 +67,6 @@ export default function ChildrenManagement() {
     }
   }
 
-  const handleEditClick = (childId) => {
-    navigate("/children-management/edit", { state: { childId } });
-    console.log("id chico" + childId);
-  };
   function handleNewClick() {
     if (!cribroomCapacity) {
       navigate("/children-management/new");
@@ -100,6 +103,7 @@ export default function ChildrenManagement() {
       alert("Error updating child state");
     }
   }
+
   async function handleCribroomChange(event) {
     setSelectedCribroom(event.target.value);
   }
@@ -132,6 +136,18 @@ export default function ChildrenManagement() {
     }
   }
 
+  function handleDeleteClick(rowId, ChildName) {
+    setSelectedChild(rowId);
+    setChildName(ChildName);
+    setModalDeleteShow(true);
+    console.log("Edit clicked for row with id:", rowId);
+  }
+
+  async function handleEditClick(rowId) {
+    setSelectedChild(rowId);
+    setModalEditShow(true);
+    console.log("Edit clicked for row with id:", rowId);
+  }
   const columns = [
     {
       field: "id",
@@ -179,7 +195,7 @@ export default function ChildrenManagement() {
         <GridActionsCellItem
           icon={<DeleteIcon />}
           label="Delete"
-          onClick={() => handleDelete(params.row.id)}
+          onClick={() => handleDeleteClick(params.row.id, params.row.name)}
         />,
         <GridActionsCellItem
           icon={<EditIcon />}
@@ -191,62 +207,90 @@ export default function ChildrenManagement() {
   ];
 
   return (
-    <div className="body-cm">
-      <h1 className="titulo-cm">Gestion De Chicos/as</h1>
-      <div className="contenedor-linea-cm">
-        <hr className="linea-cm"></hr>
-      </div>
-      <div>
-        <Row className="mb-3">
-          <Col>
-            <div className="container">
-              <div className="dropdown-container">
-                <Form.Label className="mb-1 mt-3">
-                  Seleccionar Sala Cuna
-                </Form.Label>
-                <Form.Select
-                  as="select"
-                  value={selectedCribroom}
-                  className="mb-1"
-                  onChange={handleCribroomChange}
-                >
-                  <option value="" disabled>
-                    Seleccionar Sala Cuna
-                  </option>
-                  {cribroomOptions.map((cribroom) => (
-                    <option key={cribroom.id} value={cribroom.id}>
-                      {cribroom.name}
-                    </option>
-                  ))}
-                </Form.Select>
-              </div>
-            </div>
-          </Col>
-          <Col>
-            {showNewButton && ( // Mostrar el botón solo si showNewButton es true
-              <div className="contenedor-boton-new">
-                <Button
-                  as="input"
-                  type="submit"
-                  value="New"
-                  size="m"
-                  onClick={handleNewClick}
-                />
-              </div>
-            )}
-          </Col>
-        </Row>
-
-        <div className="DataGrid-Wrapper">
-          <DataGrid
-            style={{ borderRadius: "15px", margin: "20px", width: "" }}
-            rows={childs}
-            columns={columns}
-            autoHeight
-            pageSize={5}
+    <body>
+      {selectedChild && (
+        <>
+          <EditChildren
+            id={selectedChild}
+            show={modalEditShow}
+            onHide={() => {
+              setModalEditShow(false);
+              setSelectedChild(""); // Reset selectedCribroom after closing modal
+            }}
           />
+        </>
+      )}
+      {selectedChild && (
+        <DeleteChildren
+          id={selectedChild}
+          name={childName}
+          show={modalDeleteShow}
+          onHide={() => {
+            setModalDeleteShow(false);
+            setSelectedChild(""); // Reset selectedCribroom after closing modal
+            /*window.location.reload();*/
+          }}
+        />
+      )}
+      {!selectedChild && (
+        <div className="body-cm">
+          <h1 className="titulo-cm">Gestion De Chicos/as</h1>
+          <div className="contenedor-linea-cm">
+            <hr className="linea-cm"></hr>
+          </div>
+          <div>
+            <Row className="mb-3">
+              <Col>
+                <div className="container">
+                  <div className="dropdown-container">
+                    <Form.Label className="mb-1 mt-3">
+                      Seleccionar Sala Cuna
+                    </Form.Label>
+                    <Form.Select
+                      as="select"
+                      value={selectedCribroom}
+                      className="mb-1"
+                      onChange={handleCribroomChange}
+                    >
+                      <option value="" disabled>
+                        Seleccionar Sala Cuna
+                      </option>
+                      {cribroomOptions.map((cribroom) => (
+                        <option key={cribroom.id} value={cribroom.id}>
+                          {cribroom.name}
+                        </option>
+                      ))}
+                    </Form.Select>
+                  </div>
+                </div>
+              </Col>
+              <Col>
+                {showNewButton && ( // Mostrar el botón solo si showNewButton es true
+                  <div className="contenedor-boton-new">
+                    <Button
+                      as="input"
+                      type="submit"
+                      value="New"
+                      size="m"
+                      onClick={handleNewClick}
+                    />
+                  </div>
+                )}
+              </Col>
+            </Row>
+
+            <div className="DataGrid-Wrapper">
+              <DataGrid
+                style={{ borderRadius: "15px", margin: "20px", width: "" }}
+                rows={childs}
+                columns={columns}
+                autoHeight
+                pageSize={5}
+              />
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </body>
   );
 }

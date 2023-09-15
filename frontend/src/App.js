@@ -21,12 +21,10 @@ import { FormAddChildren } from "./components/FormAddChildren/FormAddChildren";
 import Payout from "./components/Payout/Payout";
 import CribroomDashboard from "./components/CribroomDashboard/CribroomDashboard";
 import UserList from "./components/UserList/UserList";
-import { FormEditChildren } from "../src/components/FormEditChildren/FormEditChildren";
 import Dashboard from "./pages/Dashboard";
 
 import { FilesToDb } from "../src/components/FilesToDb/FilesToDb";
-import  MenuTest  from "./pages/menuTest/menuTest";
-
+import MenuTest from "./pages/menuTest/menuTest";
 
 function App() {
   return (
@@ -68,11 +66,6 @@ function App() {
             <Route
               path="/children-management/new"
               element={<PrivateRoute children={<FormAddChildren />} />}
-            />
-
-            <Route
-              path="/children-management/edit"
-              element={<PrivateRoute children={<FormEditChildren />} />}
             />
 
             <Route
