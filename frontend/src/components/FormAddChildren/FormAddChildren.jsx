@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { getAllCribrooms, getAllGenders, getAllGuardianTypes, getAllLocalities, getAllNeighborhood, getAllPhoneFeatures, getAllShifts } from '../../api/salasCuna.api';
 
 export function FormAddChildren() {
+
     useEffect(() => {
         getChildren();
     }, []);
@@ -228,6 +229,10 @@ export function FormAddChildren() {
 
   const handleNewClick = () => {
    navigate('/children-management');
+  };
+
+  const redirectEncuesta = () => {
+    navigate('/encuesta');
   };
 
  
@@ -551,7 +556,7 @@ export function FormAddChildren() {
 
  
             <div className="contenedor-boton mb-1 ">
-                <Button as="input" type="submit" value="Cargar" size="lg"/>
+                <Button as="input" type="submit" value="Cargar" size="lg" onClick={redirectEncuesta}/>
             </div>
         </Form>  
   );
