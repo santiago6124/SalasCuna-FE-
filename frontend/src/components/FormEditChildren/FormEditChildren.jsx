@@ -14,21 +14,11 @@ import {
   getAllNeighborhood,
   getAllPhoneFeatures,
   getAllShifts,
+  getAllChildren,
 } from "../../api/salasCuna.api";
 import { Modal } from "react-bootstrap";
 
 export default function EditChildren(props) {
-  useEffect(() => {
-    getChildren();
-  }, []);
-
-  async function getChildren() {
-    let response = await fetch("/api/all-objects/");
-    let data = await response.json();
-    console.log(data);
-    // ESTO PARA QUE PINCHILA SIRVE ?????
-  }
-
   const [chieldGenders, setChildGender] = useState([]);
   const [guardianGenders, setGuardianGender] = useState([]);
   const [salas, setCribroom] = useState([]);
@@ -77,7 +67,7 @@ export default function EditChildren(props) {
   }
 
   useEffect(() => {
-    getChildren();
+    getAllChildren();
     GenderList();
     CribroomList();
     ShiftList();
@@ -199,12 +189,12 @@ export default function EditChildren(props) {
 
     try {
       console.log(childId + " id");
-      let response = await axios.put(`/api/cribroom/${childId}/`, payload, {
+      let response = await axios.patch(`/api/cribroom/${childId}/`, payload, {
         headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken' : Cookies.get('csrftoken')
-        }
-    });
+          "Content-Type": "application/json",
+          "X-CSRFToken": Cookies.get("csrftoken"),
+        },
+      });
       if (response.request.status === 201) {
         console.log("Child edited successfully");
         window.location.reload();
@@ -295,7 +285,7 @@ export default function EditChildren(props) {
               </select>
             </div>
           </Col>
-          <Col>
+          {/*           <Col>
             <div>
               <Form.Label className="mb-1">Estado</Form.Label>
               <select
@@ -314,7 +304,7 @@ export default function EditChildren(props) {
                 ))}
               </select>
             </div>
-          </Col>
+          </Col> */}
         </Row>
 
         <Row className="mb-3">

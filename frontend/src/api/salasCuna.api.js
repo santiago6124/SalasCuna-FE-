@@ -47,8 +47,11 @@ export function getAllGroup() {
 export function getAllDepartments() {
   return axios.get("/api/department/");
 }
-export function getUserHistory(){
+export function getUserHistory() {
   return axios.get("/api/logEntry/");
+}
+export function getAllChildren() {
+  return axios.get("/api/child/");
 }
 
 export async function handlePermissions(status) {
@@ -57,4 +60,3 @@ export async function handlePermissions(status) {
     window.location.assign("/home-page");
   }
 }
-
