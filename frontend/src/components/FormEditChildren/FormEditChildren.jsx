@@ -19,7 +19,7 @@ import {
 import { Modal } from "react-bootstrap";
 
 export default function EditChildren(props) {
-  const [chieldGenders, setChildGender] = useState([]);
+  const [ChildGenders, setChildGender] = useState([]);
   const [guardianGenders, setGuardianGender] = useState([]);
   const [salas, setCribroom] = useState([]);
   const [shifts, setShift] = useState([]);
@@ -28,7 +28,7 @@ export default function EditChildren(props) {
   const [childStates, setChildState] = useState([]);
   const [guardianTypes, setGuardianType] = useState([]);
   const [phoneFeatures, setPhoneFeature] = useState([]);
-  const [selectedGeneroChield, setSelectedGeneroChield] = useState("");
+  const [selectedGeneroChild, setSelectedGeneroChild] = useState("");
   const [selectedGeneroGuardian, setSelectedGeneroGuardian] = useState("");
   const [selectedSalaCuna, setSelectedSalacuna] = useState("");
   const [selectedTurno, setSelectedTurno] = useState("");
@@ -37,9 +37,10 @@ export default function EditChildren(props) {
   const [selectedChildState, setSelectedChildState] = useState("");
   const [selectedPhoneFeature, setSelectedPhoneFeature] = useState("");
   const [selectedGuardianType, setSelectedGuardianType] = useState("");
+  const [selectedChild, setSelectedChild] = useState("");
 
-  function handleGeneroChieldChange(event) {
-    setSelectedGeneroChield(event.target.value);
+  function handleGeneroChildChange(event) {
+    setSelectedGeneroChild(event.target.value);
   }
   function handleGeneroGuardianChange(event) {
     setSelectedGeneroGuardian(event.target.value);
@@ -73,9 +74,9 @@ export default function EditChildren(props) {
     ShiftList();
     LocalityList();
     NeighborhoodList();
-    ChildStateList();
     GuardianTypeList();
     PhoneFeatureList();
+    setSelectedChild(props.id);
   }, []);
 
   async function GenderList() {
@@ -124,15 +125,6 @@ export default function EditChildren(props) {
     }
   }
 
-  async function ChildStateList() {
-    try {
-      const response = await axios.get("/api/ChildStateListView/");
-      setChildState(response.data);
-    } catch (error) {
-      console.error("Error fetching estados:", error);
-    }
-  }
-
   const navigate = useNavigate();
 
   async function GuardianTypeList() {
@@ -164,11 +156,11 @@ export default function EditChildren(props) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const payload = {
-      first_name: formData.get("nombreChield"),
-      last_name: formData.get("apellidoChield"),
-      dni: formData.get("dniChield"),
-      age: formData.get("edadChield"),
-      birthdate: formData.get("fechaNacimientoChield"),
+      first_name: formData.get("nombreChild"),
+      last_name: formData.get("apellidoChild"),
+      dni: formData.get("dniChild"),
+      age: formData.get("edadChild"),
+      birthdate: formData.get("fechaNacimientoChild"),
       house_number: formData.get("numero_casa"),
       registration_date: formData.get("fechaAlta"),
       disenroll_date: formData.get("fechaBaja"),
@@ -176,7 +168,7 @@ export default function EditChildren(props) {
       gender: formData.get("generoChild"),
       cribroom: formData.get("salacuna"),
       shift: formData.get("turno"),
-      child_state: formData.get("estado"),
+      /* child_state: formData.get("estado"), */
       neightborhood: formData.get("neightborhood"),
       guardian_first_name: formData.get("nombreGuardian"),
       guardian_last_name: formData.get("apellidoGuardian"),
@@ -188,8 +180,8 @@ export default function EditChildren(props) {
     };
 
     try {
-      console.log(childId + " id");
-      let response = await axios.patch(`/api/cribroom/${childId}/`, payload, {
+      console.log(selectedChild + " id");
+      let response = await axios.put(`/api/child/${selectedChild}/`, {
         headers: {
           "Content-Type": "application/json",
           "X-CSRFToken": Cookies.get("csrftoken"),
@@ -229,7 +221,8 @@ export default function EditChildren(props) {
           <Form.Control
             type="text"
             placeholder="Ingrese un nombre"
-            name="nombreChield"
+            defaultValue={selectedChild.first_name}
+            name="nombreChild"
             required
           />
         </Form.Group>
@@ -239,7 +232,7 @@ export default function EditChildren(props) {
           <Form.Control
             type="text"
             placeholder="Ingrese un apellido"
-            name="apellidoChield"
+            name="apellidoChild"
             required
           />
         </Form.Group>
@@ -249,7 +242,7 @@ export default function EditChildren(props) {
           <Form.Control
             type="number"
             placeholder="Ingrese un DNI"
-            name="dniChield"
+            name="dniChild"
             required
           />
         </Form.Group>
@@ -259,7 +252,7 @@ export default function EditChildren(props) {
           <Form.Control
             type="date"
             placeholder=""
-            name="fechaNacimientoChield"
+            name="fechaNacimientoChild"
             required
           />
         </Form.Group>
@@ -270,14 +263,14 @@ export default function EditChildren(props) {
               <Form.Label className="mb-1">Genero</Form.Label>
               <select
                 id="gender"
-                name="generoChield"
-                value={selectedGeneroChield}
-                onChange={handleGeneroChieldChange}
+                name="generoChild"
+                value={selectedGeneroChild}
+                onChange={handleGeneroChildChange}
                 className="form-control"
                 required
               >
                 <option value="">Generos</option>
-                {chieldGenders.map((gender) => (
+                {ChildGenders.map((gender) => (
                   <option key={gender.id} value={gender.id}>
                     {gender.gender}
                   </option>
