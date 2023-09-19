@@ -68,6 +68,13 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
           <span className="config-text">Generar Padron</span>
         </button>
 
+        <button className="config-button" onClick={() => Redirects("/maestro-montos")}>
+          <FontAwesomeIcon icon={faChartLine}  size="lg" style={{ color: "#0FAAE1", marginRight: '6px' }} />
+          <span className="config-text">Maestro Monto</span>
+        </button>
+
+
+
       </div>
       
     </div>
