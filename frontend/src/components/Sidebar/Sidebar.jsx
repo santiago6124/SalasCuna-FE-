@@ -13,6 +13,7 @@ import { faPeopleRoof } from '@fortawesome/free-solid-svg-icons';
 import { faNewspaper } from '@fortawesome/free-solid-svg-icons';
 import { faFileCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { faAddressBook } from '@fortawesome/free-solid-svg-icons';
+import { faChartLine } from '@fortawesome/free-solid-svg-icons';
 
 const Sidebar = ({ isOpen, closeSidebar }) => {
   const navigate = useNavigate();
@@ -31,11 +32,6 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
         <button className="config-button" onClick={() => Redirects("/home-page")}>
           <FontAwesomeIcon icon={faHouse} size="lg" style={{ color: "#0FAAE1", marginRight: '6px' }} />
           <span className="config-text">Home</span>
-        </button>
-
-        <button className="config-button" onClick={() => Redirects("/login")}>
-          <FontAwesomeIcon icon={faUser} size="lg" style={{ color: "#0FAAE1", marginRight: '6px' }} />
-          <span className="config-text">Inciar Sesion</span>
         </button>
 
         <button className="config-button" onClick={() => Redirects("/agregar-usuario")}>
@@ -65,7 +61,7 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
 
         <button className="config-button" onClick={() => Redirects("/listar-usuarios")}>
           <FontAwesomeIcon icon={faAddressBook} size="lg" style={{ color: "#0FAAE1", marginRight: '6px' }} />
-          <span className="config-text">Generar Padron</span>
+          <span className="config-text">Lista de Usuarios</span>
         </button>
 
         <button className="config-button" onClick={() => Redirects("/maestro-montos")}>
