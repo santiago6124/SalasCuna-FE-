@@ -185,7 +185,7 @@ export default function TechnicalReport() {
             </Form.Select>
           </Col>
           <Col>
-            <div className="add-payout-button mb-3">
+            <div className="add-payout-button-tr mb-3 mt-3">
               <iframe
                 ref={iframeRef}
                 style={{ display: "none" }}
@@ -196,7 +196,6 @@ export default function TechnicalReport() {
                 color="primary"
                 startIcon={<AddIcon />}
                 onClick={handlePdfClick}
-                className="add-payout-button"
               >
                 Generar PDF
               </Button>
