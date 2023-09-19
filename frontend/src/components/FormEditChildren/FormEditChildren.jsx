@@ -163,7 +163,7 @@ export default function EditChildren(props) {
       birthdate: formData.get("fechaNacimientoChild"),
       house_number: formData.get("numero_casa"),
       registration_date: formData.get("fechaAlta"),
-      disenroll_date: formData.get("fechaBaja"),
+      disenroll_date: formData.get("fechaBaja") ? formData.get("fechaBaja") : null,
       locality: formData.get("locality"),
       gender: formData.get("generoChild"),
       cribroom: formData.get("salacuna"),
@@ -180,7 +180,7 @@ export default function EditChildren(props) {
 
     try {
       console.log(selectedChild + " id");
-      let response = await axios.put(
+      let response = await axios.patch(
         `/api/child/${selectedChild}/?no_depth`,
         payload,
         {
@@ -347,7 +347,8 @@ export default function EditChildren(props) {
         <Row className="mb-5">
           <Col>
             <Form.Label className="mb-1">Fecha de baja</Form.Label>
-            <Form.Control type="date" placeholder="" name="fechaBaja" />
+            <Form.Control type="date" placeholder="" name="fechaBaja" 
+            defaultValue={null}/>
           </Col>
           <Col>
             <Form.Label className="mb-1">Fecha de alta</Form.Label>
