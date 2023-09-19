@@ -29,7 +29,7 @@
 /* Estilo del icono de usuario en pantallas aún más pequeñas (ajusta según sea necesario) */
 @media (max-width: 576px) {
   #user-icon {
-    right: 1px; /* Mueve aún más el icono hacia la izquierda en pantallas más pequeñas */
+    right: 0px; /* Mueve aún más el icono hacia la izquierda en pantallas más pequeñas */
   }
 }
  
