@@ -1,38 +1,25 @@
 /* Menu.css */
 .navbar {
-  background-color: #ffffff;
-  box-shadow: 0px 1px 24px 0px rgba(0, 0, 0, 0.25);
+
+  top: 0; /* La barra se fija en la parte superior */
+  left: 0;
+  right: 0; /* Ocupa todo el ancho de la pantalla */
+  background-color: #ffffff; /* Fondo de la barra */
+  box-shadow: 0px 1px 24px 0px rgba(0, 0, 0, 0.25); /* Sombra */
   text-decoration: none;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 15px;
-  position: relative; /* Asegura que el z-index funcione correctamente */
-  z-index: 1; /* Valor más alto que la barra lateral */
-  height: 65px;
- 
-}
-
-#user-icon {
   position: relative;
-  right: 0; /* Posición inicial en pantalla grande */
-  transition: right 0.3s ease; /* Animación de transición suave */
+  z-index: 1; /* Valor más alto que otros elementos */
+  height: 65px;
+  margin-bottom: 0px !important;
 }
 
-/* Estilo del icono de usuario en pantallas más pequeñas (ejemplo: hasta 768px) */
-@media (max-width: 768px) {
-  #user-icon {
-    right: 0px; /* Mueve el icono hacia la izquierda en pantallas más pequeñas */
-  }
-}
 
-/* Estilo del icono de usuario en pantallas aún más pequeñas (ajusta según sea necesario) */
-@media (max-width: 576px) {
-  #user-icon {
-    right: 0px; /* Mueve aún más el icono hacia la izquierda en pantallas más pequeñas */
-  }
-}
- 
+
+
   .logo {
     width: 200px;
     height: 50px;
@@ -86,5 +73,30 @@
 
 
 
+#user-icon {
+  position: relative;
+  right: 0; /* Posición inicial en pantalla grande */
+  transition: right 0.3s ease; /* Animación de transición suave */
+}
 
+/* Estilo del icono de usuario en pantallas más pequeñas (ejemplo: hasta 768px) */
+@media (max-width: 768px) {
+  #user-icon {
+    right: 0px; /* Mueve el icono hacia la izquierda en pantallas más pequeñas */
+  }
+}
+
+/* Estilo del icono de usuario en pantallas aún más pequeñas (ajusta según sea necesario) */
+@media (max-width: 576px) {
+  #user-icon {
+    right: 0px; /* Mueve aún más el icono hacia la izquierda en pantallas más pequeñas */
+  }
+}
+
+@media (max-width: 576px) {
+  body {
+    min-width: 375px; /* Establece el ancho mínimo deseado (ajusta según tus necesidades) */
+  }
+}
+ 
   

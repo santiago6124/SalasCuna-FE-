@@ -3,6 +3,7 @@ import AdminDashboard from "../components/UserDashboard/UserDashboard";
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
+import Menu from '../components/Menu/Menu.jsx';
 
 export default function Dashboard() {
   const [userGroup, setUserGroup] = useState(null);
@@ -36,9 +37,12 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <body>
-      {userGroup === 1 && <AdminDashboard />}
-      {userGroup === 2 && <TSDashboard />}
-    </body>
+    <div>
+      <body>
+        {userGroup === 1 && <AdminDashboard />}
+        {userGroup === 2 && <TSDashboard />}
+      </body>
+    </div>
+    
   );
 }

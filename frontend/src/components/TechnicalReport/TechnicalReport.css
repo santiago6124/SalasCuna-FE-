@@ -59,9 +59,17 @@
 .col-md-2 {
   margin: 20px;
 }
+<<<<<<< HEAD
 .header-report {
   margin-bottom: 50px;
   padding: 5px;
+=======
+.header-report{
+    margin-bottom: 50px;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+>>>>>>> bc495d5 (navbar responsive)
 }
 
 .add-payout-button-tr {

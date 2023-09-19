@@ -157,7 +157,7 @@ export default function TechnicalReport() {
   return (
     <>
       <body>
-        <header className="header">
+        <header className="header-report">
           <Menu />
         </header>
         <h1 className="titulo-cb">Informe Tecnico</h1>

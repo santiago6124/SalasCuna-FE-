@@ -16,7 +16,10 @@
 }
 .header-home {
   margin-bottom: 30px;
-  padding: 5px;
+  
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
 }
 
 .conteiner-form-home {
