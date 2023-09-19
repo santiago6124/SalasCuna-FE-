@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import "../DropdownCribroomList/DropdownCribroomList.css";
+import "./ChildrenManagement.css";
 
 
 import { Form } from "react-bootstrap";

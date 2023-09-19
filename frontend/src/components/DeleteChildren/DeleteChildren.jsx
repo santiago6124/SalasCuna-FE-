@@ -8,7 +8,6 @@ import { Modal } from "react-bootstrap";
 import { Alert } from "react-bootstrap";
 import Cookies from "js-cookie";
 
-
 export default function DeleteChildren(props) {
   const [selectedChild, setSelectedChild] = useState("");
 
@@ -27,12 +26,13 @@ export default function DeleteChildren(props) {
       console.log("making fetch");
       const response = await axios.patch(
         `/api/child/${selectedChild}/?delete`,
-        payload, {
+        payload,
+        {
           headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken' : Cookies.get('csrftoken')
-          }
-      }
+            "Content-Type": "application/json",
+            "X-CSRFToken": Cookies.get("csrftoken"),
+          },
+        }
       );
       props.onHide();
     } catch (err) {
@@ -48,17 +48,15 @@ export default function DeleteChildren(props) {
       centered
     >
       <div>
-        <Modal.Title className="titulo-eliminar">
-          Eliminar Chicos
-        </Modal.Title>
+        <Modal.Title className="titulo-eliminar">Eliminar Chicos</Modal.Title>
       </div>
       <div className="contenedor-linea-eliminar">
         <hr className="linea-eliminar"></hr>
       </div>
       <div className="par">
         <Alert severity="warning">
-        <p>Esta seguro que desea Eliminar al Chico/a {selectedChild.name}?</p>
-        <p>Esto hara que su estado pase a ser Inactivo,</p>
+          <p>Esta seguro que desea Eliminar al Chico/a {selectedChild.name}?</p>
+          <p>Esto hara que su estado pase a ser Inactivo,</p>
         </Alert>
       </div>
       <Modal.Footer>

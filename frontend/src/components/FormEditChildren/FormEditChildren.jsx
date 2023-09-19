@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import Form from "react-bootstrap/Form/";
 import { Button } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
+import "./FormEditChildren.css"
 import {
   getAllCribrooms,
   getAllGenders,
@@ -14,22 +15,12 @@ import {
   getAllNeighborhood,
   getAllPhoneFeatures,
   getAllShifts,
+  getAllChildren,
 } from "../../api/salasCuna.api";
 import { Modal } from "react-bootstrap";
 
 export default function EditChildren(props) {
-  useEffect(() => {
-    getChildren();
-  }, []);
-
-  async function getChildren() {
-    let response = await fetch("/api/all-objects/");
-    let data = await response.json();
-    console.log(data);
-    // ESTO PARA QUE PINCHILA SIRVE ?????
-  }
-
-  const [chieldGenders, setChildGender] = useState([]);
+  const [ChildGenders, setChildGender] = useState([]);
   const [guardianGenders, setGuardianGender] = useState([]);
   const [salas, setCribroom] = useState([]);
   const [shifts, setShift] = useState([]);
@@ -38,7 +29,7 @@ export default function EditChildren(props) {
   const [childStates, setChildState] = useState([]);
   const [guardianTypes, setGuardianType] = useState([]);
   const [phoneFeatures, setPhoneFeature] = useState([]);
-  const [selectedGeneroChield, setSelectedGeneroChield] = useState("");
+  const [selectedGeneroChild, setSelectedGeneroChild] = useState("");
   const [selectedGeneroGuardian, setSelectedGeneroGuardian] = useState("");
   const [selectedSalaCuna, setSelectedSalacuna] = useState("");
   const [selectedTurno, setSelectedTurno] = useState("");
@@ -47,9 +38,10 @@ export default function EditChildren(props) {
   const [selectedChildState, setSelectedChildState] = useState("");
   const [selectedPhoneFeature, setSelectedPhoneFeature] = useState("");
   const [selectedGuardianType, setSelectedGuardianType] = useState("");
+  const [selectedChild, setSelectedChild] = useState("");
 
-  function handleGeneroChieldChange(event) {
-    setSelectedGeneroChield(event.target.value);
+  function handleGeneroChildChange(event) {
+    setSelectedGeneroChild(event.target.value);
   }
   function handleGeneroGuardianChange(event) {
     setSelectedGeneroGuardian(event.target.value);
@@ -66,9 +58,6 @@ export default function EditChildren(props) {
   function handleNeighborhoodChange(event) {
     setSelectedNeighborhood(event.target.value);
   }
-  function handleChildStateChange(event) {
-    setSelectedChildState(event.target.value);
-  }
   function handlePhoneFeatureChange(event) {
     setSelectedPhoneFeature(event.target.value);
   }
@@ -77,15 +66,15 @@ export default function EditChildren(props) {
   }
 
   useEffect(() => {
-    getChildren();
+    getAllChildren();
     GenderList();
     CribroomList();
     ShiftList();
     LocalityList();
     NeighborhoodList();
-    ChildStateList();
     GuardianTypeList();
     PhoneFeatureList();
+    setSelectedChild(props.id);
   }, []);
 
   async function GenderList() {
@@ -134,15 +123,6 @@ export default function EditChildren(props) {
     }
   }
 
-  async function ChildStateList() {
-    try {
-      const response = await axios.get("/api/ChildStateListView/");
-      setChildState(response.data);
-    } catch (error) {
-      console.error("Error fetching estados:", error);
-    }
-  }
-
   const navigate = useNavigate();
 
   async function GuardianTypeList() {
@@ -173,20 +153,22 @@ export default function EditChildren(props) {
   async function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
+    let res = await axios.get(`/api/child/${selectedChild}/?no_depth`)
+    let guardian_id = res.data.guardian
     const payload = {
-      first_name: formData.get("nombreChield"),
-      last_name: formData.get("apellidoChield"),
-      dni: formData.get("dniChield"),
-      age: formData.get("edadChield"),
-      birthdate: formData.get("fechaNacimientoChield"),
+      first_name: formData.get("nombreChild"),
+      last_name: formData.get("apellidoChild"),
+      dni: formData.get("dniChild"),
+      age: formData.get("edadChild"),
+      birthdate: formData.get("fechaNacimientoChild"),
       house_number: formData.get("numero_casa"),
       registration_date: formData.get("fechaAlta"),
-      disenroll_date: formData.get("fechaBaja"),
+      disenroll_date: formData.get("fechaBaja") ? formData.get("fechaBaja") : null,
       locality: formData.get("locality"),
+      street: formData.get("calle"),
       gender: formData.get("generoChild"),
       cribroom: formData.get("salacuna"),
       shift: formData.get("turno"),
-      child_state: formData.get("estado"),
       neightborhood: formData.get("neightborhood"),
       guardian_first_name: formData.get("nombreGuardian"),
       guardian_last_name: formData.get("apellidoGuardian"),
@@ -194,17 +176,22 @@ export default function EditChildren(props) {
       guardian_phone_number: formData.get("telefono"),
       guardian_phone_Feature: formData.get("phoneFeature"),
       guardian_guardian_Type_id: formData.get("guardianType"),
-      giardian_gender_id: formData.get("generoGuardian"),
+      guardian_gender_id: formData.get("generoGuardian"),
+      guardian: guardian_id,
     };
 
     try {
-      console.log(childId + " id");
-      let response = await axios.put(`/api/cribroom/${childId}/`, payload, {
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken' : Cookies.get('csrftoken')
+      console.log(selectedChild + " id");
+      let response = await axios.patch(
+        `/api/child/${selectedChild}/?no_depth`,
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": Cookies.get("csrftoken"),
+          },
         }
-    });
+      );
       if (response.request.status === 201) {
         console.log("Child edited successfully");
         window.location.reload();
@@ -219,7 +206,7 @@ export default function EditChildren(props) {
 
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
-      <Form className="conteiner-form" onSubmit={handleSubmit}>
+      <Form className="conteiner-form-ec" onSubmit={handleSubmit}>
         <Button
           as="input"
           type="submit"
@@ -239,7 +226,8 @@ export default function EditChildren(props) {
           <Form.Control
             type="text"
             placeholder="Ingrese un nombre"
-            name="nombreChield"
+            defaultValue={selectedChild.first_name}
+            name="nombreChild"
             required
           />
         </Form.Group>
@@ -249,7 +237,7 @@ export default function EditChildren(props) {
           <Form.Control
             type="text"
             placeholder="Ingrese un apellido"
-            name="apellidoChield"
+            name="apellidoChild"
             required
           />
         </Form.Group>
@@ -259,7 +247,7 @@ export default function EditChildren(props) {
           <Form.Control
             type="number"
             placeholder="Ingrese un DNI"
-            name="dniChield"
+            name="dniChild"
             required
           />
         </Form.Group>
@@ -269,7 +257,7 @@ export default function EditChildren(props) {
           <Form.Control
             type="date"
             placeholder=""
-            name="fechaNacimientoChield"
+            name="fechaNacimientoChild"
             required
           />
         </Form.Group>
@@ -280,14 +268,14 @@ export default function EditChildren(props) {
               <Form.Label className="mb-1">Genero</Form.Label>
               <select
                 id="gender"
-                name="generoChield"
-                value={selectedGeneroChield}
-                onChange={handleGeneroChieldChange}
+                name="generoChild"
+                value={selectedGeneroChild}
+                onChange={handleGeneroChildChange}
                 className="form-control"
                 required
               >
                 <option value="">Generos</option>
-                {chieldGenders.map((gender) => (
+                {ChildGenders.map((gender) => (
                   <option key={gender.id} value={gender.id}>
                     {gender.gender}
                   </option>
@@ -295,7 +283,7 @@ export default function EditChildren(props) {
               </select>
             </div>
           </Col>
-          <Col>
+          {/*           <Col>
             <div>
               <Form.Label className="mb-1">Estado</Form.Label>
               <select
@@ -314,7 +302,7 @@ export default function EditChildren(props) {
                 ))}
               </select>
             </div>
-          </Col>
+          </Col> */}
         </Row>
 
         <Row className="mb-3">
@@ -361,7 +349,12 @@ export default function EditChildren(props) {
         <Row className="mb-5">
           <Col>
             <Form.Label className="mb-1">Fecha de baja</Form.Label>
-            <Form.Control type="date" placeholder="" name="fechaBaja" />
+            <Form.Control
+              type="date"
+              placeholder=""
+              name="fechaBaja"
+              defaultValue={null}
+            />
           </Col>
           <Col>
             <Form.Label className="mb-1">Fecha de alta</Form.Label>
@@ -493,6 +486,7 @@ export default function EditChildren(props) {
             <Form.Control
               type="text"
               placeholder="Ingrese una calle"
+              id="calle"
               name="calle"
               required
             />
