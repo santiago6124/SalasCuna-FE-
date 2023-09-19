@@ -180,12 +180,16 @@ export default function EditChildren(props) {
 
     try {
       console.log(selectedChild + " id");
-      let response = await axios.put(`/api/child/?no_depth&id=${selectedChild}`, payload, {
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRFToken": Cookies.get("csrftoken"),
-        },
-      });
+      let response = await axios.put(
+        `/api/child/${selectedChild}/?no_depth`,
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": Cookies.get("csrftoken"),
+          },
+        }
+      );
       if (response.request.status === 201) {
         console.log("Child edited successfully");
         window.location.reload();
