@@ -12,11 +12,40 @@
   height: 65px;
  
 }
-  
+
+#user-icon {
+  position: relative;
+  right: 0; /* Posición inicial en pantalla grande */
+  transition: right 0.3s ease; /* Animación de transición suave */
+}
+
+/* Estilo del icono de usuario en pantallas más pequeñas (ejemplo: hasta 768px) */
+@media (max-width: 768px) {
+  #user-icon {
+    right: 0px; /* Mueve el icono hacia la izquierda en pantallas más pequeñas */
+  }
+}
+
+/* Estilo del icono de usuario en pantallas aún más pequeñas (ajusta según sea necesario) */
+@media (max-width: 576px) {
+  #user-icon {
+    right: 1px; /* Mueve aún más el icono hacia la izquierda en pantallas más pequeñas */
+  }
+}
+ 
   .logo {
     width: 200px;
     height: 50px;
+    max-width: 100%;
   }
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Alinea el logotipo a la izquierda */
+    flex-grow: 1; /* Permite que el logotipo ocupe todo el espacio disponible */
+  }
+  
   
   .titulo {
     text-decoration: none;

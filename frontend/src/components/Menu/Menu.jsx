@@ -36,7 +36,7 @@ export default function Menu() {
   };
 
   return (
-    <Navbar expand="lg" className="navbar">
+    <Navbar className="navbar">
       <Container fluid>
         <span
           className={`circle-icon-bar ${isOpen ? 'clicked' : ''}`}
@@ -44,17 +44,14 @@ export default function Menu() {
         >
           <FontAwesomeIcon icon={faBars} size="xl" className="bar" />
         </span>
-        <Navbar.Brand >
+        <Navbar.Brand className="logo-container">
           <img src={logo} alt="logo de" className="logo" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
-          <Nav className="boton">
+          <Nav className="boton ml-auto">
             {user ? (
-              <span
-                className='circle-icon-user'
-                
-              >
+              <span className='circle-icon-user' id='user-icon'>
                 <Profile/>
               </span>
             ) : (

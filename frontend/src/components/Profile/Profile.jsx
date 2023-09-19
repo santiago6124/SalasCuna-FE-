@@ -33,12 +33,6 @@ function Profile ()  {
                   <div className="config-section">
                     <div className="config-item">
                       <div className="config-content">
-                        <FontAwesomeIcon icon={faGear} size="lg" style={{ color: "#F1862E", marginRight: '8px' }} />
-                        <span className="config-text">Configuración</span>
-                      </div>
-                    </div>
-                    <div className="config-item">
-                      <div className="config-content">
                         <button className="config-button" onClick={() => logoutUser()}>
                           <FontAwesomeIcon icon={faRightFromBracket} size="lg" style={{ color: "#F1862E", marginRight: '8px' }} />
                           <span className="config-text">Cerrar Sesion</span>
