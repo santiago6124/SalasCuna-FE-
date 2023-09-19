@@ -61,7 +61,9 @@
 }
 .header-report{
     margin-bottom: 50px;
-    padding: 5px;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
 }
 
 .add-payout-button {

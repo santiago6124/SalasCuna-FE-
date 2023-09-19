@@ -11,9 +11,11 @@
   display: flex;
   justify-content: center;
 }
-.header {
+.header-monto{
   margin-bottom: 50px;
-  padding: 5px;
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
 }
 
 .conteiner-form-cb {

@@ -92,7 +92,7 @@ export default function UserList() {
     <>
       <body>
         <div className="cribroom-dashboard">
-          <header className="header">
+          <header className="header-users">
             <Menu />
           </header>
 

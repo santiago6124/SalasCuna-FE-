@@ -78,7 +78,7 @@ function GeneratePadron() {
   return (
     <>
       <body>
-        <header className="header">
+        <header className="header-padron">
           <Menu />
         </header>
         <h1 className="titulo-cb">Generar Padron</h1>

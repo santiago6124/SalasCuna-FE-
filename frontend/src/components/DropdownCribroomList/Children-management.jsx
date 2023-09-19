@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import "../DropdownCribroomList/DropdownCribroomList.css";
 
+
 import { Form } from "react-bootstrap";
 import { Col } from "react-bootstrap";
 import { Row } from "react-bootstrap";
@@ -196,89 +197,90 @@ export default function ChildrenManagement() {
 
   return (
     <body>
-      {selectedChild && (
-        <>
-          <EditChildren
+        {selectedChild && (
+          <>
+            <EditChildren
+              id={selectedChild}
+              show={modalEditShow}
+              onHide={() => {
+                setModalEditShow(false);
+                setSelectedChild(""); // Reset selectedCribroom after closing modal
+              }}
+            />
+          </>
+        )}
+        {selectedChild && (
+          <DeleteChildren
             id={selectedChild}
-            show={modalEditShow}
+            name={childName}
+            show={modalDeleteShow}
             onHide={() => {
-              setModalEditShow(false);
+              setModalDeleteShow(false);
               setSelectedChild(""); // Reset selectedCribroom after closing modal
+              /*window.location.reload();*/
             }}
           />
-        </>
-      )}
-      {selectedChild && (
-        <DeleteChildren
-          id={selectedChild}
-          name={childName}
-          show={modalDeleteShow}
-          onHide={() => {
-            setModalDeleteShow(false);
-            setSelectedChild(""); // Reset selectedCribroom after closing modal
-            /*window.location.reload();*/
-          }}
-        />
-      )}
-      {!selectedChild && (
-        <div className="body-cm">
-          <h1 className="titulo-cm">Gestion De Chicos/as</h1>
-          <div className="contenedor-linea-cm">
-            <hr className="linea-cm"></hr>
-          </div>
-          <div>
-            <Row className="mb-3">
-              <Col>
-                <div className="container">
-                  <div className="dropdown-container">
-                    <Form.Label className="mb-1 mt-3">
-                      Seleccionar Sala Cuna
-                    </Form.Label>
-                    <Form.Select
-                      as="select"
-                      value={selectedCribroom}
-                      className="mb-1"
-                      onChange={handleCribroomChange}
-                    >
-                      <option value="" disabled>
+        )}
+        {!selectedChild && (
+          <div className="body-cm">
+            <h1 className="titulo-cm">Gestion De Chicos/as</h1>
+            <div className="contenedor-linea-cm">
+              <hr className="linea-cm"></hr>
+            </div>
+            <div>
+              <Row className="mb-3">
+                <Col>
+                  <div className="container">
+                    <div className="dropdown-container">
+                      <Form.Label className="mb-1 mt-3">
                         Seleccionar Sala Cuna
-                      </option>
-                      {cribroomOptions.map((cribroom) => (
-                        <option key={cribroom.id} value={cribroom.id}>
-                          {cribroom.name}
+                      </Form.Label>
+                      <Form.Select
+                        as="select"
+                        value={selectedCribroom}
+                        className="mb-1"
+                        onChange={handleCribroomChange}
+                      >
+                        <option value="" disabled>
+                          Seleccionar Sala Cuna
                         </option>
-                      ))}
-                    </Form.Select>
+                        {cribroomOptions.map((cribroom) => (
+                          <option key={cribroom.id} value={cribroom.id}>
+                            {cribroom.name}
+                          </option>
+                        ))}
+                      </Form.Select>
+                    </div>
                   </div>
-                </div>
-              </Col>
-              <Col>
-                {showNewButton && ( // Mostrar el botón solo si showNewButton es true
-                  <div className="contenedor-boton-new">
-                    <Button
-                      as="input"
-                      type="submit"
-                      value="New"
-                      size="m"
-                      onClick={handleNewClick}
-                    />
-                  </div>
-                )}
-              </Col>
-            </Row>
+                </Col>
+                <Col>
+                  {showNewButton && ( // Mostrar el botón solo si showNewButton es true
+                    <div className="contenedor-boton-new">
+                      <Button
+                        as="input"
+                        type="submit"
+                        value="New"
+                        size="m"
+                        onClick={handleNewClick}
+                      />
+                    </div>
+                  )}
+                </Col>
+              </Row>
 
-            <div className="DataGrid-Wrapper">
-              <DataGrid
-                style={{ borderRadius: "15px", margin: "20px", width: "" }}
-                rows={childs}
-                columns={columns}
-                autoHeight
-                pageSize={5}
-              />
+              <div className="DataGrid-Wrapper">
+                <DataGrid
+                  style={{ borderRadius: "15px", margin: "20px", width: "" }}
+                  rows={childs}
+                  columns={columns}
+                  autoHeight
+                  pageSize={5}
+                />
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      
     </body>
   );
 }

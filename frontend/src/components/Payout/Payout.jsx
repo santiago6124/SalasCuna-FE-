@@ -83,7 +83,7 @@ export default function PayoutTest() {
     <>
       <body>
         <div className="cribroom-dashboard">
-          <header className="header">
+          <header className="header-monto">
             <Menu />
           </header>
           <>
