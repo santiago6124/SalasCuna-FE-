@@ -185,7 +185,7 @@ export default function TechnicalReport() {
             </Form.Select>
           </Col>
           <Col>
-            <div className="add-payout-button mb-3">
+            <div className="add-payout-button mb-3">git pull
               <iframe
                 ref={iframeRef}
                 style={{ display: "none" }}
