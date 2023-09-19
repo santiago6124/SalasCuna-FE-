@@ -168,7 +168,6 @@ export default function EditChildren(props) {
       gender: formData.get("generoChild"),
       cribroom: formData.get("salacuna"),
       shift: formData.get("turno"),
-      /* child_state: formData.get("estado"), */
       neightborhood: formData.get("neightborhood"),
       guardian_first_name: formData.get("nombreGuardian"),
       guardian_last_name: formData.get("apellidoGuardian"),
@@ -181,7 +180,7 @@ export default function EditChildren(props) {
 
     try {
       console.log(selectedChild + " id");
-      let response = await axios.put(`/api/child/${selectedChild}/`, {
+      let response = await axios.put(`/api/child/?no_depth&id=${selectedChild}`, payload, {
         headers: {
           "Content-Type": "application/json",
           "X-CSRFToken": Cookies.get("csrftoken"),
