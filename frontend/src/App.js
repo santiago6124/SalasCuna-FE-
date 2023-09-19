@@ -9,7 +9,6 @@ import Activate from "./containers/Activate";
 import Home from "./containers/Home";
 import ResetPassword from "./containers/ResetPassword";
 import ResetPasswordConfirm from "./containers/ResetPasswordConfirm";
-import Signup from "./components/SignUp/SignUp";
 import { Login } from "./components/Login/Login";
 import ActivateAccountPage from "./pages/ActivateAccountPage/ActivateAccountPage";
 import GeneratePadron from "./components/GeneratePadron/GeneratePadron";
@@ -24,7 +23,7 @@ import UserList from "./components/UserList/UserList";
 import Dashboard from "./pages/Dashboard";
 
 import { FilesToDb } from "../src/components/FilesToDb/FilesToDb";
-import MenuTest from "./pages/menuTest/menuTest";
+import SingUpPage from "./pages/SingUpPage/SingUpPage";
 
 function App() {
   return (
@@ -39,7 +38,7 @@ function App() {
             />
             <Route
               path="/agregar-usuario"
-              element={<PrivateRoute children={<Signup />} />}
+              element={<PrivateRoute children={<SingUpPage />} />}
             />
             <Route
               path="/reset-password"

@@ -28,7 +28,7 @@ function SignUp() {
       console.error("Error fetching roles:", error);
     }
   }
-
+ 
   return (
     <body className="body">
       <div>
