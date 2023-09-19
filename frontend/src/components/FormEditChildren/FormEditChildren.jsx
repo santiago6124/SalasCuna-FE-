@@ -58,9 +58,6 @@ export default function EditChildren(props) {
   function handleNeighborhoodChange(event) {
     setSelectedNeighborhood(event.target.value);
   }
-  function handleChildStateChange(event) {
-    setSelectedChildState(event.target.value);
-  }
   function handlePhoneFeatureChange(event) {
     setSelectedPhoneFeature(event.target.value);
   }
@@ -156,6 +153,8 @@ export default function EditChildren(props) {
   async function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
+    let res = await axios.get(`/api/child/${selectedChild}/?no_depth`)
+    let guardian_id = res.data.guardian
     const payload = {
       first_name: formData.get("nombreChild"),
       last_name: formData.get("apellidoChild"),
@@ -177,7 +176,8 @@ export default function EditChildren(props) {
       guardian_phone_number: formData.get("telefono"),
       guardian_phone_Feature: formData.get("phoneFeature"),
       guardian_guardian_Type_id: formData.get("guardianType"),
-      giardian_gender_id: formData.get("generoGuardian"),
+      guardian_gender_id: formData.get("generoGuardian"),
+      guardian: guardian_id,
     };
 
     try {

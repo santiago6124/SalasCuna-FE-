@@ -101,34 +101,56 @@ export function FormAddChildren() {
   async function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
-    const payload = {
-      first_name: formData.get("nombreChild"),
-      last_name: formData.get("apellidoChild"),
-      dni: formData.get("dniChild"),
-      age: formData.get("edadChild"),
-      birthdate: formData.get("fechaNacimientoChild"),
-      house_number: formData.get("numero_casa"),
-      registration_date: formData.get("fechaAlta"),
-      disenroll_date: formData.get("fechaBaja")
-        ? formData.get("fechaBaja")
-        : null,
-      locality: formData.get("locality"),
-      gender: formData.get("generoChild"),
-      cribroom: formData.get("salacuna"),
-      shift: formData.get("turno"),
-      neightborhood: formData.get("neighborhood"),
-      street: formData.get("calle"),
-      guardian_first_name: formData.get("nombreGuardian"),
-      guardian_last_name: formData.get("apellidoGuardian"),
-      guardian_dni: formData.get("dniGuardian"),
+    const guardianPayload = {
+      first_name: formData.get("nombreGuardian"),
+      last_name: formData.get("apellidoGuardian"),
+      dni: formData.get("dniGuardian"),
       guardian_phone_number: formData.get("telefono"),
       guardian_phone_Feature: formData.get("phoneFeature"),
-      guardian_guardian_Type_id: formData.get("guardianType"),
-      guardian_gender_id: formData.get("generoGuardian"),
-      guardian: formData.get("guardian_id") ? formData.get("guardian_id") : 1,
+      guardian_Type: formData.get("guardianType"),
+      gender: formData.get("generoGuardian"),
     };
 
     try {
+      let responseG = await axios.post('/api/GuardianListCreateView/', guardianPayload, {
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": Cookies.get("csrftoken"),
+        },
+      });
+
+      let us = await axios.get("/api/GuardianListCreateView/")
+      var userId = us.data.length+11;
+      var userId = us.data[us.data.length-1].id;
+      console.log(userId);
+
+      const payload = {
+        first_name: formData.get("nombreChild"),
+        last_name: formData.get("apellidoChild"),
+        dni: formData.get("dniChild"),
+        age: formData.get("edadChild"),
+        birthdate: formData.get("fechaNacimientoChild"),
+        house_number: formData.get("numero_casa"),
+        registration_date: formData.get("fechaAlta"),
+        disenroll_date: formData.get("fechaBaja")
+          ? formData.get("fechaBaja")
+          : null,
+        locality: formData.get("locality"),
+        gender: formData.get("generoChild"),
+        cribroom: formData.get("salacuna"),
+        shift: formData.get("turno"),
+        neightborhood: formData.get("neighborhood"),
+        street: formData.get("calle"),
+        guardian_first_name: formData.get("nombreGuardian"),
+        guardian_last_name: formData.get("apellidoGuardian"),
+        guardian_dni: formData.get("dniGuardian"),
+        guardian_phone_number: formData.get("telefono"),
+        guardian_phone_Feature: formData.get("phoneFeature"),
+        guardian_guardian_Type_id: formData.get("guardianType"),
+        guardian_gender_id: formData.get("generoGuardian"),
+        guardian: userId,
+      };
+
       let response = await axios.post(`/api/child/?no_depth`, payload, {
         headers: {
           "Content-Type": "application/json",
@@ -441,15 +463,6 @@ export function FormAddChildren() {
               </Row>
 
               <Row className="mb-4">
-                <Col>
-                  <Form.Label className="mb-1">Id del tutor</Form.Label>
-                  <Form.Control
-                    type="number"
-                    placeholder="Ingrese el id del Tutor"
-                    name="guardian_id"
-                    required
-                  />
-                </Col>
                 <Col>
                   <Form.Label className="mb-1">Madre/padre o Tutor?</Form.Label>
 
