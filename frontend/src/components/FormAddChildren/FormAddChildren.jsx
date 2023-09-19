@@ -115,6 +115,8 @@ export function FormAddChildren() {
       guardian_phone_Feature: formData.get("phoneFeature"),
       guardian_guardian_Type_id: formData.get("guardianType"),
       guardian_gender_id: formData.get("generoGuardian"),
+      guardian : formData.get("guardian_id") ? formData.get("guardian_id")
+        : 1,
     };
 
     try {
@@ -427,6 +429,15 @@ export function FormAddChildren() {
       </Row>
 
       <Row className="mb-4">
+        <Col>
+          <Form.Label className="mb-1">Id del tutor</Form.Label>
+          <Form.Control
+            type="number"
+            placeholder="Ingrese el id del Tutor"
+            name="guardian_id"
+            required
+          />
+        </Col>
         <Col>
           <Form.Label className="mb-1">Madre/padre o Tutor?</Form.Label>
 
