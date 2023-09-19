@@ -88,9 +88,6 @@ export function FormAddChildren() {
     PhoneFeatureList();
   }, []);
 
-  useEffect(() => {
-    getChildren();
-  }, []);
 
   async function getChildren() {
     let response = await axios.get("/api/child/");
