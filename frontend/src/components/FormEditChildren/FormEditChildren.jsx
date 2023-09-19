@@ -165,6 +165,7 @@ export default function EditChildren(props) {
       registration_date: formData.get("fechaAlta"),
       disenroll_date: formData.get("fechaBaja") ? formData.get("fechaBaja") : null,
       locality: formData.get("locality"),
+      street: formData.get("calle"),
       gender: formData.get("generoChild"),
       cribroom: formData.get("salacuna"),
       shift: formData.get("turno"),
@@ -480,6 +481,7 @@ export default function EditChildren(props) {
             <Form.Control
               type="text"
               placeholder="Ingrese una calle"
+              id="calle"
               name="calle"
               required
             />
