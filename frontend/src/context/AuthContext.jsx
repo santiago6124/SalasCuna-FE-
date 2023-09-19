@@ -2,6 +2,7 @@ import {createContext, useEffect, useState} from "react";
 import jwt_decode from "jwt-decode";
 import {useNavigate} from 'react-router-dom'
 import Cookies from "js-cookie";
+import axios from "axios";
 
 
 const AuthContext = createContext();
@@ -23,7 +24,6 @@ export const AuthProvider = ({children}) => {
             "first_name": formData.get("first_name"),
             "last_name": formData.get("last_name"),
             "dni": formData.get("dni"),
-            "role": formData.get("role"),
             "phone_number": formData.get("phone_number"),
             "address": formData.get("address"),
             "department": formData.get("department"),
@@ -32,6 +32,9 @@ export const AuthProvider = ({children}) => {
             "password": formData.get("password"),
             "re_password": formData.get("re_password")
         };
+        const group = {
+            "groups": [parseInt(formData.get("role"))],
+        }
         let response = await fetch('/auth/users/', {
             method: 'POST',
             headers: {
@@ -41,7 +44,19 @@ export const AuthProvider = ({children}) => {
             body: JSON.stringify(payload),
         });
         if (response.status === 201) {
-            alert('Revisar email para verificar tu cuenta')
+            let us = await axios.get("/api/user/")
+            var userId = us.data.length+11;
+            console.log(userId);
+            let response2 = await axios.patch(`/api/user/${userId}/`, group, {headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken' : Cookies.get('csrftoken')
+            }});
+            if (response2.status === 200) {
+                alert('Revisar email para verificar tu cuenta')    
+            }
+            else {
+                alert("Error")
+            }
         } else if (response.status === 400) {
             alert('Bad Request. Email is already in use')
         } else {
