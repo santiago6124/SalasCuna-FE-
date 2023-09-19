@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import Form from "react-bootstrap/Form/";
 import { Button } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
+import "./FormEditChildren.css"
 import {
   getAllCribrooms,
   getAllGenders,
@@ -205,7 +206,7 @@ export default function EditChildren(props) {
 
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
-      <Form className="conteiner-form" onSubmit={handleSubmit}>
+      <Form className="conteiner-form-ec" onSubmit={handleSubmit}>
         <Button
           as="input"
           type="submit"
@@ -348,8 +349,12 @@ export default function EditChildren(props) {
         <Row className="mb-5">
           <Col>
             <Form.Label className="mb-1">Fecha de baja</Form.Label>
-            <Form.Control type="date" placeholder="" name="fechaBaja" 
-            defaultValue={null}/>
+            <Form.Control
+              type="date"
+              placeholder=""
+              name="fechaBaja"
+              defaultValue={null}
+            />
           </Col>
           <Col>
             <Form.Label className="mb-1">Fecha de alta</Form.Label>
