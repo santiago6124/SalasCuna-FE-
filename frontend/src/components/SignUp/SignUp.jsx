@@ -4,19 +4,26 @@ import AuthContext from "../../context/AuthContext";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import "./SignUp.css";
-import { getAllGroup } from "../../api/salasCuna.api";
+import { getAllDepartments, getAllGroup } from "../../api/salasCuna.api";
 
 function SignUp() {
   const [role, setRole] = useState("");
   const [rolesList, setRolesList] = useState([]); // State to store the list of roles
+  const [department, setDepartment] = useState([]);
+  const [departmentsList, setDepartmentsList] = useState([]);
   const { signupUser } = useContext(AuthContext);
 
   function handleRoleChange(event) {
     setRole(event.target.value);
   }
 
+  function handleDepartmentChange(event) {
+    setDepartment(event.target.value);
+  }
+
   useEffect(() => {
     fetchRoles();
+    fetchDepartments();
   }, []);
 
   // Fetch the roles from the backend API
@@ -27,8 +34,17 @@ function SignUp() {
     } catch (error) {
       console.error("Error fetching roles:", error);
     }
-  }
- 
+  };
+
+  async function fetchDepartments() {
+    try {
+      const response = await getAllDepartments();
+      setDepartmentsList(response.data);
+    } catch (error) {
+      console.log("Error fetching departments", error)
+    }
+  };
+
   return (
     <body className="body">
       <div>
@@ -128,11 +144,16 @@ function SignUp() {
               {/* Departamento */}
               <Col className="col-md-6 rs mb-1">
                 <Form.Label className="mb-1">Departamento</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Ingresar Departamento"
-                  name="department"
-                  required />
+                <Form.Select as='select' name="department" onChange={handleDepartmentChange} required>
+                  <option value='' disabled selected>
+                    Seleccionar Departamento
+                  </option>
+                  {departmentsList.map((department) => (
+                    <option key={department.id} value={department.id}>
+                      {department.department}
+                    </option>
+                  ))}
+                </Form.Select>
               </Col>
             </Row>
             <div className="Form-Control">
