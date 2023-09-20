@@ -27,11 +27,11 @@ export default function DeleteUser(props) {
           'X-CSRFToken' : Cookies.get('csrftoken')
         }
     });
-      if (response.request.status === 201) {
-        console.log('Child added successfully');
+      if (response.request.status === 200) {
+        console.log('Updated user successfully');
         props.onHide();
       } else {
-        console.log('Failed to add child');
+        console.log('Failed to update user');
       }
     } catch (err) {
       alert("Error al eliminar el usuario", err);

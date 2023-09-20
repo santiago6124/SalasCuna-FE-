@@ -192,7 +192,7 @@ export default function EditChildren(props) {
           },
         }
       );
-      if (response.request.status === 201) {
+      if (response.request.status === 200) {
         console.log("Child edited successfully");
         window.location.reload();
       } else {
