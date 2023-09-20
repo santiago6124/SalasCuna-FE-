@@ -39,6 +39,9 @@ export default function Dashboard() {
   return (
     <div>
       <body>
+        <header className="mb-5">
+          <Menu />
+        </header>
         {userGroup === 1 && <AdminDashboard />}
         {userGroup === 2 && <TSDashboard />}
       </body>
