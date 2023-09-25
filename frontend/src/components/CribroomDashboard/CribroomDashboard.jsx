@@ -18,6 +18,8 @@ import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import axios from "axios";
+import { loadingData } from "../../utils/toastMsgs";
+import { ToastContainer } from "react-toastify";
 
 export default function CribroomDashboard() {
   const [cribrooms, setCribrooms] = useState([]);
@@ -31,6 +33,7 @@ export default function CribroomDashboard() {
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
 
   useEffect(() => {
+    loadingData();
     listCribroom();
   }, []);
 
@@ -139,6 +142,7 @@ export default function CribroomDashboard() {
     <>
       <body>
         <div className="cribroom-dashboard">
+          <ToastContainer />
           <header className="header">
             <Menu />
           </header>

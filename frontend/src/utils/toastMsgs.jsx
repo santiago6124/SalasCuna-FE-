@@ -1,5 +1,19 @@
-import { toast } from 'react-toastify';
+import { toast, Slide, Zoom } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+
+export function loadingData() {
+    toast.info('Cargando la información', {
+        position: "top-left",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+        transition: Zoom,
+    });
+}
 
 export function updateData() {
     toast.success('Actualizado con éxito!', {
@@ -11,11 +25,12 @@ export function updateData() {
         draggable: false,
         progress: undefined,
         theme: "colored",
-        closeButton: false
+        closeButton: false,
+        transition: Slide,
     });
 }
 
-export function loadingData() {
+export function deletingData() {
     toast.error('Desactivado con éxito!', {
         position: "top-right",
         autoClose: false,

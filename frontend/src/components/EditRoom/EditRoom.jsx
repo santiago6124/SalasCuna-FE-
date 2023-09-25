@@ -19,7 +19,7 @@ import axios from "axios";
 
 import { updateData } from "../../utils/toastMsgs";
 
-import { ToastContainer, Slide } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
 export function UpdateRoom(props) {
   const [zoneOptions, setZoneOptions] = useState([]);
@@ -112,7 +112,7 @@ export function UpdateRoom(props) {
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
       <div className="contenedor-form-wrapper">
-        <ToastContainer transition={Slide}/>
+        <ToastContainer />
         <Container fluid className="conteiner-form-room">
           <Form onSubmit={handleEdit} className="conteiner-form-edit">
             <h1 className="titulo">Editar Sala Cuna</h1>
