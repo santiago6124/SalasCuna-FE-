@@ -17,6 +17,10 @@ import {
 } from "../../api/salasCuna.api";
 import axios from "axios";
 
+import { updateData } from "../../utils/toastMsgs";
+
+import { ToastContainer, Slide } from 'react-toastify';
+
 export function UpdateRoom(props) {
   const [zoneOptions, setZoneOptions] = useState([]);
   const [shiftOptions, setShiftOptions] = useState([]);
@@ -30,7 +34,7 @@ export function UpdateRoom(props) {
     loadShifts();
     setSelectedCribroom(props.id);
     loadSelectedCribroom(props.id); // Load selected cribroom data
-  }, []);
+  }, [props]);
 
   async function loadZones() {
     try {
@@ -108,6 +112,7 @@ export function UpdateRoom(props) {
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
       <div className="contenedor-form-wrapper">
+        <ToastContainer transition={Slide}/>
         <Container fluid className="conteiner-form-room">
           <Form onSubmit={handleEdit} className="conteiner-form-edit">
             <h1 className="titulo">Editar Sala Cuna</h1>
@@ -233,6 +238,7 @@ export function UpdateRoom(props) {
                 boton
                 variant="primary"
                 type="submit"
+                onClick={updateData}
               >
                 Editar Sala Cuna
               </Button>
