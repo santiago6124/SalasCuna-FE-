@@ -139,15 +139,10 @@ export default function CribroomDashboard() {
   ];
 
   return (
-    <>
+    <> 
       <body>
         <div className="cribroom-dashboard">
-<<<<<<< HEAD
-          <ToastContainer />
-          <header className="header">
-=======
           <header className="header-cd">
->>>>>>> 6f10423 (.)
             <Menu />
           </header>
           {selectedCribroom && (
