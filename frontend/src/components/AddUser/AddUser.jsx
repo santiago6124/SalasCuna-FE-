@@ -3,10 +3,10 @@ import { Button, Container, Form } from "react-bootstrap";
 import AuthContext from "../../context/AuthContext";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import "./SignUp.css";
+import "./AddUser.css";
 import { getAllDepartments, getAllGroup } from "../../api/salasCuna.api";
 
-function SignUp() {
+export default function AddUser() {
   const [role, setRole] = useState("");
   const [rolesList, setRolesList] = useState([]); // State to store the list of roles
   const [department, setDepartment] = useState([]);
@@ -212,4 +212,3 @@ function SignUp() {
   );
 }
 
-export default SignUp;

@@ -15,7 +15,6 @@ import GeneratePadron from "./components/GeneratePadron/GeneratePadron";
 import TechnicalReportPage from "./pages/TechnicalReportPage";
 import AddChildrenPage from "./pages/AddChildrenPage/AddChildrenPage";
 import CreateRoomPage from "./pages/CreateRoomPage/CreateRoomPage";
-import { SelectRoom } from "./components/SelectRoom/SelectRoom";
 import { FormAddChildren } from "./components/FormAddChildren/FormAddChildren";
 import Payout from "./components/Payout/Payout";
 import CribroomDashboard from "./components/CribroomDashboard/CribroomDashboard";
@@ -23,7 +22,7 @@ import UserList from "./components/UserList/UserList";
 import Dashboard from "./pages/Dashboard";
 
 import { FilesToDb } from "../src/components/FilesToDb/FilesToDb";
-import SingUpPage from "./pages/SingUpPage/SingUpPage";
+import AddUserPage from "./pages/AddUserPage/AddUserPage.jsx";
 
 function App() {
   return (
@@ -38,7 +37,7 @@ function App() {
             />
             <Route
               path="/agregar-usuario"
-              element={<PrivateRoute children={<SingUpPage />} />}
+              element={<PrivateRoute children={<AddUserPage />} />}
             />
             <Route
               path="/reset-password"
