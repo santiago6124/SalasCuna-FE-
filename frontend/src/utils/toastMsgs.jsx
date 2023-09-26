@@ -3,7 +3,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 export function loadingData() {
     toast.info('Cargando la información', {
-        position: "top-left",
+        position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -17,7 +17,7 @@ export function loadingData() {
 
 export function updateData() {
     toast.success('Actualizado con éxito!', {
-        position: "top-right",
+        position: "top-center",
         autoClose: false,
         hideProgressBar: true,
         closeOnClick: true,
@@ -32,7 +32,7 @@ export function updateData() {
 
 export function deletingData() {
     toast.error('Desactivado con éxito!', {
-        position: "top-right",
+        position: "top-center",
         autoClose: false,
         hideProgressBar: true,
         closeOnClick: true,
