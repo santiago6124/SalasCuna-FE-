@@ -17,13 +17,13 @@ import AddChildrenPage from "./pages/AddChildrenPage/AddChildrenPage";
 import CreateRoomPage from "./pages/CreateRoomPage/CreateRoomPage";
 import { SelectRoom } from "./components/SelectRoom/SelectRoom";
 import { FormAddChildren } from "./components/FormAddChildren/FormAddChildren";
-import Payout from "./components/Payout/Payout";
 import CribroomDashboard from "./components/CribroomDashboard/CribroomDashboard";
 import UserList from "./components/UserList/UserList";
 import Dashboard from "./pages/Dashboard";
 
 import { FilesToDb } from "../src/components/FilesToDb/FilesToDb";
 import SingUpPage from "./pages/SingUpPage/SingUpPage";
+import MontoPage from "./pages/MontoPage";
 
 function App() {
   return (
@@ -73,7 +73,7 @@ function App() {
             />
             <Route
               path="/maestro-montos"
-              element={<PrivateRoute children={<Payout />} />}
+              element={<PrivateRoute children={<MontoPage />} />}
             />
             <Route
               path="/informe-tecnico"

@@ -18,7 +18,7 @@ import { EditPayout } from "./EditPayoutModal";
 import DeletePayout from "./DeletePayoutModal";
 import { getAllZones, handlePermissions } from "../../api/salasCuna.api";
 
-export default function PayoutTest() {
+export default function Payout() {
   const [zoneOptions, setZoneOptions] = useState([]);
   const [selectedZone, setSelectedZone] = useState("");
   const [payout, setPayout] = useState("");
@@ -83,9 +83,6 @@ export default function PayoutTest() {
     <>
       <body>
         <div className="cribroom-dashboard">
-          <header className="header-monto">
-            <Menu />
-          </header>
           <>
             <AddPayout
               zones={zoneOptions}
