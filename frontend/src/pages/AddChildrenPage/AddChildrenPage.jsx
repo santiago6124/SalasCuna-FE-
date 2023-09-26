@@ -6,10 +6,10 @@ import "../../components/ChildrenDashboard/ChildrenManagement.css"
 export default function AñadirChicoPage() {
     return (
       <div className="App">
-        <body>
-          <header className='header-ac'>
-            <Menu />
-          </header>
+        <header>
+          <Menu className="mb-7"/>
+        </header>
+        <body className='mt-3'>
           <div>
             <ChildrenManagement />
           </div>

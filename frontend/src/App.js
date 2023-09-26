@@ -12,7 +12,7 @@ import ResetPasswordConfirm from "./containers/ResetPasswordConfirm";
 import { Login } from "./components/Login/Login";
 import ActivateAccountPage from "./pages/ActivateAccountPage/ActivateAccountPage";
 import GeneratePadron from "./components/GeneratePadron/GeneratePadron";
-import TechnicalReport from "./components/TechnicalReport/TechnicalReport";
+import TechnicalReportPage from "./pages/TechnicalReportPage";
 import AddChildrenPage from "./pages/AddChildrenPage/AddChildrenPage";
 import CreateRoomPage from "./pages/CreateRoomPage/CreateRoomPage";
 import { SelectRoom } from "./components/SelectRoom/SelectRoom";
@@ -77,7 +77,7 @@ function App() {
             />
             <Route
               path="/informe-tecnico"
-              element={<PrivateRoute children={<TechnicalReport />} />}
+              element={<PrivateRoute children={<TechnicalReportPage />} />}
             />
             <Route
               path="/gestion-sala"

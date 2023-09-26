@@ -77,10 +77,12 @@ function GeneratePadron() {
 
   return (
     <>
-      <body>
+    <div>
         <header className="header-padron">
-          <Menu />
+          <Menu className="mb-7" />
         </header>
+        <body className="mt-3">
+        
         <h1 className="titulo-cb">Generar Padron</h1>
         <div className="contenedor-linea-report">
           <hr className="linea-report"></hr>
@@ -133,6 +135,8 @@ function GeneratePadron() {
             columnThreshold={2} />
         </div>
       </body>
+    </div>
+      
     </>
   );
 }

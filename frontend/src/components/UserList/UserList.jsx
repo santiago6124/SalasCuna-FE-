@@ -90,11 +90,11 @@ export default function UserList() {
 
   return (
     <>
-      <body>
+      <header>
+        <Menu className="mb-7"/>
+      </header>
+      <body className="mt-5">
         <div className="cribroom-dashboard">
-          <header className="header-users">
-            <Menu />
-          </header>
 
           <>
             {selectedUser && (

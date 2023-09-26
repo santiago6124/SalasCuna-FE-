@@ -1,17 +1,17 @@
 import React from 'react'
 
-import {Menu} from '../components/Menu/Menu';
-import {TechnicalReport} from '../components/TechnicalReport/TechnicalReport';
+import Menu from '../components/Menu/Menu';
+import TechnicalReport from '../components/TechnicalReport/TechnicalReport';
 
-export function AddChildrenPage() {
+export default function TechnicalReportPage() {
     return (
         <div className="App">
             <header>
                 <div>
-                    <Menu/>
+                    <Menu style={{marginBottom:"20px"}}/>
                 </div>
             </header>
-            <body className='body'>
+            <body className='mt-3'>
             <div>
                 <TechnicalReport/>
             </div>
