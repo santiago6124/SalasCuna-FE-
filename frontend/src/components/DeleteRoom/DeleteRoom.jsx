@@ -7,7 +7,6 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Cookies from 'js-cookie'
 
-import { toast } from "react-toastify";
 import { deletingData } from "../../utils/toastMsgs";
 
 export default function DeleteRoom(props) {

@@ -40,6 +40,7 @@ export function deletingData() {
         draggable: false,
         progress: undefined,
         theme: "colored",
-        closeButton: false
-        });
+        closeButton: false,
+        transition: Slide,
+    });
 }

@@ -142,12 +142,8 @@ export default function CribroomDashboard() {
     <>
       <body>
         <div className="cribroom-dashboard">
-<<<<<<< HEAD
           <ToastContainer />
           <header className="header">
-=======
-          <header className="header-cd">
->>>>>>> 6f10423 (.)
             <Menu />
           </header>
           {selectedCribroom && (
@@ -161,20 +157,20 @@ export default function CribroomDashboard() {
                   window.location.reload();
                 }}
               />
-          </>
-        )}
-        {selectedCribroom && (
-              <DeleteRoom
-                id={selectedCribroom}
-                name={cribroomName}
-                show={modalDeleteShow}
-                onHide={() => {
-                  setModalDeleteShow(false);
-                  setSelectedCribroom(""); // Reset selectedCribroom after closing modal
-                  window.location.reload();
-                }}
-              />
-            )}
+            </>
+          )}
+          {selectedCribroom && (
+            <DeleteRoom
+              id={selectedCribroom}
+              name={cribroomName}
+              show={modalDeleteShow}
+              onHide={() => {
+                setModalDeleteShow(false);
+                setSelectedCribroom(""); // Reset selectedCribroom after closing modal
+                window.location.reload();
+              }}
+            />
+          )}
           {!selectedCribroom && (
             <>
               <>
