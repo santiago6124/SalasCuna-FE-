@@ -7,6 +7,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import UpdateUser from "../UserManagement/EditUserModal";
 import DeleteUser from "../UserManagement/DeleteUserModal";
+import SignUp from "../SignUp/SignUp";
+
 import { Link } from "react-router-dom";
 
 import Button from "@mui/material/Button";
@@ -29,6 +31,7 @@ export default function UserList() {
   const [userName, setUsername] = useState("");
   const [modalEditShow, setModalEditShow] = useState(false);
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
+  const [modalCreateShow, setModalCreateShow] = useState(false);
 
   useEffect(() => {
     listUsers();
@@ -66,7 +69,7 @@ export default function UserList() {
     }
   }
 
-  function handleDeleteClick(rowId, CRName) {
+  function handleDeleteClick(rowId) {
     setSelectedUser(rowId);
     setUsername(users.first_name);
     setModalDeleteShow(true);
@@ -77,6 +80,10 @@ export default function UserList() {
     setSelectedUser(rowId);
     setModalEditShow(true);
     console.log("Edit clicked for row with id:", rowId);
+  }
+
+  function handleCreateClick(){
+    setModalCreateShow(true);
   }
 
   // SEARCH FUNCTION (Update to function on user list)
@@ -95,7 +102,6 @@ export default function UserList() {
       </header>
       <body className="mt-5">
         <div className="cribroom-dashboard">
-
           <>
             {selectedUser && (
               <UpdateUser
@@ -119,7 +125,15 @@ export default function UserList() {
                 }}
               />
             )}
-
+            {modalCreateShow && (
+              <SignUp
+                show={modalCreateShow}
+                onHide={() => {
+                  setModalCreateShow(false);
+                  /* window.location.reload(); */
+                }}
+              />
+            )}
             <>
               <h1 className="titulo-cb">Usuarios</h1>
               <div className="contenedor-linea-cb">
@@ -135,16 +149,15 @@ export default function UserList() {
                 </Col>
                 <Col>
                   <div className="add-payout-button mb-3">
-                    <Link to={"/agregar-usuario"}>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        startIcon={<AddIcon />}
-                        className="add-payout-button mb-3"
-                      >
-                        Agregar Usuario
-                      </Button>
-                    </Link>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      startIcon={<AddIcon />}
+                      className="add-payout-button mb-3"
+                      onClick={() => handleCreateClick()}
+                    >
+                      Agregar Usuario
+                    </Button>
                   </div>
                 </Col>
               </Row>

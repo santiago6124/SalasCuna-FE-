@@ -46,7 +46,6 @@ export const AuthProvider = ({children}) => {
         if (response.status === 201) {
             let us = await axios.get("/api/user/")
             var userId = us.data[us.data.length-1].id;
-            console.log(userId);
             let response2 = await axios.patch(`/api/user/${userId}/`, group, {headers: {
                 'Content-Type': 'application/json',
                 'X-CSRFToken' : Cookies.get('csrftoken')

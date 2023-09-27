@@ -1,12 +1,13 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Button, Container, Form } from "react-bootstrap";
+import Modal from "react-bootstrap/Modal";
 import AuthContext from "../../context/AuthContext";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import "./SignUp.css";
 import { getAllDepartments, getAllGroup } from "../../api/salasCuna.api";
 
-function SignUp() {
+export default function SignUp(props) {
   const [role, setRole] = useState("");
   const [rolesList, setRolesList] = useState([]); // State to store the list of roles
   const [department, setDepartment] = useState([]);
@@ -45,11 +46,15 @@ function SignUp() {
     }
   };
 
+  function handleSubmit(event){
+    signupUser(event).then(props.onHide())
+  }
+
   return (
-    <body className="body">
-      <div>
+    <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
+      <div className="contenedor-form-wrapper">
         <Container className="conteiner-form-signup">
-          <Form onSubmit={signupUser} className="conteiner-form-edit">
+          <Form onSubmit={handleSubmit} className="conteiner-form-edit">
             <h1 className="titulo">Agregar Usuario</h1>
             <div className="contenedor-linea">
               <hr className="linea"></hr>
@@ -208,8 +213,6 @@ function SignUp() {
           </Form>
         </Container>
       </div>
-    </body>
+    </Modal>
   );
 }
-
-export default SignUp;
