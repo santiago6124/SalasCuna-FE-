@@ -1,11 +1,21 @@
 import axios from "axios";
 
-export function getAllCribrooms() {
-  return axios.get("/api/cribroom/");
+export function getAllCribrooms(tokens) {
+  const headers = {
+    "Content-Type": "application/json",
+    "Authorization": "JWT " + tokens,
+    "Accept": "application/json"
+  }
+  return axios.get("/api/cribroom/", {headers: headers});
 }
 
-export function getAllGenders() {
-  return axios.get("/api/GenderListView/");
+export function getAllGenders(tokens) {
+  const headers = {
+    "Content-Type": "application/json",
+    "Authorization": "JWT " + tokens,
+    "Accept": "application/json"
+  }
+  return axios.get("/api/GenderListView/", {headers: headers});
 }
 
 export function getAllGuardianTypes() {
