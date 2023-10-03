@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 export function loadingData() {
     toast.info('Cargando la información', {
         position: "top-center",
-        autoClose: 3000,
+        autoClose: 1500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: false,
