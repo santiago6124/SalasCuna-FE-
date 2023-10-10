@@ -90,7 +90,7 @@ export function getAllUsers(tokens) {
   return axios.get("/api/user/", {headers: headers});
 }
 
-export function getAllGroup() {
+export function getAllGroup(tokens) {
   const headers = {
     "Content-Type": "application/json",
     "Authorization": "JWT " + tokens,
