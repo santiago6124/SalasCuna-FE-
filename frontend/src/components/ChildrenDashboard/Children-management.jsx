@@ -55,12 +55,20 @@ export default function ChildrenManagement() {
 
   const navigate = useNavigate();
 
+  let {authTokens} = useContext(AuthContext);
+
+  let headers = {
+    "Content-Type": "application/json",
+    "Authorization": "JWT " + authTokens.access,
+    "Accept": "application/json"
+}
+
   useEffect(() => {
     LoadCribrooms();
   }, []);
   async function LoadCribrooms() {
     try {
-      let response = await getAllCribroomsWithoutDepth();
+      let response = await getAllCribroomsWithoutDepth(authTokens.access);
       let data = await response.data;
       setCribroom(data);
     } catch (error) {
@@ -79,7 +87,7 @@ export default function ChildrenManagement() {
   async function CRCapacity(selectedSalaCuna) {
     try {
       let response = await axios.get(
-        `/api/cribroom/?no_depth&id=${selectedSalaCuna}`
+        `/api/cribroom/?no_depth&id=${selectedSalaCuna}`, {headers: headers}
       );
       console.log(response);
       if (response.request.status === 200) {
@@ -107,7 +115,7 @@ export default function ChildrenManagement() {
     try {
       console.log("ID de la Cribroom seleccionada:", selectedCribroom);
       const res = await axios.get(
-        "/api/child/?no_depth&cribroom_id=" + selectedCribroom
+        "/api/child/?no_depth&cribroom_id=" + selectedCribroom, {headers: headers}
       );
       console.log("API Response:", res.data);
       const updateChild = await res.data.map((child) => {

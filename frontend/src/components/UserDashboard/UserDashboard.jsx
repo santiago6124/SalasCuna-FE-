@@ -5,7 +5,7 @@ import Slider from "react-styled-carousel";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import {
   getAllCribroomsWithoutDepth,
@@ -19,12 +19,21 @@ import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 
 import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
 import ArrowCircleRightOutlinedIcon from "@mui/icons-material/ArrowCircleRightOutlined";
+import AuthContext from "../context/AuthContext";
 
 export default function AdminDashboard() {
   const [cribrooms, setCribrooms] = useState([]);
   const [filteredCribroom, setFilteredCribroom] = useState([]);
   const [keyword, setKeyword] = useState("");
   const [userhistory, setUserHistory] = useState([]);
+
+  let {authTokens} = useContext(AuthContext);
+
+  let headers = {
+    "Content-Type": "application/json",
+    "Authorization": "JWT " + authTokens.access,
+    "Accept": "application/json"
+}
 
   useEffect(() => {
     listCribroom();
@@ -33,8 +42,8 @@ export default function AdminDashboard() {
 
   const listCribroom = async () => {
     try {
-      const responseLocality = await getAllLocalities();
-      const response = await getAllCribroomsWithoutDepth();
+      const responseLocality = await getAllLocalities(authTokens.access);
+      const response = await getAllCribroomsWithoutDepth(authTokens.access);
       const localityData = responseLocality.data;
       const cribroomData = response.data;
       const updatedCribrooms = await cribroomData.map((cribroom) => {
@@ -64,7 +73,7 @@ export default function AdminDashboard() {
 
   const listUserHistory = async () => {
     try {
-      const userResponse = await getUserHistory();
+      const userResponse = await getUserHistory(authTokens.access);
       console.log("USER HISTORY", userResponse.data[0]);
       setUserHistory(userResponse.data);
     } catch (error) {
