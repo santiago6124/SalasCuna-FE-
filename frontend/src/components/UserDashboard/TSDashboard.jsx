@@ -76,9 +76,6 @@ export default function TSDashboard() {
   ];
   return (
     <body>
-      <header className="header-home">
-        <Menu />
-      </header>
       <h1 className="titulo-home">Pagina Trabajador/a Social</h1>
       <div className="contenedor-linea-home">
         <hr className="linea-home"></hr>
