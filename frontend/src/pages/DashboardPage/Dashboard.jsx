@@ -1,9 +1,10 @@
-import TSDashboard from "../components/UserDashboard/TSDashboard";
-import AdminDashboard from "../components/UserDashboard/UserDashboard";
+import TSDashboard from "../../components/UserDashboard/TSDashboard";
+import AdminDashboard from "../../components/UserDashboard/UserDashboard";
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
-import AuthContext from "../context/AuthContext";
-import Menu from '../components/Menu/Menu.jsx';
+import AuthContext from "../../context/AuthContext";
+import Menu from '../../components/Menu/Menu.jsx';
+import './Dashboard.css';
 
 export default function Dashboard() {
   const [userGroup, setUserGroup] = useState(null);
@@ -38,14 +39,16 @@ export default function Dashboard() {
 
   return (
     <div>
-      <body>
-        <header className="mb-5">
+      <header className="mb-5">
           <Menu />
-        </header>
+      </header>
+      <body>     
+      <div className="fijar">
         {userGroup === 1 && <AdminDashboard />}
         {userGroup === 2 && <TSDashboard />}
+        </div>
       </body>
     </div>
-    
+        
   );
 }

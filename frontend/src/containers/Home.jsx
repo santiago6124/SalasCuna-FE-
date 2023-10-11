@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
+import './Home.css';
 import { Link } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import Menu from '../components/Menu/Menu';
 import backgroundImage from '../media/Sala-cuna_x4.png'; // Replace this with the path to your background image
-
+ 
 const Home = (logoutUser) => {
     const { user } = useContext(AuthContext);
 
@@ -32,14 +33,17 @@ const Home = (logoutUser) => {
                 user={user}
                 logoutUser={logoutUser}
             />
-            <div style={containerStyle}>
-                <div className='jumbotron mt-5'>
-                    <div style={whiteBoxStyle}>
-                        <h1 className='display-4'>Bienvenido a SalasCuna</h1>
-                        <p className='lead'>Esta version del sistema permite registrar un usuario, ingresar con el usuario creado, añadir un chico a la base de datos y ver el padron.</p>
+            <div className='background-image'>
+                <div style={containerStyle}>
+                    <div className='jumbotron mt-5'>
+                        <div style={whiteBoxStyle}>
+                            <h1 className='display-4'>Bienvenido a SalasCuna</h1>
+                            <p className='lead'>Esta version del sistema permite registrar un usuario, ingresar con el usuario creado, añadir un chico a la base de datos y ver el padron.</p>
+                        </div>
                     </div>
                 </div>
             </div>
+            
         </>
     );
 };

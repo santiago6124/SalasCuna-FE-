@@ -19,7 +19,7 @@ import { SelectRoom } from "./components/SelectRoom/SelectRoom";
 import { FormAddChildren } from "./components/FormAddChildren/FormAddChildren";
 import CribroomDashboard from "./components/CribroomDashboard/CribroomDashboard";
 import UserList from "./components/UserList/UserList";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/DashboardPage/Dashboard";
 
 import { FilesToDb } from "../src/components/FilesToDb/FilesToDb";
 import SingUpPage from "./pages/SingUpPage/SingUpPage";

@@ -107,7 +107,12 @@ export default function UserList() {
         <Menu className="mb-7" />
       </header>
       <body className="mt-5">
+<<<<<<< HEAD
         <div className="cribroom-dashboard">
+=======
+        <div className="cribroom-dashboard fijar">
+
+>>>>>>> a9d4453 (fix sidebar)
           <>
             {selectedUser && (
               <UpdateUser
