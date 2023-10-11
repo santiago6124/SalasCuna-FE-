@@ -19,7 +19,7 @@ import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 
 import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
 import ArrowCircleRightOutlinedIcon from "@mui/icons-material/ArrowCircleRightOutlined";
-import AuthContext from "../context/AuthContext";
+import AuthContext from "../../context/AuthContext";
 
 export default function AdminDashboard() {
   const [cribrooms, setCribrooms] = useState([]);

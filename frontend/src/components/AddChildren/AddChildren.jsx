@@ -4,13 +4,17 @@ import Col from 'react-bootstrap/Col/';
 import Row from 'react-bootstrap/Row/';
 import Form from 'react-bootstrap/Form/';
 import {Button} from 'react-bootstrap';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import axios from 'axios';
 import { getAllCribroomsWithoutDepth, getAllGenders, getAllShifts } from '../../api/salasCuna.api';
+import AuthContext from '../../context/AuthContext';
 
 import Cookies from 'js-cookie';
 
 export function AddChildren() {
+
+    let {authTokens} = useContext(AuthContext);
+
     async function handleSubmit(event) {
         event.preventDefault();
 
@@ -34,7 +38,8 @@ export function AddChildren() {
             let response = await axios.post('/api/child/', payload , {
                 headers: {
                   'Content-Type': 'application/json',
-                  'X-CSRFToken' : Cookies.get('csrftoken')
+                  'X-CSRFToken' : Cookies.get('csrftoken'),
+                  "Authorization": "JWT " + authTokens.access
                 }
             });
             console.log(response);
@@ -83,7 +88,12 @@ export function AddChildren() {
 
     async function ListTutors() {
         try {
-            const response = await axios.get('/api/GuardianListCreateView/');
+            const headers = {
+                "Content-Type": "application/json",
+                "Authorization": "JWT " + authTokens.access,
+                "Accept": "application/json"
+            }
+            const response = await axios.get('/api/GuardianListCreateView/', {headers: headers});
             setTutores(response.data.guardian);
         } catch (error) {
             console.error('Error fetching tutores:', error);
@@ -92,7 +102,7 @@ export function AddChildren() {
 
     async function ListGenero() {
         try {
-            const response = await getAllGenders();
+            const response = await getAllGenders(authTokens.access);
             setGeneros(response.data.gender);
         } catch (error) {
             console.error('Error fetching generos:', error);
@@ -101,7 +111,7 @@ export function AddChildren() {
 
     async function ListSalasCuna() {
         try {
-            const response = await getAllCribroomsWithoutDepth();
+            const response = await getAllCribroomsWithoutDepth(authTokens.access);
             setSalas(response.data);
         } catch (error) {
             console.log('Error fetching Salas Cunas:', error);
@@ -110,7 +120,7 @@ export function AddChildren() {
 
     async function ListShift() {
         try {
-            const response = await getAllShifts();
+            const response = await getAllShifts(authTokens.access);
             setTurno(response.data);
         } catch (error) {
             console.log('Error fetching Turnos:', error);
