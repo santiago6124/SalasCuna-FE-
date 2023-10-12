@@ -31,6 +31,7 @@ export default function DeleteChildren(props) {
           headers: {
             "Content-Type": "application/json",
             "X-CSRFToken": Cookies.get("csrftoken"),
+            "Authorization": "JWT " + props.tokens
           },
         }
       );

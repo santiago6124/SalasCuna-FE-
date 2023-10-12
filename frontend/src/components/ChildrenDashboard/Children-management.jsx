@@ -212,6 +212,7 @@ export default function ChildrenManagement() {
             <EditChildren
               id={selectedChild}
               show={modalEditShow}
+              tokens ={authTokens.access}
               onHide={() => {
                 setModalEditShow(false);
                 setSelectedChild(""); // Reset selectedCribroom after closing modal
@@ -224,6 +225,7 @@ export default function ChildrenManagement() {
             id={selectedChild}
             name={childName}
             show={modalDeleteShow}
+            tokens = {authTokens.access}
             onHide={() => {
               setModalDeleteShow(false);
               setSelectedChild(""); // Reset selectedCribroom after closing modal
