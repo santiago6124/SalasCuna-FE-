@@ -1,4 +1,4 @@
-    import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Col from "react-bootstrap/Col/";
 import Row from "react-bootstrap/Row/";
 import Form from "react-bootstrap/Form/";
@@ -7,11 +7,20 @@ import { DataGrid } from "@mui/x-data-grid";
 import Button from "react-bootstrap/Button/";
 import Menu from "../Menu/Menu";
 import { getAllZones, handlePermissions } from "../../api/salasCuna.api";
+import AuthContext from "../../context/AuthContext";
 
 function GeneratePadron() {
   const [zoneOptions, setZoneOptions] = useState([]);
   const [selectedZone, setSelectedZone] = useState("");
   const [cribrooms, setCribrooms] = useState([]);
+  let { authTokens } = useContext(AuthContext);
+
+  let headers = {
+    "Content-Type": "application/json",
+    "Authorization": "JWT " + authTokens.access,
+    "Accept": "application/json"
+  };
+
   function handlePdfClick() {
     // Implement your PDF generation logic here
     console.log("Generate PDF logic will be implemented here");
@@ -32,9 +41,7 @@ function GeneratePadron() {
 
   async function loadCribrooms(zoneId) {
     try {
-      const response = await axios.get(
-        `/api/cribroom/?zone=${zoneId}`
-      );
+      const response = await axios.get(`/api/cribroom/?zone=${zoneId}`, { headers });
       const jsonData = response.data;
       setCribrooms(jsonData);
     } catch (error) {
@@ -45,7 +52,7 @@ function GeneratePadron() {
 
   async function loadZones() {
     try {
-      const response = await getAllZones();
+      const response = await getAllZones(authTokens.access);
       const jsonData = response.data;
       setZoneOptions(jsonData);
     } catch (error) {
