@@ -27,7 +27,7 @@ export default function UpdateUser(props) {
 
   async function loadGroup() {
     try {
-      const response = await getAllGroup();
+      const response = await getAllGroup(props.tokens);
       setGroupOptions(response.data);
     } catch (error) {
       console.error("Error fetching group options:", error);
@@ -40,7 +40,7 @@ export default function UpdateUser(props) {
 
   async function loadDepartments() {
     try {
-      const response = await getAllDepartments();
+      const response = await getAllDepartments(props.tokens);
       setDepartmentOptions(response.data);
     } catch (error) {
       console.error("Error fetching department options:", error);
@@ -53,7 +53,10 @@ export default function UpdateUser(props) {
 
   async function loadSelectedUser(user_id) {
     try {
-      const response = await axios.get(`/api/user/${user_id}/`);
+      const response = await axios.get(`/api/user/${user_id}/`, {headers: {
+        'Content-Type': 'application/json',
+        "Authorization": "JWT " + props.tokens
+    }});
       const data = await response.data;
       setUser(data);
     } catch (error) {
@@ -82,7 +85,8 @@ export default function UpdateUser(props) {
         let response = await axios.put(`/api/user/${selectedUser}/`, payload, {
           headers: {
             'Content-Type': 'application/json',
-            'X-CSRFToken' : Cookies.get('csrftoken')
+            'X-CSRFToken' : Cookies.get('csrftoken'),
+            "Authorization": "JWT " + props.tokens
           }
       });
         if (response.request.status === 200) {

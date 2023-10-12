@@ -12,7 +12,7 @@ export default function SignUp(props) {
   const [rolesList, setRolesList] = useState([]); // State to store the list of roles
   const [department, setDepartment] = useState([]);
   const [departmentsList, setDepartmentsList] = useState([]);
-  const { signupUser } = useContext(AuthContext);
+  const { authTokens, signupUser } = useContext(AuthContext);
 
   function handleRoleChange(event) {
     setRole(event.target.value);
@@ -30,7 +30,7 @@ export default function SignUp(props) {
   // Fetch the roles from the backend API
   async function fetchRoles() {
     try {
-      const response = await getAllGroup();
+      const response = await getAllGroup(authTokens.access);
       setRolesList(response.data); // Update the state with the list of roles
     } catch (error) {
       console.error("Error fetching roles:", error);
@@ -39,7 +39,7 @@ export default function SignUp(props) {
 
   async function fetchDepartments() {
     try {
-      const response = await getAllDepartments();
+      const response = await getAllDepartments(authTokens.access);
       setDepartmentsList(response.data);
     } catch (error) {
       console.log("Error fetching departments", error)
