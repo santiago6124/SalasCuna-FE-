@@ -1,15 +1,19 @@
 import Modal from "react-bootstrap/Modal";
-import Form from "react-bootstrap/Form/";
+import Form from "react-bootstrap/Form";
 import { Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react"; // Import useContext
 import axios from "axios";
+import AuthContext from "../../context/AuthContext"; // Import your AuthContext
 
 export function AddPayout(props) {
-  const [zone, setZone] = useState("")
+  const [zone, setZone] = useState("");
+  const { authTokens } = useContext(AuthContext); // Get the authTokens from your context
+
   function handleZoneChange(event) {
     setZone(event.target.value);
   }
+
   async function handleAdd(event) {
     event.preventDefault();
     try {
@@ -19,13 +23,21 @@ export function AddPayout(props) {
         date: formData.get("date"),
         zone: formData.get("zone"),
       };
-      let response = await axios.post(`/api/payout/`, payload);
+
+      let headers = {
+        "Content-Type": "application/json",
+        "Authorization": "JWT " + authTokens.access,
+        "Accept": "application/json"
+      };
+
+      let response = await axios.post(`/api/payout/`, payload, { headers }); // Include headers in the request
+
       if (response.request.status === 201) {
         props.onHide();
       }
     } catch (error) {
       console.log(error);
-    };
+    }
   }
   
   return (

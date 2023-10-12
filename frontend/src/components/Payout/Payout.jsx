@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import Col from "react-bootstrap/Col/";
-import Row from "react-bootstrap/Row/";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 import "./Payout.css";
+import AuthContext from "../../context/AuthContext"; // Import your AuthContext
 
-//UI imports
+// UI imports
 import { DataGrid } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -26,6 +27,7 @@ export default function Payout() {
   const [modalAddShow, setModalAddShow] = useState(false);
   const [modalEditShow, setModalEditShow] = useState(false);
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
+  const { authTokens } = useContext(AuthContext); // Get the auth tokens from the context
 
   useEffect(() => {
     loadZones();
@@ -39,10 +41,16 @@ export default function Payout() {
 
   async function loadZones() {
     try {
-      const response = await getAllZones();
+      const response = await getAllZones(authTokens.access); // Include the JWT token in the request headers
       let data = await response.data;
       setZoneOptions(data);
-      const responsePO = await axios.get("/api/payout/");
+      const responsePO = await axios.get("/api/payout/", {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "JWT " + authTokens.access,
+          "Accept": "application/json",
+        },
+      });
       let payouts = await responsePO.data;
       setPayout(payouts);
     } catch (error) {
@@ -52,7 +60,13 @@ export default function Payout() {
 
   async function loadPayout(zoneId) {
     try {
-      const response = await axios.get(`/api/payout/?zone=${zoneId}`);
+      const response = await axios.get(`/api/payout/?zone=${zoneId}`, {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "JWT " + authTokens.access,
+          "Accept": "application/json",
+        },
+      });
       const jsonData = response.data;
       setPayout(jsonData);
     } catch (error) {
