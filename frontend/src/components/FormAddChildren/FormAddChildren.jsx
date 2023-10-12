@@ -121,10 +121,17 @@ export function FormAddChildren() {
         headers: {
           "Content-Type": "application/json",
           "X-CSRFToken": Cookies.get("csrftoken"),
+          "Authorization": "JWT " + authTokens.access
         },
       });
 
-      let us = await axios.get("/api/GuardianListCreateView/")
+      let us = await axios.get("/api/GuardianListCreateView/", {
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "JWT " + authTokens.access,
+            "Accept": "application/json"
+          }
+      })
       var userId = us.data.length+11;
       var userId = us.data[us.data.length-1].id;
       console.log(userId);
@@ -160,6 +167,7 @@ export function FormAddChildren() {
         headers: {
           "Content-Type": "application/json",
           "X-CSRFToken": Cookies.get("csrftoken"),
+          "Authorization": "JWT " + authTokens.access
         },
       });
       if (response.request.status === 201) {
