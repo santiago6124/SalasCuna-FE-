@@ -10,7 +10,7 @@ export default function AñadirChicoPage() {
           <Menu className="mb-7"/>
         </header>
         <body className='mt-3'>
-          <div className='fijar mt-5'>
+          <div className='mt-5'>
             <ChildrenManagement />
           </div>
         </body>

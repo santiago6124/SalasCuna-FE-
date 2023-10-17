@@ -89,7 +89,7 @@ function GeneratePadron() {
           <Menu className="mb-7" />
         </header>
     </div>
-    <div className="fijar"> 
+    <div > 
         <body className="mt-3">
         
         <h1 className="titulo-cb">Generar Padron</h1>

@@ -50,7 +50,7 @@ export default function Dashboard() {
           <Menu />
       </header>
       <body>     
-      <div className="fijar">
+      <div>
         {userGroup === 1 && <AdminDashboard />}
         {userGroup === 2 && <TSDashboard />}
         </div>

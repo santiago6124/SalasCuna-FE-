@@ -103,7 +103,11 @@ export default function UserList() {
         <Menu className="mb-7" />
       </header>
       <body className="mt-5">
+<<<<<<< HEAD
         <div className="cribroom-dashboard fijar">
+=======
+        <div className="cribroom-dashboard ">
+>>>>>>> 4b35b68 (fix pages)
 
           <>
             {selectedUser && (

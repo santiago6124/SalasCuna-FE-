@@ -34,11 +34,6 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
           <span className="config-text">Home</span>
         </button>
 
-        <button className="config-button" onClick={() => Redirects("/agregar-usuario")}>
-          <FontAwesomeIcon icon={faUserPlus} size="lg" style={{ color: "#0FAAE1", marginRight: '6px' }} />
-          <span className="config-text">Agregar Usuario</span>
-        </button>
-
         <button className="config-button" onClick={() => Redirects("/children-management")}>
           <FontAwesomeIcon icon={faBaby}  size="lg" style={{ color: "#0FAAE1", marginRight: '6px' }} />
           <span className="config-text">Agregar Chico</span>
