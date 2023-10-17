@@ -16,6 +16,16 @@
 
 }
 
+.fijar{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Un valor menor que los elementos que estarán por encima */
+  /* Agrega aquí el estilo de tu imagen de fondo */
+}
+
 .conteiner-form-cb {
   padding: 20px;
   margin: 3%;

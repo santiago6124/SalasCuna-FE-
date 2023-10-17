@@ -1,14 +1,4 @@
-.header-ac{
-    position: fixed;
-    width: 100%;
-    z-index: 1000;
-}
-
-.container-page-addChildren{
-    margin-top: 100px;
-  }
-
-  .fijar {
+.fijar {
     position: fixed;
     top: 0;
     left: 0;

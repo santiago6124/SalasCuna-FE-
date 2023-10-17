@@ -9,8 +9,6 @@ import UpdateUser from "../UserManagement/EditUserModal";
 import DeleteUser from "../UserManagement/DeleteUserModal";
 import SignUp from "../SignUp/SignUp";
 
-import { Link } from "react-router-dom";
-
 import Button from "@mui/material/Button";
 import Col from "react-bootstrap/Col/";
 import Row from "react-bootstrap/Row/";
@@ -48,7 +46,9 @@ export default function UserList() {
       const responseGroup = await getAllGroup(authTokens.access);
       const GroupData = responseGroup.data;
       const displayUsers = await userData.map((user) => {
-        const matchingGroup = GroupData.find((group) => group.id === user.groups[0]);
+        const matchingGroup = GroupData.find(
+          (group) => group.id === user.groups[0]
+        );
         if (matchingGroup) {
           return {
             ...user,
@@ -84,7 +84,7 @@ export default function UserList() {
     console.log("Edit clicked for row with id:", rowId);
   }
 
-  function handleCreateClick(){
+  function handleCreateClick() {
     setModalCreateShow(true);
   }
 
@@ -100,10 +100,11 @@ export default function UserList() {
   return (
     <>
       <header>
-        <Menu className="mb-7"/>
+        <Menu className="mb-7" />
       </header>
       <body className="mt-5">
-        <div className="cribroom-dashboard">
+        <div className="cribroom-dashboard fijar">
+
           <>
             {selectedUser && (
               <UpdateUser
@@ -144,25 +145,22 @@ export default function UserList() {
                 <hr className="linea-cb"></hr>
               </div>
               <Row>
-                <Col className="col-md-2">
+                <Col className="search-input">
                   <SearchBar
                     keyword={keyword}
                     onChange={updateKeyword}
                     placeholder={"Buscar Usuario"}
                   />
                 </Col>
-                <Col>
-                  <div className="add-payout-button mb-3">
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      startIcon={<AddIcon />}
-                      className="add-payout-button mb-3"
-                      onClick={() => handleCreateClick()}
-                    >
-                      Agregar Usuario
-                    </Button>
-                  </div>
+                <Col className="add-payout-button">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<AddIcon />}
+                    onClick={() => handleCreateClick()}
+                  >
+                    Agregar Usuario
+                  </Button>
                 </Col>
               </Row>
               <div className="DataGrid-Wrapper">
