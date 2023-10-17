@@ -16,8 +16,8 @@ import Col from "react-bootstrap/Col/";
 import Row from "react-bootstrap/Row/";
 
 //React  and React Functions Import
-import React, { useEffect, useState } from "react";
-
+import React, { useContext, useEffect, useState } from "react";
+import AuthContext from "../../context/AuthContext";
 import { getAllGroup, getAllUsers, handlePermissions } from "../../api/salasCuna.api";
 
 //DataGrid Import
@@ -33,17 +33,19 @@ export default function UserList() {
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
   const [modalCreateShow, setModalCreateShow] = useState(false);
 
+  let {authTokens} = useContext(AuthContext);
+
   useEffect(() => {
     listUsers();
   }, []);
 
   async function listUsers() {
     try {
-      const responseUsers = await getAllUsers();
+      const responseUsers = await getAllUsers(authTokens.access);
       console.log(responseUsers)
       setUsers(responseUsers.data);
       const userData = responseUsers.data;
-      const responseGroup = await getAllGroup();
+      const responseGroup = await getAllGroup(authTokens.access);
       const GroupData = responseGroup.data;
       const displayUsers = await userData.map((user) => {
         const matchingGroup = GroupData.find((group) => group.id === user.groups[0]);
@@ -107,6 +109,7 @@ export default function UserList() {
               <UpdateUser
                 id={selectedUser}
                 show={modalEditShow}
+                tokens= {authTokens.access}
                 onHide={() => {
                   setModalEditShow(false);
                   setSelectedUser("");
@@ -118,6 +121,7 @@ export default function UserList() {
               <DeleteUser
                 id={selectedUser}
                 show={modalDeleteShow}
+                tokens= {authTokens.access}
                 onHide={() => {
                   setModalDeleteShow(false);
                   setSelectedUser("");

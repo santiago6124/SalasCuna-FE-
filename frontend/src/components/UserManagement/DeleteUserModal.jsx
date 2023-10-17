@@ -24,7 +24,8 @@ export default function DeleteUser(props) {
       let response = await axios.patch(`/api/user/${selectedUser}/`, payload, {
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRFToken' : Cookies.get('csrftoken')
+          'X-CSRFToken' : Cookies.get('csrftoken'),
+          "Authorization": "JWT " + props.tokens
         }
     });
       if (response.request.status === 200) {

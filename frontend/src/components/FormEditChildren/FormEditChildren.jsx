@@ -66,7 +66,7 @@ export default function EditChildren(props) {
   }
 
   useEffect(() => {
-    getAllChildren();
+    getAllChildren(props.tokens);
     GenderList();
     CribroomList();
     ShiftList();
@@ -79,7 +79,7 @@ export default function EditChildren(props) {
 
   async function GenderList() {
     try {
-      const response = await getAllGenders();
+      const response = await getAllGenders(props.tokens);
       setChildGender(response.data);
       setGuardianGender(response.data);
     } catch (error) {
@@ -89,7 +89,7 @@ export default function EditChildren(props) {
 
   async function CribroomList() {
     try {
-      const response = await getAllCribrooms();
+      const response = await getAllCribrooms(props.tokens);
       setCribroom(response.data);
     } catch (error) {
       console.log("Error fetching Salas Cunas:", error);
@@ -98,7 +98,7 @@ export default function EditChildren(props) {
 
   async function ShiftList() {
     try {
-      const response = await getAllShifts();
+      const response = await getAllShifts(props.tokens);
       setShift(response.data);
     } catch (error) {
       console.log("Error fetching Turnos:", error);
@@ -107,7 +107,7 @@ export default function EditChildren(props) {
 
   async function LocalityList() {
     try {
-      const response = await getAllLocalities();
+      const response = await getAllLocalities(props.tokens);
       setLocality(response.data);
     } catch (error) {
       console.error("Error fetching localidad:", error);
@@ -116,7 +116,7 @@ export default function EditChildren(props) {
 
   async function NeighborhoodList() {
     try {
-      const response = await getAllNeighborhood();
+      const response = await getAllNeighborhood(props.tokens);
       setNeighborhood(response.data);
     } catch (error) {
       console.error("Error fetching barrio:", error);
@@ -127,7 +127,7 @@ export default function EditChildren(props) {
 
   async function GuardianTypeList() {
     try {
-      const response = await getAllGuardianTypes();
+      const response = await getAllGuardianTypes(props.tokens);
       setGuardianType(response.data);
     } catch (error) {
       console.error("Error fetching estados:", error);
@@ -136,7 +136,7 @@ export default function EditChildren(props) {
 
   async function PhoneFeatureList() {
     try {
-      const response = await getAllPhoneFeatures();
+      const response = await getAllPhoneFeatures(props.tokens);
       setPhoneFeature(response.data);
     } catch (error) {
       console.error("Error fetching estados:", error);
@@ -153,7 +153,12 @@ export default function EditChildren(props) {
   async function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
-    let res = await axios.get(`/api/child/${selectedChild}/?no_depth`)
+    let res = await axios.get(`/api/child/${selectedChild}/?no_depth`, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "JWT " + props.tokens
+      }
+    })
     let guardian_id = res.data.guardian
     const payload = {
       first_name: formData.get("nombreChild"),
@@ -189,6 +194,7 @@ export default function EditChildren(props) {
           headers: {
             "Content-Type": "application/json",
             "X-CSRFToken": Cookies.get("csrftoken"),
+            "Authorization": "JWT " + props.tokens
           },
         }
       );

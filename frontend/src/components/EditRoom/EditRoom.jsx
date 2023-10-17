@@ -38,7 +38,7 @@ export function UpdateRoom(props) {
 
   async function loadZones() {
     try {
-      const response = await getAllZones();
+      const response = await getAllZones(props.tokens);
       setZoneOptions(response.data);
     } catch (error) {
       console.error("Error fetching zona options:", error);
@@ -47,7 +47,7 @@ export function UpdateRoom(props) {
 
   async function loadShifts() {
     try {
-      const response = await getAllShifts();
+      const response = await getAllShifts(props.tokens);
       setShiftOptions(response.data);
     } catch (error) {
       console.error("Error fetching shift options:", error);
@@ -56,7 +56,11 @@ export function UpdateRoom(props) {
 
   async function loadSelectedCribroom(cribroomId) {
     try {
-      const response = await axios.get(`/api/cribroom/?no_depth&id=${cribroomId}`);
+      const response = await axios.get(`/api/cribroom/?no_depth&id=${cribroomId}`, {headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken' : Cookies.get('csrftoken'),
+        "Authorization": "JWT " + props.tokens
+      }});
       let data = await response.data; // Extract JSON data
       setCribroom(data[0]);
     } catch (error) {
@@ -83,7 +87,8 @@ export function UpdateRoom(props) {
         let response = await axios.put(`/api/cribroomDir/${selectedCribroom}/?no_depth`, payload, {
           headers: {
             'Content-Type': 'application/json',
-            'X-CSRFToken' : Cookies.get('csrftoken')
+            'X-CSRFToken' : Cookies.get('csrftoken'),
+            "Authorization": "JWT " + props.tokens
           }
       });
         console.log(response);

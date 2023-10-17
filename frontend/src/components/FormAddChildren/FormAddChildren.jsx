@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import AuthContext from "../../context/AuthContext";
 
 import "../AddChildren/AddChildren.css";
 
@@ -43,6 +44,8 @@ export function FormAddChildren() {
   const [selectedChildState, setSelectedChildState] = useState("");
   const [selectedPhoneFeature, setSelectedPhoneFeature] = useState("");
   const [selectedGuardianType, setSelectedGuardianType] = useState("");
+
+  let {authTokens} = useContext(AuthContext);
 
   function handleGeneroChildChange(event) {
     setSelectedGeneroChild(event.target.value);
@@ -90,7 +93,12 @@ export function FormAddChildren() {
 
 
   async function getChildren() {
-    let response = await axios.get("/api/child/");
+    const headers = {
+      "Content-Type": "application/json",
+      "Authorization": "JWT " + authTokens.access,
+      "Accept": "application/json"
+    }
+    let response = await axios.get("/api/child/", {headers: headers});
     let data = await response.data;
     console.log(data);
   }
@@ -113,10 +121,17 @@ export function FormAddChildren() {
         headers: {
           "Content-Type": "application/json",
           "X-CSRFToken": Cookies.get("csrftoken"),
+          "Authorization": "JWT " + authTokens.access
         },
       });
 
-      let us = await axios.get("/api/GuardianListCreateView/")
+      let us = await axios.get("/api/GuardianListCreateView/", {
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "JWT " + authTokens.access,
+            "Accept": "application/json"
+          }
+      })
       var userId = us.data.length+11;
       var userId = us.data[us.data.length-1].id;
       console.log(userId);
@@ -152,6 +167,7 @@ export function FormAddChildren() {
         headers: {
           "Content-Type": "application/json",
           "X-CSRFToken": Cookies.get("csrftoken"),
+          "Authorization": "JWT " + authTokens.access
         },
       });
       if (response.request.status === 201) {
@@ -168,7 +184,7 @@ export function FormAddChildren() {
 
   const GenderList = async () => {
     try {
-      const response = await getAllGenders();
+      const response = await getAllGenders(authTokens.access);
       setChildGender(response.data);
       setGuardianGender(response.data);
     } catch (error) {
@@ -178,7 +194,7 @@ export function FormAddChildren() {
 
   async function CribroomList() {
     try {
-      const response = await getAllCribrooms();
+      const response = await getAllCribrooms(authTokens.access);
       setCribroom(response.data);
     } catch (error) {
       console.log("Error fetching Salas Cunas:", error);
@@ -187,7 +203,7 @@ export function FormAddChildren() {
 
   async function ShiftList() {
     try {
-      const response = await getAllShifts();
+      const response = await getAllShifts(authTokens.access);
       setShift(response.data);
     } catch (error) {
       console.log("Error fetching Turnos:", error);
@@ -196,7 +212,7 @@ export function FormAddChildren() {
 
   async function LocalityList() {
     try {
-      const response = await getAllLocalities();
+      const response = await getAllLocalities(authTokens.access);
       setLocality(response.data);
     } catch (error) {
       console.error("Error fetching localidad:", error);
@@ -205,7 +221,7 @@ export function FormAddChildren() {
 
   async function NeighborhoodList() {
     try {
-      const response = await getAllNeighborhood();
+      const response = await getAllNeighborhood(authTokens.access);
       setNeighborhood(response.data);
     } catch (error) {
       console.error("Error fetching barrio:", error);
@@ -216,7 +232,7 @@ export function FormAddChildren() {
 
   const GuardianTypeList = async () => {
     try {
-      const response = await getAllGuardianTypes();
+      const response = await getAllGuardianTypes(authTokens.access);
       setGuardianType(response.data);
     } catch (error) {
       console.error("Error fetching estados:", error);
@@ -225,7 +241,7 @@ export function FormAddChildren() {
 
   const PhoneFeatureList = async () => {
     try {
-      const response = await getAllPhoneFeatures();
+      const response = await getAllPhoneFeatures(authTokens.access);
       setPhoneFeature(response.data);
     } catch (error) {
       console.error("Error fetching estados:", error);

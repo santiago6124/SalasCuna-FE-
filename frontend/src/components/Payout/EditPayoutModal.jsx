@@ -2,10 +2,13 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form/";
 import { Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
-import React from "react";
+import React, { useContext } from "react"; // Import useContext
 import axios from "axios";
+import AuthContext from "../../context/AuthContext"; // Import the AuthContext
 
 export function EditPayout(props) {
+  const { authTokens } = useContext(AuthContext); // Get authTokens from the AuthContext
+
   async function handleEdit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -14,13 +17,20 @@ export function EditPayout(props) {
       date: formData.get("date"),
       zone: formData.get("zone"),
     };
+    
+    let headers = {
+      "Content-Type": "application/json",
+      "Authorization": "JWT " + authTokens.access,
+      "Accept": "application/json"
+    };
+    
     try {
-      let response = await axios.put(`/api/payout/${props.id}/`, payload);
+      let response = await axios.put(`/api/payout/${props.id}/`, payload, { headers });
       if (response.request.status === 201) {
-        console.log('Child added successfully');
+        console.log('Payout edited successfully');
         props.onHide();
       } else {
-        console.log('Failed to add child');
+        console.log('Failed to edit payout');
       }
     } catch (error) {
       console.log(error);

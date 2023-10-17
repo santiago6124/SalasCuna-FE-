@@ -3,22 +3,36 @@ import Button from "react-bootstrap/esm/Button";
 import Modal from "react-bootstrap/Modal";
 import Alert from "@mui/material/Alert";
 import axios from "axios";
-import React from "react";
+import React, { useContext } from "react"; // Import useContext
+import AuthContext from "../../context/AuthContext"; // Import the AuthContext
 
 export default function DeletePayout(props) {
-    async function handleDelete(event) {
-      event.preventDefault();
-      try {
-        let response = await axios.delete(`/api/payout/${props.id}/`);
-        if (response.request.status === 201) {
-          console.log('Child added successfully');
-          props.onHide();
+  const { authTokens } = useContext(AuthContext); // Get authTokens from the AuthContext
+
+  
+  let headers = {
+    "Content-Type": "application/json",
+    "Authorization": "JWT " + authTokens.access,
+    "Accept": "application/json"
+  };
+
+  async function handleDelete(event) {
+    event.preventDefault();
+
+    try {
+
+      // Send the headers along with the delete request
+      const response = await axios.delete(`/api/payout/${props.id}/`, { headers });
+
+      if (response.status === 201) {
+        console.log('Payout deleted successfully');
+        props.onHide();
       } else {
-          console.log('Failed to add child');
-        }
-      } catch (err) {
-        alert("Error al eliminar el payout");
+        console.log('Failed to delete payout');
       }
+    } catch (err) {
+      alert("Error al eliminar el payout");
+    }
   }
 
     return (

@@ -7,11 +7,18 @@ import Menu from '../components/Menu/Menu.jsx';
 
 export default function Dashboard() {
   const [userGroup, setUserGroup] = useState(null);
-  let user = useContext(AuthContext)
+  let {user, authTokens} = useContext(AuthContext);
 
   async function listUser() {
+    let headers = {
+      "Content-Type": "application/json",
+      "Authorization": "JWT " + authTokens.access,
+      "Accept": "application/json"
+  }
+
+  console.log(headers, "USUARIO ", user)
     try {
-      const response = await axios.get(`/auth/users/${user.user.user_id}/`);
+      const response = await axios.get(`/auth/users/${user.user_id}/`, {headers: headers});
       const userData = response.data;
       console.log("user", userData);
 

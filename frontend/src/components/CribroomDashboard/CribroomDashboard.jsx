@@ -4,7 +4,8 @@ import { UpdateRoom } from "../EditRoom/EditRoom";
 import DeleteRoom from "../DeleteRoom/DeleteRoom";
 import "./CribroomDashboard.css";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import AuthContext from "../../context/AuthContext";
 
 import {
   getAllZones,
@@ -32,6 +33,8 @@ export default function CribroomDashboard() {
   const [modalEditShow, setModalEditShow] = useState(false);
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
 
+  let {authTokens} = useContext(AuthContext);
+
   useEffect(() => {
     loadingData();
     listCribroom();
@@ -42,6 +45,13 @@ export default function CribroomDashboard() {
       const promesas = await Promise.all([getAllZones(), axios.get("/api/cribroomDir/")])
       const zonesData = promesas[0].data;
       const cribroomData = promesas[1].data;
+      const zones = await getAllZones(authTokens.access);
+      const cribs = await axios.get("/api/cribroomDir/", {headers: {
+        'Content-Type': 'application/json',
+        "Authorization": "JWT " + authTokens.access
+      }});
+      const zonesData = zones.data;
+      const cribroomData = cribs.data;
       const updatedCribrooms = await cribroomData.map((cribroom) => {
         const matchingZone = zonesData.find(
           (zone) => zone.id === cribroom.zone.id
@@ -150,6 +160,7 @@ export default function CribroomDashboard() {
               <UpdateRoom
                 id={selectedCribroom}
                 show={modalEditShow}
+                tokens= {authTokens.access}
                 onHide={() => {
                   setModalEditShow(false);
                   setSelectedCribroom(""); // Reset selectedCribroom after closing modal
@@ -163,6 +174,7 @@ export default function CribroomDashboard() {
               id={selectedCribroom}
               name={cribroomName}
               show={modalDeleteShow}
+              tokens= {authTokens.access}
               onHide={() => {
                 setModalDeleteShow(false);
                 setSelectedCribroom(""); // Reset selectedCribroom after closing modal

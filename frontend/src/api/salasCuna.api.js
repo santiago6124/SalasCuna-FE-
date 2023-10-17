@@ -1,57 +1,127 @@
 import axios from "axios";
 
-export function getAllCribrooms() {
-  return axios.get("/api/cribroom/");
+export function getAllCribrooms(tokens) {
+  const headers = {
+    "Content-Type": "application/json",
+    "Authorization": "JWT " + tokens,
+    "Accept": "application/json"
+  }
+  return axios.get("/api/cribroom/", {headers: headers});
 }
 
-export function getAllGenders() {
-  return axios.get("/api/GenderListView/");
+export function getAllGenders(tokens) {
+  const headers = {
+    "Content-Type": "application/json",
+    "Authorization": "JWT " + tokens,
+    "Accept": "application/json"
+  }
+  return axios.get("/api/GenderListView/", {headers: headers});
 }
 
-export function getAllGuardianTypes() {
-  return axios.get("/api/GuardianTypeListView/");
+export function getAllGuardianTypes(tokens) {
+  const headers = {
+    "Content-Type": "application/json",
+    "Authorization": "JWT " + tokens,
+    "Accept": "application/json"
+  }
+  return axios.get("/api/GuardianTypeListView/", {headers: headers});
 }
 
-export function getAllPhoneFeatures() {
-  return axios.get("/api/PhoneFeatureListView/");
+export function getAllPhoneFeatures(tokens) {
+  const headers = {
+    "Content-Type": "application/json",
+    "Authorization": "JWT " + tokens,
+    "Accept": "application/json"
+  }
+  return axios.get("/api/PhoneFeatureListView/", {headers: headers});
 }
 
-export function getAllCribroomsWithoutDepth() {
-  return axios.get("/api/cribroom/?no_depth");
+export function getAllCribroomsWithoutDepth(tokens) {
+  const headers = {
+    "Content-Type": "application/json",
+    "Authorization": "JWT " + tokens,
+    "Accept": "application/json"
+  }
+  return axios.get("/api/cribroom/?no_depth", {headers: headers});
 }
 
-export function getAllZones() {
-  return axios.get("/api/zone/");
+export function getAllZones(tokens) {
+  const headers = {
+    "Content-Type": "application/json",
+    "Authorization": "JWT " + tokens,
+    "Accept": "application/json"
+  }
+  return axios.get("/api/zone/", {headers: headers});
 }
 
-export function getAllNeighborhood() {
-  return axios.get("/api/NeighborhoodListView/");
+export function getAllNeighborhood(tokens) {
+  const headers = {
+    "Content-Type": "application/json",
+    "Authorization": "JWT " + tokens,
+    "Accept": "application/json"
+  }
+  return axios.get("/api/NeighborhoodListView/", {headers: headers});
 }
 
-export function getAllLocalities() {
-  return axios.get("/api/LocalityListView/");
+export function getAllLocalities(tokens) {
+  const headers = {
+    "Content-Type": "application/json",
+    "Authorization": "JWT " + tokens,
+    "Accept": "application/json"
+  }
+  return axios.get("/api/LocalityListView/", {headers: headers});
 }
 
-export function getAllShifts() {
-  return axios.get("/api/ShiftListView/");
+export function getAllShifts(tokens) {
+  const headers = {
+    "Content-Type": "application/json",
+    "Authorization": "JWT " + tokens,
+    "Accept": "application/json"
+  }
+  return axios.get("/api/ShiftListView/", {headers: headers});
 }
 
-export function getAllUsers() {
-  return axios.get("/api/user/");
+export function getAllUsers(tokens) {
+  const headers = {
+    "Content-Type": "application/json",
+    "Authorization": "JWT " + tokens,
+    "Accept": "application/json"
+  }
+  return axios.get("/api/user/", {headers: headers});
 }
 
-export function getAllGroup() {
-  return axios.get("/api/GroupViewSet/?exclude_directora");
+export function getAllGroup(tokens) {
+  const headers = {
+    "Content-Type": "application/json",
+    "Authorization": "JWT " + tokens,
+    "Accept": "application/json"
+  }
+  return axios.get("/api/GroupViewSet/?exclude_directora", {headers: headers});
 }
 
-export function getAllDepartments() {
-  return axios.get("/api/department/");
+export function getAllDepartments(tokens) {
+  const headers = {
+    "Content-Type": "application/json",
+    "Authorization": "JWT " + tokens,
+    "Accept": "application/json"
+  }
+  return axios.get("/api/department/", {headers: headers});
 }
-export function getUserHistory() {
-  return axios.get("/api/logEntry/");
+export function getUserHistory(tokens) {
+  const headers = {
+    "Content-Type": "application/json",
+    "Authorization": "JWT " + tokens,
+    "Accept": "application/json"
+  }
+  return axios.get("/api/logEntry/", {headers: headers});
 }
-export function getAllChildren() {
-  return axios.get("/api/child/");
+export function getAllChildren(tokens) {
+  const headers = {
+    "Content-Type": "application/json",
+    "Authorization": "JWT " + tokens,
+    "Accept": "application/json"
+  }
+  return axios.get("/api/child/", {headers: headers});
 }
 
 export async function handlePermissions(status) {

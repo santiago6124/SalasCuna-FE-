@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import "./TechnicalReport.css";
 import Col from "react-bootstrap/Col/";
 import Row from "react-bootstrap/Row/";
@@ -13,6 +13,8 @@ import DownloadPDF from "./DownloadPDF/DownloadPDF";
 import Menu from "../Menu/Menu";
 import { getAllCribroomsWithoutDepth, getAllZones, handlePermissions } from "../../api/salasCuna.api";
 
+import AuthContext from "../../context/AuthContext"; // Import AuthContext
+
 export default function TechnicalReport() {
   const [zoneOptions, setZoneOptions] = useState([]);
   const [selectedZone, setSelectedZone] = useState("");
@@ -20,6 +22,16 @@ export default function TechnicalReport() {
   const [startDate, setStartDate] = useState(""); // New state for start date
   const [endDate, setEndDate] = useState(""); // New state for end date
   const [selectedCribrooms, setSelectedCribrooms] = useState([]); // New state for selected crib rooms
+
+  const { authTokens } = useContext(AuthContext); // Get JWT token from context
+
+  // Define headers outside of the function
+  const headers = {
+    "Content-Type": "application/json",
+    "Authorization": "JWT " + authTokens.access,
+    "Accept": "application/json",
+  };
+
   function handleCheckboxChange(event, row) {
     const updatedSelectedCribrooms = event.target.checked
       ? [...selectedCribrooms, row] // Add to selected crib rooms
@@ -33,16 +45,16 @@ export default function TechnicalReport() {
     console.log("Selected Start Date:", startDate);
     console.log("Selected End Date:", endDate);
     console.log("Selected Crib Rooms:", selectedCribrooms);
+
     // Iterate through each selected cribroom and send a GET request
     selectedCribrooms.forEach((cribroom) => {
       const url = `/api/technical-report/${cribroom.id}/${startDate}/${endDate}/`;
 
-      fetch(url)
+      axios.get(url, { headers }) // Pass headers in the request
         .then((response) => {
-          if (!response.ok) {
+          if (!response.data) {
             throw new Error("Network response was not ok");
           }
-          return response.json();
         })
         .then((data) => {
           // Handle the data received from the API for each cribroom
@@ -80,6 +92,7 @@ export default function TechnicalReport() {
         });
     });
   }
+
   useEffect(() => {
     loadZones();
   }, []);
@@ -94,20 +107,18 @@ export default function TechnicalReport() {
 
   async function defaultCribrooms() {
     try {
-      const response = await getAllCribroomsWithoutDepth();
+      const response = await getAllCribroomsWithoutDepth(authTokens.access); // Pass JWT token
       const jsonData = response.data;
       setCribrooms(jsonData);
     } catch (error) {
       console.error("Error fetching cribrooms:", error);
-      handlePermissions(error.response.status)
+      handlePermissions(error.response.status);
     }
   }
 
   async function loadCribrooms(zoneId) {
     try {
-      const response = await axios.get(
-        `/api/cribroom/?zone=${zoneId}`
-      );
+      const response = await axios.get(`/api/cribroom/?zone=${zoneId}`, { headers }); // Pass headers
       const data = response.data;
       if (data.length == 0) {
         alert("No hay Salas Cunas en la zona seleccionada");
@@ -120,7 +131,7 @@ export default function TechnicalReport() {
 
   async function loadZones() {
     try {
-      const response = await getAllZones();
+      const response = await getAllZones(authTokens.access); // Pass JWT token
       const jsonData = response.data;
       setZoneOptions(jsonData);
     } catch (error) {

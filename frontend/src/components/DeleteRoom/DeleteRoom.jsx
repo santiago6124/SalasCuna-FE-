@@ -29,7 +29,8 @@ export default function DeleteRoom(props) {
       await axios.patch(`/api/cribroomDir/${selectedCribroom}/?delete`, payload, {
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRFToken': Cookies.get('csrftoken')
+          'X-CSRFToken': Cookies.get('csrftoken'),
+          "Authorization": "JWT " + props.tokens
         }
       });
       props.onHide();
