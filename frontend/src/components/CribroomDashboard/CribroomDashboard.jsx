@@ -42,16 +42,12 @@ export default function CribroomDashboard() {
 
   async function listCribroom() {
     try {
-      const promesas = await Promise.all([getAllZones(), axios.get("/api/cribroomDir/")])
-      const zonesData = promesas[0].data;
-      const cribroomData = promesas[1].data;
-      const zones = await getAllZones(authTokens.access);
-      const cribs = await axios.get("/api/cribroomDir/", {headers: {
+      const promesas = await Promise.all([getAllZones(authTokens.access), axios.get("/api/cribroomDir/", {headers: {
         'Content-Type': 'application/json',
         "Authorization": "JWT " + authTokens.access
-      }});
-      const zonesData = zones.data;
-      const cribroomData = cribs.data;
+      }})]);
+      const zonesData = promesas[0].data;
+      const cribroomData = promesas[1].data;
       const updatedCribrooms = await cribroomData.map((cribroom) => {
         const matchingZone = zonesData.find(
           (zone) => zone.id === cribroom.zone.id
