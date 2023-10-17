@@ -40,38 +40,43 @@ export default function CribroomDashboard() {
     listCribroom();
   }, []);
 
-  async function listCribroom() {
-    try {
-      const promesas = await Promise.all([getAllZones(authTokens.access), axios.get("/api/cribroomDir/", {headers: {
-        'Content-Type': 'application/json',
-        "Authorization": "JWT " + authTokens.access
-      }})]);
-      const zonesData = promesas[0].data;
-      const cribroomData = promesas[1].data;
-      const updatedCribrooms = await cribroomData.map((cribroom) => {
-        const matchingZone = zonesData.find(
-          (zone) => zone.id === cribroom.zone.id
-        );
-        if (matchingZone) {
-          return {
-            ...cribroom,
-            zone: matchingZone.name,
-            is_active: cribroom.is_active ? "Activo" : "Inactivo",
-          };
-        } else {
-          return {
-            ...cribroom,
-            is_active: cribroom.is_active ? "Activo" : "Inactivo",
-          };
-        }
-      });
-      setCribrooms(updatedCribrooms);
-      setFilteredCribroom(updatedCribrooms);
-    } catch (error) {
-      console.log("Error fetching SalasCunas:", error);
-      handlePermissions(error.response.status);
-    }
+async function listCribroom() {
+  try {
+    const promesas = await Promise.all([
+      getAllZones(authTokens.access),
+      axios.get("/api/cribroomDir/", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "JWT " + authTokens.access,
+        },
+      }),
+    ]);
+    const zonesData = promesas[0].data;
+    const cribroomData = promesas[1].data;
+    const updatedCribrooms = await cribroomData.map((cribroom) => {
+      const matchingZone = zonesData.find(
+        (zone) => zone.id === cribroom.zone.id
+      );
+      if (matchingZone) {
+        return {
+          ...cribroom,
+          zone: matchingZone.name,
+          is_active: cribroom.is_active ? "Activo" : "Inactivo",
+        };
+      } else {
+        return {
+          ...cribroom,
+          is_active: cribroom.is_active ? "Activo" : "Inactivo",
+        };
+      }
+    });
+    setCribrooms(updatedCribrooms);
+    setFilteredCribroom(updatedCribrooms);
+  } catch (error) {
+    console.log("Error fetching SalasCunas:", error);
+    handlePermissions(error.response.status);
   }
+}
 
   function handleEditClick(rowId) {
     setSelectedCribroom(rowId);
@@ -149,20 +154,14 @@ export default function CribroomDashboard() {
 
   return (
     <>
-<<<<<<< HEAD
       <div>
         <ToastContainer/>
         <header className="header-cd">
-=======
-      <div className="cribroom-dashboard">
-        <ToastContainer />
-          <header>
->>>>>>> 4b35b68 (fix pages)
             <Menu />
         </header>
       </div>
       <body>
-        <div>
+        <div >
           
           {selectedCribroom && (
             <>
