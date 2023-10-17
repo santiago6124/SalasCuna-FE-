@@ -18,10 +18,10 @@ export function loadingData() {
 export function updateData() {
     toast.success('Actualizado con éxito!', {
         position: "top-center",
-        autoClose: false,
+        autoClose: 2000,
         hideProgressBar: true,
         closeOnClick: true,
-        pauseOnHover: true,
+        pauseOnHover: false,
         draggable: false,
         progress: undefined,
         theme: "colored",
@@ -33,10 +33,10 @@ export function updateData() {
 export function deletingData() {
     toast.error('Desactivado con éxito!', {
         position: "top-center",
-        autoClose: false,
+        autoClose: 2000,
         hideProgressBar: true,
         closeOnClick: true,
-        pauseOnHover: true,
+        pauseOnHover: false,
         draggable: false,
         progress: undefined,
         theme: "colored",

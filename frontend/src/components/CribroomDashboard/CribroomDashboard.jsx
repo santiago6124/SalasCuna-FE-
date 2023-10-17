@@ -90,6 +90,10 @@ export default function CribroomDashboard() {
     console.log(filteredCribroom);
   }
 
+  function reloadDataFunc() {
+    listCribroom();
+  }
+
   const columns = [
     {
       field: "id",
@@ -139,15 +143,9 @@ export default function CribroomDashboard() {
 
   return (
     <>
-<<<<<<< HEAD
-      <body>
-        <div className="cribroom-dashboard">
-          <ToastContainer />
-          <header className="header">
-=======
       <div>
+        <ToastContainer/>
         <header className="header-cd">
->>>>>>> a9d4453 (fix sidebar)
             <Menu />
         </header>
       </div>
@@ -162,7 +160,7 @@ export default function CribroomDashboard() {
                 onHide={() => {
                   setModalEditShow(false);
                   setSelectedCribroom(""); // Reset selectedCribroom after closing modal
-                  window.location.reload();
+                  reloadDataFunc();
                 }}
               />
             </>
@@ -175,7 +173,7 @@ export default function CribroomDashboard() {
               onHide={() => {
                 setModalDeleteShow(false);
                 setSelectedCribroom(""); // Reset selectedCribroom after closing modal
-                window.location.reload();
+                reloadDataFunc();
               }}
             />
           )}

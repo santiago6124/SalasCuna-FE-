@@ -9,8 +9,6 @@ import UpdateUser from "../UserManagement/EditUserModal";
 import DeleteUser from "../UserManagement/DeleteUserModal";
 import SignUp from "../SignUp/SignUp";
 
-import { Link } from "react-router-dom";
-
 import Button from "@mui/material/Button";
 import Col from "react-bootstrap/Col/";
 import Row from "react-bootstrap/Row/";
@@ -107,12 +105,8 @@ export default function UserList() {
         <Menu className="mb-7" />
       </header>
       <body className="mt-5">
-<<<<<<< HEAD
-        <div className="cribroom-dashboard">
-=======
         <div className="cribroom-dashboard fijar">
 
->>>>>>> a9d4453 (fix sidebar)
           <>
             {selectedUser && (
               <UpdateUser
