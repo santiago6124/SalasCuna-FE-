@@ -1,0 +1,11 @@
+.background-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Un valor más alto que el z-index de la barra de navegación y la barra lateral */
+    background-image: url('../media/Sala-cuna_x4.png'); /* Ruta de tu imagen de fondo */
+    background-size: cover;
+    background-position: center;
+  }
