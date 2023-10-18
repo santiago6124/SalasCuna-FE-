@@ -40,7 +40,7 @@ export function Login() {
               </Form.Group>
               <div className="contenedor-boton-createuser">
                 <Button
-                  className="boton mt-3"
+                  className="mt-3"
                   boton
                   variant="primary"
                   type="submit"
