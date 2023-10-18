@@ -19,7 +19,7 @@ import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import axios from "axios";
-import { ToastContainer, toast, Zoom } from "react-toastify";
+import { ToastContainer, toast, Zoom, Flip } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function CribroomDashboard() {
@@ -98,7 +98,8 @@ export default function CribroomDashboard() {
           closeOnClick: true,
           pauseOnHover: false,
           icon: "✔️",
-          isLoading: false
+          isLoading: false,
+          transition: Flip
         });
     } catch (error) {
       console.log("Error fetching SalasCunas:", error);
@@ -112,7 +113,8 @@ export default function CribroomDashboard() {
           closeOnClick: true,
           pauseOnHover: false,
           icon: "✖️",
-          isLoading: false
+          isLoading: false,
+          transition: Flip
         })
     }
   }
