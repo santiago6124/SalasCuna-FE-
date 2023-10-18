@@ -74,8 +74,18 @@ export function FormAddChildren() {
     ],
   });
   const [formData, setFormData] = useState({
-    nombreChild: "",
-    // ... other initial form data ...
+    nombreChild: "Facundo",
+    apellidoChild: "Oliva Marchetto",
+    dniChild: 460327608,
+    fechaNacimientoChild: "2004-10-29",
+    fechaBaja: "2004-10-29",
+    fechaAlta: "2006-10-29",
+    nombreGuardian: "Lucas",
+    apellidoGuardian: "Oliva",
+    dniGuardian: 241191000,
+    telefono: 3534441111,
+    calle: 'la calle de mi casa',
+    numero_casa: 37,
   });
 
   const handleInputChange = (event) => {
