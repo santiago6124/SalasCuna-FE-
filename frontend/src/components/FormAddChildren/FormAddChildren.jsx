@@ -51,9 +51,9 @@ export function FormAddChildren() {
       { name: "apellidoChild", label: "Apellido", type: "text", required: true },
       { name: "dniChild", label: "DNI", type: "number", required: true },
       { name: "fechaNacimientoChild", label: "Fecha De Nacimiento", type: "date", required: true },
-      { name: "generoChild", label: "Genero", type: "select", options: [], required: true }, // Add options dynamically
-      { name: "salacuna", label: "Sala Cuna", type: "select", options: [], required: true }, // Add options dynamically
-      { name: "turno", label: "Turno", type: "select", options: [], required: false }, // Add options dynamically
+      { name: "generoChild",label: "Genero",type: "select",options: childGenders, required: true,}, // Add options dynamically
+      { name: "salacuna", label: "Sala Cuna", type: "select", options: salas, required: true }, // Add options dynamically
+      { name: "turno", label: "Turno", type: "select", options: shifts, required: false }, // Add options dynamically
       { name: "fechaBaja", label: "Fecha de baja", type: "date", required: false },
       { name: "fechaAlta", label: "Fecha de alta", type: "date", required: true },
     ],
@@ -61,16 +61,16 @@ export function FormAddChildren() {
       { name: "nombreGuardian", label: "Nombre", type: "text", required: true },
       { name: "apellidoGuardian", label: "Apellido", type: "text", required: true },
       { name: "dniGuardian", label: "DNI", type: "number", required: true },
-      { name: "generoGuardian", label: "Genero", type: "select", options: [], required: true }, // Add options dynamically
-      { name: "phoneFeature", label: "Caracterisitca Telefonica", type: "select", options: [], required: true }, // Add options dynamically
+      { name: "generoGuardian", label: "Genero", type: "select", options: guardianGenders, required: true }, // Add options dynamically
+      { name: "phoneFeature", label: "Caracterisitca Telefonica", type: "select", options: phoneFeatures, required: true }, // Add options dynamically
       { name: "telefono", label: "Telefono", type: "number", required: true },
-      { name: "guardianType", label: "Madre/padre o Tutor?", type: "select", options: [], required: true }, // Add options dynamically
+      { name: "guardianType", label: "Madre/padre o Tutor?", type: "select", options: guardianTypes, required: true }, // Add options dynamically
     ],
     address: [
       { name: "calle", label: "Calle", type: "text", required: true },
       { name: "numero_casa", label: "Numero", type: "number", required: false },
-      { name: "neighborhood", label: "Barrio", type: "select", options: [], required: true }, // Add options dynamically
-      { name: "locality", label: "Localidad", type: "select", options: [], required: true }, // Add options dynamically
+      { name: "neighborhood", label: "Barrio", type: "select", options: neighborhoods, required: true }, // Add options dynamically
+      { name: "locality", label: "Localidad", type: "select", options: localities, required: true }, // Add options dynamically
     ],
   });
   const [formData, setFormData] = useState({
@@ -130,17 +130,34 @@ export function FormAddChildren() {
   }, []);
 
   const renderFormFields = (fields) => {
+    console.log('fields', fields);
     return fields.map((field) => (
       <Form.Group className="mb-3" key={field.name}>
         <Form.Label className="mb-1">{field.label}</Form.Label>
-        <Form.Control
-          type={field.type}
-          placeholder={`Ingrese ${field.label.toLowerCase()}`}
-          name={field.name}
-          value={formData[field.name]}
-          onChange={handleInputChange}
-          required={field.required}
-        />
+        {field.type === "select" ? (
+          <select
+            name={field.name}
+            value={formData[field.name]}
+            onChange={handleInputChange}
+            className="form-control"
+            required={field.required}
+          >
+            {field.options.map((option) => (
+              <option key={option.id} value={option.id}>
+                {option[Object.keys(option)[1]]} {/* Adjust this based on your option structure */}
+              </option>
+            ))}
+          </select>
+        ) : (
+          <Form.Control
+            type={field.type}
+            placeholder={`Ingrese ${field.label.toLowerCase()}`}
+            name={field.name}
+            value={formData[field.name]}
+            onChange={handleInputChange}
+            required={field.required}
+          />
+        )}
       </Form.Group>
     ));
   };
@@ -208,7 +225,7 @@ export function FormAddChildren() {
         gender: formData.get("generoChild"),
         cribroom: formData.get("salacuna"),
         shift: formData.get("turno"),
-        neightborhood: formData.get("neighborhood"),
+        neighborhood: formData.get("neighborhood"),
         street: formData.get("calle"),
         guardian_first_name: formData.get("nombreGuardian"),
         guardian_last_name: formData.get("apellidoGuardian"),
@@ -244,6 +261,10 @@ export function FormAddChildren() {
       const response = await getAllGenders(authTokens.access);
       setChildGender(response.data);
       setGuardianGender(response.data);
+
+      formFields['child'][4]['options'] = response.data;
+      formFields['guardian'][3]['options'] = response.data;
+
     } catch (error) {
       console.error("Error fetching generos:", error);
     }
@@ -253,6 +274,7 @@ export function FormAddChildren() {
     try {
       const response = await getAllCribrooms(authTokens.access);
       setCribroom(response.data);
+      formFields['child'][5]['options'] = response.data;
     } catch (error) {
       console.log("Error fetching Salas Cunas:", error);
     }
@@ -262,6 +284,7 @@ export function FormAddChildren() {
     try {
       const response = await getAllShifts(authTokens.access);
       setShift(response.data);
+      formFields['child'][6]['options'] = response.data;
     } catch (error) {
       console.log("Error fetching Turnos:", error);
     }
@@ -271,6 +294,8 @@ export function FormAddChildren() {
     try {
       const response = await getAllLocalities(authTokens.access);
       setLocality(response.data);
+      console.log('LocalityList response: ', response);
+      formFields['address'][3]['options'] = response.data;
     } catch (error) {
       console.error("Error fetching localidad:", error);
     }
@@ -280,6 +305,9 @@ export function FormAddChildren() {
     try {
       const response = await getAllNeighborhood(authTokens.access);
       setNeighborhood(response.data);
+      formFields['address'][2]['options'] = response.data;
+
+      console.log('neighborhoodList response: ', response);
     } catch (error) {
       console.error("Error fetching barrio:", error);
     }
@@ -291,6 +319,7 @@ export function FormAddChildren() {
     try {
       const response = await getAllGuardianTypes(authTokens.access);
       setGuardianType(response.data);
+      formFields['guardian'][6]['options'] = response.data;
     } catch (error) {
       console.error("Error fetching estados:", error);
     }
@@ -300,6 +329,7 @@ export function FormAddChildren() {
     try {
       const response = await getAllPhoneFeatures(authTokens.access);
       setPhoneFeature(response.data);
+      formFields['guardian'][4]['options'] = response.data;
     } catch (error) {
       console.error("Error fetching estados:", error);
     }
