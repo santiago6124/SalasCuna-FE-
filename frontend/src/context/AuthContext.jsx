@@ -95,7 +95,8 @@ export const AuthProvider = ({children}) => {
         let response = await fetch('/auth/jwt/refresh', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization' : 'JWT ' + authTokens.access,
             },
             body: JSON.stringify({'refresh': authTokens?.refresh})
         })
@@ -125,10 +126,10 @@ export const AuthProvider = ({children}) => {
     useEffect(() => {
 
         if (loading) {
-            setLoading(false)
+            updateToken()
         }
 
-        let fourMinutes = 1000 * 60 * 60 * 24
+        let fourMinutes = 1000 * 60 * 60
         let interval = setInterval(() => {
             if (authTokens) {
                 updateToken()
