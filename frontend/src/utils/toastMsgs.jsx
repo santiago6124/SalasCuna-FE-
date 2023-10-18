@@ -45,18 +45,20 @@ export function deletingData() {
     });
 }
 
-const toastId = "custom-id-yes";
 export function toastLoading(text, ref) {
     ref.current = toast.loading(`${text}`,
         {
-            toastId: toastId,
+            toastId: "custom-id-yes",
             position: "top-center",
             hideProgressBar: true,
             closeOnClick: false,
             pauseOnHover: false,
             draggable: false,
             theme: "colored",
-            transition: Zoom
+            transition: Zoom,
+            pauseOnFocusLoss: false,
+            autoClose: 3000,
+            closeButton: true
         })
 }
 
