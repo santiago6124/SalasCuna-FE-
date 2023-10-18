@@ -271,7 +271,7 @@ export default function ChildrenManagement() {
                       <Button
                         as="input"
                         type="submit"
-                        value="New"
+                        value="Agregar chico/a"
                         size="m"
                         onClick={handleNewClick}
                       />
