@@ -15,7 +15,7 @@ export function getAllGenders(tokens) {
     "Authorization": "JWT " + tokens,
     "Accept": "application/json"
   }
-  return axios.get("/api/GenderListView/", {headers: headers});
+  return axios.get("/api/GenderListCreateView/", {headers: headers});
 }
 
 export function getAllGuardianTypes(tokens) {
@@ -33,7 +33,7 @@ export function getAllPhoneFeatures(tokens) {
     "Authorization": "JWT " + tokens,
     "Accept": "application/json"
   }
-  return axios.get("/api/PhoneFeatureListView/", {headers: headers});
+  return axios.get("/api/PhoneFeatureListCreateView/", {headers: headers});
 }
 
 export function getAllCribroomsWithoutDepth(tokens) {
@@ -60,7 +60,7 @@ export function getAllNeighborhood(tokens) {
     "Authorization": "JWT " + tokens,
     "Accept": "application/json"
   }
-  return axios.get("/api/NeighborhoodListView/", {headers: headers});
+  return axios.get("/api/NeighborhoodListCreateView/", {headers: headers});
 }
 
 export function getAllLocalities(tokens) {
@@ -69,7 +69,7 @@ export function getAllLocalities(tokens) {
     "Authorization": "JWT " + tokens,
     "Accept": "application/json"
   }
-  return axios.get("/api/LocalityListView/", {headers: headers});
+  return axios.get("/api/LocalityListCreateView/", {headers: headers});
 }
 
 export function getAllShifts(tokens) {
@@ -78,7 +78,7 @@ export function getAllShifts(tokens) {
     "Authorization": "JWT " + tokens,
     "Accept": "application/json"
   }
-  return axios.get("/api/ShiftListView/", {headers: headers});
+  return axios.get("/api/shift/", {headers: headers});
 }
 
 export function getAllUsers(tokens) {
