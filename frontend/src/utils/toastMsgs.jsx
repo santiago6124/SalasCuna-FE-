@@ -1,4 +1,4 @@
-import { toast, Slide, Zoom } from 'react-toastify';
+import { toast, Slide, Zoom, Flip } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 export function loadingData() {
@@ -43,4 +43,49 @@ export function deletingData() {
         closeButton: false,
         transition: Slide,
     });
+}
+
+const toastId = "custom-id-yes";
+export function toastLoading(text, ref) {
+    ref.current = toast.loading(`${text}`,
+        {
+            toastId: toastId,
+            position: "top-center",
+            hideProgressBar: true,
+            closeOnClick: false,
+            pauseOnHover: false,
+            draggable: false,
+            theme: "colored",
+            transition: Zoom
+        })
+}
+
+export function toastUpdateSuccess(text, ref) {
+    toast.update(ref.current,
+        {
+            render: `${text}`,
+            type: "success",
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            icon: "✔️",
+            isLoading: false,
+            transition: Flip
+        });
+}
+
+export function toastUpdateError(text, ref) {
+    toast.update(ref.current,
+        {
+            render: `${text}`,
+            type: "error",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            icon: "✖️",
+            isLoading: false,
+            transition: Flip
+        });
 }
