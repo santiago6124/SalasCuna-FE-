@@ -19,8 +19,7 @@ import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import axios from "axios";
-import { loadingData } from "../../utils/toastMsgs";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast, Zoom } from "react-toastify";
 
 export default function CribroomDashboard() {
   const [cribrooms, setCribrooms] = useState([]);
@@ -33,50 +32,71 @@ export default function CribroomDashboard() {
   const [modalEditShow, setModalEditShow] = useState(false);
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
 
-  let {authTokens} = useContext(AuthContext);
+  const customId = "custom-id-yes";
+
+  let { authTokens } = useContext(AuthContext);
 
   useEffect(() => {
-    loadingData();
-    listCribroom();
+    toastPromise();
   }, []);
 
-async function listCribroom() {
-  try {
-    const promesas = await Promise.all([
-      getAllZones(authTokens.access),
-      axios.get("/api/cribroomDir/", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "JWT " + authTokens.access,
-        },
-      }),
-    ]);
-    const zonesData = promesas[0].data;
-    const cribroomData = promesas[1].data;
-    const updatedCribrooms = await cribroomData.map((cribroom) => {
-      const matchingZone = zonesData.find(
-        (zone) => zone.id === cribroom.zone.id
-      );
-      if (matchingZone) {
-        return {
-          ...cribroom,
-          zone: matchingZone.name,
-          is_active: cribroom.is_active ? "Activo" : "Inactivo",
-        };
-      } else {
-        return {
-          ...cribroom,
-          is_active: cribroom.is_active ? "Activo" : "Inactivo",
-        };
-      }
-    });
-    setCribrooms(updatedCribrooms);
-    setFilteredCribroom(updatedCribrooms);
-  } catch (error) {
-    console.log("Error fetching SalasCunas:", error);
-    handlePermissions(error.response.status);
+  function toastPromise() {
+    toast.promise(listCribroom,
+      {
+        pending: "Cargando Salas Cunas",
+        success: "Cargadas con éxito",
+        error: "Error al cargar!",
+      },
+      {
+        toastId: customId,
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        theme: "colored",
+        transition: Zoom
+      })
   }
-}
+
+  async function listCribroom() {
+    try {
+      const promesas = await Promise.all([
+        getAllZones(authTokens.access),
+        axios.get("/api/cribroomDir/", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "JWT " + authTokens.access,
+          },
+        }),
+      ]);
+      const zonesData = promesas[0].data;
+      const cribroomData = promesas[1].data;
+      const updatedCribrooms = await cribroomData.map((cribroom) => {
+        const matchingZone = zonesData.find(
+          (zone) => zone.id === cribroom.zone.id
+        );
+        if (matchingZone) {
+          return {
+            ...cribroom,
+            zone: matchingZone.name,
+            is_active: cribroom.is_active ? "Activo" : "Inactivo",
+          };
+        } else {
+          return {
+            ...cribroom,
+            is_active: cribroom.is_active ? "Activo" : "Inactivo",
+          };
+        }
+      });
+      setCribrooms(updatedCribrooms);
+      setFilteredCribroom(updatedCribrooms);
+    } catch (error) {
+      console.log("Error fetching SalasCunas:", error);
+      handlePermissions(error.response.status);
+    }
+  }
 
   function handleEditClick(rowId) {
     setSelectedCribroom(rowId);
@@ -155,20 +175,19 @@ async function listCribroom() {
   return (
     <>
       <div>
-        <ToastContainer/>
+        <ToastContainer />
         <header className="header-cd">
-            <Menu />
+          <Menu />
         </header>
       </div>
       <body>
         <div >
-          
           {selectedCribroom && (
             <>
               <UpdateRoom
                 id={selectedCribroom}
                 show={modalEditShow}
-                tokens= {authTokens.access}
+                tokens={authTokens.access}
                 onHide={() => {
                   setModalEditShow(false);
                   setSelectedCribroom(""); // Reset selectedCribroom after closing modal
@@ -182,7 +201,7 @@ async function listCribroom() {
               id={selectedCribroom}
               name={cribroomName}
               show={modalDeleteShow}
-              tokens= {authTokens.access}
+              tokens={authTokens.access}
               onHide={() => {
                 setModalDeleteShow(false);
                 setSelectedCribroom(""); // Reset selectedCribroom after closing modal
