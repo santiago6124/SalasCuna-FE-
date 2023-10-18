@@ -4,7 +4,7 @@ import { UpdateRoom } from "../EditRoom/EditRoom";
 import DeleteRoom from "../DeleteRoom/DeleteRoom";
 import "./CribroomDashboard.css";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 
 import {
@@ -20,6 +20,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import axios from "axios";
 import { ToastContainer, toast, Zoom } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function CribroomDashboard() {
   const [cribrooms, setCribrooms] = useState([]);
@@ -32,7 +33,8 @@ export default function CribroomDashboard() {
   const [modalEditShow, setModalEditShow] = useState(false);
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
 
-  const customId = "custom-id-yes";
+  const customId = useRef(null);;
+  const toastId = "custom-id-yes"
 
   let { authTokens } = useContext(AuthContext);
 
@@ -41,18 +43,13 @@ export default function CribroomDashboard() {
   }, []);
 
   function toastPromise() {
-    toast.promise(listCribroom,
+    listCribroom();
+    customId.current = toast.loading("Cargando Salas Cunas",
       {
-        pending: "Cargando Salas Cunas",
-        success: "Cargadas con éxito",
-        error: "Error al cargar!",
-      },
-      {
-        toastId: customId,
+        toastId: toastId,
         position: "top-center",
-        autoClose: 1500,
-        hideProgressBar: false,
-        closeOnClick: true,
+        hideProgressBar: true,
+        closeOnClick: false,
         pauseOnHover: false,
         draggable: false,
         theme: "colored",
@@ -92,9 +89,31 @@ export default function CribroomDashboard() {
       });
       setCribrooms(updatedCribrooms);
       setFilteredCribroom(updatedCribrooms);
+      toast.update(customId.current,
+        {
+          render: "Cargado con éxito",
+          type: "success",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          icon: "✔️",
+          isLoading: false
+        });
     } catch (error) {
       console.log("Error fetching SalasCunas:", error);
       handlePermissions(error.response.status);
+      toast.update(customId.current,
+        {
+          render: "Error al cargar!",
+          type: "error",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          icon: "✖️",
+          isLoading: false
+        })
     }
   }
 
