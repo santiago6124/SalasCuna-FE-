@@ -3,8 +3,6 @@ import AuthContext from "../../context/AuthContext";
 
 import "../AddChildren/AddChildren.css";
 
-import Col from "react-bootstrap/Col/";
-import Row from "react-bootstrap/Row/";
 import Form from "react-bootstrap/Form/";
 import { Button } from "react-bootstrap";
 import Cookies from "js-cookie";
@@ -27,23 +25,12 @@ export function FormAddChildren() {
   const [shifts, setShift] = useState([]);
   const [localities, setLocality] = useState([]);
   const [neighborhoods, setNeighborhood] = useState([]);
-  const [childStates, setChildState] = useState([]);
+
   const [guardianTypes, setGuardianType] = useState([]);
   const [phoneFeatures, setPhoneFeature] = useState([]);
-  const [capacity, setCapacity] = useState([]);
-  const [loadingCapacity, setLoadingCapacity] = useState(true);
+
   const [isDireccionVisible, setIsDireccionVisible] = useState(false);
   const [isTutorVisible, setIsTutorVisible] = useState(false);
-
-  const [selectedGeneroChild, setSelectedGeneroChild] = useState("");
-  const [selectedGeneroGuardian, setSelectedGeneroGuardian] = useState("");
-  const [selectedSalaCuna, setSelectedSalacuna] = useState("");
-  const [selectedTurno, setSelectedTurno] = useState("");
-  const [selectedLocality, setSelectedLocality] = useState("");
-  const [selectedNeighborhood, setSelectedNeighborhood] = useState("");
-  const [selectedChildState, setSelectedChildState] = useState("");
-  const [selectedPhoneFeature, setSelectedPhoneFeature] = useState("");
-  const [selectedGuardianType, setSelectedGuardianType] = useState("");
 
   const [formFields, setFormFields] = useState({
     child: [
@@ -95,31 +82,6 @@ export function FormAddChildren() {
 
   let {authTokens} = useContext(AuthContext);
 
-  function handleGeneroChildChange(event) {
-    setSelectedGeneroChild(event.target.value);
-  }
-  function handleGeneroGuardianChange(event) {
-    setSelectedGeneroGuardian(event.target.value);
-  }
-  function handleSalaCunaChange(event) {
-    setSelectedSalacuna(event.target.value);
-  }
-  function handleTurnoChange(event) {
-    setSelectedTurno(event.target.value);
-  }
-  function handleLocalityChange(event) {
-    setSelectedLocality(event.target.value);
-  }
-  function handleNeighborhoodChange(event) {
-    setSelectedNeighborhood(event.target.value);
-  }
-  function handlePhoneFeatureChange(event) {
-    setSelectedPhoneFeature(event.target.value);
-  }
-  function handleGuardianTypeChange(event) {
-    setSelectedGuardianType(event.target.value);
-  }
-
   const toggleDireccion = () => {
     setIsDireccionVisible(!isDireccionVisible);
   };
@@ -170,10 +132,6 @@ export function FormAddChildren() {
         )}
       </Form.Group>
     ));
-  };
-
-  const toggleSection = (section) => {
-    // Handle the logic to show/hide sections
   };
 
   async function getChildren() {
