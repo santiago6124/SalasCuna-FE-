@@ -29,6 +29,74 @@ export function UpdateRoom(props) {
   const [selectedShift, setSelectedShift] = useState("");
   const [cribroom, setCribroom] = useState([]);
 
+  const [formFields, setFormFields] = useState({
+    cribroom: [
+      {
+        name: "nameCR",
+        label: "Nombre De Sala",
+        type: "text",
+        required: true,
+      },
+      {
+        name: "codeCR",
+        label: "Codigo De Sala",
+        type: "text",
+        required: true,
+      },
+      {
+        name: "max_capacityCR",
+        label: "Capacidad Maxima",
+        type: "number",
+        required: true,
+      },
+      {
+        name: "CUITCR",
+        label: "CUIT",
+        type: "text",
+        required: true,
+      },
+      {
+        name: "entityCR",
+        label: "Entidad",
+        type: "text",
+        required: true,
+      },
+      {
+        name: "streetCR",
+        label: "Calle",
+        type: "text",
+        required: true,
+      },
+      {
+        name: "house_numberCR",
+        label: "Nro",
+        type: "number",
+        required: true,
+      },
+      {
+        name: "shiftCR",
+        label: "Turno",
+        type: "select",
+        options: shiftOptions, // You need to define shiftOptions
+        required: true,
+      },
+      {
+        name: "zoneCR",
+        label: "Zona",
+        type: "select",
+        options: zoneOptions, // You need to define zoneOptions
+        required: true,
+      },
+    ],
+  });
+
+  const [formData, setFormData] = useState({});  /// mas adelante get request para obtener cribroom basado en los props id
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
   useEffect(() => {
     loadZones();
     loadShifts();
@@ -36,10 +104,45 @@ export function UpdateRoom(props) {
     loadSelectedCribroom(props.id); // Load selected cribroom data
   }, [props]);
 
+  
+  const renderFormFields = (fields) => {
+    console.log('fields', fields);
+    return fields.map((field) => (
+      <Form.Group className="mb-3" key={field.name}>
+        <Form.Label className="mb-1">{field.label}</Form.Label>
+        {field.type === "select" ? (
+          <select
+            name={field.name}
+            value={formData[field.name]}
+            onChange={handleInputChange}
+            className="form-control"
+            required={field.required}
+          >
+            {field.options.map((option) => (
+              <option key={option.id} value={option.id}>
+                {option[Object.keys(option)[1]]} {/* Adjust this based on your option structure */}
+              </option>
+            ))}
+          </select>
+        ) : (
+          <Form.Control
+            type={field.type}
+            placeholder={`Ingrese ${field.label.toLowerCase()}`}
+            name={field.name}
+            value={formData[field.name]}
+            onChange={handleInputChange}
+            required={field.required}
+          />
+        )}
+      </Form.Group>
+    ));
+  };
+
   async function loadZones() {
     try {
       const response = await getAllZones(props.tokens);
       setZoneOptions(response.data);
+      formFields['cribroom'][8]['options'] = response.data;
     } catch (error) {
       console.error("Error fetching zona options:", error);
     }
@@ -49,6 +152,7 @@ export function UpdateRoom(props) {
     try {
       const response = await getAllShifts(props.tokens);
       setShiftOptions(response.data);
+      formFields['cribroom'][7]['options'] = response.data;
     } catch (error) {
       console.error("Error fetching shift options:", error);
     }
@@ -125,118 +229,10 @@ export function UpdateRoom(props) {
               <hr className="linea"></hr>
             </div>
 
-            <Form.Group className="mb-3">
-              <Form.Label className="mb-1">Nombre De Sala</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Editar El Nombre De La Sala"
-                name="nameCR"
-                defaultValue={cribroom ? cribroom.name : ""}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label className="mb-1">Codigo De Sala</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Editar El Nombre De La Sala"
-                name="codeCR"
-                defaultValue={cribroom ? cribroom.code : ""}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label className="mb-1">Capacidad Maxima</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Editar La Capacidad Maxima De La Sala"
-                name="max_capacityCR"
-                defaultValue={cribroom ? cribroom.max_capacity : ""}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Row>
-                <Col>
-                  <Form.Label className="mb-1">CUIT</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Editar el CUIT de la entidad de la sala cuna"
-                    name="CUITCR"
-                    defaultValue={cribroom ? cribroom.CUIT : ""}
-                  />
-                </Col>
-                <Col>
-                <Form.Label className="mb-1">Entidad</Form.Label>
-                <Form.Control
-                type="text"
-                placeholder="Editar la entidad de la sala cuna"
-                defaultValue = {cribroom? cribroom.entity:""}
-                name="entityCR"/>
-                </Col>
-              </Row>
-            </Form.Group>
-            <Row className="mb-1">
-              <Col xs={9}>
-                <Form.Label className="mb-1">Calle</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Editar Calle"
-                  name="streetCR"
-                  defaultValue={cribroom ? cribroom.street : ""}
-                />
-              </Col>
-              <Col>
-                <Form.Label className="mb-1">Nro</Form.Label>
-                <Form.Control
-                  type="number"
-                  placeholder="Nro"
-                  name="house_numberCR"
-                  defaultValue={cribroom ? cribroom.house_number : ""}
-                />
-              </Col>
-            </Row>
+            
+            {renderFormFields(formFields.cribroom)}
 
-            <Row className="mb-3">
-              <Col>
-                <Form.Group>
-                  <Form.Label className="mb-1">Turno</Form.Label>
-                  <Form.Group className="mb-3">
-                    <Form.Select
-                      name="shiftCR"
-                      as="select"
-                      value={selectedShift ? selectedShift : cribroom.shift}
-                      className="mb-1"
-                      onChange={handleShiftChange}
-                    >
-                      <option value="" disabled>
-                        Seleccionar Turno
-                      </option>
-                      {shiftOptions.map((shift) => (
-                        <option key={shift.id} value={shift.id}>
-                          {shift.name}
-                        </option>
-                      ))}
-                    </Form.Select>
-                  </Form.Group>
-                </Form.Group>
-              </Col>
-              <Col>
-                <Form.Label className="mb-1">Zona</Form.Label>
-                <Form.Select
-                  name="zoneCR"
-                  as="select"
-                  value={selectedZone ? selectedZone : cribroom.zone}
-                  onChange={handleZoneChange}
-                >
-                  <option value="" disabled>
-                    Seleccionar Zona
-                  </option>
-                  {zoneOptions.map((zone) => (
-                    <option key={zone.id} value={zone.id}>
-                      {zone.name}
-                    </option>
-                  ))}
-                </Form.Select>
-              </Col>
-            </Row>
+
             <div className="contenedor-boton-qr ">
               <Button
                 className="boton-edit mt-3"
