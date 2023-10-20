@@ -33,6 +33,120 @@ export default function UserList() {
 
   let {authTokens} = useContext(AuthContext);
 
+  const [formFields, setFormFields] = useState({
+    user: [
+    {
+      name: "email",
+      label: "E-mail",
+      type: "email",
+      placeholder: "Ingresar E-mail",
+      // defaultValue: user ? user.email : "",
+      required: true,
+    },
+    {
+      name: "first_name",
+      label: "Nombre",
+      type: "text",
+      placeholder: "Ingresar nombre",
+      // defaultValue: user ? user.first_name : "",
+      required: true,
+    },
+    {
+      name: "last_name",
+      label: "Apellido",
+      type: "text",
+      placeholder: "Ingresar Apellido",
+      // defaultValue: user ? user.last_name : "",
+      required: true,
+    },
+    {
+      name: "dni",
+      label: "DNI",
+      type: "number",
+      placeholder: "Ingresar DNI",
+      // defaultValue: user ? user.dni : "",
+      required: true,
+    },
+    {
+      name: "group",
+      label: "Rol",
+      type: "select",
+      options: [
+        { id: 1, name: "Admin" },
+        { id: 2, name: "User" },
+      ],
+      // defaultValue: user ? user.group : "",
+      required: true,
+    },
+    {
+      name: "phone_number",
+      label: "Número De Teléfono",
+      type: "tel",
+      placeholder: "Ingresar Número De Teléfono",
+      // defaultValue: user ? user.phone_number : "",
+      required: true,
+    },
+    {
+      name: "city",
+      label: "Ciudad",
+      type: "text",
+      placeholder: "Ingresar Ciudad",
+      // defaultValue: user ? user.city : "",
+      required: true,
+    },
+    {
+      name: "department",
+      label: "Departamento",
+      type: "select",
+      options: [
+        { id: 1, department: "HR" },
+        { id: 2, department: "IT" },
+        // Add more departments as needed
+      ],
+      // defaultValue: user ? user.department : "",
+      required: true,
+    },
+    {
+      name: "address",
+      label: "Dirección",
+      type: "text",
+      placeholder: "Ingresar Dirección",
+      // defaultValue: user ? user.address : "",
+      required: true,
+    },
+    {
+      name: "password",
+      label: "Contraseña",
+      type: "password",
+      placeholder: "Ingrese su contraseña",
+      minLength: 8,
+      required: true,
+    },
+    {
+      name: "re_password",
+      label: "Repetir Contraseña",
+      type: "password",
+      placeholder: "Ingrese su contraseña de nuevo",
+      minLength: 8,
+      required: true,
+    },
+    {
+      name: "birthdate",
+      label: "Fecha de Nacimiento",
+      type: "date",
+      // defaultValue: user ? user.birthdate : "",
+      required: true,
+    },
+  ]});
+
+  const [formData, setFormData] = useState({});  /// mas adelante get request para obtener cribroom basado en los props id
+  
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
+  
+
   useEffect(() => {
     listUsers();
   }, []);
@@ -108,6 +222,10 @@ export default function UserList() {
           <>
             {selectedUser && (
               <UpdateUser
+              
+                formFields={formFields}
+                handleInputChange={handleInputChange}
+                formData={formData}
                 id={selectedUser}
                 show={modalEditShow}
                 tokens= {authTokens.access}
@@ -132,6 +250,9 @@ export default function UserList() {
             )}
             {modalCreateShow && (
               <SignUp
+                formFields={formFields}
+                handleInputChange={handleInputChange}
+                formData={formData}
                 show={modalCreateShow}
                 onHide={() => {
                   setModalCreateShow(false);
