@@ -27,7 +27,7 @@ export default function Payout() {
   const [modalAddShow, setModalAddShow] = useState(false);
   const [modalEditShow, setModalEditShow] = useState(false);
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
-  const { authTokens } = useContext(AuthContext); // Get the auth tokens from the context
+  let { authTokens } = useContext(AuthContext); // Get the auth tokens from the context
 
   useEffect(() => {
     loadZones();
@@ -99,7 +99,7 @@ export default function Payout() {
         <div className="cribroom-dashboard">
           <>
             <AddPayout
-              zones={zoneOptions}
+              tokens={authTokens.access}
               show={modalAddShow}
               onHide={() => {
                 setModalAddShow(false);
@@ -108,7 +108,7 @@ export default function Payout() {
             />
             <EditPayout
               id={selectedPayout}
-              zones={zoneOptions}
+              tokens={authTokens.access}
               show={modalEditShow}
               onHide={() => {
                 setModalEditShow(false);
