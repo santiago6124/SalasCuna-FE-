@@ -5,7 +5,7 @@ import DeleteRoom from "../DeleteRoom/DeleteRoom";
 import {CreateRoom} from "../CreateRoom/CreateRoom";
 import "./CribroomDashboard.css";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 
 import { getAllZones, handlePermissions } from "../../api/salasCuna.api";
@@ -17,10 +17,11 @@ import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import axios from "axios";
-import { ToastContainer, toast, Zoom } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import { Row, Col } from "react-bootstrap";
 import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
+import { toastLoading, toastUpdateError, toastUpdateSuccess } from "../../utils/toastMsgs";
 
 export default function CribroomDashboard() {
   const [cribrooms, setCribrooms] = useState([]);
@@ -34,38 +35,18 @@ export default function CribroomDashboard() {
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
   const [modalCreateShow, setModalCreateShow] = useState(false);
 
-  const customId = "custom-id-yes";
+  const customId = useRef(null);
 
   let { authTokens } = useContext(AuthContext);
 
   useEffect(() => {
-    toastPromise();
+    listCribroom();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  function toastPromise() {
-    toast.promise(
-      listCribroom,
-      {
-        pending: "Cargando Salas Cunas",
-        success: "Cargadas con éxito",
-        error: "Error al cargar!",
-      },
-      {
-        toastId: customId,
-        position: "top-center",
-        autoClose: 1500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        theme: "colored",
-        transition: Zoom,
-      }
-    );
-  }
 
   async function listCribroom() {
     try {
+      toastLoading("Cargando Salas Cunas", customId);
       const promesas = await Promise.all([
         getAllZones(authTokens.access),
         axios.get("/api/cribroomDir/", {
@@ -96,9 +77,11 @@ export default function CribroomDashboard() {
       });
       setCribrooms(updatedCribrooms);
       setFilteredCribroom(updatedCribrooms);
+      toastUpdateSuccess("Salas cargadas", customId)
     } catch (error) {
       console.log("Error fetching SalasCunas:", error);
       handlePermissions(error.response.status);
+      toastUpdateError("Error al cargar las Salas Cunas!", customId);
     }
   }
 

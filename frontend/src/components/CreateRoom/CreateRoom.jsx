@@ -6,15 +6,16 @@ import Form from "react-bootstrap/Form/";
 import { Container, Modal } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import axios from "axios";
-import Menu from "../Menu/Menu";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   getAllShifts,
   getAllUsers,
   getAllZones,
 } from "../../api/salasCuna.api";
 import Cookies from "js-cookie";
+import AuthContext from "../../context/AuthContext";
+import { updateData, warningData } from "../../utils/toastMsgs";
 
 export function CreateRoom(props) {
   const [zoneOptions, setZoneOptions] = useState([]);
@@ -23,39 +24,25 @@ export function CreateRoom(props) {
   const [selectedZona, setSelectedZone] = useState("");
   const [selectedShift, setSelectedShift] = useState("");
   const [selectedUser, setSelectedUser] = useState("");
+
+  let { authTokens } = useContext(AuthContext);
+
   useEffect(() => {
-    loadZones();
-    loadShifts();
-    loadUser();
+    loadData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  async function loadZones() {
+  async function loadData() {
     try {
-      const response = await getAllZones();
-      let data = await response.data;
-      setZoneOptions(data);
+      const promesas = await Promise.all([getAllZones(authTokens.access), getAllShifts(authTokens.access), getAllUsers(authTokens.access)])
+      let dataZones = await promesas[0].data;
+      let dataShift = await promesas[1].data;
+      let dataUser = await promesas[2].data;
+      setZoneOptions(dataZones);
+      setShiftOptions(dataShift);
+      setUserOptions(dataUser);
     } catch (error) {
-      console.error("Error fetching zona options:", error);
-    }
-  }
-
-  async function loadShifts() {
-    try {
-      const response = await getAllShifts();
-      let data = await response.data;
-      setShiftOptions(data);
-    } catch (error) {
-      console.error("Error fetching shift options:", error);
-    }
-  }
-
-  async function loadUser() {
-    try {
-      const response = await getAllUsers();
-      let data = await response.data;
-      setUserOptions(data);
-    } catch (error) {
-      console.error("Error fetching UserCR options", error);
+      console.error("Error fetching data: ", error);
     }
   }
 
@@ -85,13 +72,14 @@ export function CreateRoom(props) {
       });
       console.log(response);
       if (response.request.status === 201) {
+        updateData("Sala creada con éxito")
         console.log("Cribroom added successfully");
         window.location.reload();
       } else {
         console.log("Failed to add Cribroom");
       }
     } catch (err) {
-      alert(":c");
+      warningData("Error al crear la Sala");
       console.log(err);
     }
   }

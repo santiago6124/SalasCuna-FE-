@@ -28,7 +28,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
 import AuthContext from "../../context/AuthContext";
-import { toastLoading, toastUpdateError, toastUpdateSuccess } from "../../utils/toastMsgs";
+import { toastLoading, toastUpdateError, toastUpdateSuccess, warningData } from "../../utils/toastMsgs";
 import { ToastContainer } from "react-toastify";
 
 export default function ChildrenManagement() {
@@ -74,7 +74,7 @@ export default function ChildrenManagement() {
     if (!cribroomCapacity) {
       navigate("/children-management/new");
     } else {
-      window.alert("La cribroom tiene la capacidad máxima");
+      warningData("La cribroom tiene la capacidad máxima");
     }
   }
 
