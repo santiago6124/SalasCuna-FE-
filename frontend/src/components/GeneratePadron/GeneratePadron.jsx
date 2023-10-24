@@ -9,6 +9,7 @@ import Menu from "../Menu/Menu";
 import { getAllZones, handlePermissions } from "../../api/salasCuna.api";
 import AuthContext from "../../context/AuthContext";
 
+
 function GeneratePadron() {
   const [zoneOptions, setZoneOptions] = useState([]);
   const [selectedZone, setSelectedZone] = useState("");
@@ -22,8 +23,7 @@ function GeneratePadron() {
   };
 
   function handlePdfClick() {
-    // Implement your PDF generation logic here
-    console.log("Generate PDF logic will be implemented here");
+    
   }
   function handleExcelClick() {
     // Implement your Excel generation logic here
