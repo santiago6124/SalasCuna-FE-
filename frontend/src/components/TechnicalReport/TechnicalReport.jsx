@@ -53,6 +53,11 @@ export default function TechnicalReport() {
     selectedCribrooms.forEach((cribroom) => {
       const url = `/api/technical-report/${cribroom.id}/${startDate}/${endDate}/`;
 
+      const newIframe = document.createElement('iframe');
+
+      // Agregar el nuevo <iframe> al DOM
+      document.body.appendChild(newIframe);
+
       axios.get(url, { headers })
         .then((response) => {
           if (!response.data) {
@@ -70,7 +75,7 @@ export default function TechnicalReport() {
               data.pays
             );
             DownloadPDF(
-              iframeRef,
+              newIframe,
               cribroom.entity,
               cribroom.name,
               cribroom.code,
