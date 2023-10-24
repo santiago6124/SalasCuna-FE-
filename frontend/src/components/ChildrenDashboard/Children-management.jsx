@@ -282,7 +282,7 @@ export default function ChildrenManagement() {
 
               <div className="DataGrid-Wrapper">
                 <DataGrid
-                  style={{ borderRadius: "15px", margin: "20px", width: "" }}
+                  style={{ borderRadius: "15px", margin: "20px", width: ""}}
                   rows={childs}
                   columns={columns}
                   autoHeight

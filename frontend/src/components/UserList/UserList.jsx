@@ -289,23 +289,28 @@ export default function UserList() {
                   style={{ borderRadius: "15px", margin: "20px" }}
                   rows={filteredUsers}
                   columns={[
-                    { field: "first_name", headerName: "Nombre", width: 200 },
-                    { field: "last_name", headerName: "Apellido", width: 200 },
-                    { field: "email", headerName: "E-Mail", width: 150 },
-                    { field: "dni", headerName: "dni", width: 150 },
-                    { field: "address", headerName: "Direccion", width: 150 },
+                    { field: "id", headerName: "ID", headerAlign: "center",width: 50, align: "center",},
+                    { field: "first_name", headerName: "Nombre", headerAlign: "center",width: 150 , align: "center",},
+                    { field: "last_name", headerName: "Apellido", headerAlign: "center",width: 150 , align: "center",},
+                    { field: "email", headerName: "E-Mail", headerAlign: "center",width: 220 , align: "center",},
+                    { field: "dni", headerName: "DNI", headerAlign: "center",width: 120 , align: "center",},
+                    { field: "address", headerName: "Direccion", headerAlign: "center", width: 150 , align: "center",},
                     {
                       field: "phone_number",
                       headerName: "Numero Tel.",
+                      headerAlign: "center",
                       width: 150,
+                      align: "center",
                     },
-                    { field: "group", headerName: "Rol", width: 150 },
-                    { field: "is_active", headerName: "Estado", width: 150 },
+                    { field: "group", headerName: "Rol", headerAlign: "center",width: 100, align: "center", },
+                    { field: "is_active", headerName: "Estado", headerAlign: "center",width: 100, align: "center", },
                     {
                       field: "actions",
                       type: "actions",
                       headerName: "Acciones",
+                      headerAlign: "center",
                       width: 80,
+                      align: "center",
                       getActions: (params) => [
                         <>
                           <GridActionsCellItem
@@ -325,7 +330,7 @@ export default function UserList() {
                     },
                   ]}
                   autoHeight
-                  autoWidth
+                  
                   pageSize={5}
                 />
               </div>
