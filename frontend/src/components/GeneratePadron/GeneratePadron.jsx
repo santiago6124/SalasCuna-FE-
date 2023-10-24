@@ -85,8 +85,8 @@ function GeneratePadron() {
   return (
     <>
     <div>
-        <header className="header-padron">
-          <Menu className="mb-7" />
+        <header className="header-padron" style={{ marginTop: 100 }}>
+          <Menu />
         </header>
     </div>
     <div > 
