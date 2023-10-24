@@ -20,7 +20,7 @@ import {
 import { Modal } from "react-bootstrap";
 
 export default function EditChildren(props) {
-  const [ChildGenders, setChildGender] = useState([]);
+  const [childGenders, setChildGender] = useState([]);
   const [guardianGenders, setGuardianGender] = useState([]);
   const [salas, setCribroom] = useState([]);
   const [shifts, setShift] = useState([]);
@@ -29,41 +29,68 @@ export default function EditChildren(props) {
   const [childStates, setChildState] = useState([]);
   const [guardianTypes, setGuardianType] = useState([]);
   const [phoneFeatures, setPhoneFeature] = useState([]);
-  const [selectedGeneroChild, setSelectedGeneroChild] = useState("");
-  const [selectedGeneroGuardian, setSelectedGeneroGuardian] = useState("");
-  const [selectedSalaCuna, setSelectedSalacuna] = useState("");
-  const [selectedTurno, setSelectedTurno] = useState("");
-  const [selectedLocality, setSelectedLocality] = useState("");
-  const [selectedNeighborhood, setSelectedNeighborhood] = useState("");
-  const [selectedChildState, setSelectedChildState] = useState("");
-  const [selectedPhoneFeature, setSelectedPhoneFeature] = useState("");
-  const [selectedGuardianType, setSelectedGuardianType] = useState("");
+
+  const [isDireccionVisible, setIsDireccionVisible] = useState(false);
+  const [isTutorVisible, setIsTutorVisible] = useState(false);
+
+  const [formFields, setFormFields] = useState({
+    child: [
+      { name: "nombreChild", label: "Nombre", type: "text", required: true },
+      { name: "apellidoChild", label: "Apellido", type: "text", required: true },
+      { name: "dniChild", label: "DNI", type: "number", required: true },
+      { name: "fechaNacimientoChild", label: "Fecha De Nacimiento", type: "date", required: true },
+      { name: "generoChild",label: "Genero",type: "select",options: childGenders, required: true,}, // Add options dynamically
+      { name: "salacuna", label: "Sala Cuna", type: "select", options: salas, required: true }, // Add options dynamically
+      { name: "turno", label: "Turno", type: "select", options: shifts, required: false }, // Add options dynamically
+      { name: "fechaBaja", label: "Fecha de baja", type: "date", required: false },
+      { name: "fechaAlta", label: "Fecha de alta", type: "date", required: true },
+    ],
+    guardian: [
+      { name: "nombreGuardian", label: "Nombre", type: "text", required: true },
+      { name: "apellidoGuardian", label: "Apellido", type: "text", required: true },
+      { name: "dniGuardian", label: "DNI", type: "number", required: true },
+      { name: "generoGuardian", label: "Genero", type: "select", options: guardianGenders, required: true }, // Add options dynamically
+      { name: "phoneFeature", label: "Caracterisitca Telefonica", type: "select", options: phoneFeatures, required: true }, // Add options dynamically
+      { name: "telefono", label: "Telefono", type: "number", required: true },
+      { name: "guardianType", label: "Madre/padre o Tutor?", type: "select", options: guardianTypes, required: true }, // Add options dynamically
+    ],
+    address: [
+      { name: "calle", label: "Calle", type: "text", required: true },
+      { name: "numero_casa", label: "Numero", type: "number", required: false },
+      { name: "neighborhood", label: "Barrio", type: "select", options: neighborhoods, required: true }, // Add options dynamically
+      { name: "locality", label: "Localidad", type: "select", options: localities, required: true }, // Add options dynamically
+    ],
+  });
+  const [formData, setFormData] = useState({
+    nombreChild: "Facundo",
+    apellidoChild: "Oliva Marchetto",
+    dniChild: 460327608,
+    fechaNacimientoChild: "2004-10-29",
+    fechaBaja: "2004-10-29",
+    fechaAlta: "2006-10-29",
+    nombreGuardian: "Lucas",
+    apellidoGuardian: "Oliva",
+    dniGuardian: 241191000,
+    telefono: 3534441111,
+    calle: 'la calle de mi casa',
+    numero_casa: 37,
+  });
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const toggleDireccion = () => {
+    setIsDireccionVisible(!isDireccionVisible);
+  };
+
+  const toggleTutor = () => {
+    setIsTutorVisible(!isTutorVisible);
+  };
+  
   const [selectedChild, setSelectedChild] = useState("");
 
-  function handleGeneroChildChange(event) {
-    setSelectedGeneroChild(event.target.value);
-  }
-  function handleGeneroGuardianChange(event) {
-    setSelectedGeneroGuardian(event.target.value);
-  }
-  function handleSalaCunaChange(event) {
-    setSelectedSalacuna(event.target.value);
-  }
-  function handleTurnoChange(event) {
-    setSelectedTurno(event.target.value);
-  }
-  function handleLocalityChange(event) {
-    setSelectedLocality(event.target.value);
-  }
-  function handleNeighborhoodChange(event) {
-    setSelectedNeighborhood(event.target.value);
-  }
-  function handlePhoneFeatureChange(event) {
-    setSelectedPhoneFeature(event.target.value);
-  }
-  function handleGuardianTypeChange(event) {
-    setSelectedGuardianType(event.target.value);
-  }
 
   useEffect(() => {
     getAllChildren(props.tokens);
@@ -82,6 +109,10 @@ export default function EditChildren(props) {
       const response = await getAllGenders(props.tokens);
       setChildGender(response.data);
       setGuardianGender(response.data);
+
+      formFields['child'][4]['options'] = response.data;
+      formFields['guardian'][3]['options'] = response.data;
+
     } catch (error) {
       console.error("Error fetching generos:", error);
     }
@@ -91,6 +122,8 @@ export default function EditChildren(props) {
     try {
       const response = await getAllCribrooms(props.tokens);
       setCribroom(response.data);
+
+      formFields['child'][5]['options'] = response.data;
     } catch (error) {
       console.log("Error fetching Salas Cunas:", error);
     }
@@ -100,6 +133,8 @@ export default function EditChildren(props) {
     try {
       const response = await getAllShifts(props.tokens);
       setShift(response.data);
+
+      formFields['child'][6]['options'] = response.data;
     } catch (error) {
       console.log("Error fetching Turnos:", error);
     }
@@ -109,6 +144,9 @@ export default function EditChildren(props) {
     try {
       const response = await getAllLocalities(props.tokens);
       setLocality(response.data);
+      
+      console.log('LocalityList response: ', response);
+      formFields['address'][3]['options'] = response.data;
     } catch (error) {
       console.error("Error fetching localidad:", error);
     }
@@ -118,6 +156,8 @@ export default function EditChildren(props) {
     try {
       const response = await getAllNeighborhood(props.tokens);
       setNeighborhood(response.data);
+
+      formFields['address'][2]['options'] = response.data;
     } catch (error) {
       console.error("Error fetching barrio:", error);
     }
@@ -129,6 +169,7 @@ export default function EditChildren(props) {
     try {
       const response = await getAllGuardianTypes(props.tokens);
       setGuardianType(response.data);
+      formFields['guardian'][6]['options'] = response.data;
     } catch (error) {
       console.error("Error fetching estados:", error);
     }
@@ -138,6 +179,7 @@ export default function EditChildren(props) {
     try {
       const response = await getAllPhoneFeatures(props.tokens);
       setPhoneFeature(response.data);
+      formFields['guardian'][4]['options'] = response.data;
     } catch (error) {
       console.error("Error fetching estados:", error);
     }
@@ -149,6 +191,39 @@ export default function EditChildren(props) {
 
   const location = useLocation();
   const childId = location?.state?.childId;
+
+  const renderFormFields = (fields) => {
+    console.log('fields', fields);
+    return fields.map((field) => (
+      <Form.Group className="mb-3" key={field.name}>
+        <Form.Label className="mb-1">{field.label}</Form.Label>
+        {field.type === "select" ? (
+          <select
+            name={field.name}
+            value={formData[field.name]}
+            onChange={handleInputChange}
+            className="form-control"
+            required={field.required}
+          >
+            {field.options.map((option) => (
+              <option key={option.id} value={option.id}>
+                {option[Object.keys(option)[1]]} {/* Adjust this based on your option structure */}
+              </option>
+            ))}
+          </select>
+        ) : (
+          <Form.Control
+            type={field.type}
+            placeholder={`Ingrese ${field.label.toLowerCase()}`}
+            name={field.name}
+            value={formData[field.name]}
+            onChange={handleInputChange}
+            required={field.required}
+          />
+        )}
+      </Form.Group>
+    ));
+  };
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -174,7 +249,7 @@ export default function EditChildren(props) {
       gender: formData.get("generoChild"),
       cribroom: formData.get("salacuna"),
       shift: formData.get("turno"),
-      neightborhood: formData.get("neightborhood"),
+      neighborhood: formData.get("neightborhood"),
       guardian_first_name: formData.get("nombreGuardian"),
       guardian_last_name: formData.get("apellidoGuardian"),
       guardian_dni: formData.get("dniGuardian"),
@@ -226,324 +301,21 @@ export default function EditChildren(props) {
         <div className="contenedor-linea">
           <hr className="linea" />
         </div>
+        
+        {renderFormFields(formFields.child)}
 
-        <Form.Group className="mb-3">
-          <Form.Label className="mb-1">Nombre</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Ingrese un nombre"
-            defaultValue={selectedChild.first_name}
-            name="nombreChild"
-            required
-          />
-        </Form.Group>
-
-        <Form.Group className="mb-3">
-          <Form.Label className="mb-1">Apellido</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Ingrese un apellido"
-            name="apellidoChild"
-            required
-          />
-        </Form.Group>
-
-        <Form.Group className="mb-3">
-          <Form.Label className="mb-1">DNI</Form.Label>
-          <Form.Control
-            type="number"
-            placeholder="Ingrese un DNI"
-            name="dniChild"
-            required
-          />
-        </Form.Group>
-
-        <Form.Group className="mb-3">
-          <Form.Label className="mb-1">Fecha De Nacimiento</Form.Label>
-          <Form.Control
-            type="date"
-            placeholder=""
-            name="fechaNacimientoChild"
-            required
-          />
-        </Form.Group>
-
-        <Row className="mb-3">
-          <Col>
-            <div>
-              <Form.Label className="mb-1">Genero</Form.Label>
-              <select
-                id="gender"
-                name="generoChild"
-                value={selectedGeneroChild}
-                onChange={handleGeneroChildChange}
-                className="form-control"
-                required
-              >
-                <option value="">Generos</option>
-                {ChildGenders.map((gender) => (
-                  <option key={gender.id} value={gender.id}>
-                    {gender.gender}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </Col>
-          {/*           <Col>
-            <div>
-              <Form.Label className="mb-1">Estado</Form.Label>
-              <select
-                id="child_state"
-                name="estado"
-                value={selectedChildState}
-                onChange={handleChildStateChange}
-                className="form-control"
-                required
-              >
-                <option value="">Estado</option>
-                {childStates.map((child_state) => (
-                  <option key={child_state.id} value={child_state.id}>
-                    {child_state.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </Col> */}
-        </Row>
-
-        <Row className="mb-3">
-          <Col>
-            <div>
-              <Form.Label className="mb-1">Sala Cuna</Form.Label>
-              <select
-                id="cribroom"
-                name="salacuna"
-                value={selectedSalaCuna}
-                onChange={handleSalaCunaChange}
-                className="form-control"
-                required
-              >
-                <option value="">Sala Cuna</option>
-                {salas.map((cribroom) => (
-                  <option key={cribroom.id} value={cribroom.id}>
-                    {cribroom.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </Col>
-        </Row>
-
-        <div className="mb-3">
-          <Form.Label className="mb-1">Turno</Form.Label>
-          <select
-            id="shift"
-            name="turno"
-            value={selectedTurno}
-            onChange={handleTurnoChange}
-            className="form-control"
-          >
-            <option value="">Turnos</option>
-            {shifts.map((shift) => (
-              <option key={shift.id} value={shift.id}>
-                {shift.name}
-              </option>
-            ))}
-          </select>
+        <div className="toggle-button" onClick={() => toggleTutor()}>
+          {isTutorVisible ? "Ocultar Añadir tutor" : "Mostrar Añadir tutor"}
         </div>
 
-        <Row className="mb-5">
-          <Col>
-            <Form.Label className="mb-1">Fecha de baja</Form.Label>
-            <Form.Control
-              type="date"
-              placeholder=""
-              name="fechaBaja"
-              defaultValue={null}
-            />
-          </Col>
-          <Col>
-            <Form.Label className="mb-1">Fecha de alta</Form.Label>
-            <Form.Control
-              type="date"
-              placeholder=""
-              name="fechaAlta"
-              required
-            />
-          </Col>
-        </Row>
+        {isTutorVisible && renderFormFields(formFields.guardian)}
 
-        <h1 className="titulo">Añadir Tutor/a</h1>
-
-        <div className="contenedor-linea">
-          <hr className="linea"></hr>
+        <div className="toggle-button" onClick={() => toggleDireccion()}>
+          {isDireccionVisible ? "Ocultar Direccion" : "Mostrar Direccion"}
         </div>
 
-        <Form.Group className="mb-3">
-          <Form.Label className="mb-1">Nombre</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Ingrese un nombre"
-            name="nombreGuardian"
-            required
-          />
-        </Form.Group>
+        {isDireccionVisible && renderFormFields(formFields.address)}
 
-        <Form.Group className="mb-3">
-          <Form.Label className="mb-1">Apellido</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Ingrese un apellido"
-            name="apellidoGuardian"
-            required
-          />
-        </Form.Group>
-
-        <Form.Group className="mb-3">
-          <Form.Label className="mb-1">DNI</Form.Label>
-          <Form.Control
-            type="number"
-            placeholder="Ingrese un DNI"
-            name="dniGuardian"
-            required
-          />
-        </Form.Group>
-
-        <div className="mb-3">
-          <Form.Label className="mb-1">Genero</Form.Label>
-          <select
-            id="gender"
-            name="generoGuardian"
-            value={selectedGeneroGuardian}
-            onChange={handleGeneroGuardianChange}
-            className="form-control"
-            required
-          >
-            <option value="">Generos</option>
-            {guardianGenders.map((gender) => (
-              <option key={gender.id} value={gender.id}>
-                {gender.gender}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <Row className="mb-4">
-          <Col>
-            <Form.Label className="mb-1">Caracterisitca Telefonica</Form.Label>
-
-            <select
-              id="phoneFeature"
-              name="phoneFeature"
-              value={selectedPhoneFeature}
-              onChange={handlePhoneFeatureChange}
-              className="form-control"
-              required
-            >
-              <option value="">Phone Features</option>
-              {phoneFeatures.map((phoneFeature) => (
-                <option key={phoneFeature.id} value={phoneFeature.id}>
-                  {phoneFeature.feature}
-                </option>
-              ))}
-            </select>
-          </Col>
-          <Col>
-            <Form.Label className="mb-1">Telefono</Form.Label>
-            <Form.Control
-              type="number"
-              placeholder="Ingrese un telefono"
-              name="telefono"
-              required
-            />
-          </Col>
-        </Row>
-
-        <Row className="mb-4">
-          <Col>
-            <Form.Label className="mb-1">Madre/padre o Tutor?</Form.Label>
-
-            <select
-              id="guardianType"
-              name="guardianType"
-              value={selectedGuardianType}
-              onChange={handleGuardianTypeChange}
-              className="form-control"
-              required
-            >
-              <option value="">Madre/padre o Tutor?</option>
-              {guardianTypes.map((guardianType) => (
-                <option key={guardianType.id} value={guardianType.id}>
-                  {guardianType.type}
-                </option>
-              ))}
-            </select>
-          </Col>
-        </Row>
-
-        <h1 className="titulo">Añadir Domicilio</h1>
-
-        <div className="contenedor-linea">
-          <hr className="linea"></hr>
-        </div>
-        <Row className="mb-3">
-          <Col>
-            <Form.Label className="mb-1">Calle</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Ingrese una calle"
-              id="calle"
-              name="calle"
-              required
-            />
-          </Col>
-          <Col>
-            <Form.Label className="mb-1">Numero</Form.Label>
-            <Form.Control
-              type="number"
-              placeholder="Ingrese un numero"
-              name="numero_casa"
-            />
-          </Col>
-        </Row>
-
-        <div className="mb-3">
-          <Form.Label className="mb-1">Barrio</Form.Label>
-          <select
-            id="neighborhood"
-            name="neighborhood"
-            value={selectedNeighborhood}
-            onChange={handleNeighborhoodChange}
-            className="form-control"
-            required
-          >
-            <option value="">Localidad</option>
-            {neighborhoods.map((neighborhood) => (
-              <option key={neighborhood.id} value={neighborhood.id}>
-                {neighborhood.neighborhood}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="mb-3">
-          <Form.Label className="mb-1">Localidad</Form.Label>
-          <select
-            id="locality"
-            name="locality"
-            value={selectedLocality}
-            onChange={handleLocalityChange}
-            className="form-control"
-            required
-          >
-            <option value="">Localidad</option>
-            {localities.map((locality) => (
-              <option key={locality.id} value={locality.id}>
-                {locality.locality}
-              </option>
-            ))}
-          </select>
-        </div>
 
         <div className="contenedor-boton mb-1 ">
           <Button as="input" type="submit" value="Cargar" size="lg" />

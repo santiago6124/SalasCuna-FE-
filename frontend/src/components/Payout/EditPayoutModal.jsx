@@ -2,12 +2,15 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form/";
 import { Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
-import React, { useContext } from "react"; // Import useContext
+import React, { useContext, useState, useEffect } from "react"; // Import useContext
 import axios from "axios";
 import AuthContext from "../../context/AuthContext"; // Import the AuthContext
+import {renderFormFields} from "../renderFormFields/renderFormFields";
+
 
 export function EditPayout(props) {
   const { authTokens } = useContext(AuthContext); // Get authTokens from the AuthContext
+  
 
   async function handleEdit(event) {
     event.preventDefault();
@@ -26,7 +29,9 @@ export function EditPayout(props) {
     
     try {
       let response = await axios.put(`/api/payout/${props.id}/`, payload, { headers });
-      if (response.request.status === 201) {
+      // console.log(response.request.status);
+      // console.log(response.request);
+      if (response.request.statusText === 'OK') {
         console.log('Payout edited successfully');
         props.onHide();
       } else {
@@ -47,31 +52,8 @@ export function EditPayout(props) {
               <hr className="linea"></hr>
             </div>
 
-            <Form.Group className="mb-3">
-              <Form.Label className="mb-1">Monto</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Editar el monto del pago"
-                name="amount"
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label className="mb-1">Fecha</Form.Label>
-              <Form.Control type="date" name="date" />
-            </Form.Group>
-            <div className="col-md-2">
-              <Form.Label className="mb-1">Seleccionar Zona</Form.Label>
-              <Form.Select as="select" name="zone">
-                <option value="" disabled>
-                  Seleccionar Zona
-                </option>
-                {props.zones.map((zone) => (
-                  <option key={zone.id} value={zone.id}>
-                    {zone.name}
-                  </option>
-                ))}
-              </Form.Select>
-            </div>
+            {renderFormFields(props.formFields.payout, props.formData, props.handleInputChange)}
+
             <div className="contenedor-boton-qr ">
               <Button
                 className="boton-edit mt-3"

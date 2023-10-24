@@ -27,7 +27,39 @@ export default function Payout() {
   const [modalAddShow, setModalAddShow] = useState(false);
   const [modalEditShow, setModalEditShow] = useState(false);
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
-  const { authTokens } = useContext(AuthContext); // Get the auth tokens from the context
+  let { authTokens } = useContext(AuthContext); // Get the auth tokens from the context
+
+  const [formFields, setFormFields] = useState({
+    payout: [
+      {
+        name: "amount",
+        label: "Editar el monto del pago",
+        type: "text",
+        required: true,
+      },
+      {
+        name: "date",
+        label: "Fecha",
+        type: "date",
+        required: true,
+      },
+      {
+        name: "zone",
+        label: "Zona",
+        type: "select",
+        options: zoneOptions, // You need to define zoneOptions props.zones
+        required: true,
+      },
+    ],
+  });
+
+  const [formData, setFormData] = useState({});  /// mas adelante get request para obtener cribroom basado en los props id
+
+  
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   useEffect(() => {
     loadZones();
@@ -44,6 +76,8 @@ export default function Payout() {
       const response = await getAllZones(authTokens.access); // Include the JWT token in the request headers
       let data = await response.data;
       setZoneOptions(data);
+      formFields['payout'][2]['options'] = response.data;
+
       const responsePO = await axios.get("/api/payout/", {
         headers: {
           "Content-Type": "application/json",
@@ -99,7 +133,9 @@ export default function Payout() {
         <div className="cribroom-dashboard">
           <>
             <AddPayout
-              zones={zoneOptions}
+              formFields={formFields}
+              handleInputChange={handleInputChange}
+              formData={formData}
               show={modalAddShow}
               onHide={() => {
                 setModalAddShow(false);
@@ -108,7 +144,9 @@ export default function Payout() {
             />
             <EditPayout
               id={selectedPayout}
-              zones={zoneOptions}
+              formFields={formFields}
+              handleInputChange={handleInputChange}
+              formData={formData}
               show={modalEditShow}
               onHide={() => {
                 setModalEditShow(false);
