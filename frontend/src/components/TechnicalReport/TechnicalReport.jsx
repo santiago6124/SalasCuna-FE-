@@ -12,8 +12,11 @@ import { useState, useEffect } from "react";
 import DownloadPDF from "./DownloadPDF/DownloadPDF";
 import Menu from "../Menu/Menu";
 import { getAllCribroomsWithoutDepth, getAllZones, handlePermissions } from "../../api/salasCuna.api";
+import { deletingData } from '../../utils/toastMsgs';
 
 import AuthContext from "../../context/AuthContext"; // Import AuthContext
+import { ToastContainer } from "react-toastify";
+
 
 export default function TechnicalReport() {
   const [zoneOptions, setZoneOptions] = useState([]);
@@ -50,45 +53,51 @@ export default function TechnicalReport() {
     selectedCribrooms.forEach((cribroom) => {
       const url = `/api/technical-report/${cribroom.id}/${startDate}/${endDate}/`;
 
-      axios.get(url, { headers }) // Pass headers in the request
+      axios.get(url, { headers })
         .then((response) => {
           if (!response.data) {
             throw new Error("Network response was not ok");
           }
-        })
-        .then((data) => {
-          // Handle the data received from the API for each cribroom
-          console.log(
-            "API Response for Cribroom",
-            cribroom.id,
-            data,
-            data.pays
-          );
-          DownloadPDF(
-            iframeRef,
-            cribroom.entity,
-            cribroom.name,
-            cribroom.code,
-            cribroom.street,
-            cribroom.house_number,
-            cribroom.locality.locality,
-            cribroom.department.department,
-            data.pays.totalSumStr,
-            data.pays.totalSumInitMonth,
-            data.pays.totalSumInitYear,
-            data.pays.totalSumEndMonth,
-            data.pays.totalSumEndYear,
-            data.maxCapacityStr,
-            cribroom.max_capacity,
-            data.pays.firstSubTotalSumEndMonth,
-            data.pays.SecSubTotalSumInitMonth,
-            data.pays.totalSumFloat,
-            data.pays.firstSubTotalSumFloat,
-            data.pays.SecSubTotalSumFloat
-          );
+
+          const data = response.data;
+
+
+          if (data && data.pays) {
+            console.log(
+              "API Response for Cribroom",
+              cribroom.id,
+              data,
+              data.pays
+            );
+            DownloadPDF(
+              iframeRef,
+              cribroom.entity,
+              cribroom.name,
+              cribroom.code,
+              cribroom.street,
+              cribroom.house_number,
+              cribroom.locality.locality,
+              cribroom.department.department,
+              data.pays.totalSumStr,
+              data.pays.totalSumInitMonth,
+              data.pays.totalSumInitYear,
+              data.pays.totalSumEndMonth,
+              data.pays.totalSumEndYear,
+              data.maxCapacityStr,
+              cribroom.max_capacity,
+              data.pays.firstSubTotalSumEndMonth,
+              data.pays.SecSubTotalSumInitMonth,
+              data.pays.totalSumFloat,
+              data.pays.firstSubTotalSumFloat,
+              data.pays.SecSubTotalSumFloat
+            );
+          } else {
+            console.error("Data or 'pays' property is undefined:", data);
+          }
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
+          deletingData();
         });
     });
   }
@@ -168,6 +177,7 @@ export default function TechnicalReport() {
   return (
     <>
       <body>
+        <ToastContainer />
         <h1 className="titulo-cb">Informe Tecnico</h1>
         <div className="contenedor-linea-report">
           <hr className="linea-report"></hr>
