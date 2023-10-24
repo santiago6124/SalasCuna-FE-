@@ -234,7 +234,7 @@ export default function TechnicalReport() {
             </InputGroup>
           </Col>
         </Row>
-
+ 
         <div className="DataGrid-Wrapper-report">
           <DataGrid
             style={{ borderRadius: "15px", margin: "20px" }}
