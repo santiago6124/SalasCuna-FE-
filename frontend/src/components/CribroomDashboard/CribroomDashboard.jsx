@@ -20,6 +20,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import axios from "axios";
 import { ToastContainer, toast, Zoom } from "react-toastify";
+import { Row, Col } from "react-bootstrap";
+import AddIcon from "@mui/icons-material/Add";
+import Button from "@mui/material/Button";
 
 export default function CribroomDashboard() {
   const [cribrooms, setCribrooms] = useState([]);
@@ -27,6 +30,7 @@ export default function CribroomDashboard() {
   const [keyword, setKeyword] = useState("");
   const [selectedCribroom, setSelectedCribroom] = useState("");
   const [cribroomName, setCribroomName] = useState("");
+
 
   // Modal variables
   const [modalEditShow, setModalEditShow] = useState(false);
@@ -181,7 +185,7 @@ export default function CribroomDashboard() {
         </header>
       </div>
       <body>
-        <div >
+        <div>
           {selectedCribroom && (
             <>
               <UpdateRoom
@@ -216,13 +220,23 @@ export default function CribroomDashboard() {
                 <div className="contenedor-linea-cb">
                   <hr className="linea-cb"></hr>
                 </div>
-                <div>
-                  <SearchBar
-                    keyword={keyword}
-                    onChange={updateKeyword}
-                    placeholder={"Buscar Sala Cuna"}
-                  />
-                </div>
+                <Row>
+                  <Col className="search-input">
+                    <SearchBar
+                      keyword={keyword}
+                      onChange={updateKeyword}
+                      placeholder={"Buscar Usuario"}
+                    />
+                  </Col>
+                  <Col className="add-payout-button">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      startIcon={<AddIcon />}
+                      label="Agregar Sala Cuna"
+                    ></Button>
+                  </Col>
+                </Row>  
                 <div className="DataGrid-Wrapper">
                   <DataGrid
                     style={{ borderRadius: "15px", margin: "20px" }}
