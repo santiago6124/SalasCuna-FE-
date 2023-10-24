@@ -14,33 +14,37 @@ import Col from "react-bootstrap/Col/";
 import Row from "react-bootstrap/Row/";
 
 //React  and React Functions Import
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 import { getAllGroup, getAllUsers, handlePermissions } from "../../api/salasCuna.api";
 
 //DataGrid Import
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { toastLoading, toastUpdateError, toastUpdateSuccess } from "../../utils/toastMsgs";
+import { ToastContainer } from "react-toastify";
 
 export default function UserList() {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [keyword, setKeyword] = useState("");
   const [selectedUser, setSelectedUser] = useState("");
-  const [userName, setUsername] = useState("");
   const [modalEditShow, setModalEditShow] = useState(false);
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
   const [modalCreateShow, setModalCreateShow] = useState(false);
 
   let {authTokens} = useContext(AuthContext);
+  const customId = useRef(null);
 
   useEffect(() => {
     listUsers();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function listUsers() {
     try {
+      toastLoading("Cargando Usuarios", customId);
       const responseUsers = await getAllUsers(authTokens.access);
-      console.log(responseUsers)
+      console.log(responseUsers);
       setUsers(responseUsers.data);
       const userData = responseUsers.data;
       const responseGroup = await getAllGroup(authTokens.access);
@@ -65,15 +69,16 @@ export default function UserList() {
       });
       setUsers(displayUsers);
       setFilteredUsers(displayUsers);
+      toastUpdateSuccess("Usuarios cargados", customId);
     } catch (error) {
       console.log("Error fetching users", error);
       handlePermissions(error.response.status);
+      toastUpdateError("Error al cargar los usuarios!", customId);
     }
   }
 
   function handleDeleteClick(rowId) {
     setSelectedUser(rowId);
-    setUsername(users.first_name);
     setModalDeleteShow(true);
     console.log("Edit clicked for row with id:", rowId);
   }
@@ -103,6 +108,7 @@ export default function UserList() {
         <Menu className="mb-7" />
       </header>
       <body className="mt-5">
+        <ToastContainer/>
         <div className="cribroom-dashboard ">
 
           <>

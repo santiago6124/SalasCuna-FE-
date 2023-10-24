@@ -9,6 +9,8 @@ import { Button } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import { getAllGroup, getAllDepartments } from "../../api/salasCuna.api";
 import Cookies from "js-cookie";
+import { ToastContainer } from "react-toastify";
+import { updateData, warningData } from "../../utils/toastMsgs";
 
 export default function UpdateUser(props) {
   const [selectedUser, setSelectedUser] = useState("");
@@ -23,7 +25,7 @@ export default function UpdateUser(props) {
     loadDepartments();
     setSelectedUser(props.id);
     loadSelectedUser(props.id);
-  }, []);
+  }, [props]);
 
   async function loadGroup() {
     try {
@@ -90,9 +92,11 @@ export default function UpdateUser(props) {
           }
       });
         if (response.request.status === 200) {
+          updateData("Usuario editado");
           console.log("Updated User");
           props.onHide();
         } else {
+          warningData("Error al editar el usuario!");
           console.error("Error updating user:", response.statusText);
         }
       } catch (error) {

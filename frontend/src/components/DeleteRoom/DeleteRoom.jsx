@@ -7,7 +7,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Cookies from 'js-cookie'
 
-import { deletingData } from "../../utils/toastMsgs";
+import { deletingData, warningData } from "../../utils/toastMsgs";
 
 export default function DeleteRoom(props) {
   const [selectedCribroom, setSelectedCribroom] = useState("");
@@ -18,7 +18,6 @@ export default function DeleteRoom(props) {
 
   async function handleDelete(event) {
     event.preventDefault();
-    deletingData();
     console.log(selectedCribroom);
     try {
       const payload = {
@@ -33,8 +32,10 @@ export default function DeleteRoom(props) {
           "Authorization": "JWT " + props.tokens
         }
       });
+      deletingData("Sala Cuna desactivada");
       props.onHide();
     } catch (err) {
+      warningData("Error al desactivar la Sala Cuna!");
       alert("Error al eliminar la sala cuna", err);
     }
   }

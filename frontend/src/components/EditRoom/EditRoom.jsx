@@ -17,9 +17,7 @@ import {
 } from "../../api/salasCuna.api";
 import axios from "axios";
 
-import { updateData } from "../../utils/toastMsgs";
-
-import { ToastContainer } from 'react-toastify';
+import { updateData, warningData } from "../../utils/toastMsgs";
 
 export function UpdateRoom(props) {
   const [zoneOptions, setZoneOptions] = useState([]);
@@ -34,6 +32,7 @@ export function UpdateRoom(props) {
     loadShifts();
     setSelectedCribroom(props.id);
     loadSelectedCribroom(props.id); // Load selected cribroom data
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props]);
 
   async function loadZones() {
@@ -93,14 +92,16 @@ export function UpdateRoom(props) {
       });
         console.log(response);
         if (response.request.status === 200) {
+          updateData("Sala Cuna editada");
           console.log("Cribroom Updated");
           props.onHide();
         } else {
+          warningData("Error al editar la Sala Cuna!");
           console.log('Failed to Update');
         }
 
       } catch (err) {
-          alert(":c");
+          warningData("Error al editar la Sala Cuna!");
           console.log(err);
       }
     }
@@ -117,14 +118,12 @@ export function UpdateRoom(props) {
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
       <div className="contenedor-form-wrapper">
-        <ToastContainer />
         <Container fluid className="conteiner-form-room">
           <Form onSubmit={handleEdit} className="conteiner-form-edit">
             <h1 className="titulo">Editar Sala Cuna</h1>
             <div className="contenedor-linea">
               <hr className="linea"></hr>
             </div>
-
             <Form.Group className="mb-3">
               <Form.Label className="mb-1">Nombre De Sala</Form.Label>
               <Form.Control
@@ -193,7 +192,6 @@ export function UpdateRoom(props) {
                 />
               </Col>
             </Row>
-
             <Row className="mb-3">
               <Col>
                 <Form.Group>
@@ -243,7 +241,6 @@ export function UpdateRoom(props) {
                 boton
                 variant="primary"
                 type="submit"
-                onClick={updateData}
               >
                 Editar Sala Cuna
               </Button>
