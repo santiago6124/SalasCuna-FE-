@@ -135,29 +135,30 @@ export default function CribroomDashboard() {
 
   const columns = [
     {
-      field: "id",
-      headerName: "Codigo Sala Cuna",
-      width: 150,
+      field: "code",
+      headerName: "Codigo",
+      width: 100,
     },
     { field: "name", headerName: "Nombre", width: 200 },
-    { field: "street", headerName: "Direccion", width: 150 },
+    { field: "street", headerName: "Direccion", width: 140 },
+    {field: "CUIT", headerName:"CUIT", width:140},
     {
       field: "house_number",
-      headerName: "Numero",
-      width: 150,
+      headerName: "Numero Calle",
+      width: 140,
     },
     {
       field: "max_capacity",
       headerName: "Cap. Maxima",
-      width: 150,
+      width: 140,
     },
     {
       field: "zone",
       headerName: "Zona",
-      width: 150,
+      width: 140,
     },
-    { field: "is_active", headerName: "Estado", width: 150 },
-    { field: "entity", headerName: "Entidad", width: 150 },
+    { field: "is_active", headerName: "Estado", width: 140 },
+    { field: "entity", headerName: "Entidad", width: 140 },
     {
       field: "actions",
       type: "actions",
@@ -238,7 +239,7 @@ export default function CribroomDashboard() {
                     <SearchBar
                       keyword={keyword}
                       onChange={updateKeyword}
-                      placeholder={"Buscar Usuario"}
+                      placeholder={"Buscar Sala Cuna"}
                     />
                   </Col>
                   <Col className="add-payout-button">
