@@ -2,15 +2,13 @@ import Menu from "../Menu/Menu";
 import SearchBar from "../SearchBar/SearchBar";
 import { UpdateRoom } from "../EditRoom/EditRoom";
 import DeleteRoom from "../DeleteRoom/DeleteRoom";
+import {CreateRoom} from "../CreateRoom/CreateRoom";
 import "./CribroomDashboard.css";
 
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 
-import {
-  getAllZones,
-  handlePermissions,
-} from "../../api/salasCuna.api";
+import { getAllZones, handlePermissions } from "../../api/salasCuna.api";
 
 //DataGrid Import
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
@@ -31,10 +29,10 @@ export default function CribroomDashboard() {
   const [selectedCribroom, setSelectedCribroom] = useState("");
   const [cribroomName, setCribroomName] = useState("");
 
-
   // Modal variables
   const [modalEditShow, setModalEditShow] = useState(false);
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
+  const [modalCreateShow, setModalCreateShow] = useState(false);
 
   const customId = "custom-id-yes";
 
@@ -45,7 +43,8 @@ export default function CribroomDashboard() {
   }, []);
 
   function toastPromise() {
-    toast.promise(listCribroom,
+    toast.promise(
+      listCribroom,
       {
         pending: "Cargando Salas Cunas",
         success: "Cargadas con éxito",
@@ -60,8 +59,9 @@ export default function CribroomDashboard() {
         pauseOnHover: false,
         draggable: false,
         theme: "colored",
-        transition: Zoom
-      })
+        transition: Zoom,
+      }
+    );
   }
 
   async function listCribroom() {
@@ -106,6 +106,10 @@ export default function CribroomDashboard() {
     setSelectedCribroom(rowId);
     setModalEditShow(true);
     console.log("Edit clicked for row with id:", rowId);
+  }
+
+  function handleCreateClick() {
+    setModalCreateShow(true);
   }
 
   function handleDeleteClick(rowId, CRName) {
@@ -213,6 +217,15 @@ export default function CribroomDashboard() {
               }}
             />
           )}
+          {modalCreateShow && (
+            <CreateRoom
+              show={modalCreateShow}
+              onHide={() => {
+                setModalCreateShow(false);
+                reloadDataFunc();
+              }}
+            />
+          )}
           {!selectedCribroom && (
             <>
               <>
@@ -233,10 +246,12 @@ export default function CribroomDashboard() {
                       variant="contained"
                       color="primary"
                       startIcon={<AddIcon />}
-                      label="Agregar Sala Cuna"
-                    ></Button>
+                      onClick={() => handleCreateClick()}
+                    >
+                      Agregar Sala Cuna
+                    </Button>
                   </Col>
-                </Row>  
+                </Row>
                 <div className="DataGrid-Wrapper">
                   <DataGrid
                     style={{ borderRadius: "15px", margin: "20px" }}

@@ -14,13 +14,11 @@
 .contenedor-form-wrapper {
   display: flex;
   justify-content: center;
-  margin: auto;
 }
 
 .conteiner-form-createroom {
   padding: 20px;
-  margin: 3%;
-  width: 470px;
+  width: 500px;
   border-radius: 18px;
   box-shadow: 1px 4px 10px 0px rgba(0, 0, 0, 0.37);
   background-color: rgb(255, 255, 255);
