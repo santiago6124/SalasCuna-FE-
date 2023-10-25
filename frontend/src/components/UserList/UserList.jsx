@@ -115,22 +115,6 @@ export default function UserList() {
       required: true,
     },
     {
-      name: "password",
-      label: "Contraseña",
-      type: "password",
-      placeholder: "Ingrese su contraseña",
-      minLength: 8,
-      required: true,
-    },
-    {
-      name: "re_password",
-      label: "Repetir Contraseña",
-      type: "password",
-      placeholder: "Ingrese su contraseña de nuevo",
-      minLength: 8,
-      required: true,
-    },
-    {
       name: "birthdate",
       label: "Fecha de Nacimiento",
       type: "date",
