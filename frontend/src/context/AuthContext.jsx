@@ -3,6 +3,7 @@ import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { getAllUsers } from "../api/salasCuna.api";
 
 const AuthContext = createContext();
 
@@ -46,20 +47,22 @@ export const AuthProvider = ({ children }) => {
       headers: {
         "Content-Type": "application/json",
         "X-CSRFToken": Cookies.get("csrftoken"),
+        "Authorization": "JWT " + authTokens.access,
       },
       body: JSON.stringify(payload),
     });
     if (response.status === 201) {
-      let us = await axios.get("/api/user/");
+      let us = await getAllUsers(authTokens.access);
       var userId = us.data[us.data.length - 1].id;
       let response2 = await axios.patch(`/api/user/${userId}/`, group, {
         headers: {
           "Content-Type": "application/json",
           "X-CSRFToken": Cookies.get("csrftoken"),
+          "Authorization": "JWT " + authTokens.access,
         },
       });
       if (response2.status === 200) {
-        alert("Revisar email para verificar tu cuenta");
+        alert("Usuario agregado con exito");
       } else {
         alert("Error");
       }
@@ -76,6 +79,7 @@ export const AuthProvider = ({ children }) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": "JWT " + authTokens.access,
       },
       body: JSON.stringify({
         email: e.target.username.value,
