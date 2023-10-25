@@ -44,8 +44,6 @@ export default function UpdateUser(props) {
       city: formData.get("city"),
       department: formData.get("department"),
       address: formData.get("address"),
-      password: formData.get("password"),
-      re_password: formData.get("re_password"),
     };
     if (selectedUser) {
       try {
