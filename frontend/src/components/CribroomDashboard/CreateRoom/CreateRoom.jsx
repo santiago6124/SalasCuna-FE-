@@ -12,10 +12,10 @@ import {
   getAllShifts,
   getAllUsers,
   getAllZones,
-} from "../../api/salasCuna.api";
+} from "../../../api/salasCuna.api";
 import Cookies from "js-cookie";
-import AuthContext from "../../context/AuthContext";
-import { updateData, warningData } from "../../utils/toastMsgs";
+import AuthContext from "../../../context/AuthContext";
+import { updateData, warningData } from "../../../utils/toastMsgs";
 
 export function CreateRoom(props) {
   const [zoneOptions, setZoneOptions] = useState([]);

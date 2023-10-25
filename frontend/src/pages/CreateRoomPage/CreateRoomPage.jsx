@@ -1,7 +1,7 @@
 import React from "react";
 
 import Menu from "../../components/Menu/Menu";
-import { CreateRoom } from "../../components/CreateRoom/CreateRoom";
+import { CreateRoom } from "../../components/CribroomDashboard/CreateRoom/CreateRoom";
 
 export default function CreateRoomPage() {
   return (

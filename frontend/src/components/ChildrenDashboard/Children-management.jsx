@@ -17,8 +17,8 @@ import axios from "axios";
 import { getAllCribroomsWithoutDepth } from "../../api/salasCuna.api";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 
-import DeleteChildren from "../DeleteChildren/DeleteChildren";
-import EditChildren from "../FormEditChildren/FormEditChildren";
+import DeleteChildren from "./DeleteChildren/DeleteChildren";
+import EditChildren from "./FormEditChildren/FormEditChildren";
 
 import {
   DataGrid,

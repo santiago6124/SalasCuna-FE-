@@ -1,4 +1,4 @@
-import "../DeleteRoom/DeleteRoom.css";
+import "../CribroomDashboard/DeleteRoom/DeleteRoom.css";
 import Button from "react-bootstrap/esm/Button";
 import Modal from "react-bootstrap/Modal";
 import Alert from "@mui/material/Alert";
@@ -12,6 +12,7 @@ export default function DeleteUser(props) {
 
   useEffect(() => {
     setSelectedUser(props.id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function handleDelete(event) {

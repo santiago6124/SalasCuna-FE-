@@ -1,8 +1,8 @@
 import Menu from "../Menu/Menu";
 import SearchBar from "../SearchBar/SearchBar";
-import { UpdateRoom } from "../EditRoom/EditRoom";
-import DeleteRoom from "../DeleteRoom/DeleteRoom";
-import {CreateRoom} from "../CreateRoom/CreateRoom";
+import { UpdateRoom } from "../CribroomDashboard/EditRoom/EditRoom";
+import DeleteRoom from "../CribroomDashboard/DeleteRoom/DeleteRoom";
+import {CreateRoom} from "../CribroomDashboard/CreateRoom/CreateRoom";
 import "./CribroomDashboard.css";
 
 import React, { useContext, useEffect, useRef, useState } from "react";

@@ -16,7 +16,7 @@ import {
   getAllPhoneFeatures,
   getAllShifts,
   getAllChildren,
-} from "../../api/salasCuna.api";
+} from "../../../api/salasCuna.api";
 import { Modal } from "react-bootstrap";
 
 export default function EditChildren(props) {
@@ -26,7 +26,6 @@ export default function EditChildren(props) {
   const [shifts, setShift] = useState([]);
   const [localities, setLocality] = useState([]);
   const [neighborhoods, setNeighborhood] = useState([]);
-  const [childStates, setChildState] = useState([]);
   const [guardianTypes, setGuardianType] = useState([]);
   const [phoneFeatures, setPhoneFeature] = useState([]);
   const [selectedGeneroChild, setSelectedGeneroChild] = useState("");
@@ -35,7 +34,6 @@ export default function EditChildren(props) {
   const [selectedTurno, setSelectedTurno] = useState("");
   const [selectedLocality, setSelectedLocality] = useState("");
   const [selectedNeighborhood, setSelectedNeighborhood] = useState("");
-  const [selectedChildState, setSelectedChildState] = useState("");
   const [selectedPhoneFeature, setSelectedPhoneFeature] = useState("");
   const [selectedGuardianType, setSelectedGuardianType] = useState("");
   const [selectedChild, setSelectedChild] = useState("");
@@ -75,6 +73,7 @@ export default function EditChildren(props) {
     GuardianTypeList();
     PhoneFeatureList();
     setSelectedChild(props.id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function GenderList() {
@@ -148,6 +147,7 @@ export default function EditChildren(props) {
   }
 
   const location = useLocation();
+  // eslint-disable-next-line no-unused-vars
   const childId = location?.state?.childId;
 
   async function handleSubmit(event) {
