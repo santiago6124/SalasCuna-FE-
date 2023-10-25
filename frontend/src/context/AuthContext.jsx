@@ -101,21 +101,27 @@ export const AuthProvider = ({ children }) => {
 
   let updateToken = async () => {
     console.log("Update");
-    let response = await fetch("/auth/jwt/refresh", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ refresh: authTokens?.refresh }),
-    });
-    let data = await response.json();
+    try {
+        let response = await fetch("/auth/jwt/refresh", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "JWT " + authTokens.access,
+            },
+            body: JSON.stringify({ refresh: authTokens?.refresh }),
+        });
 
-    if (response.status === 200) {
-      setAuthTokens(data);
-      setUser(jwt_decode(data.access));
-      localStorage.setItem("authTokens", JSON.stringify(data));
-    } else {
-      logoutUser();
+        var data = await response.json();
+
+        if (response.status === 200) {
+            setAuthTokens(data);
+            setUser(jwt_decode(data.access));
+            localStorage.setItem("authTokens", JSON.stringify(data));
+          } else {
+            logoutUser();
+          }
+    } catch (error) {
+        console.log(error.message)
     }
 
     if (loading) {
