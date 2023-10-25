@@ -79,7 +79,6 @@ export const AuthProvider = ({ children }) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "JWT " + authTokens.access,
       },
       body: JSON.stringify({
         email: e.target.username.value,
