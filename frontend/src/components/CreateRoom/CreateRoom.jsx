@@ -64,10 +64,11 @@ export function CreateRoom(props) {
     };
 
     try {
-      let response = await axios.post("/api/cribroom/", payload, {
+      let response = await axios.post("/api/cribroomDir/", payload, {
         headers: {
           "Content-Type": "application/json",
           "X-CSRFToken": Cookies.get("csrftoken"),
+          "Authorization": "JWT " + authTokens.access,
         },
       });
       console.log(response);

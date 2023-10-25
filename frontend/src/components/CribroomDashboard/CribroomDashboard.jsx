@@ -52,7 +52,7 @@ export default function CribroomDashboard() {
         axios.get("/api/cribroomDir/", {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "JWT " + authTokens.access,
+            "Authorization": "JWT " + authTokens.access,
           },
         }),
       ]);
