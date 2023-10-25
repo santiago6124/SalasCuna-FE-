@@ -120,7 +120,7 @@ export default function UserList() {
                 onHide={() => {
                   setModalEditShow(false);
                   setSelectedUser("");
-                  /* window.location.reload(); */
+                  listUsers();
                 }}
               />
             )}
@@ -132,7 +132,7 @@ export default function UserList() {
                 onHide={() => {
                   setModalDeleteShow(false);
                   setSelectedUser("");
-                  /* window.location.reload(); */
+                  listUsers();
                 }}
               />
             )}
@@ -141,7 +141,7 @@ export default function UserList() {
                 show={modalCreateShow}
                 onHide={() => {
                   setModalCreateShow(false);
-                  /* window.location.reload(); */
+                  listUsers();
                 }}
               />
             )}
