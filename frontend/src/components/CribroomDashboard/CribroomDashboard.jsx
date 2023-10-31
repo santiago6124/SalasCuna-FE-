@@ -2,7 +2,7 @@ import Menu from "../Menu/Menu";
 import SearchBar from "../SearchBar/SearchBar";
 import { UpdateRoom } from "../CribroomDashboard/EditRoom/EditRoom";
 import DeleteRoom from "../CribroomDashboard/DeleteRoom/DeleteRoom";
-import {CreateRoom} from "../CribroomDashboard/CreateRoom/CreateRoom";
+import { CreateRoom } from "../CribroomDashboard/CreateRoom/CreateRoom";
 import "./CribroomDashboard.css";
 
 import React, { useContext, useEffect, useRef, useState } from "react";
@@ -17,12 +17,15 @@ import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import axios from "axios";
-import { ToastContainer, Flip } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
 import { Row, Col } from "react-bootstrap";
 import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
-import { toastLoading, toastUpdateError, toastUpdateSuccess } from "../../utils/toastMsgs";
+import {
+  toastLoading,
+  toastUpdateError,
+  toastUpdateSuccess,
+} from "../../utils/toastMsgs";
 
 export default function CribroomDashboard() {
   const [cribrooms, setCribrooms] = useState([]);
@@ -36,31 +39,24 @@ export default function CribroomDashboard() {
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
   const [modalCreateShow, setModalCreateShow] = useState(false);
 
-  const customId = useRef(null);;
-  const toastId = "custom-id-yes"
+  const customId = useRef(null);
 
   let { authTokens } = useContext(AuthContext);
 
+  async function firstLoad() {
+    try {
+      toastLoading("Cargando Salas Cunas", customId);
+      await listCribroom();
+      toastUpdateSuccess("Salas cargadas", customId);
+    } catch {
+      toastUpdateError("Error al cargar las Salas Cunas!", customId);
+    }
+  }
   useEffect(() => {
     firstLoad();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  function toastPromise() {
-    listCribroom();
-    customId.current = toast.loading("Cargando Salas Cunas",
-      {
-        toastId: toastId,
-        position: "top-center",
-        hideProgressBar: true,
-        closeOnClick: false,
-        pauseOnHover: false,
-        draggable: false,
-        theme: "colored",
-        transition: Zoom
-      })
-  }
-
+  
   async function listCribroom() {
     try {
       const promesas = await Promise.all([
@@ -68,7 +64,7 @@ export default function CribroomDashboard() {
         axios.get("/api/cribroomDir/", {
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "JWT " + authTokens.access,
+            Authorization: "JWT " + authTokens.access,
           },
         }),
       ]);
@@ -92,33 +88,10 @@ export default function CribroomDashboard() {
       });
       setCribrooms(updatedCribrooms);
       setFilteredCribroom(updatedCribrooms);
-      toast.update(customId.current,
-        {
-          render: "Cargado con éxito",
-          type: "success",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          icon: "✔️",
-          isLoading: false,
-          transition: Flip
-        });
     } catch (error) {
       console.log("Error fetching SalasCunas:", error);
       handlePermissions(error.response.status);
-      toast.update(customId.current,
-        {
-          render: "Error al cargar!",
-          type: "error",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          icon: "✖️",
-          isLoading: false,
-          transition: Flip
-        })
+      toastUpdateError("Error al cargar las Salas Cunas!", customId);
     }
   }
 
@@ -161,7 +134,7 @@ export default function CribroomDashboard() {
     },
     { field: "name", headerName: "Nombre", width: 200 },
     { field: "street", headerName: "Direccion", width: 140 },
-    {field: "CUIT", headerName:"CUIT", width:140},
+    { field: "CUIT", headerName: "CUIT", width: 140 },
     {
       field: "house_number",
       headerName: "Numero Calle",
@@ -205,7 +178,7 @@ export default function CribroomDashboard() {
     <>
       <div>
         <ToastContainer />
-        <header className="header-cd" style={{ marginTop: 100 }} >
+        <header className="header-cd">
           <Menu />
         </header>
       </div>
