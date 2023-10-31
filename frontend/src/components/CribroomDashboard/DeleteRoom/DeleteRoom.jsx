@@ -4,13 +4,14 @@ import Button from "react-bootstrap/esm/Button";
 import Modal from "react-bootstrap/Modal";
 import Alert from "@mui/material/Alert";
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Cookies from 'js-cookie'
 
-import { deletingData, warningData } from "../../../utils/toastMsgs";
+import { toastLoading, toastUpdateError, toastUpdateSuccess } from "../../../utils/toastMsgs";
 
 export default function DeleteRoom(props) {
   const [selectedCribroom, setSelectedCribroom] = useState("");
+  const CustomId = useRef(null);
 
   useEffect(() => {
     setSelectedCribroom(props.id);
@@ -18,13 +19,11 @@ export default function DeleteRoom(props) {
 
   async function handleDelete(event) {
     event.preventDefault();
-    console.log(selectedCribroom);
+    toastLoading("Desactivando la Sala Cuna. Por favor, no toque nada", CustomId);
     try {
       const payload = {
         is_active: "false",
       };
-
-      console.log("making fetch");
       await axios.patch(`/api/cribroomDir/${selectedCribroom}/?delete`, payload, {
         headers: {
           'Content-Type': 'application/json',
@@ -32,11 +31,10 @@ export default function DeleteRoom(props) {
           "Authorization": "JWT " + props.tokens
         }
       });
-      deletingData("Sala Cuna desactivada");
+      toastUpdateSuccess("Sala Cuna desactivada", CustomId);
       props.onHide();
     } catch (err) {
-      warningData("Error al desactivar la Sala Cuna!");
-      alert("Error al eliminar la sala cuna", err);
+      toastUpdateError("Error al desactivar la Sala Cuna!");
     }
   }
 
