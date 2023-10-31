@@ -33,11 +33,19 @@ export default function TSDashboard() {
     listCribroom(user);
   }, []);
 
+  let { authTokens } = useContext(AuthContext);
+
+  let headers = {
+    "Content-Type": "application/json",
+    Authorization: "JWT " + authTokens.access,
+    Accept: "application/json",
+  };
+
   const listCribroom = async (user) => {
     try {
-      const responseLocality = await getAllLocalities();
+      const responseLocality = await getAllLocalities(authTokens.access);
       const response = await axios.get(
-        `/api/cribroom/?user=${user.user.user_id}`
+        `/api/cribroom/?user=${user.user.user_id}`, { headers: headers }
       );
       const localityData = responseLocality.data;
       const cribroomData = response.data;

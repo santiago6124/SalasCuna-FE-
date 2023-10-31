@@ -1,4 +1,4 @@
-import "../DeleteRoom/DeleteRoom.css"
+import "../CribroomDashboard/DeleteRoom/DeleteRoom.css"
 import Button from "react-bootstrap/esm/Button";
 import Modal from "react-bootstrap/Modal";
 import Alert from "@mui/material/Alert";

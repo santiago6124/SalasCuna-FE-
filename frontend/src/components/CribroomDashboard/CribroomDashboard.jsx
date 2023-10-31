@@ -1,8 +1,8 @@
 import Menu from "../Menu/Menu";
 import SearchBar from "../SearchBar/SearchBar";
-import { UpdateRoom } from "../EditRoom/EditRoom";
-import DeleteRoom from "../DeleteRoom/DeleteRoom";
-import {CreateRoom} from "../CreateRoom/CreateRoom";
+import { UpdateRoom } from "../CribroomDashboard/EditRoom/EditRoom";
+import DeleteRoom from "../CribroomDashboard/DeleteRoom/DeleteRoom";
+import {CreateRoom} from "../CribroomDashboard/CreateRoom/CreateRoom";
 import "./CribroomDashboard.css";
 
 import React, { useContext, useEffect, useRef, useState } from "react";
@@ -40,13 +40,23 @@ export default function CribroomDashboard() {
   let { authTokens } = useContext(AuthContext);
 
   useEffect(() => {
-    listCribroom();
+    firstLoad();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  async function listCribroom() {
+  async function firstLoad() {
     try {
       toastLoading("Cargando Salas Cunas", customId);
+      await listCribroom();
+      toastUpdateSuccess("Salas cargadas", customId);
+    }
+    catch {
+      toastUpdateError("Error al cargar las Salas Cunas!", customId);
+    }
+  }
+
+  async function listCribroom() {
+    try {
       const promesas = await Promise.all([
         getAllZones(authTokens.access),
         axios.get("/api/cribroomDir/", {
@@ -56,8 +66,7 @@ export default function CribroomDashboard() {
           },
         }),
       ]);
-      const zonesData = promesas[0].data;
-      const cribroomData = promesas[1].data;
+      const [zonesData, cribroomData] = [promesas[0].data, promesas[1].data];
       const updatedCribrooms = await cribroomData.map((cribroom) => {
         const matchingZone = zonesData.find(
           (zone) => zone.id === cribroom.zone.id
@@ -77,7 +86,6 @@ export default function CribroomDashboard() {
       });
       setCribrooms(updatedCribrooms);
       setFilteredCribroom(updatedCribrooms);
-      toastUpdateSuccess("Salas cargadas", customId)
     } catch (error) {
       console.log("Error fetching SalasCunas:", error);
       handlePermissions(error.response.status);

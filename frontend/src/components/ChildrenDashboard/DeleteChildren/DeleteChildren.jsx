@@ -1,7 +1,7 @@
 import React from "react";
 import "./DeleteChildren.css";
 
-import { Button, Form } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Modal } from "react-bootstrap";
@@ -13,6 +13,7 @@ export default function DeleteChildren(props) {
 
   useEffect(() => {
     setSelectedChild(props.id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function handleDelete(event) {
@@ -24,7 +25,7 @@ export default function DeleteChildren(props) {
       };
 
       console.log("making fetch");
-      const response = await axios.patch(
+      await axios.patch(
         `/api/child/${selectedChild}/?delete`,
         payload,
         {

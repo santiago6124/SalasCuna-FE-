@@ -1,4 +1,4 @@
-import "../EditRoom/EditRoom.css";
+import "./EditRoom.css";
 
 import Modal from "react-bootstrap/Modal";
 
@@ -14,10 +14,10 @@ import Cookies from 'js-cookie'
 import {
   getAllShifts,
   getAllZones,
-} from "../../api/salasCuna.api";
+} from "../../../api/salasCuna.api";
 import axios from "axios";
 
-import { updateData, warningData } from "../../utils/toastMsgs";
+import { updateData, warningData } from "../../../utils/toastMsgs";
 
 export function UpdateRoom(props) {
   const [zoneOptions, setZoneOptions] = useState([]);

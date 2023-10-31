@@ -12,10 +12,10 @@ import {
   getAllShifts,
   getAllUsers,
   getAllZones,
-} from "../../api/salasCuna.api";
+} from "../../../api/salasCuna.api";
 import Cookies from "js-cookie";
-import AuthContext from "../../context/AuthContext";
-import { updateData, warningData } from "../../utils/toastMsgs";
+import AuthContext from "../../../context/AuthContext";
+import { updateData, warningData } from "../../../utils/toastMsgs";
 
 export function CreateRoom(props) {
   const [zoneOptions, setZoneOptions] = useState([]);
@@ -35,9 +35,7 @@ export function CreateRoom(props) {
   async function loadData() {
     try {
       const promesas = await Promise.all([getAllZones(authTokens.access), getAllShifts(authTokens.access), getAllUsers(authTokens.access)])
-      let dataZones = await promesas[0].data;
-      let dataShift = await promesas[1].data;
-      let dataUser = await promesas[2].data;
+      let [dataZones, dataShift, dataUser] = [promesas[0].data, promesas[1].data, promesas[2].data];
       setZoneOptions(dataZones);
       setShiftOptions(dataShift);
       setUserOptions(dataUser);
@@ -48,7 +46,6 @@ export function CreateRoom(props) {
 
   async function handleSubmit(event) {
     event.preventDefault();
-
     const formData = new FormData(event.target);
     const payload = {
       name: formData.get("nameCR"),
@@ -75,7 +72,6 @@ export function CreateRoom(props) {
       if (response.request.status === 201) {
         updateData("Sala creada con éxito")
         console.log("Cribroom added successfully");
-        window.location.reload();
       } else {
         console.log("Failed to add Cribroom");
       }
