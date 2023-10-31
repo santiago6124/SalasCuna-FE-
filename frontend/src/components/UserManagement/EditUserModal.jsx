@@ -6,6 +6,8 @@ import { Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
+import { ToastContainer } from "react-toastify";
+import { updateData, warningData } from "../../utils/toastMsgs";
 import {renderFormFields} from "../renderFormFields/renderFormFields";
 
 export default function UpdateUser(props) {
@@ -55,9 +57,11 @@ export default function UpdateUser(props) {
           }
       });
         if (response.request.status === 200) {
+          updateData("Usuario editado");
           console.log("Updated User");
           props.onHide();
         } else {
+          warningData("Error al editar el usuario!");
           console.error("Error updating user:", response.statusText);
         }
       } catch (error) {

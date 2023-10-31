@@ -1,16 +1,18 @@
-import "../DeleteRoom/DeleteRoom.css";
+import "../CribroomDashboard/DeleteRoom/DeleteRoom.css";
 import Button from "react-bootstrap/esm/Button";
 import Modal from "react-bootstrap/Modal";
 import Alert from "@mui/material/Alert";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from 'js-cookie'
+import { deletingData, warningData } from "../../utils/toastMsgs";
 
 export default function DeleteUser(props) {
   const [selectedUser, setSelectedUser] = useState("");
 
   useEffect(() => {
     setSelectedUser(props.id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function handleDelete(event) {
@@ -29,9 +31,11 @@ export default function DeleteUser(props) {
         }
     });
       if (response.request.status === 200) {
+        deletingData("Usuario desactivado")
         console.log('Updated user successfully');
         props.onHide();
       } else {
+        warningData("Error al desactivar el usuario!");
         console.log('Failed to update user');
       }
     } catch (err) {

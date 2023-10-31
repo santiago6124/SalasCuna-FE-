@@ -10,7 +10,7 @@ export default function SignUp(props) {
   const { authTokens, signupUser } = useContext(AuthContext);
 
   function handleSubmit(event){
-    signupUser(event).then(props.onHide())
+    signupUser(event).then(props.onHide());
   }
 
   return (

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 
-import "../AddChildren/AddChildren.css";
+import "./FormAddChildren.css";
 
 import Form from "react-bootstrap/Form/";
 import { Button } from "react-bootstrap";

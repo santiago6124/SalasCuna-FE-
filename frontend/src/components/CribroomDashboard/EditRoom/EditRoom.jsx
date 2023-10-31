@@ -1,36 +1,44 @@
-import "./CreateRoom.css";
+import "./EditRoom.css";
+
+import Modal from "react-bootstrap/Modal";
 
 import Col from "react-bootstrap/Col/";
 import Row from "react-bootstrap/Row/";
 import Form from "react-bootstrap/Form/";
 import { Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
-import axios from "axios";
-import Menu from "../Menu/Menu";
 
 import React, { useState, useEffect } from "react";
-import { getAllShifts, getAllUsers, getAllZones } from "../../api/salasCuna.api";
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie'
 
+import {
+  getAllShifts,
+  getAllZones,
+} from "../../../api/salasCuna.api";
+import axios from "axios";
 
-export function CreateRoom() {
+import { updateData, warningData } from "../../../utils/toastMsgs";
+
+export function UpdateRoom(props) {
   const [zoneOptions, setZoneOptions] = useState([]);
   const [shiftOptions, setShiftOptions] = useState([]);
-  const [userOptions, setUserOptions] = useState([]);
-  const [selectedZona, setSelectedZone] = useState("");
+  const [selectedCribroom, setSelectedCribroom] = useState("");
+  const [selectedZone, setSelectedZone] = useState("");
   const [selectedShift, setSelectedShift] = useState("");
-  const [selectedUser, setSelectedUser] = useState("");
+  const [cribroom, setCribroom] = useState([]);
+
   useEffect(() => {
     loadZones();
     loadShifts();
-    loadUser();
-  }, []);
+    setSelectedCribroom(props.id);
+    loadSelectedCribroom(props.id); // Load selected cribroom data
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props]);
 
   async function loadZones() {
     try {
-      const response = await getAllZones();
-      let data = await response.data;
-      setZoneOptions(data);
+      const response = await getAllZones(props.tokens);
+      setZoneOptions(response.data);
     } catch (error) {
       console.error("Error fetching zona options:", error);
     }
@@ -38,92 +46,91 @@ export function CreateRoom() {
 
   async function loadShifts() {
     try {
-      const response = await getAllShifts();
-      let data = await response.data;
-      setShiftOptions(data);
+      const response = await getAllShifts(props.tokens);
+      setShiftOptions(response.data);
     } catch (error) {
       console.error("Error fetching shift options:", error);
     }
   }
 
-  async function loadUser() {
-    try{
-      const response = await getAllUsers();
-      let data = await response.data;
-      setUserOptions(data);
+  async function loadSelectedCribroom(cribroomId) {
+    try {
+      const response = await axios.get(`/api/cribroom/?no_depth&id=${cribroomId}`, {headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken' : Cookies.get('csrftoken'),
+        "Authorization": "JWT " + props.tokens
+      }});
+      let data = await response.data; // Extract JSON data
+      setCribroom(data[0]);
     } catch (error) {
-      console.error("Error fetching UserCR options", error);
+      console.error("Error fetching selected cribroom data:", error);
     }
   }
 
-  async function handleSubmit(event) {
+  async function handleEdit(event) {
     event.preventDefault();
-
     const formData = new FormData(event.target);
     const payload = {
       name: formData.get("nameCR"),
       code: formData.get("codeCR"),
       max_capacity: formData.get("max_capacityCR"),
-      street: formData.get("streetCR"),
+      street: formData.get("streetCR") ? formData.get("streetCR") : "",
       house_number: formData.get("house_numberCR"),
       shift: formData.get("shiftCR"),
       zone: formData.get("zoneCR"),
       CUIT: formData.get("CUITCR"),
       entity: formData.get("entityCR"),
-      user: formData.get("UserCR"),
     };
-
-    try {
-      let response = await axios.post('/api/cribroom/', payload, {
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken' : Cookies.get('csrftoken')
+    if (selectedCribroom) {
+      try {
+        let response = await axios.put(`/api/cribroomDir/${selectedCribroom}/?no_depth`, payload, {
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken' : Cookies.get('csrftoken'),
+            "Authorization": "JWT " + props.tokens
+          }
+      });
+        console.log(response);
+        if (response.request.status === 200) {
+          updateData("Sala Cuna editada");
+          console.log("Cribroom Updated");
+          props.onHide();
+        } else {
+          warningData("Error al editar la Sala Cuna!");
+          console.log('Failed to Update');
         }
-    });
-      console.log(response);
-      if (response.request.status === 201) {
-        console.log('Cribroom added successfully');
-        window.location.reload();
-      } else {
-        console.log('Failed to add Cribroom');
+
+      } catch (err) {
+          warningData("Error al editar la Sala Cuna!");
+          console.log(err);
       }
-
-    } catch (err) {
-      alert(":c");
-      console.log(err);
     }
-
   }
-
 
   function handleShiftChange(event) {
     setSelectedShift(event.target.value);
-  };
+  }
 
   function handleZoneChange(event) {
     setSelectedZone(event.target.value);
-  };
-
-  function handleUserChange(event) {
-    setSelectedUser(event.target.value);
-  };
+  }
 
   return (
-    <body className="body">
-      <div className="conteiner-form-createroom">
-        <Container>
-          <Form onSubmit={handleSubmit} className="conteiner-form-edit">
-            <h1 className="titulo">Agregar Sala Cuna</h1>
+    <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
+      <div className="contenedor-form-wrapper">
+        <Container fluid className="conteiner-form-room">
+          <Form onSubmit={handleEdit} className="conteiner-form-edit">
+            <h1 className="titulo">Editar Sala Cuna</h1>
             <div className="contenedor-linea">
               <hr className="linea"></hr>
             </div>
-
             <Form.Group className="mb-3">
               <Form.Label className="mb-1">Nombre De Sala</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Editar El Nombre De La Sala"
                 name="nameCR"
+                defaultValue={cribroom ? cribroom.name : ""}
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -132,6 +139,7 @@ export function CreateRoom() {
                 type="text"
                 placeholder="Editar El Nombre De La Sala"
                 name="codeCR"
+                defaultValue={cribroom ? cribroom.code : ""}
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -140,6 +148,7 @@ export function CreateRoom() {
                 type="number"
                 placeholder="Editar La Capacidad Maxima De La Sala"
                 name="max_capacityCR"
+                defaultValue={cribroom ? cribroom.max_capacity : ""}
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -148,17 +157,18 @@ export function CreateRoom() {
                   <Form.Label className="mb-1">CUIT</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="editar el CUIT de la entidad de la sala cuna"
+                    placeholder="Editar el CUIT de la entidad de la sala cuna"
                     name="CUITCR"
+                    defaultValue={cribroom ? cribroom.CUIT : ""}
                   />
                 </Col>
                 <Col>
-                  <Form.Label className="mb-1">Entidad</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Editar la entidad de la sala cuna"
-                    name="entityCR"
-                  />
+                <Form.Label className="mb-1">Entidad</Form.Label>
+                <Form.Control
+                type="text"
+                placeholder="Editar la entidad de la sala cuna"
+                defaultValue = {cribroom? cribroom.entity:""}
+                name="entityCR"/>
                 </Col>
               </Row>
             </Form.Group>
@@ -169,6 +179,7 @@ export function CreateRoom() {
                   type="text"
                   placeholder="Editar Calle"
                   name="streetCR"
+                  defaultValue={cribroom ? cribroom.street : ""}
                 />
               </Col>
               <Col>
@@ -177,19 +188,19 @@ export function CreateRoom() {
                   type="number"
                   placeholder="Nro"
                   name="house_numberCR"
+                  defaultValue={cribroom ? cribroom.house_number : ""}
                 />
               </Col>
             </Row>
-
-            <Row className="mb-1">
+            <Row className="mb-3">
               <Col>
                 <Form.Group>
                   <Form.Label className="mb-1">Turno</Form.Label>
-                  <Form.Group className="mb-1">
+                  <Form.Group className="mb-3">
                     <Form.Select
                       name="shiftCR"
                       as="select"
-                      value={selectedShift}
+                      value={selectedShift ? selectedShift : cribroom.shift}
                       className="mb-1"
                       onChange={handleShiftChange}
                     >
@@ -210,7 +221,7 @@ export function CreateRoom() {
                 <Form.Select
                   name="zoneCR"
                   as="select"
-                  value={selectedZona}
+                  value={selectedZone ? selectedZone : cribroom.zone}
                   onChange={handleZoneChange}
                 >
                   <option value="" disabled>
@@ -224,28 +235,6 @@ export function CreateRoom() {
                 </Form.Select>
               </Col>
             </Row>
-
-            <Row>
-              <Col>
-                <Form.Label>Encargado</Form.Label>
-                <Form.Select
-                  name="UserCR"
-                  as="select"
-                  value={selectedUser}
-                  className="mb-1"
-                  onChange={handleUserChange}
-                >
-                  <option value="" disabled>
-                    Seleccionar Encargado
-                  </option>
-                  {userOptions.map((user) => (
-                    <option key={user.id} value={user.id}>
-                      {user.first_name} {user.last_name}
-                    </option>
-                  ))}
-                </Form.Select>
-              </Col>
-            </Row>
             <div className="contenedor-boton-qr ">
               <Button
                 className="boton-edit mt-3"
@@ -253,12 +242,12 @@ export function CreateRoom() {
                 variant="primary"
                 type="submit"
               >
-                Crear Sala Cuna
+                Editar Sala Cuna
               </Button>
             </div>
           </Form>
         </Container>
       </div>
-    </body>
+    </Modal>
   );
 }

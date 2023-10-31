@@ -1,16 +1,14 @@
 import Menu from "../Menu/Menu";
 import SearchBar from "../SearchBar/SearchBar";
-import { UpdateRoom } from "../EditRoom/EditRoom";
-import DeleteRoom from "../DeleteRoom/DeleteRoom";
+import { UpdateRoom } from "../CribroomDashboard/EditRoom/EditRoom";
+import DeleteRoom from "../CribroomDashboard/DeleteRoom/DeleteRoom";
+import {CreateRoom} from "../CribroomDashboard/CreateRoom/CreateRoom";
 import "./CribroomDashboard.css";
 
 import React, { useContext, useEffect, useRef, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 
-import {
-  getAllZones,
-  handlePermissions,
-} from "../../api/salasCuna.api";
+import { getAllZones, handlePermissions } from "../../api/salasCuna.api";
 
 //DataGrid Import
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
@@ -19,8 +17,12 @@ import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import axios from "axios";
-import { ToastContainer, toast, Zoom, Flip } from "react-toastify";
+import { ToastContainer, Flip } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { Row, Col } from "react-bootstrap";
+import AddIcon from "@mui/icons-material/Add";
+import Button from "@mui/material/Button";
+import { toastLoading, toastUpdateError, toastUpdateSuccess } from "../../utils/toastMsgs";
 
 export default function CribroomDashboard() {
   const [cribrooms, setCribrooms] = useState([]);
@@ -32,6 +34,7 @@ export default function CribroomDashboard() {
   // Modal variables
   const [modalEditShow, setModalEditShow] = useState(false);
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
+  const [modalCreateShow, setModalCreateShow] = useState(false);
 
   const customId = useRef(null);;
   const toastId = "custom-id-yes"
@@ -39,7 +42,8 @@ export default function CribroomDashboard() {
   let { authTokens } = useContext(AuthContext);
 
   useEffect(() => {
-    toastPromise();
+    firstLoad();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function toastPromise() {
@@ -64,12 +68,11 @@ export default function CribroomDashboard() {
         axios.get("/api/cribroomDir/", {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "JWT " + authTokens.access,
+            "Authorization": "JWT " + authTokens.access,
           },
         }),
       ]);
-      const zonesData = promesas[0].data;
-      const cribroomData = promesas[1].data;
+      const [zonesData, cribroomData] = [promesas[0].data, promesas[1].data];
       const updatedCribrooms = await cribroomData.map((cribroom) => {
         const matchingZone = zonesData.find(
           (zone) => zone.id === cribroom.zone.id
@@ -125,6 +128,10 @@ export default function CribroomDashboard() {
     console.log("Edit clicked for row with id:", rowId);
   }
 
+  function handleCreateClick() {
+    setModalCreateShow(true);
+  }
+
   function handleDeleteClick(rowId, CRName) {
     setSelectedCribroom(rowId);
     setCribroomName(CRName);
@@ -148,29 +155,30 @@ export default function CribroomDashboard() {
 
   const columns = [
     {
-      field: "id",
-      headerName: "Codigo Sala Cuna",
-      width: 150,
+      field: "code",
+      headerName: "Codigo",
+      width: 100,
     },
     { field: "name", headerName: "Nombre", width: 200 },
-    { field: "street", headerName: "Direccion", width: 150 },
+    { field: "street", headerName: "Direccion", width: 140 },
+    {field: "CUIT", headerName:"CUIT", width:140},
     {
       field: "house_number",
-      headerName: "Numero",
-      width: 150,
+      headerName: "Numero Calle",
+      width: 140,
     },
     {
       field: "max_capacity",
       headerName: "Cap. Maxima",
-      width: 150,
+      width: 140,
     },
     {
       field: "zone",
       headerName: "Zona",
-      width: 150,
+      width: 140,
     },
-    { field: "is_active", headerName: "Estado", width: 150 },
-    { field: "entity", headerName: "Entidad", width: 150 },
+    { field: "is_active", headerName: "Estado", width: 140 },
+    { field: "entity", headerName: "Entidad", width: 140 },
     {
       field: "actions",
       type: "actions",
@@ -202,7 +210,7 @@ export default function CribroomDashboard() {
         </header>
       </div>
       <body>
-        <div >
+        <div>
           {selectedCribroom && (
             <>
               <UpdateRoom
@@ -230,6 +238,15 @@ export default function CribroomDashboard() {
               }}
             />
           )}
+          {modalCreateShow && (
+            <CreateRoom
+              show={modalCreateShow}
+              onHide={() => {
+                setModalCreateShow(false);
+                reloadDataFunc();
+              }}
+            />
+          )}
           {!selectedCribroom && (
             <>
               <>
@@ -237,13 +254,25 @@ export default function CribroomDashboard() {
                 <div className="contenedor-linea-cb">
                   <hr className="linea-cb"></hr>
                 </div>
-                <div>
-                  <SearchBar
-                    keyword={keyword}
-                    onChange={updateKeyword}
-                    placeholder={"Buscar Sala Cuna"}
-                  />
-                </div>
+                <Row>
+                  <Col className="search-input">
+                    <SearchBar
+                      keyword={keyword}
+                      onChange={updateKeyword}
+                      placeholder={"Buscar Sala Cuna"}
+                    />
+                  </Col>
+                  <Col className="add-payout-button">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      startIcon={<AddIcon />}
+                      onClick={() => handleCreateClick()}
+                    >
+                      Agregar Sala Cuna
+                    </Button>
+                  </Col>
+                </Row>
                 <div className="DataGrid-Wrapper">
                   <DataGrid
                     style={{ borderRadius: "15px", margin: "20px" }}
