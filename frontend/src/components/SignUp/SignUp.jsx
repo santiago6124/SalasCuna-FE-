@@ -47,7 +47,7 @@ export default function SignUp(props) {
   };
 
   function handleSubmit(event){
-    signupUser(event).then(props.onHide())
+    signupUser(event).then(props.onHide());
   }
 
   return (

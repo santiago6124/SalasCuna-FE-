@@ -79,8 +79,6 @@ export default function UpdateUser(props) {
       city: formData.get("city"),
       department: formData.get("department"),
       address: formData.get("address"),
-      password: formData.get("password"),
-      re_password: formData.get("re_password"),
     };
     if (selectedUser) {
       try {
@@ -255,36 +253,6 @@ export default function UpdateUser(props) {
                   </Form.Group>
                 </Col>
             </div>
-            <Row>
-              {/*Password Label*/}
-              <Col className="col-md-6 ls mb-1">
-                <Form.Group className="mb-1">
-                  <Form.Label className="mb-1">Contraseña</Form.Label>
-                  <Form.Control
-                    type="password"
-                    placeholder="Ingrese su contraseña"
-                    name="password"
-                    minLength="8"
-                    required
-                  />
-                </Form.Group>
-              </Col>
-
-              {/*Repeat Password Label*/}
-              <Col className="col-md-6 rs mb-1">
-                <Form.Group className="mb-1">
-                  <Form.Label className="mb-1">Repetir Contraseña</Form.Label>
-                  <Form.Control
-                    type="password"
-                    placeholder="Ingrese su contraseña de nuevo"
-                    name="re_password"
-                    minLength="8"
-                    required
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-
             <div className= "contenedor-boton-createuser">
               <Button type="submit"
                 className="boton mt-1"
