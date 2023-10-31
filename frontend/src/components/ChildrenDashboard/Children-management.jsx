@@ -3,7 +3,6 @@ import React, { useContext, useRef, useState } from "react";
 
 import "./ChildrenManagement.css";
 
-
 import { Form } from "react-bootstrap";
 import { Col } from "react-bootstrap";
 import { Row } from "react-bootstrap";
@@ -20,16 +19,20 @@ import { GridActionsCellItem } from "@mui/x-data-grid";
 import DeleteChildren from "./DeleteChildren/DeleteChildren";
 import EditChildren from "./FormEditChildren/FormEditChildren";
 
-import {
-  DataGrid,
-} from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
 import AuthContext from "../../context/AuthContext";
-import { toastLoading, toastUpdateError, toastUpdateSuccess, warningData } from "../../utils/toastMsgs";
+import {
+  toastLoading,
+  toastUpdateError,
+  toastUpdateSuccess,
+  warningData,
+} from "../../utils/toastMsgs";
 import { ToastContainer } from "react-toastify";
+import { FormAddChildren } from "../FormAddChildren/FormAddChildren";
 
 export default function ChildrenManagement() {
   const [cribroomOptions, setCribroom] = useState([]);
@@ -37,6 +40,7 @@ export default function ChildrenManagement() {
   const [childs, setChild] = useState([]);
   const [cribroomCapacity, setCribroomCapacity] = useState("");
   const [showNewButton, setShowNewButton] = useState(false);
+  const [modalCreateShow, setModalCreateShow] = useState(false);
   const [modalEditShow, setModalEditShow] = useState(false);
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
   const [selectedChild, setSelectedChild] = useState("");
@@ -49,9 +53,9 @@ export default function ChildrenManagement() {
 
   let headers = {
     "Content-Type": "application/json",
-    "Authorization": "JWT " + authTokens.access,
-    "Accept": "application/json"
-  }
+    Authorization: "JWT " + authTokens.access,
+    Accept: "application/json",
+  };
 
   useEffect(() => {
     LoadCribrooms();
@@ -59,29 +63,26 @@ export default function ChildrenManagement() {
 
   async function LoadCribrooms() {
     try {
-      toastLoading("Cargando Salas Cunas", customId)
+      toastLoading("Cargando Salas Cunas", customId);
       let response = await getAllCribroomsWithoutDepth(authTokens.access);
       let data = await response.data;
       setCribroom(data);
-      toastUpdateSuccess("Salas cargadas", customId)
+      toastUpdateSuccess("Salas cargadas", customId);
     } catch (error) {
       console.error("Error fetching Cribroom Options", error);
-      toastUpdateError("Error al cargar las salas!", customId)
+      toastUpdateError("Error al cargar las salas!", customId);
     }
   }
 
-  function handleNewClick() {
-    if (!cribroomCapacity) {
-      navigate("/children-management/new");
-    } else {
-      warningData("La cribroom tiene la capacidad máxima");
-    }
+  function handleCreateClick() {
+    setModalCreateShow(true);
   }
 
   async function CRCapacity(selectedSalaCuna) {
     try {
       let response = await axios.get(
-        `/api/cribroom/?no_depth&id=${selectedSalaCuna}`, { headers: headers }
+        `/api/cribroom/?no_depth&id=${selectedSalaCuna}`,
+        { headers: headers }
       );
       console.log(response);
       if (response.request.status === 200) {
@@ -94,9 +95,8 @@ export default function ChildrenManagement() {
     }
   }
 
-
   async function handleCribroomChange(event) {
-      setSelectedCribroom(event.target.value);
+    setSelectedCribroom(event.target.value);
   }
 
   useEffect(() => {
@@ -110,7 +110,8 @@ export default function ChildrenManagement() {
       toastLoading("Cargando Chicos", customId);
       console.log("ID de la Cribroom seleccionada:", selectedCribroom);
       const res = await axios.get(
-        "/api/child/?no_depth&cribroom_id=" + selectedCribroom, { headers: headers }
+        "/api/child/?no_depth&cribroom_id=" + selectedCribroom,
+        { headers: headers }
       );
       console.log("API Response:", res.data);
       const updateChild = await res.data.map((child) => {
@@ -223,8 +224,15 @@ export default function ChildrenManagement() {
           tokens={authTokens.access}
           onHide={() => {
             setModalDeleteShow(false);
-            setSelectedChild(""); // Reset selectedCribroom after closing modal
-            /*window.location.reload();*/
+            setSelectedChild("");
+          }}
+        />
+      )}
+      {modalCreateShow && (
+        <FormAddChildren
+          show={modalCreateShow}
+          onHide={() => {
+            setModalCreateShow(false);
           }}
         />
       )}
@@ -268,7 +276,7 @@ export default function ChildrenManagement() {
                       type="submit"
                       value="Agregar chico/a"
                       size="m"
-                      onClick={handleNewClick}
+                      onClick={handleCreateClick}
                     />
                   </div>
                 )}
@@ -287,7 +295,6 @@ export default function ChildrenManagement() {
           </div>
         </div>
       )}
-
     </body>
   );
 }

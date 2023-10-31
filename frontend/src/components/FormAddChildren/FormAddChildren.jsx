@@ -3,10 +3,13 @@ import AuthContext from "../../context/AuthContext";
 
 import "./FormAddChildren.css";
 
+import Col from "react-bootstrap/Col/";
+import Row from "react-bootstrap/Row/";
 import Form from "react-bootstrap/Form/";
 import { Button } from "react-bootstrap";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import {
   getAllCribrooms,
@@ -18,69 +21,57 @@ import {
   getAllShifts,
 } from "../../api/salasCuna.api";
 
-export function FormAddChildren() {
+export function FormAddChildren(props) {
   const [childGenders, setChildGender] = useState([]);
   const [guardianGenders, setGuardianGender] = useState([]);
   const [salas, setCribroom] = useState([]);
   const [shifts, setShift] = useState([]);
   const [localities, setLocality] = useState([]);
   const [neighborhoods, setNeighborhood] = useState([]);
-
+  const [childStates, setChildState] = useState([]);
   const [guardianTypes, setGuardianType] = useState([]);
   const [phoneFeatures, setPhoneFeature] = useState([]);
-
+  const [capacity, setCapacity] = useState([]);
+  const [loadingCapacity, setLoadingCapacity] = useState(true);
   const [isDireccionVisible, setIsDireccionVisible] = useState(false);
   const [isTutorVisible, setIsTutorVisible] = useState(false);
 
-  const [formFields, setFormFields] = useState({
-    child: [
-      { name: "nombreChild", label: "Nombre", type: "text", required: true },
-      { name: "apellidoChild", label: "Apellido", type: "text", required: true },
-      { name: "dniChild", label: "DNI", type: "number", required: true },
-      { name: "fechaNacimientoChild", label: "Fecha De Nacimiento", type: "date", required: true },
-      { name: "generoChild",label: "Genero",type: "select",options: childGenders, required: true,}, // Add options dynamically
-      { name: "salacuna", label: "Sala Cuna", type: "select", options: salas, required: true }, // Add options dynamically
-      { name: "turno", label: "Turno", type: "select", options: shifts, required: false }, // Add options dynamically
-      { name: "fechaBaja", label: "Fecha de baja", type: "date", required: false },
-      { name: "fechaAlta", label: "Fecha de alta", type: "date", required: true },
-    ],
-    guardian: [
-      { name: "nombreGuardian", label: "Nombre", type: "text", required: true },
-      { name: "apellidoGuardian", label: "Apellido", type: "text", required: true },
-      { name: "dniGuardian", label: "DNI", type: "number", required: true },
-      { name: "generoGuardian", label: "Genero", type: "select", options: guardianGenders, required: true }, // Add options dynamically
-      { name: "phoneFeature", label: "Caracterisitca Telefonica", type: "select", options: phoneFeatures, required: true }, // Add options dynamically
-      { name: "telefono", label: "Telefono", type: "number", required: true },
-      { name: "guardianType", label: "Madre/padre o Tutor?", type: "select", options: guardianTypes, required: true }, // Add options dynamically
-    ],
-    address: [
-      { name: "calle", label: "Calle", type: "text", required: true },
-      { name: "numero_casa", label: "Numero", type: "number", required: false },
-      { name: "neighborhood", label: "Barrio", type: "select", options: neighborhoods, required: true }, // Add options dynamically
-      { name: "locality", label: "Localidad", type: "select", options: localities, required: true }, // Add options dynamically
-    ],
-  });
-  const [formData, setFormData] = useState({
-    nombreChild: "Facundo",
-    apellidoChild: "Oliva Marchetto",
-    dniChild: 460327608,
-    fechaNacimientoChild: "2004-10-29",
-    fechaBaja: "2004-10-29",
-    fechaAlta: "2006-10-29",
-    nombreGuardian: "Lucas",
-    apellidoGuardian: "Oliva",
-    dniGuardian: 241191000,
-    telefono: 3534441111,
-    calle: 'la calle de mi casa',
-    numero_casa: 37,
-  });
+  const [selectedGeneroChild, setSelectedGeneroChild] = useState("");
+  const [selectedGeneroGuardian, setSelectedGeneroGuardian] = useState("");
+  const [selectedSalaCuna, setSelectedSalacuna] = useState("");
+  const [selectedTurno, setSelectedTurno] = useState("");
+  const [selectedLocality, setSelectedLocality] = useState("");
+  const [selectedNeighborhood, setSelectedNeighborhood] = useState("");
+  const [selectedChildState, setSelectedChildState] = useState("");
+  const [selectedPhoneFeature, setSelectedPhoneFeature] = useState("");
+  const [selectedGuardianType, setSelectedGuardianType] = useState("");
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  let { authTokens } = useContext(AuthContext);
 
-  let {authTokens} = useContext(AuthContext);
+  function handleGeneroChildChange(event) {
+    setSelectedGeneroChild(event.target.value);
+  }
+  function handleGeneroGuardianChange(event) {
+    setSelectedGeneroGuardian(event.target.value);
+  }
+  function handleSalaCunaChange(event) {
+    setSelectedSalacuna(event.target.value);
+  }
+  function handleTurnoChange(event) {
+    setSelectedTurno(event.target.value);
+  }
+  function handleLocalityChange(event) {
+    setSelectedLocality(event.target.value);
+  }
+  function handleNeighborhoodChange(event) {
+    setSelectedNeighborhood(event.target.value);
+  }
+  function handlePhoneFeatureChange(event) {
+    setSelectedPhoneFeature(event.target.value);
+  }
+  function handleGuardianTypeChange(event) {
+    setSelectedGuardianType(event.target.value);
+  }
 
   const toggleDireccion = () => {
     setIsDireccionVisible(!isDireccionVisible);
@@ -101,46 +92,13 @@ export function FormAddChildren() {
     PhoneFeatureList();
   }, []);
 
-  const renderFormFields = (fields) => {
-    console.log('fields', fields);
-    return fields.map((field) => (
-      <Form.Group className="mb-3" key={field.name}>
-        <Form.Label className="mb-1">{field.label}</Form.Label>
-        {field.type === "select" ? (
-          <select
-            name={field.name}
-            value={formData[field.name]}
-            onChange={handleInputChange}
-            className="form-control"
-            required={field.required}
-          >
-            {field.options.map((option) => (
-              <option key={option.id} value={option.id}>
-                {option[Object.keys(option)[1]]} {/* Adjust this based on your option structure */}
-              </option>
-            ))}
-          </select>
-        ) : (
-          <Form.Control
-            type={field.type}
-            placeholder={`Ingrese ${field.label.toLowerCase()}`}
-            name={field.name}
-            value={formData[field.name]}
-            onChange={handleInputChange}
-            required={field.required}
-          />
-        )}
-      </Form.Group>
-    ));
-  };
-
   async function getChildren() {
     const headers = {
       "Content-Type": "application/json",
-      "Authorization": "JWT " + authTokens.access,
-      "Accept": "application/json"
-    }
-    let response = await axios.get("/api/child/", {headers: headers});
+      Authorization: "JWT " + authTokens.access,
+      Accept: "application/json",
+    };
+    let response = await axios.get("/api/child/", { headers: headers });
     let data = await response.data;
     console.log(data);
   }
@@ -159,23 +117,27 @@ export function FormAddChildren() {
     };
 
     try {
-      let responseG = await axios.post('/api/GuardianListCreateView/', guardianPayload, {
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRFToken": Cookies.get("csrftoken"),
-          "Authorization": "JWT " + authTokens.access
-        },
-      });
+      let responseG = await axios.post(
+        "/api/GuardianListCreateView/",
+        guardianPayload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": Cookies.get("csrftoken"),
+            Authorization: "JWT " + authTokens.access,
+          },
+        }
+      );
 
       let us = await axios.get("/api/GuardianListCreateView/", {
         headers: {
-            "Content-Type": "application/json",
-            "Authorization": "JWT " + authTokens.access,
-            "Accept": "application/json"
-          }
-      })
-      var userId = us.data.length+11;
-      var userId = us.data[us.data.length-1].id;
+          "Content-Type": "application/json",
+          Authorization: "JWT " + authTokens.access,
+          Accept: "application/json",
+        },
+      });
+      var userId = us.data.length + 11;
+      var userId = us.data[us.data.length - 1].id;
       console.log(userId);
 
       const payload = {
@@ -193,7 +155,7 @@ export function FormAddChildren() {
         gender: formData.get("generoChild"),
         cribroom: formData.get("salacuna"),
         shift: formData.get("turno"),
-        neighborhood: formData.get("neighborhood"),
+        neightborhood: formData.get("neighborhood"),
         street: formData.get("calle"),
         guardian_first_name: formData.get("nombreGuardian"),
         guardian_last_name: formData.get("apellidoGuardian"),
@@ -209,7 +171,7 @@ export function FormAddChildren() {
         headers: {
           "Content-Type": "application/json",
           "X-CSRFToken": Cookies.get("csrftoken"),
-          "Authorization": "JWT " + authTokens.access
+          Authorization: "JWT " + authTokens.access,
         },
       });
       if (response.request.status === 201) {
@@ -229,10 +191,6 @@ export function FormAddChildren() {
       const response = await getAllGenders(authTokens.access);
       setChildGender(response.data);
       setGuardianGender(response.data);
-
-      formFields['child'][4]['options'] = response.data;
-      formFields['guardian'][3]['options'] = response.data;
-
     } catch (error) {
       console.error("Error fetching generos:", error);
     }
@@ -242,7 +200,6 @@ export function FormAddChildren() {
     try {
       const response = await getAllCribrooms(authTokens.access);
       setCribroom(response.data);
-      formFields['child'][5]['options'] = response.data;
     } catch (error) {
       console.log("Error fetching Salas Cunas:", error);
     }
@@ -252,7 +209,6 @@ export function FormAddChildren() {
     try {
       const response = await getAllShifts(authTokens.access);
       setShift(response.data);
-      formFields['child'][6]['options'] = response.data;
     } catch (error) {
       console.log("Error fetching Turnos:", error);
     }
@@ -262,8 +218,6 @@ export function FormAddChildren() {
     try {
       const response = await getAllLocalities(authTokens.access);
       setLocality(response.data);
-      console.log('LocalityList response: ', response);
-      formFields['address'][3]['options'] = response.data;
     } catch (error) {
       console.error("Error fetching localidad:", error);
     }
@@ -273,9 +227,6 @@ export function FormAddChildren() {
     try {
       const response = await getAllNeighborhood(authTokens.access);
       setNeighborhood(response.data);
-      formFields['address'][2]['options'] = response.data;
-
-      console.log('neighborhoodList response: ', response);
     } catch (error) {
       console.error("Error fetching barrio:", error);
     }
@@ -287,7 +238,6 @@ export function FormAddChildren() {
     try {
       const response = await getAllGuardianTypes(authTokens.access);
       setGuardianType(response.data);
-      formFields['guardian'][6]['options'] = response.data;
     } catch (error) {
       console.error("Error fetching estados:", error);
     }
@@ -297,42 +247,347 @@ export function FormAddChildren() {
     try {
       const response = await getAllPhoneFeatures(authTokens.access);
       setPhoneFeature(response.data);
-      formFields['guardian'][4]['options'] = response.data;
     } catch (error) {
       console.error("Error fetching estados:", error);
     }
   };
 
-
   return (
-    <body className="body-ac">
-      <div className="container-form-wrapper">
-        <Form className="conteiner-form" onSubmit={handleSubmit}>
-          <h1 className="titulo">Añadir Niños/as</h1>
+    <Modal
+      {...props}
+      size="sm"
+      className="mb-3 mt-3"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <body className="body-ac">
+        <div className="container-form-wrapper">
+          <Form className="conteiner-form" onSubmit={handleSubmit}>
+            <h1 className="titulo">Añadir Niños/as</h1>
 
-          <div className="contenedor-linea">
-            <hr className="linea" />
-          </div>
+            <div className="contenedor-linea">
+              <hr className="linea" />
+            </div>
 
-          {renderFormFields(formFields.child)}
+            <Form.Group className="mb-1">
+              <Form.Label className="mb-1">Nombre</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Ingrese un nombre"
+                name="nombreChild"
+                required
+              />
+            </Form.Group>
 
-          <div className="toggle-button" onClick={() => toggleTutor()}>
-            {isTutorVisible ? "Ocultar Añadir tutor" : "Mostrar Añadir tutor"}
-          </div>
+            <Form.Group className="mb-1">
+              <Form.Label className="mb-1">Apellido</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Ingrese un apellido"
+                name="apellidoChild"
+                required
+              />
+            </Form.Group>
 
-          {isTutorVisible && renderFormFields(formFields.guardian)}
+            <Form.Group className="mb-1">
+              <Form.Label className="mb-1">DNI</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="Ingrese un DNI"
+                name="dniChild"
+                required
+              />
+            </Form.Group>
 
-          <div className="toggle-button" onClick={() => toggleDireccion()}>
-            {isDireccionVisible ? "Ocultar Direccion" : "Mostrar Direccion"}
-          </div>
+            <Form.Group className="mb-1">
+              <Form.Label className="mb-1">Fecha De Nacimiento</Form.Label>
+              <Form.Control
+                type="date"
+                placeholder=""
+                name="fechaNacimientoChild"
+                required
+              />
+            </Form.Group>
 
-          {isDireccionVisible && renderFormFields(formFields.address)}
+            <Row className="mb-1">
+              <Col>
+                <div>
+                  <Form.Label className="mb-1">Genero</Form.Label>
+                  <select
+                    id="gender"
+                    name="generoChild"
+                    className="form-control"
+                    required
+                  >
+                    <option value="">Generos</option>
+                    {childGenders.map((gender) => (
+                      <option key={gender.id} value={gender.id}>
+                        {gender.gender}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </Col>
+            </Row>
 
-          <div className="contenedor-boton mb-1 ">
-            <Button as="input" type="submit" value="Cargar" size="lg" />
-          </div>
-        </Form>
-      </div>
-    </body>
+            <Row className="mb-1">
+              <Col>
+                <div>
+                  <Form.Label className="mb-1">Sala Cuna</Form.Label>
+                  <select
+                    id="cribroom"
+                    name="salacuna"
+                    value={selectedSalaCuna}
+                    onChange={handleSalaCunaChange}
+                    className="form-control"
+                    required
+                  >
+                    <option value="">Sala Cuna</option>
+                    {salas.map((cribroom) => (
+                      <option key={cribroom.id} value={cribroom.id}>
+                        {cribroom.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </Col>
+            </Row>
+
+            <div className="mb-1">
+              <Form.Label className="mb-1">Turno</Form.Label>
+              <select
+                id="shift"
+                name="turno"
+                value={selectedTurno}
+                onChange={handleTurnoChange}
+                className="form-control"
+              >
+                <option value="">Turnos</option>
+                {shifts.map((shift) => (
+                  <option key={shift.id} value={shift.id}>
+                    {shift.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <Row className="mb-5">
+              <Col>
+                <Form.Label className="mb-1">Fecha de baja</Form.Label>
+                <Form.Control
+                  type="date"
+                  placeholder=""
+                  name="fechaBaja"
+                  defaultValue={null}
+                />
+              </Col>
+              <Col>
+                <Form.Label className="mb-1">Fecha de alta</Form.Label>
+                <Form.Control
+                  type="date"
+                  placeholder=""
+                  name="fechaAlta"
+                  required
+                />
+              </Col>
+            </Row>
+            <div className="toggle-button" onClick={toggleTutor}>
+              {isTutorVisible ? "Ocultar Añadir tutor" : "Mostrar Añadir tutor"}
+            </div>
+
+            {isTutorVisible && (
+              <div className="foldable-section">
+                <h1 className="titulo">Añadir Tutor/a</h1>
+
+                <div className="contenedor-linea">
+                  <hr className="linea"></hr>
+                </div>
+
+                <Form.Group className="mb-1">
+                  <Form.Label className="mb-1">Nombre</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Ingrese un nombre"
+                    name="nombreGuardian"
+                    required
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-1">
+                  <Form.Label className="mb-1">Apellido</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Ingrese un apellido"
+                    name="apellidoGuardian"
+                    required
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-1">
+                  <Form.Label className="mb-1">DNI</Form.Label>
+                  <Form.Control
+                    type="number"
+                    placeholder="Ingrese un DNI"
+                    name="dniGuardian"
+                    required
+                  />
+                </Form.Group>
+
+                <div className="mb-1">
+                  <Form.Label className="mb-1">Genero</Form.Label>
+                  <select
+                    id="generoGuardian"
+                    name="generoGuardian"
+                    value={selectedGeneroGuardian}
+                    onChange={handleGeneroGuardianChange}
+                    className="form-control"
+                    required
+                  >
+                    <option value="">Generos</option>
+                    {guardianGenders.map((gender) => (
+                      <option key={gender.id} value={gender.id}>
+                        {gender.gender}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <Row className="mb-4">
+                  <Col>
+                    <Form.Label className="mb-1">
+                      Caracterisitca Telefonica
+                    </Form.Label>
+
+                    <select
+                      id="phoneFeature"
+                      name="phoneFeature"
+                      value={selectedPhoneFeature}
+                      onChange={handlePhoneFeatureChange}
+                      className="form-control"
+                      required
+                    >
+                      <option value="">Phone Features</option>
+                      {phoneFeatures.map((phoneFeature) => (
+                        <option key={phoneFeature.id} value={phoneFeature.id}>
+                          {phoneFeature.feature}
+                        </option>
+                      ))}
+                    </select>
+                  </Col>
+                  <Col>
+                    <Form.Label className="mb-1">Telefono</Form.Label>
+                    <Form.Control
+                      type="number"
+                      placeholder="Ingrese un telefono"
+                      name="telefono"
+                      required
+                    />
+                  </Col>
+                </Row>
+
+                <Row className="mb-4">
+                  <Col>
+                    <Form.Label className="mb-1">
+                      Madre/padre o Tutor?
+                    </Form.Label>
+
+                    <select
+                      id="guardianType"
+                      name="guardianType"
+                      value={selectedGuardianType}
+                      onChange={handleGuardianTypeChange}
+                      className="form-control"
+                      required
+                    >
+                      <option value="">Madre/padre o Tutor?</option>
+                      {guardianTypes.map((guardianType) => (
+                        <option key={guardianType.id} value={guardianType.id}>
+                          {guardianType.type}
+                        </option>
+                      ))}
+                    </select>
+                  </Col>
+                </Row>
+              </div>
+            )}
+
+            <div className="toggle-button" onClick={toggleDireccion}>
+              {isDireccionVisible ? "Ocultar Direccion" : "Mostrar Direccion"}
+            </div>
+
+            {isDireccionVisible && (
+              <div className="foldable-section">
+                <h1 className="titulo">Añadir Domicilio</h1>
+
+                <div className="contenedor-linea">
+                  <hr className="linea"></hr>
+                </div>
+                <Row className="mb-1">
+                  <Col>
+                    <Form.Label className="mb-1">Calle</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Ingrese una calle"
+                      name="calle"
+                      required
+                    />
+                  </Col>
+                  <Col>
+                    <Form.Label className="mb-1">Numero</Form.Label>
+                    <Form.Control
+                      type="number"
+                      placeholder="Ingrese un numero"
+                      name="numero_casa"
+                    />
+                  </Col>
+                </Row>
+
+                <div className="mb-1">
+                  <Form.Label className="mb-1">Barrio</Form.Label>
+                  <select
+                    id="neighborhood"
+                    name="neighborhood"
+                    value={selectedNeighborhood}
+                    onChange={handleNeighborhoodChange}
+                    className="form-control"
+                    required
+                  >
+                    <option value="">Localidad</option>
+                    {neighborhoods.map((neighborhood) => (
+                      <option key={neighborhood.id} value={neighborhood.id}>
+                        {neighborhood.neighborhood}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="mb-1">
+                  <Form.Label className="mb-1">Localidad</Form.Label>
+                  <select
+                    id="locality"
+                    name="locality"
+                    value={selectedLocality}
+                    onChange={handleLocalityChange}
+                    className="form-control"
+                    required
+                  >
+                    <option value="">Localidad</option>
+                    {localities.map((locality) => (
+                      <option key={locality.id} value={locality.id}>
+                        {locality.locality}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            )}
+
+            <div className="contenedor-boton mb-1 ">
+              <Button as="input" type="submit" value="Cargar" size="lg" />
+            </div>
+          </Form>
+        </div>
+      </body>
+    </Modal>
   );
 }
