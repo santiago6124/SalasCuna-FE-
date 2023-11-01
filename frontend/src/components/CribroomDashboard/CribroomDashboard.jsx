@@ -56,7 +56,7 @@ export default function CribroomDashboard() {
     firstLoad();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
+
   async function listCribroom() {
     try {
       const promesas = await Promise.all([
@@ -254,6 +254,8 @@ export default function CribroomDashboard() {
                     autoHeight
                     autoWidth
                     pageSize={5}
+                    checkboxSelection //with this you can select all columns from the datagrid
+                    disableRowSelectionOnClick//
                   />
                 </div>
               </>
