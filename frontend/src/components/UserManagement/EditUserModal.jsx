@@ -49,7 +49,7 @@ export default function UpdateUser(props) {
     };
     if (selectedUser) {
       try {
-        let response = await axios.put(`/api/user/${selectedUser}/`, payload, {
+        let response = await axios.patch(`/api/user/${selectedUser}/`, payload, {
           headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken' : Cookies.get('csrftoken'),
