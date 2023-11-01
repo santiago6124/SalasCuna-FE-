@@ -10,6 +10,7 @@
   justify-content: center;
   align-items: center;
 }
+
 .contenedor-form-wrapper-home {
   display: flex;
   justify-content: center;
@@ -33,10 +34,39 @@
 
 .titulo-home {
   text-align: center;
+  font-size: 3rem;
 }
+
+@media (max-width: 768px) {
+  .titulo-home {
+    font-size: 1.8rem; /* Tamaño de fuente más pequeño para pantallas pequeñas */
+  }
+}
+
+@media (max-width: 480px) {
+  .titulo-home {
+    font-size: 1.5rem; /* Tamaño de fuente aún más pequeño para pantallas muy pequeñas */
+  }
+}
+
 .subtitulo {
   margin-left: 150px;
   padding: 5px;
+  font-size: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .subtitulo {
+    margin-left: 100px;
+    font-size: 1.2rem; /* Tamaño de fuente más pequeño para pantallas pequeñas */
+  }
+}
+
+@media (max-width: 480px) {
+  .subtitulo {
+    margin-left: 50px;
+    font-size: 1rem; /* Tamaño de fuente aún más pequeño para pantallas muy pequeñas */
+  }
 }
 
 .contenedor-linea-home {
@@ -50,8 +80,17 @@
   margin-top: 1px;
   height: 4px;
   border: 2px solid #ef7e0e;
-  background-color: #ef7e0e;
   width: 1200px;
+  width: 100%; /* Establece el ancho en un 100% para que se ajuste al contenedor */
+  max-width: 1200px; /* Agrega un ancho máximo si lo deseas */
+  margin-left: auto; /* Centra horizontalmente el elemento */
+  margin-right: auto;
+}
+
+@media (max-width: 1200px) {
+  .linea-home {
+    max-width: 90%; /* Reducir el ancho máximo para pantallas más pequeñas */
+  }
 }
 
 .form-row-home {
@@ -84,7 +123,38 @@
   justify-content: center;
   align-items: center;
   padding-right: 10px;
+  max-width: 100%; /* Establece un ancho máximo del 100% para que se ajuste al contenedor padre */
 }
+
+.container-slider .slider {
+  width: 100%;  /* Establece un margen derecho para separar los botones de las flechas */
+}
+
+.container-slider .arrow {
+  font-size: 24px;
+  padding: 5px;
+}
+
+.container-slider .arrow {
+  font-size: 20px;
+  padding: 3px;
+}
+
+
+
+/* Ajusta el ancho de los botones en pantallas pequeñas */
+@media (max-width: 768px) {
+  .container-slider .slider {
+    margin-right: 10px; /* Reduce el margen derecho en pantallas más pequeñas */
+  }
+}
+@media (max-width: 650px) {
+  .container-slider .slider {
+    margin: 0 auto; /* Centra horizontalmente el carrusel en la pantalla */
+  }
+}
+
+ 
 
 .DataGrid-Wrapper {
   width: auto;
@@ -117,6 +187,7 @@
 
 .ArrowCircleLeftOutlinedIcon {
   left: 0;
+
 }
 
 .ArrowCircleRightOutlinedIcon {
@@ -126,6 +197,7 @@
 .button-slider {
   padding: 5px;
   padding-left: 10px;
+  margin-right: 5px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

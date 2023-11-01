@@ -61,7 +61,7 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
 
         <button className="config-button" onClick={() => Redirects("/maestro-montos")}>
           <FontAwesomeIcon icon={faChartLine}  size="lg" style={{ color: "#0FAAE1", marginRight: '6px' }} />
-          <span className="config-text">Maestro Monto</span>
+          <span className="config-text">Maestro Montos</span>
         </button>
 
 

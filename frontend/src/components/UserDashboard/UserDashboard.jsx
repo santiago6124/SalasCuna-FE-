@@ -89,7 +89,7 @@ export default function AdminDashboard() {
     <body>
       <h1 className="titulo-home">Pagina de Administrador/a</h1>
       <div className="contenedor-linea-home">
-        <hr className="linea-home"></hr>
+        <hr className="linea-home" ></hr>
       </div>
       <h3 className="subtitulo">Acciones Rapidas</h3>
       <div className="container-slider">

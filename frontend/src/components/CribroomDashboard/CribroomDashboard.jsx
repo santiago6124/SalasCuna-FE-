@@ -183,7 +183,7 @@ export default function CribroomDashboard() {
         </header>
       </div>
       <body>
-        <div>
+        <div style={{ marginTop: 100 }}>
           {selectedCribroom && (
             <>
               <UpdateRoom
