@@ -92,7 +92,7 @@ function App() {
             />
             <Route
               path="/me"
-              element={<PrivateRoute children={<ProfilePage />}/>}
+              element={<ProfilePage />}
             />
 
             <Route
