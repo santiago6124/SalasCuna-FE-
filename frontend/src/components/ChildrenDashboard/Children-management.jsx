@@ -56,7 +56,7 @@ export default function ChildrenManagement() {
     Authorization: "JWT " + authTokens.access,
     Accept: "application/json",
   };
- 
+
   useEffect(() => {
     LoadCribrooms();
   }, []);
@@ -200,6 +200,9 @@ export default function ChildrenManagement() {
     },
   ];
 
+  function reloadDataFunc() {
+    loadChildren();
+  }
   return (
     <body>
       <ToastContainer />
@@ -212,6 +215,7 @@ export default function ChildrenManagement() {
             onHide={() => {
               setModalEditShow(false);
               setSelectedChild(""); // Reset selectedCribroom after closing modal
+              reloadDataFunc();
             }}
           />
         </>
@@ -225,6 +229,7 @@ export default function ChildrenManagement() {
           onHide={() => {
             setModalDeleteShow(false);
             setSelectedChild("");
+            reloadDataFunc();
           }}
         />
       )}
@@ -233,6 +238,7 @@ export default function ChildrenManagement() {
           show={modalCreateShow}
           onHide={() => {
             setModalCreateShow(false);
+            reloadDataFunc();
           }}
         />
       )}
@@ -253,7 +259,7 @@ export default function ChildrenManagement() {
                     <Form.Select
                       as="select"
                       value={selectedCribroom}
-                      className="mb-1 select-dropdown-down" 
+                      className="mb-1 select-dropdown-down"
                       onChange={handleCribroomChange}
                     >
                       <option value="" disabled>
