@@ -115,7 +115,8 @@ export default function CribroomDashboard() {
   // SEARCH FUNCTION
   function updateKeyword(keyword) {
     const filtered = cribrooms.filter((cribroom) => {
-      return `${cribroom.name.toLowerCase()}`.includes(keyword.toLowerCase());
+      return `${cribroom.name.toLowerCase()}`.includes(keyword.toLowerCase())
+      || `${cribroom.code.toLowerCase()}`.includes(keyword.toLowerCase()); //set other possible filters to the SearchBar
     });
     setKeyword(keyword);
     setFilteredCribroom(filtered);
