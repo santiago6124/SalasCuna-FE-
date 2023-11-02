@@ -551,9 +551,19 @@ export default function EditChildren(props) {
               </div>
             )}
 
-            <div className="contenedor-boton mb-1 ">
-              <Button as="input" type="submit" value="Cargar" size="lg" />
+            <div className="button-container">
+              <Button
+                className="close-button"
+                onClick={props.onHide} // Usa la función onHide para cerrar el modal
+              >
+                Cerrar
+              </Button>
+
+              <Button as="input" type="submit" value="Cargar" size="m" />
             </div>
+            
+
+            
           </Form>
         </div>
       </body>
