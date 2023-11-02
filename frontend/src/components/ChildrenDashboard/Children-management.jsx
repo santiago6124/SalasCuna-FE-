@@ -56,7 +56,7 @@ export default function ChildrenManagement() {
     Authorization: "JWT " + authTokens.access,
     Accept: "application/json",
   };
-
+ 
   useEffect(() => {
     LoadCribrooms();
   }, []);
@@ -146,28 +146,28 @@ export default function ChildrenManagement() {
     {
       field: "id",
       headerName: "#",
-      width: 150,
+      width: 60,
       headerAlign: "center",
       align: "center",
     },
     {
       field: "first_name",
       headerName: "Nombre",
-      width: 200,
+      width: 150,
       headerAlign: "center",
       align: "center",
     },
     {
       field: "last_name",
       headerName: "Apellido",
-      width: 200,
+      width: 150,
       headerAlign: "center",
       align: "center",
     },
     {
       field: "dni",
       headerName: "DNI",
-      width: 200,
+      width: 150,
       headerAlign: "center",
       align: "center",
     },
@@ -253,7 +253,7 @@ export default function ChildrenManagement() {
                     <Form.Select
                       as="select"
                       value={selectedCribroom}
-                      className="mb-1"
+                      className="mb-1 select-dropdown-down" 
                       onChange={handleCribroomChange}
                     >
                       <option value="" disabled>

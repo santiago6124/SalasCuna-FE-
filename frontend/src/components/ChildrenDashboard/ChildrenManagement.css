@@ -102,3 +102,10 @@
   padding: 8px;
 }
 
+.select-dropdown-down {
+  position: relative;
+}
+
+.select-dropdown-down select {
+  position: relative;
+}
