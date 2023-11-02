@@ -1,10 +1,9 @@
 import "./Account.css";
-import {Row, Col, Container, Form} from "react-bootstrap";
+import {Row, Col, Form} from "react-bootstrap";
 
 export default function ProfilePage() {
     return (
         <Form>
-            <Container>
                 <Row className="d-flex justify-content-center">
                     <Col className="justify-content-center text-center">
                         <Form.Group>
@@ -47,7 +46,6 @@ export default function ProfilePage() {
                         </Form.Group>
                     </Col>
                 </Row>
-            </Container>
         </Form>
     );
 }
