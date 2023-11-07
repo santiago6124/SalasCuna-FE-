@@ -132,9 +132,9 @@ export default function CribroomDashboard() {
       headerName: "Codigo",
       width: 100,
     },
-    { field: "name", headerName: "Nombre", width: 200 },
-    { field: "street", headerName: "Direccion", width: 140 },
-    { field: "CUIT", headerName: "CUIT", width: 140 },
+    { field: "name", headerName: "Nombre", width: 180 },
+    { field: "street", headerName: "Direccion", width: 170 },
+    { field: "CUIT", headerName: "CUIT", width: 90 },
     {
       field: "house_number",
       headerName: "Numero Calle",
@@ -150,8 +150,8 @@ export default function CribroomDashboard() {
       headerName: "Zona",
       width: 140,
     },
-    { field: "is_active", headerName: "Estado", width: 140 },
-    { field: "entity", headerName: "Entidad", width: 140 },
+    { field: "is_active", headerName: "Estado", width: 100 },
+    { field: "entity", headerName: "Entidad", width: 100 },
     {
       field: "actions",
       type: "actions",

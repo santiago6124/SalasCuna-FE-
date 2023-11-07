@@ -108,6 +108,7 @@ export default function EditChildren(props) {
     try {
       const response = await getAllShifts(props.tokens);
       setShift(response.data);
+      
     } catch (error) {
       console.log("Error fetching Turnos:", error);
     }
@@ -220,6 +221,8 @@ export default function EditChildren(props) {
       console.log(err);
     }
   }
+  
+  
 
   return (
     <Modal
@@ -559,7 +562,7 @@ export default function EditChildren(props) {
                 Cerrar
               </Button>
 
-              <Button as="input" type="submit" value="Cargar" size="m" />
+              <Button as="input" type="submit" value="Editar" size="m" />
             </div>
             
 

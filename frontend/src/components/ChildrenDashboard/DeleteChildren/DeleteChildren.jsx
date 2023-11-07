@@ -18,7 +18,7 @@ export default function DeleteChildren(props) {
 
   async function handleDelete(event) {
     event.preventDefault();
-    console.log(selectedChild);
+    console.log("chico: " + selectedChild);
     try {
       const payload = {
         is_active: "false",
@@ -57,8 +57,8 @@ export default function DeleteChildren(props) {
       </div>
       <div className="par">
         <Alert severity="warning">
-          <p>Esta seguro que desea Eliminar al Chico/a {selectedChild.name}?</p>
-          <p>Esto hara que su estado pase a ser Inactivo,</p>
+          <p>Esta seguro que desea deshabilitar a {selectedChild.name}?</p>
+          <p>Esto hara que su estado pase a ser INACTIVO.</p>
         </Alert>
       </div>
       <Modal.Footer>

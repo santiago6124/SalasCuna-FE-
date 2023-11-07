@@ -200,6 +200,10 @@ export default function ChildrenManagement() {
     },
   ];
 
+  function reloadData() {
+    loadChildren();
+  }
+
   return (
     <body>
       <ToastContainer />
@@ -212,6 +216,7 @@ export default function ChildrenManagement() {
             onHide={() => {
               setModalEditShow(false);
               setSelectedChild(""); // Reset selectedCribroom after closing modal
+              reloadData();
             }}
           />
         </>
