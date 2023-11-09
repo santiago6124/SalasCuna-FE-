@@ -89,12 +89,15 @@ export default function CribroomDashboard() {
   // SEARCH FUNCTION
   function updateKeyword(keyword) {
     const filtered = cribrooms.filter((cribroom) => {
-      return `${cribroom.name.toLowerCase()}`.includes(keyword.toLowerCase());
+      const codeMatch = `${cribroom.code}`.toLowerCase().includes(keyword.toLowerCase());
+      const nameMatch = cribroom.name.toLowerCase().includes(keyword.toLowerCase());
+      return codeMatch || nameMatch;
     });
     setKeyword(keyword);
     setFilteredCribroom(filtered);
     console.log(filteredCribroom);
   }
+  
 
   function reloadDataFunc() {
     listCribroom();
