@@ -43,20 +43,9 @@ export default function TechnicalReport() {
   }
   const iframeRef = useRef();
   function handlePdfClick() {
-    // Implement your PDF generation logic here
-    console.log("Generate PDF logic will be implemented here");
-    console.log("Selected Start Date:", startDate);
-    console.log("Selected End Date:", endDate);
-    console.log("Selected Crib Rooms:", selectedCribrooms);
-
     // Iterate through each selected cribroom and send a GET request
     selectedCribrooms.forEach((cribroom) => {
       const url = `/api/technical-report/${cribroom.id}/${startDate}/${endDate}/`;
-
-      const newIframe = document.createElement('iframe');
-
-      // Agregar el nuevo <iframe> al DOM
-      document.body.appendChild(newIframe);
 
       axios.get(url, { headers })
         .then((response) => {
@@ -75,7 +64,6 @@ export default function TechnicalReport() {
               data.pays
             );
             DownloadPDF(
-              newIframe,
               cribroom.entity,
               cribroom.name,
               cribroom.code,
@@ -105,6 +93,7 @@ export default function TechnicalReport() {
           deletingData();
         });
     });
+    setSelectedCribrooms([]);
   }
 
   useEffect(() => {
