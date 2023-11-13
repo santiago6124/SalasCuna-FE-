@@ -5,6 +5,9 @@ import html2pdf from 'html2pdf.js';
 
 // Define the downloadPDF function
 const downloadPDF = (
+    ministro,
+    resolucion,
+    remitanse,
     cribroomEntity,
     cribroomName,
     cribroomCode,
@@ -426,7 +429,7 @@ const downloadPDF = (
                         title=""></span></p>
         </div>
         <p class="c10"><span class="c2">C&oacute;rdoba,</span></p>
-        <p class="c13 c29 title"><span class="c8">Sr. Ministro de Desarrollo Social Dr. Juan Carlos Massei</span></p>
+        <p class="c13 c29 title"><span class="c8">${ministro}</span></p>
         <p class="c18 c13 title"><span
                 class="c26">S&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D</span>
         </p>
@@ -444,7 +447,7 @@ const downloadPDF = (
                 a ${totalSumEndMonth} del ${totalSumEndYear} seg&uacute;n detalle adjunto, cabe aclarar que los importes mensuales ser&aacute;n de por
                 cada ni&ntilde;o asistente a la sala hasta un m&aacute;ximo de ${cribroomMaxCapacityStr} (${cribroomMaxCapacityInt}) ni&ntilde;os y ni&ntilde;as
                 liquidables a favor de la instituci&oacute;n solicitante por el plazo anteriormente mencionado, ser&aacute;n
-                establecidos en la Resoluci&oacute;n Ministerial N&deg; 0007/2023.</span></p>
+                establecidos en la ${resolucion}.</span></p>
         <p class="c13 c18"><span class="c25">DETALLE</span></p>
         <p class="c28"><span class="c19"></span></p><a id="t.6ea88f66dc398c1cd51f2d89dde631a80804542d"></a><a id="t.0"></a>
         <table class="c22">
@@ -514,8 +517,7 @@ const downloadPDF = (
         <p class="c21"><span class="c11"></span></p>
         <p class="c21"><span class="c11"></span></p>
         <p class="c21"><span class="c11"></span></p>
-        <p class="c7"><span class="c2">Hecho, REM&Iacute;TANSE a la </span><span>Subsecretar&iacute;a</span><span
-                class="c2">&nbsp;de Administraci&oacute;n y Recursos Humanos a los fines de su intervenci&oacute;n.</span>
+        <p class="c7"><span class="c2">Hecho, ${remitanse} a los fines de su intervenci&oacute;n.</span>
         </p>
         <p class="c17"><span class="c2">Sin otro particular, lo saludo atentamente</span></p>
         <p class="c9"><span class="c2"></span></p>

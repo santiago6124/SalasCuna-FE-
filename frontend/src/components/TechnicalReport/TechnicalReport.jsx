@@ -68,6 +68,9 @@ export default function TechnicalReport() {
               data.pays
             );
             DownloadPDF(
+              formData.ministro,
+              formData.resolucion,
+              formData.remitanse,
               cribroom.entity,
               cribroom.name,
               cribroom.code,
