@@ -54,6 +54,15 @@ export function getAllZones(tokens) {
   return axios.get("/api/zone/", {headers: headers});
 }
 
+export function getTechnicalReportTableListCreateView(tokens) {
+  const headers = {
+    "Content-Type": "application/json",
+    "Authorization": "JWT " + tokens,
+    "Accept": "application/json"
+  }
+  return axios.get("/api/TechnicalReportTableListCreateView/", {headers: headers});
+}
+
 export function getAllNeighborhood(tokens) {
   const headers = {
     "Content-Type": "application/json",
