@@ -536,10 +536,10 @@ const downloadPDF = (
     let opt = {
         margin: [0.5, 1, 0.5, 1],
         filename: `${cribroomCode} ${totalSumInitMonth}${totalSumInitYear}-${totalSumEndMonth}${totalSumEndYear}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
         jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
       };
-    // image: { type: 'jpeg', quality: 0.98 },
-    // html2canvas: { scale: 2 },
 
     html2pdf().set(opt).from(htmlContent).save();
 };
