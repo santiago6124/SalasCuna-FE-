@@ -48,17 +48,17 @@ const downloadPDF = (
     
             .c12 {
                 border-right-style: solid;
-                padding: 5pt 5pt 5pt 5pt;
+                padding: 2.5pt 2.5pt 2.5pt 2.5pt;
                 border-bottom-color: #000000;
-                border-top-width: 1.5pt;
-                border-right-width: 1.5pt;
+                border-top-width: 1pt;
+                border-right-width: 1pt;
                 border-left-color: #000000;
                 vertical-align: top;
                 border-right-color: #000000;
-                border-left-width: 1.5pt;
+                border-left-width: 1pt;
                 border-top-style: solid;
                 border-left-style: solid;
-                border-bottom-width: 1.5pt;
+                border-bottom-width: 1pt;
                 width: 450pt;
                 border-top-color: #000000;
                 border-bottom-style: solid
@@ -66,17 +66,17 @@ const downloadPDF = (
     
             .c24 {
                 border-right-style: solid;
-                padding: 5pt 5pt 5pt 5pt;
+                padding: 2.5pt 2.5pt 2.5pt 2.5pt;
                 border-bottom-color: #000000;
-                border-top-width: 1.5pt;
-                border-right-width: 1.5pt;
+                border-top-width: 1pt;
+                border-right-width: 1pt;
                 border-left-color: #000000;
                 vertical-align: top;
                 border-right-color: #000000;
-                border-left-width: 1.5pt;
+                border-left-width: 1pt;
                 border-top-style: solid;
                 border-left-style: solid;
-                border-bottom-width: 1.5pt;
+                border-bottom-width: 1pt;
                 width: 449.2pt;
                 border-top-color: #000000;
                 border-bottom-style: solid
@@ -85,15 +85,15 @@ const downloadPDF = (
             .c14 {
                 border-right-style: solid;
                 border-bottom-color: #000000;
-                border-top-width: 1.5pt;
-                border-right-width: 1.5pt;
+                border-top-width: 1pt;
+                border-right-width: 1pt;
                 border-left-color: #000000;
                 vertical-align: top;
                 border-right-color: #000000;
-                border-left-width: 1.5pt;
+                border-left-width: 1pt;
                 border-top-style: solid;
                 border-left-style: solid;
-                border-bottom-width: 1.5pt;
+                border-bottom-width: 1pt;
                 width: 150pt;
                 border-top-color: #000000;
                 border-bottom-style: solid
@@ -471,8 +471,7 @@ const downloadPDF = (
                 </td>
             </tr>
         </table>
-        <p class="c9 c13"><span class="c2"></span></p><a id="t.91a0a19b464d3cd185af5b69ea358733aae9d02b"></a><a
-            id="t.1"></a>
+        
         <table class="c1">
             <tr class="c5">
                 <td class="c12" colspan="1" rowspan="1">
@@ -485,7 +484,7 @@ const downloadPDF = (
                 </td>
             </tr>
         </table>
-        <p class="c9"><span class="c2"></span></p><a id="t.692a5167b25ef1b580ed5794131d5251ced6d2ae"></a><a id="t.2"></a>
+
         <table class="c1">
             <tr class="c5">
                 <td class="c12" colspan="1" rowspan="1">
@@ -498,7 +497,7 @@ const downloadPDF = (
                 </td>
             </tr>
         </table>
-        <p class="c9"><span class="c2"></span></p><a id="t.235f7251ebcb23147da69e539a7ae814d2ba9224"></a><a id="t.3"></a>
+
         <table class="c1">
             <tr class="c5">
                 <td class="c24" colspan="1" rowspan="1">
@@ -511,6 +510,9 @@ const downloadPDF = (
                 </td>
             </tr>
         </table>
+        <p class="c21"><span class="c11"></span></p>
+        <p class="c21"><span class="c11"></span></p>
+        <p class="c21"><span class="c11"></span></p>
         <p class="c21"><span class="c11"></span></p>
         <p class="c7"><span class="c2">Hecho, REM&Iacute;TANSE a la </span><span>Subsecretar&iacute;a</span><span
                 class="c2">&nbsp;de Administraci&oacute;n y Recursos Humanos a los fines de su intervenci&oacute;n.</span>
@@ -530,30 +532,14 @@ const downloadPDF = (
     </html>
     `;
 
-    
-
-    // const pdfOptions = {
-    //     margin: 10,
-    //     filename: 'documento.pdf',
-    //     image: { type: 'jpeg', quality: 0.98 },
-    //     html2canvas: { scale: 2 },
-    //     jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-    //   };
-
-    // html2pdf().from(htmlContent).set(pdfOptions).outputPdf(pdf => {
-    //     const blob = new Blob([pdf], { type: 'application/pdf' });
-
-    //       // Iniciar la descarga directamente
-    //       window.open(URL.createObjectURL(blob), '_blank');
-    //   });
 
     let opt = {
-        margin: 1,
+        margin: [0.5, 1, 0.5, 1],
         filename: `${cribroomCode} ${totalSumInitMonth}${totalSumInitYear}-${totalSumEndMonth}${totalSumEndYear}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
         jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
       };
+    // image: { type: 'jpeg', quality: 0.98 },
+    // html2canvas: { scale: 2 },
 
     html2pdf().set(opt).from(htmlContent).save();
 };
