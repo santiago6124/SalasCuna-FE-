@@ -27,13 +27,13 @@ export default function AdminDashboard() {
   const [keyword, setKeyword] = useState("");
   const [userhistory, setUserHistory] = useState([]);
 
-  let {authTokens} = useContext(AuthContext);
+  let { authTokens } = useContext(AuthContext);
 
   let headers = {
     "Content-Type": "application/json",
-    "Authorization": "JWT " + authTokens.access,
-    "Accept": "application/json"
-}
+    Authorization: "JWT " + authTokens.access,
+    Accept: "application/json",
+  };
 
   useEffect(() => {
     listCribroom();
@@ -176,43 +176,46 @@ export default function AdminDashboard() {
         <div>
           <h4 className="datatitle"> Salas Cuna</h4>
           <DataGrid
-            pageSizeOptions={[4]}
+            pageSizeOptions={[5]}
             initialState={{
-              pagination: { paginationModel: { pageSize: 4 } },
+              pagination: { paginationModel: { pageSize: 5 } },
             }}
             style={{
               borderRadius: "15px",
               marginLeft: "50px",
               width: "auto",
-              height: 350,
+              height: "auto",
               margin: "25px",
             }}
             rows={filteredCribroom}
             columns={[
-              { field: "id", headerName: "ID", width: 70 },
-              { field: "name", headerName: "Nombre", width: 250 },
-              { field: "user", headerName: "Usuario", width: 130 },
+              { field: "id", headerName: "ID" },
+              { field: "name", headerName: "Nombre" },
+              { field: "user", headerName: "Usuario" },
             ]}
           ></DataGrid>
         </div>
         <div>
           <h4 className="datatitle"> Actividad Reciente</h4>
           <DataGrid
-            pageSizeOptions={[4]}
+            pageSizeOptions={[5]}
             initialState={{
-              pagination: { paginationModel: { pageSize: 4 } },
+              pagination: { paginationModel: { pageSize: 5 } },
             }}
             style={{
               borderRadius: "15px",
               marginLeft: "50px",
               width: "auto",
-              height: 350,
+              height: "auto",
               margin: "25px",
             }}
             rows={userhistory}
             columns={[
-              { field: "id", headerName: "ID", width: 70 },
-              { field: "object_repr", headerName: "Usuario", width: 250 },
+              { field: "id", headerName: "ID" },
+              { field: "object_repr", headerName: "Usuario" },
+              { field: "action_flag", headerName: "Accion" },
+              { field: "action_time", headerName: "Fecha" },
+              { field: "change_message", headerName: "Cambio" },
             ]}
           ></DataGrid>
         </div>
