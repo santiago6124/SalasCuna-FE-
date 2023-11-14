@@ -31,7 +31,7 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
       <div className="sidebar-container">
         <button className="config-button" onClick={() => Redirects("/home-page")}>
           <FontAwesomeIcon icon={faHouse} size="lg" style={{ color: "#0FAAE1", marginRight: '6px' }} />
-          <span className="config-text">Home</span>
+          <span className="config-text">Menu</span>
         </button>
 
         <button className="config-button" onClick={() => Redirects("/children-management")}>
