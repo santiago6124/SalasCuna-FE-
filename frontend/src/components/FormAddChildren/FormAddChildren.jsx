@@ -582,9 +582,22 @@ export function FormAddChildren(props) {
               </div>
             )}
 
-            <div className="contenedor-boton mb-1 ">
-              <Button as="input" type="submit" value="Cargar" size="lg" />
-            </div>
+<div className="contenedor-boton-qr ">
+                <Button
+                  className="boton-edit mt-3"
+                  boton
+                  variant="primary"
+                  type="submit"
+                  >
+                  Cargar
+                </Button>
+
+                {/* Close button */}
+                <Button className="boton-cerrar mt-3" variant="secondary" onClick={props.onHide}>
+                  Cerrar
+                </Button>
+              </div>
+
           </Form>
         </div>
       </body>
