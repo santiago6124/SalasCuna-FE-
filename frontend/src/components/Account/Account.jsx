@@ -1,9 +1,56 @@
 import "./Account.css";
 import { Row, Col, Form } from "react-bootstrap";
+import React, {useContext, useEffect, useState, useRef} from "react";
+import AuthContext from "../../context/AuthContext";
+import axios from "axios";
+import {
+    toastLoading,
+    toastUpdateError,
+  } from "../../utils/toastMsgs";
+import { ToastContainer } from "react-toastify";
+import { toast } from 'react-toastify';
+
 
 export default function ProfilePage() {
+    const [userData, setUserData] = useState();
+
+    let { user, authTokens } = useContext(AuthContext);
+    const customId = useRef(null);
+
+    useEffect(() => {
+        LoadUser();
+    }, []);
+
+    async function getUser() {
+        try {
+            let headers = {
+                "Content-Type": "application/json",
+                "Authorization": "JWT " + authTokens.access,
+                "Accept": "application/json",
+            };
+            const response = await axios.get(`/auth/users/${user.user_id}/`, {headers: headers});
+            return response.data
+        } catch (error) {
+            console.error("Error fetching user data", error);
+            return error
+        }
+    };
+
+    async function LoadUser(){
+        try {
+            toastLoading("Cargando perfil", customId);
+            setUserData(await getUser());
+            toast.dismiss(customId.current);
+            console.log(userData);
+        } catch (error) {
+            toastUpdateError("Error al cargar", customId);
+        }
+    }
+
   return (
-    <Form>
+    <body>
+        <ToastContainer/>
+        <Form>
       <Row className="d-flex justify-content-center mt-3">
         <Col className="justify-content-center text-center">
           <Form.Group>
@@ -47,5 +94,7 @@ export default function ProfilePage() {
         </Col>
       </Row>
     </Form>
+    </body>
+    
   );
 }
