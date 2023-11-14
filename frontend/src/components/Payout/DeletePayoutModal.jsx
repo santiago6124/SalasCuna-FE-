@@ -51,14 +51,14 @@ export default function DeletePayout(props) {
             <hr className="linea-eliminar"></hr>
           </div>
           <div className="par">
-            <p>Esta seguro que desea Eliminar este Payout {props.id}?</p>
-            <p>Esto hara que sea borrado permanentemente</p>
+            <p>Está seguro que desea <strong>ELIMINAR</strong> el monto con el código {props.id}?</p>
+            <p>Esto hará que sea borrado permanentemente.</p>
           </div>
           <div className="par">
             <Alert severity="warning">
-              <p>Este Payout no podra ser recuperado de ninguna manera y</p>
+              <p>Este monto no podrá ser recuperado de ninguna manera y</p>
               <p>
-                todos sus datos seran <strong>eliminados permanentemente</strong>
+                todos sus datos serán <strong>eliminados permanentemente.</strong>
               </p>
             </Alert>
           </div>

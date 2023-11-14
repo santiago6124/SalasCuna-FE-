@@ -243,8 +243,13 @@ export function CreateRoom(props) {
                   boton
                   variant="primary"
                   type="submit"
-                >
+                  >
                   Crear Sala Cuna
+                </Button>
+
+                {/* Close button */}
+                <Button className="boton-cerrar mt-3" variant="secondary" onClick={props.onHide}>
+                  Cerrar
                 </Button>
               </div>
             </Form>
