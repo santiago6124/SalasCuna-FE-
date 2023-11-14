@@ -19,6 +19,18 @@
   align-items: center;
 }
 
+.custom-data-grid-padron{
+  max-width: 750px; /* Ajusta el ancho máximo según tus preferencias */
+  
+}
+
+.DataGrid-Wrapper-padron {
+  overflow: auto; /* Agrega desplazamiento horizontal si el contenido es más ancho que el contenedor */
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  margin: 0 auto;
+}
+
 .linea-note {
   margin-top: 1px;
   height: 4px;
@@ -105,12 +117,17 @@ th {
   border-radius: 10px;
 }
 
+.center-row {
+  display: flex;
+  justify-content: center;
+}
+
 .col-md-2{
     margin: 20px;
 }
 .header-padron{
     margin-bottom: 50px;
-    position: fixed;
+    margin-top: 100px;
     width: 100%;
     z-index: 1000;
 }

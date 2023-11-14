@@ -6,6 +6,7 @@ import React, { useState, useContext, useEffect } from "react"; // Import useCon
 import axios from "axios";
 import AuthContext from "../../context/AuthContext"; // Import your AuthContext
 import {renderFormFields} from "../renderFormFields/renderFormFields";
+import './EditPayoutModal.css';
 
 import {
   getAllZones,
@@ -52,8 +53,15 @@ export function AddPayout(props) {
             </div>
             
             {renderFormFields(props.formFields.payout, props.formData, props.handleInputChange)}
-            
-            <div className="contenedor-boton-qr ">
+
+            <div className="button-container">
+              <Button
+                className="close-button mt-3"
+                onClick={props.onHide} // Usa la función onHide para cerrar el modal
+              >
+                Cerrar
+              </Button>
+
               <Button
                 className="boton-edit mt-3"
                 boton

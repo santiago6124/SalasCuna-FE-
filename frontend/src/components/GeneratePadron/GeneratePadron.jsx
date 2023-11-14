@@ -9,6 +9,8 @@ import Menu from "../Menu/Menu";
 import { getAllZones, handlePermissions } from "../../api/salasCuna.api";
 import AuthContext from "../../context/AuthContext";
 
+import "./GeneratePadron.css"
+
 
 function GeneratePadron() {
   const [zoneOptions, setZoneOptions] = useState([]);
@@ -65,17 +67,17 @@ function GeneratePadron() {
   }
 
   const columns = [
-    { field: "code", headerName: "Codigo" },
-    { field: "name", headerName: "Nombre Sala" },
-    { field: "cuit", headerName: "CUIT" },
-    { field: "entidad", headerName: "Entidad" },
-    { field: "cantidad_ninos", headerName: "Cantidad de Niños" },
+    { field: "code", headerName: "Codigo" , width: 80 },
+    { field: "name", headerName: "Nombre Sala" , width: 150 },
+    { field: "cuit", headerName: "CUIT" , width: 150 },
+    { field: "entidad", headerName: "Entidad" , width: 120 },
+    { field: "cantidad_ninos", headerName: "Cantidad de Niños" , width: 140 },
     {
       field: "select",
       headerName: "Seleccionar",
       sortable: false,
       filterable: false,
-      width: 120,
+      width: 90,
       renderCell: (params) => (
         <input type="checkbox" checked={params.row.selected} />
       ),
@@ -85,7 +87,7 @@ function GeneratePadron() {
   return (
     <>
     <div>
-        <header className="header-padron" style={{ marginTop: 100 }}>
+        <header className="header-padron">
           <Menu />
         </header>
     </div>
@@ -96,47 +98,51 @@ function GeneratePadron() {
         <div className="contenedor-linea-report">
           <hr className="linea-report"></hr>
         </div>
-        <Row>
-          <Form.Label className="mb-1 ms-3">Seleccionar Zona</Form.Label>
-          <Col className="col-md-3 add-payout-button ">
-            <Form.Select
-              className="mb-1"
-              name="zoneCR"
-              as="select"
-              value={selectedZone}
-              onChange={handleSelectChange}
-            >
-              <option value="" disabled>
-                Seleccionar Zona
-              </option>
-              {zoneOptions.map((zone) => (
-                <option key={zone.id} value={zone.id}>
-                  {zone.name}
+        <div className="center-row">
+          <Row>
+            <Form.Label className="mb-1 ms-3">Seleccionar Zona</Form.Label>
+            <Col className="col-md-5 add-payout-button" > {/* Ajusta el ancho según tus necesidades */}
+              <Form.Select
+                className="mb-1"
+                name="zoneCR"
+                as="select"
+                value={selectedZone}
+                onChange={handleSelectChange}
+              >
+                <option value="" disabled>
+                  Seleccionar Zona
                 </option>
-              ))}
-            </Form.Select>
-          </Col>
-          <Col className="col-sm-1">
-            <Button
-              variant="primary"
-              onClick={handlePdfClick}
-              className="mt-3 ms-2 add-payout-button"
-            >
-              PDF
-            </Button>
-          </Col>
-          <Col className="col-sm-1">
-            <Button
-              variant="success"
-              onClick={handleExcelClick}
-              className="mt-3 ms-2 add-payout-button"
-            >
-              EXCEL
-            </Button>
-          </Col>
-        </Row>
-        <div className="DataGrid-Wrapper-report">
+                {zoneOptions.map((zone) => (
+                  <option key={zone.id} value={zone.id}>
+                    {zone.name}
+                  </option>
+                ))}
+              </Form.Select>
+            </Col>
+            <Col className="col-md-1"> {/* Ajusta el ancho según tus necesidades */}
+              <Button
+                variant="primary"
+                onClick={handlePdfClick}
+                className="mt-3 ms-2 add-payout-button"
+              >
+                PDF
+              </Button>
+            </Col>
+            <Col className="col-md-2"> {/* Ajusta el ancho según tus necesidades */}
+              <Button
+                variant="success"
+                onClick={handleExcelClick}
+                className="mt-3 ms-2 add-payout-button"
+              >
+                EXCEL
+              </Button>
+            </Col>
+          </Row>
+        </div>
+        
+        <div className="DataGrid-Wrapper-padron">
           <DataGrid
+            className="custom-data-grid-padron"
             style={{ borderRadius: "15px", margin: "20px" }}
             rows={cribrooms}
             columns={columns}

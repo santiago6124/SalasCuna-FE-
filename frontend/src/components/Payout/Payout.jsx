@@ -170,8 +170,8 @@ export default function Payout() {
               <div className="contenedor-linea-cb">
                 <hr className="linea-cb"></hr>
               </div>
-              <Row>
-                <Col className="col-md-2">
+              <Row className="d-flex justify-content-center align-items-center">
+                <Col className="col-md-2 col_dropdown">
                   <Form.Label className="mb-1">Seleccionar Zona</Form.Label>
                   <Form.Select
                     as="select"
@@ -189,8 +189,8 @@ export default function Payout() {
                     ))}
                   </Form.Select>
                 </Col>
-                <Col>
-                  <div className="add-payout-button mb-3">
+                <Col className="d-flex justify-content-end">
+                  <div className="add-payout-button">
                     <Button
                       variant="contained"
                       color="primary"
@@ -203,23 +203,26 @@ export default function Payout() {
                   </div>
                 </Col>
               </Row>
-              <div className="DataGrid-Wrapper">
+              <div className="DataGrid-Wrapper-payout">
                 <DataGrid
+                  className="custom-data-grid-payout"
                   style={{ borderRadius: "15px", margin: "20px" }}
                   rows={payout}
                   columns={[
                     {
                       field: "id",
-                      headerName: "Id de pago",
-                      width: 250,
+                      headerName: "ID",
+                      width: 50,
+                      headerAlign: "center",
+                      align: "center",
                     },
-                    { field: "amount", headerName: "Monto", width: 250 },
-                    { field: "date", headerName: "Fecha", width: 250 },
+                    { field: "amount", headerName: "Monto", width: 160, headerAlign: "center",align: "center",},
+                    { field: "date", headerName: "Fecha", width: 170, headerAlign: "center",align: "center", },
                     {
                       field: "actions",
                       type: "actions",
                       headerName: "Acciones",
-                      width: 80,
+                      width: 90,
                       getActions: (params) => [
                         <GridActionsCellItem
                           icon={<DeleteIcon />}
