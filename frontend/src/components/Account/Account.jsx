@@ -12,8 +12,8 @@ import { toast } from 'react-toastify';
 
 
 export default function ProfilePage() {
-    const [userData, setUserData] = useState();
 
+    const [datos, setDatos] = useState();
     let { user, authTokens } = useContext(AuthContext);
     const customId = useRef(null);
 
@@ -29,19 +29,17 @@ export default function ProfilePage() {
                 "Accept": "application/json",
             };
             const response = await axios.get(`/auth/users/${user.user_id}/`, {headers: headers});
-            return response.data
+            const data = await response.data;
+            return data
         } catch (error) {
             console.error("Error fetching user data", error);
-            return error
         }
     };
 
     async function LoadUser(){
         try {
             toastLoading("Cargando perfil", customId);
-            setUserData(await getUser());
-            toast.dismiss(customId.current);
-            console.log(userData);
+            getUser().then((data) => {setDatos(data)}).finally(toast.dismiss(customId.current));
         } catch (error) {
             toastUpdateError("Error al cargar", customId);
         }
@@ -55,13 +53,13 @@ export default function ProfilePage() {
         <Col className="justify-content-center text-center">
           <Form.Group>
             <Form.Label>Nombre</Form.Label>
-            <Form.Control type="text" placeholder="Nombre" />
+            <Form.Control type="text" placeholder="Nombre" defaultValue={datos?.first_name}/>
           </Form.Group>
         </Col>
         <Col className="justify-content-center text-center">
           <Form.Group>
             <Form.Label>Apellido</Form.Label>
-            <Form.Control type="text" placeholder="Apellido" />
+            <Form.Control type="text" placeholder="Apellido" defaultValue={datos?.last_name}/>
           </Form.Group>
         </Col>
       </Row>
@@ -69,13 +67,13 @@ export default function ProfilePage() {
         <Col className="justify-content-center text-center">
           <Form.Group>
             <Form.Label>Email</Form.Label>
-            <Form.Control type="email" placeholder="example@gmail.com" />
+            <Form.Control type="email" placeholder="example@gmail.com" defaultValue={datos?.email}/>
           </Form.Group>
         </Col>
         <Col className="justify-content-center text-center">
           <Form.Group>
             <Form.Label>DNI</Form.Label>
-            <Form.Control type="text" placeholder="12345678" />
+            <Form.Control type="text" placeholder="12345678" defaultValue={datos?.dni}/>
           </Form.Group>
         </Col>
       </Row>
@@ -83,13 +81,13 @@ export default function ProfilePage() {
         <Col className="justify-content-center text-center">
           <Form.Group>
             <Form.Label>Telefono</Form.Label>
-            <Form.Control type="text" placeholder="54 9 351 123 4567" />
+            <Form.Control type="text" placeholder="54 9 351 123 4567" defaultValue={datos?.phone_number}/>
           </Form.Group>
         </Col>
         <Col className="justify-content-center text-center">
           <Form.Group>
             <Form.Label>Rol</Form.Label>
-            <Form.Control type="text" placeholder="Rol" />
+            <Form.Control type="text" placeholder="Rol" defaultValue={datos?.groups}/>
           </Form.Group>
         </Col>
       </Row>

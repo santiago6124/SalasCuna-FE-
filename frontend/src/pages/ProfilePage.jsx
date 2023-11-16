@@ -1,8 +1,8 @@
-import React from "react";
-import {Row, Col, Container} from "react-bootstrap";
+import React,{useContext} from "react";
+import {Row, Col, Container, Button} from "react-bootstrap";
 import Account from "../components/Account/Account";
 import Menu from "../components/Menu/Menu";
-import SideMenu from "../components/Account/SideMenu";
+import profileImage from "../media/Profile.jpg";
 import "../components/Account/Account.css";
 
 export default function ProfilePage() {
@@ -17,7 +17,35 @@ export default function ProfilePage() {
         <Container>
           <Row>
             <Col md={3}>
-              <SideMenu/>
+              <div className="MainDiv">
+                <div className="image-container justify-content-center">
+                  <img src={profileImage} alt="Perfil" className="circle-image" />
+                </div>
+                <div className="mt-2">
+                  <h3>Bienvenido:</h3>
+                </div>
+                <div className="contenedor-linea-sm">
+                  <hr className="linea-sm"></hr>
+                </div>
+                <Col className="mt-1 mb-2">
+                  <Button
+                    variant="prueba"
+                    className="prueba"
+                    style={{ borderLeft: "4px solid #ef7e0e" }}
+                  >
+                    Info de cuenta
+                  </Button>
+                </Col>
+                <Col className="mt-1 mb-2">
+                  <Button
+                    variant="prueba"
+                    className="prueba"
+                    style={{ borderLeft: "4px solid #ef7e0e" }}
+                  >
+                    Cambiar contraseña
+                  </Button>
+                </Col>
+              </div>
             </Col>
             <Col>
               <Account />
