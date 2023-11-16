@@ -3,6 +3,7 @@ import SearchBar from "../SearchBar/SearchBar";
 import { UpdateRoom } from "../CribroomDashboard/EditRoom/EditRoom";
 import DeleteRoom from "../CribroomDashboard/DeleteRoom/DeleteRoom";
 import { CreateRoom } from "../CribroomDashboard/CreateRoom/CreateRoom";
+import HistoryTimeline from "./ObjectHistory";
 import "./CribroomDashboard.css";
 
 import React, { useContext, useEffect, useRef, useState } from "react";
@@ -16,6 +17,8 @@ import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 //UI Icons Imports
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import HistoryIcon from "@mui/icons-material/History";
+
 import axios from "axios";
 import { ToastContainer } from "react-toastify";
 import { Row, Col } from "react-bootstrap";
@@ -38,6 +41,7 @@ export default function CribroomDashboard() {
   const [modalEditShow, setModalEditShow] = useState(false);
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
   const [modalCreateShow, setModalCreateShow] = useState(false);
+  const [modalHistoryShow, setModalHistoryShow] = useState(false);
 
   const customId = useRef(null);
 
@@ -112,11 +116,20 @@ export default function CribroomDashboard() {
     console.log("Edit clicked for row with id:", rowId);
   }
 
+  function handleHistoryClick(rowId, CRName) {
+    setSelectedCribroom(rowId);
+    setCribroomName(CRName);
+    setModalHistoryShow(true);
+    console.log("Edit clicked for row with id:", rowId);
+  }
+
   // SEARCH FUNCTION
   function updateKeyword(keyword) {
     const filtered = cribrooms.filter((cribroom) => {
-      return `${cribroom.name.toLowerCase()}`.includes(keyword.toLowerCase())
-      || `${cribroom.code.toLowerCase()}`.includes(keyword.toLowerCase()); //set other possible filters to the SearchBar
+      return (
+        `${cribroom.name.toLowerCase()}`.includes(keyword.toLowerCase()) ||
+        `${cribroom.code.toLowerCase()}`.includes(keyword.toLowerCase())
+      ); //set other possible filters to the SearchBar
     });
     setKeyword(keyword);
     setFilteredCribroom(filtered);
@@ -157,7 +170,7 @@ export default function CribroomDashboard() {
       field: "actions",
       type: "actions",
       headerName: "Acciones",
-      width: 80,
+      width: 100,
       getActions: (params) => [
         <GridActionsCellItem
           icon={<DeleteIcon />}
@@ -169,6 +182,11 @@ export default function CribroomDashboard() {
             variant="primary"
             icon={<EditIcon />}
             onClick={() => handleEditClick(params.row.id)}
+          />
+          <GridActionsCellItem
+            variant="primary"
+            icon={<HistoryIcon />}
+            onClick={() => handleHistoryClick(params.row.id, params.row.name)}
           />
         </>,
       ],
@@ -207,6 +225,19 @@ export default function CribroomDashboard() {
               tokens={authTokens.access}
               onHide={() => {
                 setModalDeleteShow(false);
+                setSelectedCribroom(""); // Reset selectedCribroom after closing modal
+                reloadDataFunc();
+              }}
+            />
+          )}
+          {selectedCribroom && (
+            <HistoryTimeline
+              id={selectedCribroom}
+              name={cribroomName}
+              show={modalHistoryShow}
+              tokens={authTokens.access}
+              onHide={() => {
+                setModalHistoryShow(false);
                 setSelectedCribroom(""); // Reset selectedCribroom after closing modal
                 reloadDataFunc();
               }}
@@ -255,8 +286,8 @@ export default function CribroomDashboard() {
                     autoHeight
                     autoWidth
                     pageSize={5}
-                    checkboxSelection //with this you can select all columns from the datagrid
-                    disableRowSelectionOnClick//
+                    /*                     checkboxSelection //with this you can select all columns from the datagrid
+                    disableRowSelectionOnClick// */
                   />
                 </div>
               </>

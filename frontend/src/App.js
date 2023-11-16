@@ -19,6 +19,7 @@ import { FormAddChildren } from "./components/FormAddChildren/FormAddChildren";
 import CribroomDashboard from "./components/CribroomDashboard/CribroomDashboard";
 import UserList from "./components/UserList/UserList";
 import Dashboard from "./pages/DashboardPage/Dashboard";
+import HistoryTimeline from "./components/CribroomDashboard/ObjectHistory";
 
 import { FilesToDb } from "../src/components/FilesToDb/FilesToDb";
 import SingUpPage from "./pages/SingUpPage/SingUpPage";
@@ -42,6 +43,10 @@ function App() {
             <Route
               path="/reset-password"
               element={<PrivateRoute children={<ResetPassword />} />}
+            />
+            <Route
+              path="/asd"
+              element={<PrivateRoute children={<HistoryTimeline />} />}
             />
             <Route
               path="/password/reset/confirm/:uid/:token"
