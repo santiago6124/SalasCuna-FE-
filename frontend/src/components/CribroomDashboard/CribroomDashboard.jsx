@@ -129,20 +129,20 @@ export default function CribroomDashboard() {
   const columns = [
     {
       field: "code",
-      headerName: "Codigo",
+      headerName: "Código",
       width: 100,
     },
     { field: "name", headerName: "Nombre", width: 180 },
-    { field: "street", headerName: "Direccion", width: 170 },
+    { field: "street", headerName: "Dirección", width: 170 },
     { field: "CUIT", headerName: "CUIT", width: 90 },
     {
       field: "house_number",
-      headerName: "Numero Calle",
+      headerName: "Número Calle",
       width: 140,
     },
     {
       field: "max_capacity",
-      headerName: "Cap. Maxima",
+      headerName: "Cap. Máxima",
       width: 140,
     },
     {

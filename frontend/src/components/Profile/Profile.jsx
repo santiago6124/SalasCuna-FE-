@@ -36,7 +36,7 @@ function Profile ()  {
                       <div className="config-content">
                         <button className="config-button" onClick={() => logoutUser()}>
                         <FontAwesomeIcon icon={faGear} style={{color: "#f1862e",marginRight: '8px'}} />
-                          <span className="config-text">Cerrar Sesión</span>
+                          <span className="config-text">Configuración</span>
                         </button>
                       </div>
                     </div>

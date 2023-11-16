@@ -67,8 +67,8 @@ function GeneratePadron() {
   }
 
   const columns = [
-    { field: "code", headerName: "Codigo" , width: 80 },
-    { field: "name", headerName: "Nombre Sala" , width: 150 },
+    { field: "code", headerName: "Código" , width: 80 },
+    { field: "name", headerName: "Nombre" , width: 150 },
     { field: "cuit", headerName: "CUIT" , width: 150 },
     { field: "entidad", headerName: "Entidad" , width: 120 },
     { field: "cantidad_ninos", headerName: "Cantidad de Niños" , width: 140 },
@@ -94,7 +94,7 @@ function GeneratePadron() {
     <div > 
         <body className="mt-3">
         
-        <h1 className="titulo-cb">Generar Padron</h1>
+        <h1 className="titulo-cb">Generar Padrón</h1>
         <div className="contenedor-linea-report">
           <hr className="linea-report"></hr>
         </div>

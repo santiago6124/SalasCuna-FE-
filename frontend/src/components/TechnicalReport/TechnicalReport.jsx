@@ -153,7 +153,7 @@ export default function TechnicalReport() {
   }
 
   const columns = [
-    { field: "code", headerName: "Codigo", width: 150 },
+    { field: "code", headerName: "Código", width: 150 },
     { field: "name", headerName: "Nombre Sala", width: 160 },
     { field: "cuit", headerName: "CUIT", width: 170 },
     { field: "entidad", headerName: "Entidad", width: 170 },

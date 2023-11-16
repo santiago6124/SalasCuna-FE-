@@ -50,15 +50,15 @@ export default function DeleteChildren(props) {
       centered
     >
       <div>
-        <Modal.Title className="titulo-eliminar">Eliminar Chicos</Modal.Title>
+        <Modal.Title className="titulo-eliminar">Deshabilitar Chicos</Modal.Title>
       </div>
       <div className="contenedor-linea-eliminar">
         <hr className="linea-eliminar"></hr>
       </div>
       <div className="par">
         <Alert severity="warning">
-          <p>Esta seguro que desea deshabilitar a {selectedChild.name}?</p>
-          <p>Esto hara que su estado pase a ser INACTIVO.</p>
+          <p>Está seguro que desea deshabilitar a {selectedChild.name}?</p>
+          <p>Esto hará que su estado pase a ser INACTIVO.</p>
         </Alert>
       </div>
       <Modal.Footer>

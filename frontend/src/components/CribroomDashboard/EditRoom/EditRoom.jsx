@@ -125,7 +125,7 @@ export function UpdateRoom(props) {
               <hr className="linea"></hr>
             </div>
             <Form.Group className="mb-3">
-              <Form.Label className="mb-1">Nombre De Sala</Form.Label>
+              <Form.Label className="mb-1">Nombre</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Editar El Nombre De La Sala"
@@ -134,7 +134,7 @@ export function UpdateRoom(props) {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label className="mb-1">Codigo De Sala</Form.Label>
+              <Form.Label className="mb-1">Código</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Editar El Nombre De La Sala"
@@ -143,7 +143,7 @@ export function UpdateRoom(props) {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label className="mb-1">Capacidad Maxima</Form.Label>
+              <Form.Label className="mb-1">Capacidad Máxima</Form.Label>
               <Form.Control
                 type="number"
                 placeholder="Editar La Capacidad Maxima De La Sala"
@@ -183,7 +183,7 @@ export function UpdateRoom(props) {
                 />
               </Col>
               <Col>
-                <Form.Label className="mb-1">Nro</Form.Label>
+                <Form.Label className="mb-1">Número</Form.Label>
                 <Form.Control
                   type="number"
                   placeholder="Nro"

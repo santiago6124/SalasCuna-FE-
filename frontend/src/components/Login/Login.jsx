@@ -16,7 +16,7 @@ export function Login() {
         <div>
           <Container fluid className="conteiner-form-login">
             <Form onSubmit={loginUser}>
-              <h1 className="titulo">Iniciar Sesion</h1>
+              <h1 className="titulo">Iniciar Sesión</h1>
 
               <div className="contenedor-linea">
                 <hr className="linea"></hr>
