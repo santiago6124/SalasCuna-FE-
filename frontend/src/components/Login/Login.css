@@ -76,3 +76,15 @@
   justify-content: center;
   align-items: center;
 }
+
+
+@media (max-width:450px){
+
+  .div-form-login {
+
+    width: 400px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+}

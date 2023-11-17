@@ -13,7 +13,7 @@ export function Login() {
         <Menu />
       </header>
       <body className="body-login">
-        <div>
+        <div className="div-form-login"> 
           <Container fluid className="conteiner-form-login">
             <Form onSubmit={loginUser}>
               <h1 className="titulo">Iniciar Sesión</h1>

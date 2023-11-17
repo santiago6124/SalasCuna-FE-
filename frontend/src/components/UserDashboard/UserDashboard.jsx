@@ -88,9 +88,9 @@ export default function AdminDashboard() {
         <hr className="linea-home" ></hr>
       </div>
     
-      <div className="DataGrid-Wrapper">
+      <div className="DataGrid-Wrapper-Sala">
         <div>
-          <h4 className="datatitle"> Salas Cuna</h4>
+          <h4 className="datatitle-sala"> Salas Cuna</h4>
           <DataGrid
             pageSizeOptions={[4]}
             initialState={{
@@ -111,7 +111,7 @@ export default function AdminDashboard() {
             ]}
           ></DataGrid>
         </div>
-        <div>
+        <div className="DataGrid-Wrapper-Usuario">
           <h4 className="datatitle"> Actividad Reciente</h4>
           <DataGrid
             pageSizeOptions={[4]}
