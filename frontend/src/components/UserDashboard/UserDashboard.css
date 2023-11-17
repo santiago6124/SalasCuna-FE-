@@ -120,7 +120,7 @@
 
 
 .DataGrid {
-  width: 90%; /* Usa porcentajes para el ancho en lugar de píxeles fijos */
+  width: 100%; /* Usa porcentajes para el ancho en lugar de píxeles fijos */
   max-width: 800px;
   height: 50vh; /* Usa viewport height para el alto en lugar de píxeles fijos */
   margin: 10px;
@@ -158,27 +158,26 @@
   }
 }
 
-@media (max-width: 450px) {
-  .titulo-home {
-    font-size: 1.2rem; /* Tamaño de fuente aún más pequeño para pantallas muy pequeñas */
-  }
-}
+
 
 @media (max-width:450px){
 
   .DataGrid-Wrapper-Sala{
-   
-    margin-right: 20px;
+    display: block;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5%;
   }
 
-  .DataGrid{
-    width: 70%;
-  }
-
-  .datatitle-sala {
+  .div-datagrids{
+    margin-right: 10px;
     margin-left: 20px;
   }
 
+  .datatitle-sala{
+    font-size: 1.2rem
+  }
 }
 
 

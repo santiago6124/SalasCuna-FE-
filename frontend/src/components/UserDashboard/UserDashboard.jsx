@@ -87,52 +87,55 @@ export default function AdminDashboard() {
       <div className="contenedor-linea-home">
         <hr className="linea-home" ></hr>
       </div>
-    
-      <div className="DataGrid-Wrapper-Sala">
-        <div>
-          <h4 className="datatitle-sala"> Salas Cuna</h4>
-          <DataGrid
-            pageSizeOptions={[4]}
-            initialState={{
-              pagination: { paginationModel: { pageSize: 4 } },
-            }}
-            style={{
-              borderRadius: "15px",
-              marginLeft: "50px",
-              width: "auto",
-              height: 350,
-              margin: "25px",
-            }}
-            rows={filteredCribroom}
-            columns={[
-              { field: "id", headerName: "ID", width: 70 },
-              { field: "name", headerName: "Nombre", width: 200 },
-              { field: "user", headerName: "Usuario", width: 120 },
-            ]}
-          ></DataGrid>
-        </div>
-        <div className="DataGrid-Wrapper-Usuario">
-          <h4 className="datatitle"> Actividad Reciente</h4>
-          <DataGrid
-            pageSizeOptions={[4]}
-            initialState={{
-              pagination: { paginationModel: { pageSize: 4 } },
-            }}
-            style={{
-              borderRadius: "15px",
-              marginLeft: "50px",
-              width: "auto",
-              height: 350,
-              margin: "25px",
-            }}
-            rows={userhistory}
-            columns={[
-              { field: "id", headerName: "ID", width: 70 },
-              { field: "object_repr", headerName: "Usuario", width: 250 },
-            ]}
-          ></DataGrid>
+
+      <div className="div-datagrids">
+        <div className="DataGrid-Wrapper-Sala">
+          <div className="div-datagrid-sala">
+            <h4 className="datatitle-sala"> Salas Cuna</h4>
+            <DataGrid
+              pageSizeOptions={[4]}
+              initialState={{
+                pagination: { paginationModel: { pageSize: 4 } },
+              }}
+              style={{
+                borderRadius: "15px",
+                marginLeft: "50px",
+                width: "auto",
+                height: 350,
+                margin: "25px",
+              }}
+              rows={filteredCribroom}
+              columns={[
+                { field: "id", headerName: "ID", width: 70 },
+                { field: "name", headerName: "Nombre", width: 200 },
+                { field: "user", headerName: "Usuario", width: 120 },
+              ]}
+            ></DataGrid>
+          </div>
+          <div className="DataGrid-Wrapper-Usuario">
+            <h4 className="datatitle"> Actividad Reciente</h4>
+            <DataGrid
+              pageSizeOptions={[4]}
+              initialState={{
+                pagination: { paginationModel: { pageSize: 4 } },
+              }}
+              style={{
+                borderRadius: "15px",
+                marginLeft: "50px",
+                width: "auto",
+                height: 350,
+                margin: "25px",
+              }}
+              rows={userhistory}
+              columns={[
+                { field: "id", headerName: "ID", width: 70 },
+                { field: "object_repr", headerName: "Usuario", width: 250 },
+              ]}
+            ></DataGrid>
+          </div>
         </div>
       </div>
+      
     </body>
   );
 }
