@@ -288,7 +288,11 @@ export default function CribroomDashboard() {
                     columns={columns}
                     autoHeight
                     autoWidth
-                    pageSize={5}
+                    pageSize={10}
+                    pageSizeOptions={[10]}
+                    initialState={{
+                      pagination: { paginationModel: { pageSize: 10 } },
+                    }}
                     /*                     checkboxSelection //with this you can select all columns from the datagrid
                     disableRowSelectionOnClick// */
                   />

@@ -18,11 +18,14 @@ import { GridActionsCellItem } from "@mui/x-data-grid";
 
 import DeleteChildren from "./DeleteChildren/DeleteChildren";
 import EditChildren from "./FormEditChildren/FormEditChildren";
+import { FormAddChildren } from "../FormAddChildren/FormAddChildren";
+import HistoryTimeline from "../CribroomDashboard/ObjectHistory";
 
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, esES } from "@mui/x-data-grid";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import HistoryIcon from "@mui/icons-material/History";
 
 import AuthContext from "../../context/AuthContext";
 import {
@@ -32,7 +35,6 @@ import {
   warningData,
 } from "../../utils/toastMsgs";
 import { ToastContainer } from "react-toastify";
-import { FormAddChildren } from "../FormAddChildren/FormAddChildren";
 
 export default function ChildrenManagement() {
   const [cribroomOptions, setCribroom] = useState([]);
@@ -45,6 +47,7 @@ export default function ChildrenManagement() {
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
   const [selectedChild, setSelectedChild] = useState("");
   const [childName, setChildName] = useState("");
+  const [modalHistoryShow, setModalHistoryShow] = useState(false);
 
   const navigate = useNavigate();
 
@@ -142,6 +145,14 @@ export default function ChildrenManagement() {
     setModalEditShow(true);
     console.log("Edit clicked for row with id:", rowId);
   }
+
+  function handleHistoryClick(rowId, ChildName) {
+    setSelectedCribroom(rowId);
+    setChildName(ChildName);
+    setModalHistoryShow(true);
+    console.log("History clicked for row with id:", rowId);
+  }
+
   const columns = [
     {
       field: "id",
@@ -182,7 +193,7 @@ export default function ChildrenManagement() {
       field: "actions",
       type: "actions",
       headerName: "Acciones",
-      width: 90,
+      width: 110,
       headerAlign: "center",
       align: "center",
       getActions: (params) => [
@@ -195,6 +206,11 @@ export default function ChildrenManagement() {
           icon={<EditIcon />}
           label="Edit"
           onClick={() => handleEditClick(params.row.id)}
+        />,
+        <GridActionsCellItem
+          variant="primary"
+          icon={<HistoryIcon />}
+          onClick={() => handleHistoryClick(params.row.id, params.row.name)}
         />,
       ],
     },
@@ -238,6 +254,18 @@ export default function ChildrenManagement() {
           show={modalCreateShow}
           onHide={() => {
             setModalCreateShow(false);
+            reloadDataFunc();
+          }}
+        />
+      )}
+      {selectedChild && (
+        <HistoryTimeline
+          id={selectedChild}
+          name={childName}
+          show={modalHistoryShow}
+          tokens={authTokens.access}
+          onHide={() => {
+            setModalHistoryShow(false);
             reloadDataFunc();
           }}
         />
@@ -291,11 +319,16 @@ export default function ChildrenManagement() {
 
             <div className="DataGrid-Wrapper">
               <DataGrid
+                localeText={esES.components.MuiDataGrid.defaultProps.localeText}
                 style={{ borderRadius: "15px", margin: "20px", width: "" }}
                 rows={childs}
                 columns={columns}
                 autoHeight
-                pageSize={5}
+                pageSize={10}
+                pageSizeOptions={[10]}
+                initialState={{
+                  pagination: { paginationModel: { pageSize: 10 } },
+                }}
               />
             </div>
           </div>
