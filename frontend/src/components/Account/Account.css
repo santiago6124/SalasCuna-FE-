@@ -55,3 +55,21 @@
 .MainDiv {
   width: 100%;
 }
+
+.linea-alert {
+  height: 4px;
+  border: 2px solid #ef7e0e;
+  width: 3px;
+}
+.contenedor-linea-alert {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.ml-100{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
