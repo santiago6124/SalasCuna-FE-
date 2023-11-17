@@ -83,7 +83,7 @@ export default function ChildrenManagement() {
       let response = await axios.get(
         `/api/cribroom/?no_depth&id=${selectedSalaCuna}`,
         { headers: headers }
-      );
+      ); 
       console.log(response);
       if (response.request.status === 200) {
         setCribroomCapacity(response.data[0].reachMax);
@@ -146,7 +146,7 @@ export default function ChildrenManagement() {
     {
       field: "id",
       headerName: "#",
-      width: 60,
+      width: 80,
       headerAlign: "center",
       align: "center",
     },
@@ -247,7 +247,7 @@ export default function ChildrenManagement() {
           <div className="contenedor-linea-cm">
             <hr className="linea-cm"></hr>
           </div>
-          <div>
+          <div className="div-cm">
             <Row className="mb-3">
               <Col>
                 <div className="container">
@@ -288,9 +288,9 @@ export default function ChildrenManagement() {
               </Col>
             </Row>
 
-            <div className="DataGrid-Wrapper">
+            <div className="DataGrid-Wrapper-cm">
               <DataGrid
-                style={{ borderRadius: "15px", margin: "20px", width: "" }}
+                style={{ borderRadius: "15px", maxWidth: "780px", }}
                 rows={childs}
                 columns={columns}
                 autoHeight

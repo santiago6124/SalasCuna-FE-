@@ -2,10 +2,6 @@
   width: 100%;
   height: 200%;
   padding-top: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
 }
 .contenedor-form-wrapper-cm {
   display: flex;
@@ -26,8 +22,10 @@
 }
 
 .titulo-cm {
-  text-align: center;
+    text-align: center;
+    font-size: 3rem;
 }
+
 
 .contenedor-linea-cm {
   display: flex;
@@ -40,8 +38,15 @@
   margin-top: 1px;
   height: 4px;
   border: 2px solid #ef7e0e;
+  background-color: #ef7e0e;
   width: 1200px;
+  width: 100%; /* Establece el ancho en un 100% para que se ajuste al contenedor */
+  max-width: 1200px; /* Agrega un ancho máximo si lo deseas */
+  margin-left: auto; /* Centra horizontalmente el elemento */
+  margin-right: auto;
 }
+
+
 
 .form-row-cm {
   display: flex;
@@ -82,23 +87,25 @@
   border-radius: 10px;
 }
 .dropdown-container {
-  flex: 1;
   width: 250px;
-  margin-right: 10px;
-  margin: 20px;
+
 }
 
-.DataGrid-Wrapper {
+.div-cm{
+  margin-left: auto;
+  margin-right: auto;
+  width: 780px;
+}
+
+.DataGrid-Wrapper-cm {
   border-radius: 15px;
   overflow: hidden;
 }
 
 .contenedor-boton-new {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+
   margin-right: 20px;
-  margin-top: 50px;
+  margin-top: 35px;
   padding: 8px;
 }
 
@@ -108,4 +115,45 @@
 
 .select-dropdown-down select {
   position: relative;
+}
+
+
+@media (max-width: 1200px) {
+  .linea-cm {
+    max-width: 90%; /* Reducir el ancho máximo para pantallas más pequeñas */
+  }
+}
+
+
+@media (max-width: 768px) {
+  .titulo-cm {
+    font-size: 1.8rem; /* Tamaño de fuente más pequeño para pantallas pequeñas */
+  }
+}
+
+@media (max-width: 600px) {
+  .titulo-cm {
+    font-size: 1.5rem; /* Tamaño de fuente aún más pequeño para pantallas muy pequeñas */
+  }
+}
+
+@media (max-width:850px){
+
+  .div-cm{
+    margin-left: 30px;
+    margin-right: 30px;
+    width: auto;
+  }
+
+  
+}
+
+@media (max-width:536px){
+
+  .contenedor-boton-new {
+    margin-left: 0;
+    margin-top: 35px;
+    padding: 8px;
+  }
+  
 }
