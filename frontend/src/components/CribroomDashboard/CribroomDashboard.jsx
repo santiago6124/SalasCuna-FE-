@@ -12,7 +12,7 @@ import AuthContext from "../../context/AuthContext";
 import { getAllZones, handlePermissions } from "../../api/salasCuna.api";
 
 //DataGrid Import
-import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { DataGrid, GridActionsCellItem, esES } from "@mui/x-data-grid"; //The esES is to translate the datagrid
 
 //UI Icons Imports
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -280,6 +280,9 @@ export default function CribroomDashboard() {
                 </Row>
                 <div className="DataGrid-Wrapper">
                   <DataGrid
+                    localeText={
+                      esES.components.MuiDataGrid.defaultProps.localeText
+                    }
                     style={{ borderRadius: "15px", margin: "20px" }}
                     rows={filteredCribroom}
                     columns={columns}

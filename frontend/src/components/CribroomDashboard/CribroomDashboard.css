@@ -45,12 +45,24 @@
   justify-content: center;
   align-items: center;
 }
+.contenedor-linea-history {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
 
 .linea-cb {
   margin-top: 1px;
   height: 4px;
   border: 2px solid #ef7e0e;
   width: 1200px;
+}
+.linea-history {
+  margin-top: 1px;
+  height: 4px;
+  border: 2px solid #ef7e0e;
+  width: 80%;
 }
 
 .form-row-cb {
