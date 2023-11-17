@@ -6,17 +6,17 @@ import "./ChangePassword.css";
 
 export function ChangePassword() {
     return (
-        <Form className="conteiner-form-changepw">
+        <Form>
             <h1 className="titulo-changepw">Cambiar Contraseña</h1>
 
             <div>
                 <h1 className="linea-conteiner-changepw"></h1>
             </div>
             <Form.Group>
-                <Form.Label className="mb-2">Nombre de Usuario</Form.Label>
+                <Form.Label className="mb-2">Dirección de email</Form.Label>
                 <Form.Control
                     type="text"
-                    placeholder="Ingrese el nombre de usuario"
+                    placeholder="Ingrese su dirección de email"
                     className="mb-3"
                 ></Form.Control>
             </Form.Group>

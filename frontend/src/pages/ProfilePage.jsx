@@ -4,10 +4,11 @@ import Account from "../components/Account/Account";
 import Menu from "../components/Menu/Menu";
 import profileImage from "../media/Profile.jpg";
 import "../components/Account/Account.css";
+import { ChangePassword } from "../components/ChangePassword/ChangePassword";
 
 export default function ProfilePage() {
   const [showAccount, setShowAccount] = useState(true);
-  const [showPassword, setShowPassword] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
 
   function manageAccount() {
     setShowPassword(false);
@@ -44,7 +45,7 @@ export default function ProfilePage() {
                   <Button
                     variant="prueba"
                     className="prueba"
-                    onClick={manageAccount()}
+                    onClick={() => manageAccount()}
                     style={{ borderLeft: "4px solid #ef7e0e" }}
                   >
                     Info de cuenta
@@ -54,7 +55,7 @@ export default function ProfilePage() {
                   <Button
                     variant="prueba"
                     className="prueba"
-                    onClick={managePassword()}
+                    onClick={() => managePassword()}
                     style={{ borderLeft: "4px solid #ef7e0e" }}
                   >
                     Cambiar contraseña
@@ -63,7 +64,12 @@ export default function ProfilePage() {
               </div>
             </Col>
             <Col>
+            {showAccount &&
               <Account />
+            }
+            {showPassword &&
+              <ChangePassword />
+            }
             </Col>
           </Row>
         </Container>
