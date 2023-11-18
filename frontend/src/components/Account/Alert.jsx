@@ -24,6 +24,8 @@ export default function AlertPW(props) {
         onHide={handleClose}
         keyboard={false}
       >
+        <Modal.Header closeButton>
+        </Modal.Header>
         <Row className="ps-4 w-100 align-items-*-center mt-4 mb-2">
           <Modal.Title className="text-center">
             Solicitar cambio de contraseña
