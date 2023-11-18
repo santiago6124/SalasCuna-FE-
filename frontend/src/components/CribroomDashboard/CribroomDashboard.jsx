@@ -183,7 +183,7 @@ export default function CribroomDashboard() {
         </header>
       </div>
       <body>
-        <div style={{ marginTop: 100 }}>
+        <div style={{ marginTop: 100 }}> 
           {selectedCribroom && (
             <>
               <UpdateRoom
@@ -227,25 +227,31 @@ export default function CribroomDashboard() {
                 <div className="contenedor-linea-cb">
                   <hr className="linea-cb"></hr>
                 </div>
-                <Row>
-                  <Col className="search-input">
-                    <SearchBar
-                      keyword={keyword}
-                      onChange={updateKeyword}
-                      placeholder={"Buscar Sala Cuna"}
-                    />
-                  </Col>
-                  <Col className="add-payout-button">
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      startIcon={<AddIcon />}
-                      onClick={() => handleCreateClick()}
-                    >
-                      Agregar Sala Cuna
-                    </Button>
-                  </Col>
-                </Row>
+
+                <div className="conteiner-searchbar-button">
+
+                  <Row>
+                    <Col className="search-input">
+                      <SearchBar
+                        keyword={keyword}
+                        onChange={updateKeyword}
+                        placeholder={"Buscar Sala Cuna"}
+                      />
+                    </Col>
+                    <Col className="add-payout-button">
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        startIcon={<AddIcon />}
+                        onClick={() => handleCreateClick()}
+                      >
+                        Agregar Sala Cuna
+                      </Button>
+                    </Col>
+                  </Row>
+
+                </div>
+
                 <div className="DataGrid-Wrapper">
                   <DataGrid
                     style={{ borderRadius: "15px", margin: "20px" }}

@@ -106,3 +106,32 @@ margin: 10px;
   margin-top: 100px;
   padding: 8px;
 }
+
+
+@media (max-width: 1200px) {
+  .linea-cb {
+    max-width: 90%; /* Reducir el ancho máximo para pantallas más pequeñas */
+  }
+}
+
+@media (max-width: 768px) {
+  .titulo-cb {
+    font-size: 1.8rem; /* Tamaño de fuente más pequeño para pantallas pequeñas */
+  }
+}
+
+@media (max-width: 600px) {
+  .titulo-cb {
+    font-size: 1.5rem; /* Tamaño de fuente aún más pequeño para pantallas muy pequeñas */
+  }
+}
+
+@media (max-width: 960px) {
+
+  .add-payout-button {
+    margin-left: 50px;
+    margin-top: 100px;
+    padding: 8px;
+  }
+  
+}
