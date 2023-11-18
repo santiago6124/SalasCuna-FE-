@@ -35,7 +35,7 @@
   margin-top: 1px;
   height: 4px;
   border: 2px solid #ef7e0e;
-  width: 85%;
+  width: 1200px;
 }
 
 .input-select {
@@ -71,20 +71,7 @@ th {
   text-align: center;
 }
 
-.contenedor-linea-report {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-}
 
-.linea-report {
-  margin-top: 1px;
-  height: 4px;
-  border: 2px solid #ef7e0e;
-  background-color: #ef7e0e;
-  width: 1200px;
-}
 
 .input-select {
   width: 200px;
@@ -146,4 +133,10 @@ th {
   height: 100%;
   z-index: -1; /* Un valor menor que los elementos que estarán por encima */
   /* Agrega aquí el estilo de tu imagen de fondo */
+}
+
+@media (max-width: 1200px) {
+  .linea-note {
+    max-width: 90%; /* Reducir el ancho máximo para pantallas más pequeñas */
+  }
 }

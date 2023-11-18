@@ -95,13 +95,13 @@ function GeneratePadron() {
         <body className="mt-3">
         
         <h1 className="titulo-cb">Generar Padrón</h1>
-        <div className="contenedor-linea-report">
-          <hr className="linea-report"></hr>
+        <div className="contenedor-linea-note">
+          <hr className="linea-note"></hr>
         </div>
         <div className="center-row">
           <Row>
             <Form.Label className="mb-1 ms-3">Seleccionar Zona</Form.Label>
-            <Col className="col-md-5 add-payout-button" > {/* Ajusta el ancho según tus necesidades */}
+            <Col className="col-md-5 " > {/* Ajusta el ancho según tus necesidades */}
               <Form.Select
                 className="mb-1"
                 name="zoneCR"
@@ -123,7 +123,7 @@ function GeneratePadron() {
               <Button
                 variant="primary"
                 onClick={handlePdfClick}
-                className="mt-3 ms-2 add-payout-button"
+                className="mt-3 ms-2"
               >
                 PDF
               </Button>
