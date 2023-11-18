@@ -147,7 +147,7 @@ export default function ChildrenManagement() {
   }
 
   function handleHistoryClick(rowId, ChildName) {
-    setSelectedCribroom(rowId);
+    setSelectedChild(rowId);
     setChildName(ChildName);
     setModalHistoryShow(true);
     console.log("History clicked for row with id:", rowId);
@@ -260,12 +260,13 @@ export default function ChildrenManagement() {
       )}
       {selectedChild && (
         <HistoryTimeline
-          id={selectedChild}
-          name={childName}
-          show={modalHistoryShow}
+          id={selectedCribroom}
           tokens={authTokens.access}
+          type="child"
+          show={modalHistoryShow}
           onHide={() => {
             setModalHistoryShow(false);
+            setSelectedChild(""); // Reset selectedCribroom after closing modal
             reloadDataFunc();
           }}
         />

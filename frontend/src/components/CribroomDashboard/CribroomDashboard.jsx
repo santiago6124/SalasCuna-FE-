@@ -233,9 +233,9 @@ export default function CribroomDashboard() {
           {selectedCribroom && (
             <HistoryTimeline
               id={selectedCribroom}
-              name={cribroomName}
-              show={modalHistoryShow}
               tokens={authTokens.access}
+              type="cribroom"
+              show={modalHistoryShow}
               onHide={() => {
                 setModalHistoryShow(false);
                 setSelectedCribroom(""); // Reset selectedCribroom after closing modal
