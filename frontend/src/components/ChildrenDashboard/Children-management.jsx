@@ -12,8 +12,7 @@ import { useEffect } from "react";
 
 import { useNavigate } from "react-router-dom";
 
-import axios from "axios";
-import { getAllCribroomsWithoutDepth } from "../../api/salasCuna.api";
+import { cribroom_request, child_request } from "../../api/salasCuna.api";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 
 import DeleteChildren from "./DeleteChildren/DeleteChildren";
@@ -67,7 +66,7 @@ export default function ChildrenManagement() {
   async function LoadCribrooms() {
     try {
       toastLoading("Cargando Salas Cunas", customId);
-      let response = await getAllCribroomsWithoutDepth(authTokens.access);
+      let response = await cribroom_request(authTokens.access);
       let data = await response.data;
       setCribroom(data);
       toastUpdateSuccess("Salas cargadas", customId);
@@ -83,13 +82,9 @@ export default function ChildrenManagement() {
 
   async function CRCapacity(selectedSalaCuna) {
     try {
-      let response = await axios.get(
-        `/api/cribroom/?no_depth&id=${selectedSalaCuna}`,
-        { headers: headers }
-      );
-      console.log(response);
+      let response = await cribroom_request(authTokens.access, 'get', 1, {}, selectedSalaCuna);
       if (response.request.status === 200) {
-        setCribroomCapacity(response.data[0].reachMax);
+        setCribroomCapacity(response.data.reachMax);
       } else {
         console.error("Error al obtener la capacidad de la sala cuna");
       }
@@ -111,12 +106,7 @@ export default function ChildrenManagement() {
   async function loadChildren() {
     try {
       toastLoading("Cargando Chicos", customId);
-      console.log("ID de la Cribroom seleccionada:", selectedCribroom);
-      const res = await axios.get(
-        "/api/child/?no_depth&cribroom_id=" + selectedCribroom,
-        { headers: headers }
-      );
-      console.log("API Response:", res.data);
+      const res = await child_request(authTokens.access, 'get', 1, {}, undefined,`&cribroom_id=${selectedCribroom}`);
       const updateChild = await res.data.map((child) => {
         return {
           ...child,
