@@ -84,3 +84,10 @@
   margin-right: 20px;
   padding: 15px;
 }
+
+
+@media (max-width: 1200px) {
+  .linea-report {
+    max-width: 90%; /* Reducir el ancho máximo para pantallas más pequeñas */
+  }
+}
