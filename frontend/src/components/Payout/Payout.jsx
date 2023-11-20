@@ -17,7 +17,7 @@ import Menu from "../Menu/Menu";
 import { AddPayout } from "./AddPayoutModal";
 import { EditPayout } from "./EditPayoutModal";
 import DeletePayout from "./DeletePayoutModal";
-import { getAllZones, handlePermissions } from "../../api/salasCuna.api";
+import { handlePermissions, zone_request, payout_request } from "../../api/salasCuna.api";
 
 export default function Payout() {
   const [zoneOptions, setZoneOptions] = useState([]);
@@ -73,18 +73,12 @@ export default function Payout() {
 
   async function loadZones() {
     try {
-      const response = await getAllZones(authTokens.access); // Include the JWT token in the request headers
+      const response = await zone_request(authTokens.access); // Include the JWT token in the request headers
       let data = await response.data;
       setZoneOptions(data);
       formFields['payout'][2]['options'] = response.data;
 
-      const responsePO = await axios.get("/api/payout/", {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "JWT " + authTokens.access,
-          "Accept": "application/json",
-        },
-      });
+      const responsePO = await payout_request(authTokens.access);
       let payouts = await responsePO.data;
       setPayout(payouts);
     } catch (error) {
@@ -94,13 +88,7 @@ export default function Payout() {
 
   async function loadPayout(zoneId) {
     try {
-      const response = await axios.get(`/api/payout/?zone=${zoneId}`, {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "JWT " + authTokens.access,
-          "Accept": "application/json",
-        },
-      });
+      const response = await payout_request(authTokens.access, 'get', 0, {}, undefined, `&zone_id=${zoneId}`);
       const jsonData = response.data;
       setPayout(jsonData);
     } catch (error) {
