@@ -9,6 +9,7 @@ import Menu from "../Menu/Menu";
 import { getAllZones, handlePermissions } from "../../api/salasCuna.api";
 import AuthContext from "../../context/AuthContext";
 
+import DropdownCribroomList from "../DropdownCribroomList/DropdownCribroomList";
 
 function GeneratePadron() {
   const [zoneOptions, setZoneOptions] = useState([]);
@@ -41,7 +42,9 @@ function GeneratePadron() {
 
   async function loadCribrooms(zoneId) {
     try {
-      const response = await axios.get(`/api/cribroom/?zone=${zoneId}`, { headers });
+      // const response = await axios.get(`/api/cribroom/?zone=${zoneId}`, { headers });
+      const response = {};
+
       const jsonData = response.data;
       setCribrooms(jsonData);
     } catch (error) {
@@ -52,7 +55,9 @@ function GeneratePadron() {
 
   async function loadZones() {
     try {
-      const response = await getAllZones(authTokens.access);
+      // const response = await getAllZones(authTokens.access);
+      const response = {};
+
       const jsonData = response.data;
       setZoneOptions(jsonData);
     } catch (error) {
@@ -84,70 +89,90 @@ function GeneratePadron() {
 
   return (
     <>
-    <div>
+      <div>
         <header className="header-padron" style={{ marginTop: 100 }}>
           <Menu />
         </header>
-    </div>
-    <div > 
+      </div>
+      <div>
         <body className="mt-3">
-        
-        <h1 className="titulo-cb">Generar Padron</h1>
-        <div className="contenedor-linea-report">
-          <hr className="linea-report"></hr>
-        </div>
-        <Row>
-          <Form.Label className="mb-1 ms-3">Seleccionar Zona</Form.Label>
-          <Col className="col-md-3 add-payout-button ">
-            <Form.Select
-              className="mb-1"
-              name="zoneCR"
-              as="select"
-              value={selectedZone}
-              onChange={handleSelectChange}
-            >
-              <option value="" disabled>
-                Seleccionar Zona
-              </option>
-              {zoneOptions.map((zone) => (
-                <option key={zone.id} value={zone.id}>
-                  {zone.name}
-                </option>
-              ))}
-            </Form.Select>
-          </Col>
-          <Col className="col-sm-1">
-            <Button
-              variant="primary"
-              onClick={handlePdfClick}
-              className="mt-3 ms-2 add-payout-button"
-            >
-              PDF
-            </Button>
-          </Col>
-          <Col className="col-sm-1">
-            <Button
-              variant="success"
-              onClick={handleExcelClick}
-              className="mt-3 ms-2 add-payout-button"
-            >
-              EXCEL
-            </Button>
-          </Col>
-        </Row>
-        <div className="DataGrid-Wrapper-report">
-          <DataGrid
-            style={{ borderRadius: "15px", margin: "20px" }}
-            rows={cribrooms}
-            columns={columns}
-            columnBuffer={2}
-            columnThreshold={2} />
-        </div>
-      </body>
-    </div>
-      
+          <h1 className="titulo-cb">Generar Padron</h1>
+          <div className="contenedor-linea-report">
+            <hr className="linea-report"></hr>
+          </div>
+          {/* Use the DropdownCribroomList component */}
+          <DropdownCribroomList authTokens={authTokens.access} />
+        </body>
+      </div>
     </>
   );
+
+  // return (
+  //   <>
+  //   <div>
+  //       <header className="header-padron" style={{ marginTop: 100 }}>
+  //         <Menu />
+  //       </header>
+  //   </div>
+  //   <div > 
+  //       <body className="mt-3">
+        
+  //       <h1 className="titulo-cb">Generar Padron</h1>
+  //       <div className="contenedor-linea-report">
+  //         <hr className="linea-report"></hr>
+  //       </div>
+  //       <Row>
+  //         <Form.Label className="mb-1 ms-3">Seleccionar Zona</Form.Label>
+  //         <Col className="col-md-3 add-payout-button ">
+  //           <Form.Select
+  //             className="mb-1"
+  //             name="zoneCR"
+  //             as="select"
+  //             value={selectedZone}
+  //             onChange={handleSelectChange}
+  //           >
+  //             <option value="" disabled>
+  //               Seleccionar Zona
+  //             </option>
+  //             {zoneOptions.map((zone) => (
+  //               <option key={zone.id} value={zone.id}>
+  //                 {zone.name}
+  //               </option>
+  //             ))}
+  //           </Form.Select>
+  //         </Col>
+  //         <Col className="col-sm-1">
+  //           <Button
+  //             variant="primary"
+  //             onClick={handlePdfClick}
+  //             className="mt-3 ms-2 add-payout-button"
+  //           >
+  //             PDF
+  //           </Button>
+  //         </Col>
+  //         <Col className="col-sm-1">
+  //           <Button
+  //             variant="success"
+  //             onClick={handleExcelClick}
+  //             className="mt-3 ms-2 add-payout-button"
+  //           >
+  //             EXCEL
+  //           </Button>
+  //         </Col>
+  //       </Row>
+  //       <div className="DataGrid-Wrapper-report">
+  //         <DataGrid
+  //           style={{ borderRadius: "15px", margin: "20px" }}
+  //           rows={cribrooms}
+  //           columns={columns}
+  //           columnBuffer={2}
+  //           columnThreshold={2} />
+  //       </div>
+  //     </body>
+  //   </div>
+      
+  //   </>
+  // );
 }
 
 export default GeneratePadron;
