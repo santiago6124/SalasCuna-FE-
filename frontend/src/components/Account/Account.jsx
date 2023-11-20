@@ -12,7 +12,6 @@ import { toast } from 'react-toastify';
 
 
 export default function ProfilePage() {
-
     const [datos, setDatos] = useState();
     let { user, authTokens } = useContext(AuthContext);
     const customId = useRef(null);
