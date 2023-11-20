@@ -1,24 +1,34 @@
-import React,{useState} from "react";
-import {Row, Col, Container, Button} from "react-bootstrap";
+import React, { useState } from "react";
+import { Row, Col, Container, Button } from "react-bootstrap";
 import Account from "../components/Account/Account";
 import Menu from "../components/Menu/Menu";
 import profileImage from "../media/Profile.jpg";
 import "../components/Account/Account.css";
+import Modal from "react-bootstrap/Modal";
+import Alert from "@mui/material/Alert";
 import { ChangePassword } from "../components/ChangePassword/ChangePassword";
 
 export default function ProfilePage() {
   const [showAccount, setShowAccount] = useState(true);
+  const [showPasswordRequest, setShowPasswordResquest] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  const handleClose = () => setShowPasswordResquest(false);
 
   function manageAccount() {
     setShowPassword(false);
     setShowAccount(true);
   };
 
-  function managePassword(){
+  function managePassword() {
     setShowAccount(false);
+    setShowPasswordResquest(false);
     setShowPassword(true);
   };
+
+  function managePasswordRequest() {
+    setShowPasswordResquest(true);
+  }
 
   return (
     <div className="App">
@@ -55,7 +65,7 @@ export default function ProfilePage() {
                   <Button
                     variant="prueba"
                     className="prueba"
-                    onClick={() => managePassword()}
+                    onClick={() => managePasswordRequest()}
                     style={{ borderLeft: "4px solid #ef7e0e" }}
                   >
                     Cambiar contraseña
@@ -64,12 +74,49 @@ export default function ProfilePage() {
               </div>
             </Col>
             <Col>
-            {showAccount &&
-              <Account />
-            }
-            {showPassword &&
-              <ChangePassword />
-            }
+              {showAccount &&
+                <Account />
+              }
+              {showPasswordRequest &&
+                <Modal
+                  size="md"
+                  aria-labelledby="contained-modal-title-vcenter"
+                  centered
+                  show={showPasswordRequest}
+                  onHide={handleClose}
+                  keyboard={false}>
+                  <Modal.Header closeButton>
+                  </Modal.Header>
+                  <Row className="ps-4 w-100 align-items-*-center mt-4 mb-2">
+                    <Modal.Title className="text-center">
+                      Solicitar cambio de contraseña
+                    </Modal.Title>
+                  </Row>
+                  <Row className="contenedor-linea-alert ps-4 w-100">
+                    <hr className="linea-alert"></hr>
+                  </Row>
+                  <Modal.Body>
+                    <Row className="p-2 justify-content-center">
+                      <Alert severity="info">
+                        Desea solicitar un cambio de contraseña?
+                      </Alert>
+                    </Row>
+                    <Row className="ms-2 mt-3 ">
+                      <Col className="p-2 ml-100">
+                        <Button variant="primary" className="ms-3 " onClick={() => managePassword()}>
+                          Si
+                        </Button>
+                        <Button variant="danger" className="ms-3 ">
+                          No
+                        </Button>
+                      </Col>
+                    </Row>
+                  </Modal.Body>
+                </Modal>
+              }
+              {showPassword &&
+                <ChangePassword />
+              }
             </Col>
           </Row>
         </Container>
