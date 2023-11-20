@@ -11,7 +11,8 @@ import axios from "axios"; // Import axios
 import { useState, useEffect } from "react";
 import DownloadPDF from "./DownloadPDF/DownloadPDF";
 import Menu from "../Menu/Menu";
-import { getAllCribroomsWithoutDepth, getAllZones, handlePermissions } from "../../api/salasCuna.api";
+import { handlePermissions, cribroom_request, zone_request, technicalReport_request } from "../../api/salasCuna.api";
+
 import { deletingData } from '../../utils/toastMsgs';
 
 import AuthContext from "../../context/AuthContext"; // Import AuthContext
@@ -51,16 +52,14 @@ export default function TechnicalReport() {
 
     // Iterate through each selected cribroom and send a GET request
     selectedCribrooms.forEach((cribroom) => {
-      const url = `/api/technical-report/${cribroom.id}/${startDate}/${endDate}/`;
 
-      axios.get(url, { headers })
+      technicalReport_request(authTokens.access, 'get', cribroom.id, startDate, endDate)
         .then((response) => {
           if (!response.data) {
             throw new Error("Network response was not ok");
           }
 
           const data = response.data;
-
 
           if (data && data.pays) {
             console.log(
@@ -77,7 +76,7 @@ export default function TechnicalReport() {
               cribroom.street,
               cribroom.house_number,
               cribroom.locality.locality,
-              cribroom.department.department,
+              cribroom.department,
               data.pays.totalSumStr,
               data.pays.totalSumInitMonth,
               data.pays.totalSumInitYear,
@@ -116,7 +115,7 @@ export default function TechnicalReport() {
 
   async function defaultCribrooms() {
     try {
-      const response = await getAllCribroomsWithoutDepth(authTokens.access); // Pass JWT token
+      const response = await cribroom_request(authTokens.access); // Pass JWT token
       const jsonData = response.data;
       setCribrooms(jsonData);
     } catch (error) {
@@ -127,7 +126,7 @@ export default function TechnicalReport() {
 
   async function loadCribrooms(zoneId) {
     try {
-      const response = await axios.get(`/api/cribroom/?zone=${zoneId}`, { headers }); // Pass headers
+      const response = await cribroom_request(authTokens.access, 'get', 0, {}, undefined, `&locality__department__zone__id=${zoneId}`);
       const data = response.data;
       if (data.length == 0) {
         alert("No hay Salas Cunas en la zona seleccionada");
@@ -140,7 +139,7 @@ export default function TechnicalReport() {
 
   async function loadZones() {
     try {
-      const response = await getAllZones(authTokens.access); // Pass JWT token
+      const response = await zone_request(authTokens.access); // Pass JWT token
       const jsonData = response.data;
       setZoneOptions(jsonData);
     } catch (error) {
