@@ -27,7 +27,9 @@ export default function ProfilePage() {
   };
 
   function managePasswordRequest() {
-    setShowPasswordResquest(true);
+    if (!showPassword) {
+      setShowPasswordResquest(true);
+    }
   }
 
   return (
@@ -106,7 +108,7 @@ export default function ProfilePage() {
                         <Button variant="primary" className="ms-3 " onClick={() => managePassword()}>
                           Si
                         </Button>
-                        <Button variant="danger" className="ms-3 ">
+                        <Button variant="danger" className="ms-3 " onClick={() => handleClose()}>
                           No
                         </Button>
                       </Col>
