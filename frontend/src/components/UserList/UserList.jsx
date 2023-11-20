@@ -16,7 +16,7 @@ import Row from "react-bootstrap/Row/";
 //React  and React Functions Import
 import React, { useContext, useEffect, useRef, useState } from "react";
 import AuthContext from "../../context/AuthContext";
-import { getAllGroup, getAllUsers, handlePermissions } from "../../api/salasCuna.api";
+import { getAllGroup, handlePermissions, user_request } from "../../api/salasCuna.api";
 
 //DataGrid Import
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
@@ -141,7 +141,7 @@ export default function UserList() {
   async function listUsers() {
     try {
       toastLoading("Cargando Usuarios", customId);
-      const responseUsers = await getAllUsers(authTokens.access);
+      const responseUsers = await user_request(authTokens.access);
       console.log(responseUsers);
       setUsers(responseUsers.data);
       const userData = responseUsers.data;
