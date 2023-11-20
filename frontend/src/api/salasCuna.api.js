@@ -81,7 +81,7 @@ export function technicalReport_request(tokens, method='get', pk, initial_date, 
   const headers = { "Content-Type": "application/json", "Authorization": "JWT " + tokens, "Accept": "application/json"}
 
   return axios.request({
-    'url': `/api/cribroomUser/${pk}/${initial_date}/${end_date}/`, 
+    'url': `/api/technical-report/${pk}/${initial_date}/${end_date}/`, 
     'method': method, 
     'headers': headers,
   });
