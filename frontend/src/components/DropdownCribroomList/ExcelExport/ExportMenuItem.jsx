@@ -30,36 +30,36 @@ function getExcelData(apiRef) {
 
 async function handleExport(apiRef, selectedCribroomId, authTokens) {
 
-  try {
+  // try {
     
-    var cribroomResponse = await cribroom_request(authTokens.authTokens, 'get', 0, {}, selectedCribroomId);
+  //   var cribroomResponse = await cribroom_request(authTokens.authTokens, 'get', 0, {}, selectedCribroomId);
 
-    console.log('cribroomResponse: ', cribroomResponse);
+  //   console.log('cribroomResponse: ', cribroomResponse);
 
-    cribroomResponse = cribroomResponse['data'];
+  //   cribroomResponse = cribroomResponse['data'];
 
-  } catch (error) {
-    console.error("An error occurred (cribroom request):", error);
-  }
+  // } catch (error) {
+  //   console.error("An error occurred (cribroom request):", error);
+  // }
 
-  try {
+  // try {
   
-    var childResponse = await child_request(authTokens.authTokens, 'get', 0, {}, selectedCribroomId, `&cribroom_id=${selectedCribroomId}`);
-    console.log('childResponse: ', childResponse);
+  //   var childResponse = await child_request(authTokens.authTokens, 'get', 0, {}, selectedCribroomId, `&cribroom_id=${selectedCribroomId}`);
+  //   console.log('childResponse: ', childResponse);
 
-    childResponse = childResponse['data'];
+  //   childResponse = childResponse['data'];
 
-  } catch (error) {
-    console.error("An error occurred (child request):", error);
-  }
+  // } catch (error) {
+  //   console.error("An error occurred (child request):", error);
+  // }
 
   var rowValuesDict = {
-    '1': ['Sala Cuna:', cribroomResponse['code']],
-    '2': [cribroomResponse['name']],
+    // '1': ['Sala Cuna:', cribroomResponse['code']],
+    // '2': [cribroomResponse['name']],
     '3': ['Mes', 'generate'],
     '4': ['Año', 'generate', '', '', '', '', '', '', '', '', '', '', '', '', '', 'CANTIDAD DE NIÑOS', 'amount'],
     '5': ['Provincia de Córdoba'],
-    '6': [cribroomResponse['entity']],
+    // '6': [cribroomResponse['entity']],
     '7': [''],
     '8': [''],
     '9':[
@@ -93,32 +93,7 @@ async function handleExport(apiRef, selectedCribroomId, authTokens) {
     }
     return mRow;
   });
-
-  let count = 0;
-  const childRows = childResponse.map((child) => {
-    count+=1;
-
-    rowValuesDict[Object.keys(rowValuesDict).length+1] = [
-      count,
-      cribroomResponse['code'],
-      child['last_name'],
-      child['first_name'],
-      child['dni'],
-      child['birthdate'],
-      'child["age"]',
-      child['gender']['gender'],
-      child['street'],
-      child['house_number'],
-      child['neighborhood']['neighborhood'],
-      child['locality']['locality'],
-      child['guardian']['phone_Feature']['feature'],
-      child['guardian']['phone_number'],
-      child['guardian']['first_name'],
-      child['guardian']['dni'],
-      child['shift']['name'],
-      child['is_active'] == true ? 'Activo' : 'Baja',
-    ];
-  });
+  console.log('rows: ', rows);
 
   // Create a new workbook
   const workbook = XLSX.utils.book_new();
