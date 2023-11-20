@@ -8,7 +8,7 @@ import "./CribroomDashboard.css";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 
-import { getAllZones, handlePermissions } from "../../api/salasCuna.api";
+import { handlePermissions, zone_request, cribroom_request } from "../../api/salasCuna.api";
 
 //DataGrid Import
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
@@ -59,35 +59,42 @@ export default function CribroomDashboard() {
 
   async function listCribroom() {
     try {
-      const promesas = await Promise.all([
-        getAllZones(authTokens.access),
-        axios.get("/api/cribroomDir/", {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "JWT " + authTokens.access,
-          },
-        }),
-      ]);
-      const [zonesData, cribroomData] = [promesas[0].data, promesas[1].data];
-      const updatedCribrooms = await cribroomData.map((cribroom) => {
-        const matchingZone = zonesData.find(
-          (zone) => zone.id === cribroom.zone.id
+      // Step 1: Fetch zones
+      const zonesResponse = await zone_request(authTokens.access);
+      const zonesData = zonesResponse.data;
+  
+      // Step 2: Fetch cribrooms for each zone
+      const cribroomsPromises = zonesData.map(async (zone) => {
+        const cribroomResponse = await cribroom_request(
+          authTokens.access,
+          'get',
+          0,
+          {},
+          0,
+          `&locality__department__zone__id=${zone.id}`
         );
-        if (matchingZone) {
-          return {
-            ...cribroom,
-            zone: matchingZone.name,
-            is_active: cribroom.is_active ? "Activo" : "Inactivo",
-          };
-        } else {
-          return {
-            ...cribroom,
-            is_active: cribroom.is_active ? "Activo" : "Inactivo",
-          };
-        }
+        return cribroomResponse.data;
       });
+  
+      // Step 3: Wait for all cribroom requests to complete
+      const cribroomsData = await Promise.all(cribroomsPromises);
+  
+      // Step 4: Combine zone information with cribroom data
+      const updatedCribrooms = cribroomsData.flatMap((cribroomData, index) => {
+        const matchingZone = zonesData[index];
+  
+        return cribroomData.map((cribroom) => ({
+          ...cribroom,
+          zone: matchingZone.name,
+          is_active: cribroom.is_active ? "Activo" : "Inactivo",
+        }));
+      });
+  
+      // Step 5: Update component state
       setCribrooms(updatedCribrooms);
       setFilteredCribroom(updatedCribrooms);
+  
+      toastUpdateSuccess("Salas cargadas", customId);
     } catch (error) {
       console.log("Error fetching SalasCunas:", error);
       handlePermissions(error.response.status);
