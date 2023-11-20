@@ -5,7 +5,6 @@ import "./App.css";
 import PrivateRoute from "./utils/PrivateRoute";
 import { PublicRoute } from "./utils/PublicRoute";
 
-import Activate from "./containers/Activate";
 import Home from "./containers/Home";
 import ResetPassword from "./containers/ResetPassword";
 import ResetPasswordConfirm from "./containers/ResetPasswordConfirm";
@@ -23,7 +22,6 @@ import ProfilePage from "./pages/ProfilePage";
 import { FilesToDb } from "../src/components/FilesToDb/FilesToDb";
 import SingUpPage from "./pages/SingUpPage/SingUpPage";
 import MontoPage from "./pages/MontoPage";
-import AlertPW from "./components/Account/Alert";
 
 function App() {
   return (
@@ -52,7 +50,6 @@ function App() {
               path="/activate/:uid/:token"
               element={<ActivateAccountPage />}
             />
-
             <Route
               path="/generate-padron"
               element={<PrivateRoute children={<GeneratePadron />} />}
@@ -96,10 +93,6 @@ function App() {
             <Route
               path="home-page"
               element={<PrivateRoute children={<Dashboard />} />}
-            />
-            <Route
-              path="asd"
-              element={<PrivateRoute children={<AlertPW />} />}
             />
           </Routes>
         </AuthProvider>
