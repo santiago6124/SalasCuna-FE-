@@ -7,6 +7,8 @@ import Form from "react-bootstrap/Form/";
 import { Button } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
 
+import { generatePayload, renderformFieldsLocal  } from "../formUtils/formUtils";
+
 import {
   cribroom_request,
   gender_request,
@@ -62,70 +64,12 @@ export function FormAddChildren(props) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function renderformFieldsLocal(fields, prefix) {
-    return Object.keys(fields).map((fieldName) => {
-      const field = fields[fieldName];
 
-      return (
-        <Form.Group className="mb-3" key={`${prefix}_${field.name}`}>
-          <Form.Label className="mb-1">{field.label}</Form.Label>
-          {field.type === "select" ? (
-            <select
-              name={`${prefix}_${field.name}`}
-              value={formData[field.name]} // Cambiado aquí
-              onChange={handleInputChange}
-              className="form-control"
-              required={field.required}
-            >
-              {field.options.map((option) => (
-                <option key={option.id} value={option.id}>
-                  {option[Object.keys(option)[1]]}
-                </option>
-              ))}
-            </select>
-          ) : field.type === "checkbox" ? (
-            <Form.Check
-              type="checkbox"
-              label={`${prefix}_${field.label}`}
-              name={`${prefix}_${field.name}`}
-              checked={formData[`${prefix}_${field.name}`]}
-              onChange={(e) => setFormData({
-                ...formData,
-                [`${prefix}_${field.name}`]: e.target.checked,
-              })}
-              required={field.required} />
-          ) : (
-            <Form.Control
-              type={field.type}
-              placeholder={`Ingrese ${field.label.toLowerCase()}`}
-              name={`${prefix}_${field.name}`}
-              value={formData[`${prefix}_${field.name}`]}
-              onChange={handleInputChange}
-              required={field.required} />
-          )}
-        </Form.Group>
-      );
-    });
-  }
 
   async function handleSubmit(event) {
     event.preventDefault();
 
-    const payload = {};
-    // Iterar sobre las claves de formData para construir el payload
-    Object.keys(formData).forEach((key) => {
-      // Dividir la clave usando '_' para obtener el prefijo y el nombre del campo
-      const [prefix, ...rest] = key.split('_');
-      const fieldName = rest.join('_');  // Reconstruir el nombre del campo
-
-      // Verificar si el prefijo existe en el payload, si no, inicializarlo como un objeto vacío
-      if (!payload[prefix]) {
-        payload[prefix] = {};
-      }
-
-      // Asignar el valor al campo correspondiente en el payload
-      payload[prefix][fieldName] = formData[key];
-    });
+    const payload = generatePayload(formData);
     console.log('payload: ', payload);
 
     try {
@@ -223,19 +167,19 @@ export function FormAddChildren(props) {
               <hr className="linea" />
             </div>
 
-            {renderformFieldsLocal(formFieldsLocal.Child, 'Child')}
+            {renderformFieldsLocal(formFieldsLocal.Child, 'Child', formData, setFormData, handleInputChange)}
 
             <div className="toggle-button" onClick={() => toggleTutor()}>
               {isTutorVisible ? "Ocultar Añadir tutor" : "Mostrar Añadir tutor"}
             </div>
 
-            {isTutorVisible && renderformFieldsLocal(formFieldsLocal.Guardian, 'Guardian')}
+            {isTutorVisible && renderformFieldsLocal(formFieldsLocal.Guardian, 'Guardian', formData, setFormData, handleInputChange)}
 
             <div className="toggle-button" onClick={() => toggleDireccion()}>
               {isDireccionVisible ? "Ocultar Direccion" : "Mostrar Direccion"}
             </div>
 
-            {isDireccionVisible && renderformFieldsLocal(formFieldsLocal.Phone, 'Phone')}
+            {isDireccionVisible && renderformFieldsLocal(formFieldsLocal.Phone, 'Phone', formData, setFormData, handleInputChange)}
 
             <div className="contenedor-boton mb-1 ">
               <Button as="input" type="submit" value="Cargar" size="lg" />
