@@ -102,14 +102,14 @@ export default function ProfilePage() {
           <Row>
             <Col md={3}>
               <div className="MainDiv">
-                <div className="image-container justify-content-center">
+                <div className="image-container justify-content-center d-flex">
                   <img
                     src={profileImage}
                     alt="Perfil"
                     className="circle-image"
                   />
                 </div>
-                <div className="mt-2">
+                <div className="mt-2 justify-content-center d-flex">
                   <h3>Hola {userData.first_name}!</h3>
                 </div>
                 <div className="contenedor-linea-sm">
