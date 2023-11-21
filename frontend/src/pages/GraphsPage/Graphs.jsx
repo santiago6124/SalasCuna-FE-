@@ -4,6 +4,8 @@ import "./Graphs.css";
 import Slider from "react-styled-carousel";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { Form } from "react-bootstrap";
+
 
 import React, { useContext, useEffect, useState } from "react";
 
@@ -995,8 +997,41 @@ const valueFormatter = (value) => `${value}mm`;
       <div className="contenedor-linea-home">
         <hr className="linea-home"></hr>
       </div>
-      <h3 className="subtitulo">Elegir las variables:</h3>
-     
+      <div className="row">
+  <div className="col-md-6 mb-3">
+    <h3 className="subtitulo">Elegir la cantidad de variables:</h3>
+    <Form.Select aria-label="Cantidad de Variables" className="mt-1" style={{ width: '200px',  marginLeft: "150px",
+  padding: "5px" }}>
+      <option>Selecciona la cantidad</option>
+      <option value="1">Una</option>
+      <option value="2">Dos</option>
+      <option value="3">Tres</option>
+    </Form.Select>
+  </div>
+
+  <div className="col-md-6 mb-3">
+    <h3 className="subtitulo">Elegir las variables:</h3>
+    <Form.Select aria-label="Primera Variable" className="mt-1"  style={{ width: '200px',  marginLeft: "150px",
+  padding: "5px" }}>
+      <option>Selecciona la primera variable</option>
+      <option value="1">Variable 1</option>
+      <option value="2">Variable 2</option>
+      <option value="3">Variable 3</option>
+    </Form.Select>
+
+
+    <Form.Select aria-label="Segunda Variable" style={{ width: '200px',  marginLeft: "150px",
+  padding: "5px" }}>
+      <h3 className="subtitulo">Otra sección:</h3>
+      <option>Selecciona la segunda variable</option>
+      <option value="1">Variable 1</option>
+      <option value="2">Variable 2</option>
+      <option value="3">Variable 3</option>
+    </Form.Select>
+  </div>
+  </div>
+
+
       <div className="contenedor-linea-home">
         <hr className="linea-home"></hr>
       </div>
