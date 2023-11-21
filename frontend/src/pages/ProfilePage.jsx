@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Row, Col, Container, Button } from "react-bootstrap";
 import Account from "../components/Account/Account";
 import Menu from "../components/Menu/Menu";
@@ -25,6 +25,14 @@ export default function ProfilePage() {
   const [EditAccountIsVisible, setEditAccountIsVisible] = useState(false);
 
   const [userData, setUserData] = useState("");
+
+  useEffect(() => {
+    getUser()
+      .then((data) => {
+        setUserData(data);
+      })
+      .finally(console.log(userData));
+  }, []);
 
   function manageAccount() {
     setShowPassword(false);
@@ -67,11 +75,6 @@ export default function ProfilePage() {
   }
 
   async function resetPasswordRequest() {
-    getUser()
-      .then((data) => {
-        setUserData(data);
-      })
-      .finally(console.log(userData));
     const headers = {
       "Content-Type": "application/json",
       "X-CSRFToken": Cookies.get("csrftoken"),
@@ -107,7 +110,7 @@ export default function ProfilePage() {
                   />
                 </div>
                 <div className="mt-2">
-                  <h3>Hola {}!</h3>
+                  <h3>Hola {userData.first_name}!</h3>
                 </div>
                 <div className="contenedor-linea-sm">
                   <hr className="linea-sm"></hr>
@@ -115,7 +118,7 @@ export default function ProfilePage() {
                 <Col className="mt-1 mb-2">
                   <Button
                     variant="prueba"
-                    className="prueba"
+                    className={`prueba ${showAccount ? "active" : ""}`}
                     onClick={() => manageAccount()}
                     style={{ borderLeft: "4px solid #ef7e0e" }}
                   >
@@ -125,7 +128,7 @@ export default function ProfilePage() {
                 <Col className="mt-1 mb-2">
                   <Button
                     variant="prueba"
-                    className="prueba"
+                    className={`prueba ${EditAccountIsVisible ? "active" : ""}`}
                     onClick={() => toggleEditAccount()}
                     style={{ borderLeft: "4px solid #ef7e0e" }}
                   >
@@ -175,7 +178,7 @@ export default function ProfilePage() {
                         <Button
                           variant="primary"
                           className="ms-3 "
-                          onClick={() => resetPasswordRequest()}
+                          onClick={() => resetPasswordRequest().then(handleClose())}
                         >
                           Si
                         </Button>

@@ -100,7 +100,6 @@
   align-items: center;
 }
 
-.prueba:focus {
-  background-color: #ef7e0e; /* Change this to the desired background color */
-  color: #fff;
+.prueba:active {
+  background-color: #ef7e0e; 
 }
