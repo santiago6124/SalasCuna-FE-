@@ -16,7 +16,6 @@ import { cribroom_request, child_request } from "../../api/salasCuna.api";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 
 import DeleteChildren from "./DeleteChildren/DeleteChildren";
-import EditChildren from "./FormEditChildren/FormEditChildren";
 
 import { DataGrid } from "@mui/x-data-grid";
 
@@ -31,7 +30,8 @@ import {
   warningData,
 } from "../../utils/toastMsgs";
 import { ToastContainer } from "react-toastify";
-import { FormAddChildren } from "../FormAddChildren/FormAddChildren";
+
+import { ChildForm } from "../ChildForm/ChildForm";
 
 export default function ChildrenManagement() {
   const [cribroomOptions, setCribroom] = useState([]);
@@ -44,6 +44,8 @@ export default function ChildrenManagement() {
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
   const [selectedChild, setSelectedChild] = useState("");
   const [childName, setChildName] = useState("");
+
+  const [selectedChildData, setSelectedChildData] = useState(null);
 
   const navigate = useNavigate();
 
@@ -130,8 +132,15 @@ export default function ChildrenManagement() {
   async function handleEditClick(rowId) {
     setSelectedChild(rowId);
     setModalEditShow(true);
+    const selectedChildData = getChildDataById(rowId); // Replace this with your function to get child data
+    setSelectedChildData(selectedChildData);
     console.log("Edit clicked for row with id:", rowId);
   }
+  function getChildDataById(childId) {
+    // Replace this with your logic to get child data by ID from the 'childs' array
+    return childs.find((child) => child.id === childId);
+  }
+  
   const columns = [
     {
       field: "id",
@@ -198,13 +207,14 @@ export default function ChildrenManagement() {
       <ToastContainer />
       {selectedChild && (
         <>
-          <EditChildren
-            id={selectedChild}
+          <ChildForm
+            data={selectedChildData}
             show={modalEditShow}
             tokens={authTokens.access}
             onHide={() => {
               setModalEditShow(false);
-              setSelectedChild(""); // Reset selectedCribroom after closing modal
+              setSelectedChild(""); // Reset selectedChild after closing modal
+              setSelectedChildData(null); // Reset selectedChildData after closing modal
               reloadDataFunc();
             }}
           />
@@ -224,7 +234,7 @@ export default function ChildrenManagement() {
         />
       )}
       {modalCreateShow && (
-        <FormAddChildren
+        <ChildForm
           show={modalCreateShow}
           onHide={() => {
             setModalCreateShow(false);
