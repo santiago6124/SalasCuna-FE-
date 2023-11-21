@@ -37,24 +37,26 @@ export const formFields = {
         is_active: { name: "is_active", label: "is_active", type: "checkbox", required: true },
     },
     Company: ["id", "title", "phone"],
-    Cribroom: [
-      "id",
-      "name",
-      "entity",
-      "CUIT",
-      "code",
-      "max_capacity",
-      "is_active",
-      "street",
-      "house_number",
-      "geolocation",
-      "locality",
-      "shift",
-      "co_management",
-      "neighborhood",
-      "sectional",
-    ],
-    CribroomUser: ["id", "cribroom", "user"],
+    Cribroom:{
+        name: { name: "name", label: "Nombre", type: "text", required: true },
+        entity: { name: "entity", label: "Entidad", type: "text", required: true },
+        CUIT: { name: "CUIT", label: "CUIT", type: "number", required: true },
+        code: { name: "code", label: "Código", type: "text", required: true },
+        max_capacity: { name: "max_capacity", label: "Capacidad Máxima", type: "number", required: true },
+        is_active: { name: "is_active", label: "Activo", type: "checkbox", required: true },
+        street: { name: "street", label: "Calle", type: "text", required: true },
+        house_number: { name: "house_number", label: "Número", type: "number", required: true },
+        geolocation: { name: "geolocation", label: "Geolocalización", type: "text", required: false },
+        locality: { name: "locality", label: "Localidad", type: "select", options: [], required: true }, // Agrega opciones dinámicamente
+        shift: { name: "shift", label: "Turno", type: "select", options: [], required: true }, // Agrega opciones dinámicamente
+        co_management: { name: "co_management", label: "Co-Gestión", type: "select", options: [], required: true }, // Agrega opciones dinámicamente
+        neighborhood: { name: "neighborhood", label: "Barrio", type: "select", options: [], required: false }, // Agrega opciones dinámicamente
+        sectional: { name: "sectional", label: "Seccional", type: "select", options: [], required: false }, // Agrega opciones dinámicamente
+    },
+    CribroomUser: {
+        cribroom: { name: "cribroom", label: "Sala Cuna", type: "select", options: [], required: true }, // Agrega opciones dinámicamente
+        user: { name: "user", label: "Usuario", type: "select", options: [], required: true }, // Agrega opciones dinámicamente
+    },
     Desinfection: ["id", "date", "description", "cribroom", "company"],
     Form: ["id", "generation_date", "cribroom_user"],
     Gender: ["id", "gender"],
@@ -72,7 +74,11 @@ export const formFields = {
         phone_number: { name: "phone_number", label: "Phone Number", type: "number", required: true },
         phone_Feature: { name: "phone_Feature", label: "Phone Feature", type: "select", options: [], required: true }, // Add options dynamically
     },
-    Payout: ["id", "amount", "date", "zone"],
+    Payout: {
+        amount: { name: "amount", label: "Amount", type: "number", required: true },
+        date: { name: "date", label: "Date", type: "date", required: true },
+        zone: { name: "zone", label: "Zone", type: "select", options: [], required: true }, // Add options dynamically
+    },
     Shift: ["id", "name"],
     Zone: ["id", "name"],
 };
