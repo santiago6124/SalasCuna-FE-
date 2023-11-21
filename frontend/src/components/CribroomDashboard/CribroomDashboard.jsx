@@ -5,6 +5,7 @@ import DeleteRoom from "../CribroomDashboard/DeleteRoom/DeleteRoom";
 
 import HistoryTimeline from "./ObjectHistory";
 
+
 import "./CribroomDashboard.css";
 
 import React, { useContext, useEffect, useRef, useState } from "react";
@@ -98,6 +99,20 @@ export default function CribroomDashboard() {
         }));
       });
   
+      // // Step 3: Wait for all cribroom requests to complete
+      // const cribroomsData = await Promise.all(cribroomsPromises);
+  
+      // // Step 4: Combine zone information with cribroom data
+      // const updatedCribrooms = cribroomsData.flatMap((cribroomData, index) => {
+      //   const matchingZone = zonesData[index];
+  
+      //   return cribroomData.map((cribroom) => ({
+      //     ...cribroom,
+      //     zone: matchingZone.name,
+      //     is_active: cribroom.is_active ? "Activo" : "Inactivo",
+      //   }));
+      // });
+
       // Step 5: Update component state
       setCribrooms(updatedCribrooms);
       setFilteredCribroom(updatedCribrooms);
