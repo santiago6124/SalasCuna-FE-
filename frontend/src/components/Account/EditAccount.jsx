@@ -75,21 +75,21 @@ export default function EditAccount() {
         <Row className="d-flex justify-content-center mt-3">
           <Col className="pl-1 mb-1 ">
             <Form.Group>
-              <Form.Label>Email:</Form.Label>
+              <Form.Label>Dirección:</Form.Label>
               <Form.Control
                 type="email"
                 placeholder="example@gmail.com"
-                defaultValue={datos?.email}
+                defaultValue={datos?.address}
               />
             </Form.Group>
           </Col>
           <Col className="pl-1 mb-1 ">
             <Form.Group>
-              <Form.Label>DNI:</Form.Label>
+              <Form.Label>Ciudad:</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="12345678"
-                defaultValue={datos?.dni}
+                defaultValue={datos?.city}
               />
             </Form.Group>
           </Col>
