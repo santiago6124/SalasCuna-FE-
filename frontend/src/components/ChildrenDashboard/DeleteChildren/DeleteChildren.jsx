@@ -3,10 +3,12 @@ import "./DeleteChildren.css";
 
 import { Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { Modal } from "react-bootstrap";
 import { Alert } from "react-bootstrap";
 import Cookies from "js-cookie";
+
+import { child_request } from "../../../api/salasCuna.api";
+
 
 export default function DeleteChildren(props) {
   const [selectedChild, setSelectedChild] = useState("");
@@ -24,18 +26,8 @@ export default function DeleteChildren(props) {
         is_active: "false",
       };
 
-      console.log("making fetch");
-      await axios.patch(
-        `/api/child/${selectedChild}/?delete`,
-        payload,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": Cookies.get("csrftoken"),
-            "Authorization": "JWT " + props.tokens
-          },
-        }
-      );
+      await child_request(props.tokens, 'patch', 0, payload, selectedChild);
+
       props.onHide();
     } catch (err) {
       alert("Error al eliminar al chico/a", err);

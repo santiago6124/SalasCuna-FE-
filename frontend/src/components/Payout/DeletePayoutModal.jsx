@@ -6,15 +6,10 @@ import axios from "axios";
 import React, { useContext } from "react"; // Import useContext
 import AuthContext from "../../context/AuthContext"; // Import the AuthContext
 
+import { payout_request } from "../../api/salasCuna.api";
+
 export default function DeletePayout(props) {
   const { authTokens } = useContext(AuthContext); // Get authTokens from the AuthContext
-
-  
-  let headers = {
-    "Content-Type": "application/json",
-    "Authorization": "JWT " + authTokens.access,
-    "Accept": "application/json"
-  };
 
   async function handleDelete(event) {
     event.preventDefault();
@@ -22,9 +17,10 @@ export default function DeletePayout(props) {
     try {
 
       // Send the headers along with the delete request
-      const response = await axios.delete(`/api/payout/${props.id}/`, { headers });
+      const response = await payout_request(authTokens.access, 'delete', 0, {}, props.id);
 
-      if (response.status === 201) {
+
+      if (response.status === 204) {
         console.log('Payout deleted successfully');
         props.onHide();
       } else {

@@ -7,6 +7,9 @@ import axios from "axios";
 import Cookies from 'js-cookie'
 import { deletingData, warningData } from "../../utils/toastMsgs";
 
+import { user_request } from "../../api/salasCuna.api";
+
+
 export default function DeleteUser(props) {
   const [selectedUser, setSelectedUser] = useState("");
 
@@ -23,13 +26,8 @@ export default function DeleteUser(props) {
         is_active: "false",
       };
       console.log("making fetch");
-      let response = await axios.patch(`/api/user/${selectedUser}/`, payload, {
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken' : Cookies.get('csrftoken'),
-          "Authorization": "JWT " + props.tokens
-        }
-    });
+      let response = await user_request(props.tokens, 'patch', 0, payload, selectedUser);
+
       if (response.request.status === 200) {
         deletingData("Usuario desactivado")
         console.log('Updated user successfully');
