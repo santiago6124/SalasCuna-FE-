@@ -45,10 +45,6 @@ function App() {
               element={<PrivateRoute children={<ResetPassword />} />}
             />
             <Route
-              path="/asd"
-              element={<PrivateRoute children={<HistoryTimeline />} />}
-            />
-            <Route
               path="/password/reset/confirm/:uid/:token"
               element={<PrivateRoute children={<ResetPasswordConfirm />} />}
             />
