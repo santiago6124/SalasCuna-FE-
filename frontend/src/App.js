@@ -6,8 +6,7 @@ import PrivateRoute from "./utils/PrivateRoute";
 import { PublicRoute } from "./utils/PublicRoute";
 
 import Home from "./containers/Home";
-import ResetPassword from "./containers/ResetPassword";
-import ResetPasswordConfirm from "./containers/ResetPasswordConfirm";
+import { ChangePassword } from "./components/ChangePassword/ChangePassword";
 import { Login } from "./components/Login/Login";
 import ActivateAccountPage from "./pages/ActivateAccountPage/ActivateAccountPage";
 import GeneratePadron from "./components/GeneratePadron/GeneratePadron";
@@ -39,12 +38,8 @@ function App() {
               element={<PrivateRoute children={<SingUpPage />} />}
             />
             <Route
-              path="/reset-password"
-              element={<PrivateRoute children={<ResetPassword />} />}
-            />
-            <Route
               path="/password/reset/confirm/:uid/:token"
-              element={<PrivateRoute children={<ResetPasswordConfirm />} />}
+              element={<PrivateRoute children={<ChangePassword />} />}
             />
             <Route
               path="/activate/:uid/:token"
