@@ -25,7 +25,7 @@ function GeneratePadron() {
   };
 
   function handlePdfClick() {
-    
+    console.log("Generate PDF logic will be implemented here");
   }
   function handleExcelClick() {
     // Implement your Excel generation logic here
