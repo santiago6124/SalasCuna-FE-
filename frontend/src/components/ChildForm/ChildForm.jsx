@@ -61,32 +61,29 @@ export function ChildForm(props) {
     getAll()
 
     if (props.data) {
-        // Set form data based on the selected child data
-        // setFormData((prevData) => ({
-        //   ...prevData,
-        //   Child_is_active: props.data.is_active,
-        //   // Add other fields based on your data structure
-        //   Child_first_name: props.data.first_name,
-        //   Child_last_name: props.data.last_name,
-        //   Child_dni: props.data.dni,
-        //   // Add more fields as needed
-        // }));
-        console.log(props.data);
-        
+      const newFormData = { ...formData };
+  
+      Object.entries(props.data).forEach(([key, value]) => {
+        console.log(key);
+        console.log(value);
         Object.entries(formFieldsLocal).forEach(([formFieldsLocal_key]) => {
+          console.log(formFieldsLocal_key);
 
-            console.log(`${formFieldsLocal_key}`.toLowerCase());
-
-            Object.entries(props.data).forEach(([key, value]) => {
-                if (`${key}` === `${formFieldsLocal_key}`.toLowerCase()){
-                    console.log(`${key}: ${value.id}`);
-                } else {
-                    console.log(`${key}: ${value}`);
-                }
+          if (`${formFieldsLocal_key}`.toLowerCase() === key) {
+            Object.entries(value).forEach(([key_2, value_2]) => {
+              newFormData[`${formFieldsLocal_key}_${key_2}`] = value_2;
             });
+          } else {
+            newFormData[`Child_${key}`] = value;
+          }
         });
-      }
-    }, [props.data]);
+
+      });
+  
+      setFormData(newFormData);
+      console.log(newFormData);
+    }
+  }, [props.data]);
 
 
 
@@ -95,6 +92,7 @@ export function ChildForm(props) {
 
     const payload = generatePayload(formData);
     console.log('payload: ', payload);
+    console.log('formData: ', formData);
 
     try {
         if (props.data) {
