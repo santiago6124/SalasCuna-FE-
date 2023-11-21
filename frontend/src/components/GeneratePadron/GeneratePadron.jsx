@@ -98,7 +98,7 @@ function GeneratePadron() {
         <div className="contenedor-linea-gp">
           <hr className="linea-gp"></hr>
         </div>
-        <div className="center-row">
+        <div className="center-row"> 
           <div className="container-dropdown-gp">
             <Form.Label className="mb-1">Seleccionar Zona</Form.Label>
             <Form.Select

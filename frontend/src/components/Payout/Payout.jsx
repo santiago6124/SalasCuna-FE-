@@ -128,7 +128,7 @@ export default function Payout() {
   }
 
   return (
-    <>
+    <> 
       <body>
         <div className="cribroom-dashboard">
           <>
@@ -170,27 +170,28 @@ export default function Payout() {
               <div className="contenedor-linea-cb">
                 <hr className="linea-cb"></hr>
               </div>
-              <Row className="d-flex justify-content-center align-items-center">
-                <Col className="col-md-2 col_dropdown">
+
+              
+              <div className="div-general">
+                <div className="col-dropdown">
                   <Form.Label className="mb-1">Seleccionar Zona</Form.Label>
-                  <Form.Select
-                    as="select"
-                    name="zone"
-                    onChange={handleZoneChange}
-                    defaultValue="place"
-                  >
-                    <option value="place" disabled>
-                      Seleccionar Zona
-                    </option>
-                    {zoneOptions.map((zone) => (
-                      <option key={zone.id} value={zone.id}>
-                        {zone.name}
+                    <Form.Select
+                      as="select"
+                      name="zone"
+                      onChange={handleZoneChange}
+                      defaultValue="place"
+                    >
+                      <option value="place" disabled>
+                        Seleccionar Zona
                       </option>
-                    ))}
+                      {zoneOptions.map((zone) => (
+                        <option key={zone.id} value={zone.id}>
+                          {zone.name}
+                        </option>
+                      ))}
                   </Form.Select>
-                </Col>
-                <Col className="d-flex justify-content-end">
-                  <div className="add-payout-button">
+                </div>
+                <div className="add-payout-button">
                     <Button
                       variant="contained"
                       color="primary"
@@ -200,9 +201,9 @@ export default function Payout() {
                     >
                       Add Payout
                     </Button>
-                  </div>
-                </Col>
-              </Row>
+                </div>
+              </div>
+                
               <div className="DataGrid-Wrapper-payout">
                 <DataGrid
                   className="custom-data-grid-payout"
