@@ -9,9 +9,12 @@ import { deletingData, warningData } from "../../utils/toastMsgs";
 
 export default function DeleteUser(props) {
   const [selectedUser, setSelectedUser] = useState("");
+  const [userName, setUserName] = useState("");
+
 
   useEffect(() => {
     setSelectedUser(props.id);
+    setUserName(props.name);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -19,9 +22,22 @@ export default function DeleteUser(props) {
     event.preventDefault();
     console.log(selectedUser);
     try {
-      const payload = {
-        is_active: "false",
-      };
+      const activated = await axios.get(`/api/user/${selectedUser}/`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': Cookies.get('csrftoken'),
+          "Authorization": "JWT " + props.tokens
+        }
+      });
+      var payload
+      if (activated.data.is_active){
+        payload = {
+          is_active: "false",
+        }}
+      else {
+        payload = {
+          is_active: "true",
+        }}
       console.log("making fetch");
       let response = await axios.patch(`/api/user/${selectedUser}/`, payload, {
         headers: {
@@ -59,7 +75,7 @@ export default function DeleteUser(props) {
         <hr className="linea-eliminar"></hr>
       </div>
       <div className="par">
-        <p>Esta seguro que desea Eliminar este Usuario {selectedUser}?</p>
+        <p>Esta seguro que desea Eliminar este Usuario {userName}?</p>
         <p>Esto hara que su estado pase a ser Inactivo</p>
       </div>
       <div className="par">

@@ -15,7 +15,7 @@ import {
 } from "../../api/salasCuna.api";
 
 //DataGrid Import
-import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { DataGrid, GridActionsCellItem, esES } from "@mui/x-data-grid";
 
 import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
 import ArrowCircleRightOutlinedIcon from "@mui/icons-material/ArrowCircleRightOutlined";
@@ -27,13 +27,13 @@ export default function AdminDashboard() {
   const [keyword, setKeyword] = useState("");
   const [userhistory, setUserHistory] = useState([]);
 
-  let {authTokens} = useContext(AuthContext);
+  let { authTokens } = useContext(AuthContext);
 
   let headers = {
     "Content-Type": "application/json",
-    "Authorization": "JWT " + authTokens.access,
-    "Accept": "application/json"
-}
+    Authorization: "JWT " + authTokens.access,
+    Accept: "application/json",
+  };
 
   useEffect(() => {
     listCribroom();
@@ -85,7 +85,7 @@ export default function AdminDashboard() {
     <body >
       <h1 className="titulo-home">Pagina de Administrador/a</h1>
       <div className="contenedor-linea-home">
-        <hr className="linea-home" ></hr>
+        <hr className="linea-home"></hr>
       </div>
 
       <div className="div-datagrids">

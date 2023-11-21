@@ -10,9 +10,12 @@ import Cookies from "js-cookie";
 
 export default function DeleteChildren(props) {
   const [selectedChild, setSelectedChild] = useState("");
+  const [childName, setChildName] = useState("");
+
 
   useEffect(() => {
     setSelectedChild(props.id);
+    setChildName(props.name);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -20,9 +23,22 @@ export default function DeleteChildren(props) {
     event.preventDefault();
     console.log("chico: " + selectedChild);
     try {
-      const payload = {
-        is_active: "false",
-      };
+      const activated = await axios.get(`/api/child/${selectedChild}/`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': Cookies.get('csrftoken'),
+          "Authorization": "JWT " + props.tokens
+        }
+      });
+      var payload
+      if (activated.data.is_active){
+        payload = {
+          is_active: "false",
+        }}
+      else {
+        payload = {
+          is_active: "true",
+        }}
 
       console.log("making fetch");
       await axios.patch(

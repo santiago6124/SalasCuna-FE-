@@ -18,11 +18,14 @@ import { GridActionsCellItem } from "@mui/x-data-grid";
 
 import DeleteChildren from "./DeleteChildren/DeleteChildren";
 import EditChildren from "./FormEditChildren/FormEditChildren";
+import { FormAddChildren } from "../FormAddChildren/FormAddChildren";
+import HistoryTimeline from "../CribroomDashboard/ObjectHistory";
 
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, esES } from "@mui/x-data-grid";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import HistoryIcon from "@mui/icons-material/History";
 
 import AuthContext from "../../context/AuthContext";
 import {
@@ -32,7 +35,6 @@ import {
   warningData,
 } from "../../utils/toastMsgs";
 import { ToastContainer } from "react-toastify";
-import { FormAddChildren } from "../FormAddChildren/FormAddChildren";
 
 export default function ChildrenManagement() {
   const [cribroomOptions, setCribroom] = useState([]);
@@ -45,6 +47,7 @@ export default function ChildrenManagement() {
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
   const [selectedChild, setSelectedChild] = useState("");
   const [childName, setChildName] = useState("");
+  const [modalHistoryShow, setModalHistoryShow] = useState(false);
 
   const navigate = useNavigate();
 
@@ -56,7 +59,7 @@ export default function ChildrenManagement() {
     Authorization: "JWT " + authTokens.access,
     Accept: "application/json",
   };
- 
+
   useEffect(() => {
     LoadCribrooms();
   }, []);
@@ -142,6 +145,14 @@ export default function ChildrenManagement() {
     setModalEditShow(true);
     console.log("Edit clicked for row with id:", rowId);
   }
+
+  function handleHistoryClick(rowId, ChildName) {
+    setSelectedChild(rowId);
+    setChildName(ChildName);
+    setModalHistoryShow(true);
+    console.log("History clicked for row with id:", rowId);
+  }
+
   const columns = [
     {
       field: "id",
@@ -182,7 +193,7 @@ export default function ChildrenManagement() {
       field: "actions",
       type: "actions",
       headerName: "Acciones",
-      width: 90,
+      width: 110,
       headerAlign: "center",
       align: "center",
       getActions: (params) => [
@@ -195,6 +206,11 @@ export default function ChildrenManagement() {
           icon={<EditIcon />}
           label="Edit"
           onClick={() => handleEditClick(params.row.id)}
+        />,
+        <GridActionsCellItem
+          variant="primary"
+          icon={<HistoryIcon />}
+          onClick={() => handleHistoryClick(params.row.id, params.row.name)}
         />,
       ],
     },
@@ -230,6 +246,7 @@ export default function ChildrenManagement() {
           onHide={() => {
             setModalDeleteShow(false);
             setSelectedChild("");
+            reloadDataFunc();
           }}
         />
       )}
@@ -238,6 +255,20 @@ export default function ChildrenManagement() {
           show={modalCreateShow}
           onHide={() => {
             setModalCreateShow(false);
+            reloadDataFunc();
+          }}
+        />
+      )}
+      {selectedChild && (
+        <HistoryTimeline
+          id={selectedCribroom}
+          tokens={authTokens.access}
+          type="child"
+          show={modalHistoryShow}
+          onHide={() => {
+            setModalHistoryShow(false);
+            setSelectedChild(""); // Reset selectedCribroom after closing modal
+            reloadDataFunc();
           }}
         />
       )}
@@ -258,7 +289,7 @@ export default function ChildrenManagement() {
                     <Form.Select
                       as="select"
                       value={selectedCribroom}
-                      className="mb-1 select-dropdown-down" 
+                      className="mb-1 select-dropdown-down"
                       onChange={handleCribroomChange}
                     >
                       <option value="" disabled>
@@ -291,10 +322,16 @@ export default function ChildrenManagement() {
             <div className="DataGrid-Wrapper-cm">
               <DataGrid
                 style={{ borderRadius: "15px", maxWidth: "780px", }}
+                localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+
                 rows={childs}
                 columns={columns}
                 autoHeight
-                pageSize={5}
+                pageSize={10}
+                pageSizeOptions={[10]}
+                initialState={{
+                  pagination: { paginationModel: { pageSize: 10 } },
+                }}
               />
             </div>
           </div>
