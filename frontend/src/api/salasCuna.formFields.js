@@ -1,16 +1,16 @@
 export const formFields = {
-    UserAccount: {
-        email: { name: "email", label: "Email", type: "email", required: true },
-        first_name: { name: "first_name", label: "First Name", type: "text", required: true },
-        last_name: { name: "last_name", label: "Last Name", type: "text", required: true },
-        dni: { name: "dni", label: "DNI", type: "text", required: true },
-        phone_number: { name: "phone_number", label: "Phone Number", type: "text", required: true },
-        address: { name: "address", label: "Address", type: "text", required: true },
-        department: { name: "department", label: "Department", type: "text", required: true },
-        city: { name: "city", label: "City", type: "text", required: true },
-        is_active: { name: "is_active", label: "Is Active", type: "checkbox", required: true },
-        is_staff: { name: "is_staff", label: "Is Staff", type: "checkbox", required: true },
-        is_superuser: { name: "is_superuser", label: "Is Superuser", type: "checkbox", required: true }
+    User: {
+        email: { name: "email", label: "E-mail", type: "email", placeholder: "Ingresar E-mail", required: true }, // defaultValue: user ? user.email : "",
+        first_name: { name: "first_name", label: "Nombre", type: "text", placeholder: "Ingresar nombre", required: true },    // defaultValue: user ? user.first_name : "",
+        last_name: { name: "last_name",label: "Apellido",type: "text",placeholder: "Ingresar Apellido",required: true }, // defaultValue: user ? user.last_name : ""
+        dni: { name: "dni",label: "DNI",type: "number",placeholder: "Ingresar DNI",required: true },
+        group: { name: "group",label: "Rol",type: "select",options: [],required: true },
+        phone_number: { name: "phone_number",label: "Número De Teléfono",type: "tel",placeholder: "Ingresar Número De Teléfono",required: true },
+        city: { name: "city",label: "Ciudad",type: "text",placeholder: "Ingresar Ciudad",required: true },
+        department: { name: "department",label: "Departamento",type: "select",options: [],required: true },
+        address: { name: "address",label: "Dirección",type: "text",placeholder: "Ingresar Dirección",required: true },
+        birthdate: { name: "birthdate",label: "Fecha de Nacimiento",type: "date",required: true },
+        password: { name: "password",label: "Password",type: "password",placeholder: "Ingresar Password",required: true }, // defaultValue: user ? user.last_name : ""
     },
     Department: ["id", "department", "zone"],
     Locality: ["id", "locality", "department"],
@@ -83,7 +83,7 @@ export const formFields = {
     Zone: ["id", "name"],
 };
 
-  
+
 // const departmentFormField = [
 // { name: "id", label: "ID", type: "number", required: false },
 // { name: "department", label: "Department", type: "text", required: true },
