@@ -8,7 +8,6 @@ import React, { useState, useEffect, useRef } from "react";
 import Cookies from 'js-cookie'
 
 import { toastLoading, toastUpdateError, toastUpdateSuccess } from "../../../utils/toastMsgs";
-import { getAllCribroomsWithoutDepth } from "../../../api/salasCuna.api";
 
 export default function DeleteRoom(props) {
   const [selectedCribroom, setSelectedCribroom] = useState("");
