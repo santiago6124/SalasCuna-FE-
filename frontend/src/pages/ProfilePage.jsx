@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Row, Col, Container, Button } from "react-bootstrap";
 import Account from "../components/Account/Account";
 import Menu from "../components/Menu/Menu";
@@ -8,12 +8,20 @@ import Modal from "react-bootstrap/Modal";
 import Alert from "@mui/material/Alert";
 import { ChangePassword } from "../components/ChangePassword/ChangePassword";
 
+import axios from "axios";
+import Cookies from "js-cookie";
+import AuthContext from "../context/AuthContext";
+
 export default function ProfilePage() {
+  let { user, authTokens } = useContext(AuthContext);
+
   const [showAccount, setShowAccount] = useState(true);
   const [showPasswordRequest, setShowPasswordResquest] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClose = () => setShowPasswordResquest(false);
+
+  const [userEmail, setUserEmail] = useState('');
 
   function manageAccount() {
     setShowPassword(false);
@@ -29,6 +37,38 @@ export default function ProfilePage() {
   function managePasswordRequest() {
     if (!showPassword) {
       setShowPasswordResquest(true);
+    }
+  }
+
+  async function getUser() {
+    try {
+      let headers = {
+        "Content-Type": "application/json",
+        "Authorization": "JWT " + authTokens.access,
+        "Accept": "application/json",
+      };
+      const response = await axios.get(`/auth/users/${user.user_id}/`, { headers: headers });
+      const data = await response.data;
+      return data
+    } catch (error) {
+      console.error("Error fetching user data", error);
+    }
+  };
+
+  async function resetPasswordRequest() {
+    getUser().then((data) => {setUserEmail(data.email)}).finally(console.log(userEmail));
+    const headers = {
+      "Content-Type": "application/json",
+      "X-CSRFToken": Cookies.get("csrftoken"),
+      "Authorization": "JWT " + authTokens.access,
+    }
+    const payload = {
+      email: "francoball181@gmail.com",
+    }
+    try {
+      let response = await axios.post("/auth/users/reset_password/", payload, { headers: headers });
+    } catch (error) {
+
     }
   }
 
@@ -105,7 +145,7 @@ export default function ProfilePage() {
                     </Row>
                     <Row className="ms-2 mt-3 ">
                       <Col className="p-2 ml-100">
-                        <Button variant="primary" className="ms-3 " onClick={() => managePassword()}>
+                        <Button variant="primary" className="ms-3 " onClick={() => resetPasswordRequest()}>
                           Si
                         </Button>
                         <Button variant="danger" className="ms-3 " onClick={() => handleClose()}>
