@@ -15,7 +15,6 @@ import GeneratePadron from "./components/GeneratePadron/GeneratePadron";
 import TechnicalReportPage from "./pages/TechnicalReportPage";
 import AddChildrenPage from "./pages/AddChildrenPage/AddChildrenPage";
 import CreateRoomPage from "./pages/CreateRoomPage/CreateRoomPage";
-import { FormAddChildren } from "./components/FormAddChildren/FormAddChildren";
 import CribroomDashboard from "./components/CribroomDashboard/CribroomDashboard";
 import UserList from "./components/UserList/UserList";
 import Dashboard from "./pages/DashboardPage/Dashboard";
@@ -60,11 +59,6 @@ function App() {
             <Route
               path="/children-management"
               element={<PrivateRoute children={<AddChildrenPage />} />}
-            />
-
-            <Route
-              path="/children-management/new"
-              element={<PrivateRoute children={<FormAddChildren />} />}
             />
 
             <Route

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 
-import "./FormAddChildren.css";
+import "./ChildForm.css";
 
 import Form from "react-bootstrap/Form/";
 import { Button } from "react-bootstrap";
@@ -28,11 +28,9 @@ import {
 } from "../../api/salasCuna.formFields";
 import { toastLoading, toastUpdateError, toastUpdateSuccess } from "../../utils/toastMsgs";
 
-export function FormAddChildren(props) {
+export function ChildForm(props) {
   const [isDireccionVisible, setIsDireccionVisible] = useState(false);
   const [isTutorVisible, setIsTutorVisible] = useState(false);
-
-  console.log('formFields: ', formFields);
 
   const [formFieldsLocal, setFormFieldsLocal] = useState({
     Child: formFields.Child,
@@ -61,8 +59,34 @@ export function FormAddChildren(props) {
 
   useEffect(() => {
     getAll()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+
+    if (props.data) {
+        // Set form data based on the selected child data
+        // setFormData((prevData) => ({
+        //   ...prevData,
+        //   Child_is_active: props.data.is_active,
+        //   // Add other fields based on your data structure
+        //   Child_first_name: props.data.first_name,
+        //   Child_last_name: props.data.last_name,
+        //   Child_dni: props.data.dni,
+        //   // Add more fields as needed
+        // }));
+        console.log(props.data);
+        
+        Object.entries(formFieldsLocal).forEach(([formFieldsLocal_key]) => {
+
+            console.log(`${formFieldsLocal_key}`.toLowerCase());
+
+            Object.entries(props.data).forEach(([key, value]) => {
+                if (`${key}` === `${formFieldsLocal_key}`.toLowerCase()){
+                    console.log(`${key}: ${value.id}`);
+                } else {
+                    console.log(`${key}: ${value}`);
+                }
+            });
+        });
+      }
+    }, [props.data]);
 
 
 
@@ -73,23 +97,44 @@ export function FormAddChildren(props) {
     console.log('payload: ', payload);
 
     try {
-      let GuardianResponse = await guardian_request(authTokens.access, 'post', 0, payload.Guardian);
-      console.log(GuardianResponse);
+        if (props.data) {
+            
+            let GuardianResponse = await guardian_request(authTokens.access, 'put', 0, payload.Guardian, props.data.guardian.id);
+            console.log(GuardianResponse);
 
-      payload.Phone['guardian'] = GuardianResponse.data.id;
-      let PhoneResponse = await phone_request(authTokens.access, 'post', 0, payload.Phone);
-      console.log(PhoneResponse);
+            // payload.Phone['guardian'] = GuardianResponse.data.id;
+            // let PhoneResponse = await phone_request(authTokens.access, 'put', 0, payload.Phone, props.data.phone.id);
+            // console.log(PhoneResponse);
 
-      payload.Child['guardian'] = GuardianResponse.data.id;
-      let ChildResponse = await child_request(authTokens.access, 'post', 0, payload.Child);
-      console.log(ChildResponse);
+            payload.Child['guardian'] = GuardianResponse.data.id;
+            let ChildResponse = await child_request(authTokens.access, 'put', 0, payload.Child, props.data.id);
+            console.log(ChildResponse);
 
-      if (ChildResponse.request.status === 201) {
-        console.log("Child edited successfully");
-        window.location.reload();
-      } else {
-        console.log("Failed to edit child");
-      }
+            if (ChildResponse.request.status === 200) {
+                console.log("Child edited successfully");
+                window.location.reload();
+            } else {
+                console.log("Failed to edit child");
+            }
+        } else {
+            let GuardianResponse = await guardian_request(authTokens.access, 'post', 0, payload.Guardian);
+            console.log(GuardianResponse);
+
+            payload.Phone['guardian'] = GuardianResponse.data.id;
+            let PhoneResponse = await phone_request(authTokens.access, 'post', 0, payload.Phone);
+            console.log(PhoneResponse);
+
+            payload.Child['guardian'] = GuardianResponse.data.id;
+            let ChildResponse = await child_request(authTokens.access, 'post', 0, payload.Child);
+            console.log(ChildResponse);
+
+            if (ChildResponse.request.status === 201) {
+                console.log("Child edited successfully");
+                window.location.reload();
+            } else {
+                console.log("Failed to edit child");
+            }
+        }
     } catch (err) {
       alert(":c");
       console.log(err);
