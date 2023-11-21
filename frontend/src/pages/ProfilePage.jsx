@@ -24,7 +24,7 @@ export default function ProfilePage() {
 
   const [EditAccountIsVisible, setEditAccountIsVisible] = useState(false);
 
-  const [userEmail, setUserEmail] = useState("");
+  const [userData, setUserData] = useState("");
 
   function manageAccount() {
     setShowPassword(false);
@@ -69,22 +69,22 @@ export default function ProfilePage() {
   async function resetPasswordRequest() {
     getUser()
       .then((data) => {
-        setUserEmail(data.email);
+        setUserData(data);
       })
-      .finally(console.log(userEmail));
+      .finally(console.log(userData));
     const headers = {
       "Content-Type": "application/json",
       "X-CSRFToken": Cookies.get("csrftoken"),
       Authorization: "JWT " + authTokens.access,
     };
     const payload = {
-      email: "francoball181@gmail.com",
+      email: "francoball181@gmail.com", // userData.email
     };
     try {
       let response = await axios.post("/auth/users/reset_password/", payload, {
         headers: headers,
       });
-    } catch (error) {}
+    } catch (error) { }
   }
 
   return (
@@ -107,7 +107,7 @@ export default function ProfilePage() {
                   />
                 </div>
                 <div className="mt-2">
-                  <h3>Bienvenido:</h3>
+                  <h3>Hola {}!</h3>
                 </div>
                 <div className="contenedor-linea-sm">
                   <hr className="linea-sm"></hr>
@@ -119,17 +119,7 @@ export default function ProfilePage() {
                     onClick={() => manageAccount()}
                     style={{ borderLeft: "4px solid #ef7e0e" }}
                   >
-                    Info de cuenta
-                  </Button>
-                </Col>
-                <Col className="mt-1 mb-2">
-                  <Button
-                    variant="prueba"
-                    className="prueba"
-                    onClick={() => managePasswordRequest()}
-                    style={{ borderLeft: "4px solid #ef7e0e" }}
-                  >
-                    Cambiar contraseña
+                    Información
                   </Button>
                 </Col>
                 <Col className="mt-1 mb-2">
@@ -139,7 +129,17 @@ export default function ProfilePage() {
                     onClick={() => toggleEditAccount()}
                     style={{ borderLeft: "4px solid #ef7e0e" }}
                   >
-                    Editar Info de Cuenta
+                    Editar Información
+                  </Button>
+                </Col>
+                <Col className="mt-1 mb-2">
+                  <Button
+                    variant="pwbutton"
+                    className="pwbutton"
+                    onClick={() => managePasswordRequest()}
+                    style={{ borderLeft: "4px solid #ef7e0e" }}
+                  >
+                    Cambiar contraseña
                   </Button>
                 </Col>
               </div>
