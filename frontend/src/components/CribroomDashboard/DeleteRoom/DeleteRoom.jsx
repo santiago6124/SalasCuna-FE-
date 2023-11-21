@@ -22,7 +22,7 @@ export default function DeleteRoom(props) {
     event.preventDefault();
     toastLoading("Desactivando la Sala Cuna. Por favor, no toque nada", CustomId);
     try {
-      const activated = axios.get(`/api/cribroomDir/${selectedCribroom}/`, {
+      const activated = await axios.get(`/api/cribroomDir/${selectedCribroom}/`, {
         headers: {
           'Content-Type': 'application/json',
           'X-CSRFToken': Cookies.get('csrftoken'),
@@ -30,7 +30,7 @@ export default function DeleteRoom(props) {
         }
       });
       var payload
-      if (activated.is_active){
+      if (activated.data.is_active){
         payload = {
           is_active: "false",
         }}
