@@ -306,7 +306,7 @@ export default function ChildrenManagement() {
               </Col>
               <Col>
                 {showNewButton && ( // Mostrar el botón solo si showNewButton es true
-                  <div className="contenedor-boton-new">
+                  <div className="button-container">
                     <Button
                       as="input"
                       type="submit"
