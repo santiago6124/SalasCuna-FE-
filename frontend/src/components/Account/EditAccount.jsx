@@ -1,5 +1,5 @@
 import "./Account.css";
-import { Row, Col, Form } from "react-bootstrap";
+import { Row, Col, Form, Button } from "react-bootstrap";
 import React, { useContext, useEffect, useState, useRef } from "react";
 import AuthContext from "../../context/AuthContext";
 import axios from "axios";
@@ -7,7 +7,7 @@ import { toastLoading, toastUpdateError } from "../../utils/toastMsgs";
 import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 
-export default function ProfilePage() {
+export default function EditAccount() {
   const [datos, setDatos] = useState();
   let { user, authTokens } = useContext(AuthContext);
   const customId = useRef(null);
@@ -50,82 +50,76 @@ export default function ProfilePage() {
     <body>
       <ToastContainer />
       <Form>
-        <Row className="d-flex mt-3 mb-3">
+        <Row className="d-flex mt-3">
           <Col className="">
             <Form.Group>
-              <Row>
-                <Form.Label>Nombre:</Form.Label>
-              </Row>
-              <Row>
-                <Form.Label className="border border-black rounded p-2 m-2 w-75">
-                  {datos?.first_name}
-                </Form.Label>
-              </Row>
+              <Form.Label>Nombre:</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Nombre"
+                defaultValue={datos?.first_name}
+              />
             </Form.Group>
           </Col>
           <Col className="pl-1 mb-1 ">
             <Form.Group>
-              <Row>
-                <Form.Label>Apellido: </Form.Label>
-              </Row>
-              <Row>
-                <Form.Label className="border border-black rounded p-2 m-2 w-75">
-                  {datos?.last_name}
-                </Form.Label>
-              </Row>
+              <Form.Label>Apellido:</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Apellido"
+                defaultValue={datos?.last_name}
+              />
             </Form.Group>
           </Col>
         </Row>
-        <Row className="d-flex mt-3 mb-3">
+        <Row className="d-flex justify-content-center mt-3">
           <Col className="pl-1 mb-1 ">
             <Form.Group>
-              <Row>
-                <Form.Label>Email: </Form.Label>
-              </Row>
-              <Row>
-                <Form.Label className="border border-black rounded p-2 m-2 w-75">
-                  {datos?.email}
-                </Form.Label>
-              </Row>
+              <Form.Label>Email:</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="example@gmail.com"
+                defaultValue={datos?.email}
+              />
             </Form.Group>
           </Col>
           <Col className="pl-1 mb-1 ">
             <Form.Group>
-              <Row>
-                <Form.Label>DNI: </Form.Label>
-              </Row>
-              <Row>
-                <Form.Label className="border border-black rounded p-2 m-2 w-75">
-                  {datos?.dni}
-                </Form.Label>
-              </Row>
+              <Form.Label>DNI:</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="12345678"
+                defaultValue={datos?.dni}
+              />
             </Form.Group>
           </Col>
         </Row>
-        <Row className="d-flex mt-3 mb-3">
+        <Row className="d-flex justify-content-center mt-3 mb-4">
           <Col className="pl-1 mb-1 ">
             <Form.Group>
-              <Row>
-                <Form.Label>Telefono: </Form.Label>
-              </Row>
-              <Row>
-                <Form.Label className="border border-black rounded p-2 m-2 w-75">
-                  {datos?.phone_number}
-                </Form.Label>
-              </Row>
+              <Form.Label>Telefono:</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="54 9 351 123 4567"
+                defaultValue={datos?.phone_number}
+              />
             </Form.Group>
           </Col>
           <Col className="pl-1 mb-1 ">
             <Form.Group>
-              <Row>
-                <Form.Label>Rol: </Form.Label>
-              </Row>
-              <Row>
-                <Form.Label className="border border-black rounded p-2 m-2 w-75">
-                  {datos?.groups}
-                </Form.Label>
-              </Row>
+              <Form.Label>Rol:</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Rol"
+                defaultValue={datos?.groups}
+              />
             </Form.Group>
+          </Col>
+        </Row>
+        <Row className="d-flex justify-content-center mt-3 mb-4">
+          <Col className="justify-content-center d-flex">
+            <Button className="m-2">Guardar Cambios</Button>
+            <Button className="m-2">Olvidaste tu Contraseña?</Button>
           </Col>
         </Row>
       </Form>
