@@ -20,7 +20,7 @@ import { FormAddChildren } from "./components/FormAddChildren/FormAddChildren";
 import CribroomDashboard from "./components/CribroomDashboard/CribroomDashboard";
 import UserList from "./components/UserList/UserList";
 import Dashboard from "./pages/DashboardPage/Dashboard";
-
+import Graphs from "./pages/GraphsPage/Graphs";
 import { FilesToDb } from "../src/components/FilesToDb/FilesToDb";
 import SingUpPage from "./pages/SingUpPage/SingUpPage";
 import MontoPage from "./pages/MontoPage";
@@ -95,6 +95,10 @@ function App() {
             <Route
               path="home-page"
               element={<PrivateRoute children={<Dashboard />} />}
+            />
+            <Route
+              path="/graphs"
+              element={<PrivateRoute children={<Graphs />} />}
             />
           </Routes>
         </AuthProvider>
