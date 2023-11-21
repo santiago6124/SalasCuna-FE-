@@ -3,12 +3,8 @@ import AuthContext from "../../context/AuthContext";
 
 import "./FormAddChildren.css";
 
-import Col from "react-bootstrap/Col/";
-import Row from "react-bootstrap/Row/";
 import Form from "react-bootstrap/Form/";
 import { Button } from "react-bootstrap";
-import Cookies from "js-cookie";
-import axios from "axios";
 import { Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
