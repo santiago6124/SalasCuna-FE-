@@ -6,7 +6,7 @@ import React, { useState, useContext, useEffect } from "react"; // Import useCon
 import axios from "axios";
 import AuthContext from "../../context/AuthContext"; // Import your AuthContext
 import {renderFormFields} from "../renderFormFields/renderFormFields";
-import './EditPayoutModal.css';
+import './AddPayoutModal.css';
 
 import {
   getAllZones,
