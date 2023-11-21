@@ -14,13 +14,11 @@ import ActivateAccountPage from "./pages/ActivateAccountPage/ActivateAccountPage
 import GeneratePadron from "./components/GeneratePadron/GeneratePadron";
 import TechnicalReportPage from "./pages/TechnicalReportPage";
 import AddChildrenPage from "./pages/AddChildrenPage/AddChildrenPage";
-import CreateRoomPage from "./pages/CreateRoomPage/CreateRoomPage";
 import CribroomDashboard from "./components/CribroomDashboard/CribroomDashboard";
 import UserList from "./components/UserList/UserList";
 import Dashboard from "./pages/DashboardPage/Dashboard";
 
 import { FilesToDb } from "../src/components/FilesToDb/FilesToDb";
-import SingUpPage from "./pages/SingUpPage/SingUpPage";
 import MontoPage from "./pages/MontoPage";
 
 function App() {
@@ -33,10 +31,6 @@ function App() {
             <Route
               path="/login"
               element={<PublicRoute children={<Login />} />}
-            />
-            <Route
-              path="/agregar-usuario"
-              element={<PrivateRoute children={<SingUpPage />} />}
             />
             <Route
               path="/reset-password"
@@ -60,10 +54,6 @@ function App() {
               element={<PrivateRoute children={<AddChildrenPage />} />}
             />
 
-            <Route
-              path="/crear-sala"
-              element={<PrivateRoute children={<CreateRoomPage />} />}
-            />
             <Route
               path="/maestro-montos"
               element={<PrivateRoute children={<MontoPage />} />}

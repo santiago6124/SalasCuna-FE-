@@ -208,6 +208,15 @@ export function zone_request(tokens, method='get', filters='') {
 }
 
 
+export function getAllGroup(tokens) {
+  const headers = {
+    "Content-Type": "application/json",
+    "Authorization": "JWT " + tokens,
+    "Accept": "application/json"
+  }
+  return axios.get("/api/GroupViewSet/?exclude_directora", {headers: headers});
+}
+
 
 
 
@@ -300,15 +309,6 @@ export function getAllUsers(tokens) {
     "Accept": "application/json"
   }
   return axios.get("/api/user/", {headers: headers});
-}
-
-export function getAllGroup(tokens) {
-  const headers = {
-    "Content-Type": "application/json",
-    "Authorization": "JWT " + tokens,
-    "Accept": "application/json"
-  }
-  return axios.get("/api/GroupViewSet/?exclude_directora", {headers: headers});
 }
 
 export function getAllDepartments(tokens) {
