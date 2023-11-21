@@ -15,7 +15,7 @@ import {
 } from "../../api/salasCuna.api";
 
 //DataGrid Import
-import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { DataGrid, GridActionsCellItem, esES } from "@mui/x-data-grid";
 
 import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
 import ArrowCircleRightOutlinedIcon from "@mui/icons-material/ArrowCircleRightOutlined";
@@ -27,13 +27,13 @@ export default function AdminDashboard() {
   const [keyword, setKeyword] = useState("");
   const [userhistory, setUserHistory] = useState([]);
 
-  let {authTokens} = useContext(AuthContext);
+  let { authTokens } = useContext(AuthContext);
 
   let headers = {
     "Content-Type": "application/json",
-    "Authorization": "JWT " + authTokens.access,
-    "Accept": "application/json"
-}
+    Authorization: "JWT " + authTokens.access,
+    Accept: "application/json",
+  };
 
   useEffect(() => {
     listCribroom();
@@ -89,7 +89,7 @@ export default function AdminDashboard() {
     <body>
       <h1 className="titulo-home">Pagina de Administrador/a</h1>
       <div className="contenedor-linea-home">
-        <hr className="linea-home" ></hr>
+        <hr className="linea-home"></hr>
       </div>
       <h3 className="subtitulo">Acciones Rapidas</h3>
       <div className="container-slider">
@@ -176,6 +176,7 @@ export default function AdminDashboard() {
         <div>
           <h4 className="datatitle"> Salas Cuna</h4>
           <DataGrid
+            localeText={esES.components.MuiDataGrid.defaultProps.localeText}
             pageSizeOptions={[4]}
             initialState={{
               pagination: { paginationModel: { pageSize: 4 } },
@@ -198,6 +199,7 @@ export default function AdminDashboard() {
         <div>
           <h4 className="datatitle"> Actividad Reciente</h4>
           <DataGrid
+            localeText={esES.components.MuiDataGrid.defaultProps.localeText}
             pageSizeOptions={[4]}
             initialState={{
               pagination: { paginationModel: { pageSize: 4 } },
