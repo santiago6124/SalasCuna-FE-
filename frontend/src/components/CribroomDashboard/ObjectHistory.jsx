@@ -14,6 +14,96 @@ import axios from "axios";
 
 import "./CribroomDashboard.css";
 
+// Utility function to compare two objects and return the differences
+const getObjectDifferences = (obj1, obj2, excludedFields) => {
+  const differences = {};
+
+  for (const key in obj1) {
+    if (excludedFields.includes(key)) {
+      continue; // Skip excluded fields
+    }
+
+    if (obj1[key] !== obj2[key]) {
+      differences[key] = {
+        oldValue: obj1[key],
+        newValue: obj2[key],
+      };
+    }
+  }
+
+  return differences;
+};
+
+const renderChangedFields = (objectDifferences) => {
+  return Object.keys(objectDifferences).map((key) => (
+    <Row key={key} className="ms-1">
+      <Typography variant="h9" component="h9" className="ms-1">
+        {getFieldTitle(key)}: {objectDifferences[key].oldValue}
+      </Typography>
+    </Row>
+  ));
+};
+
+const getFieldTitle = (fieldName) => {
+  // You can customize this function based on your field naming conventions
+  switch (fieldName) {
+    case "first_name":
+      return "Nombre";
+    case "last_name":
+      return "Apellido";
+    case "history_date":
+      return "Fecha";
+    case "dni":
+      return "DNI";
+    case "birthdate":
+      return "Nacimiento";
+    case "house_number":
+      return "Numero de casa";
+    case "registration_date":
+      return "Registro";
+    case "disenroll_date":
+      return "Fecha de baja";
+    case "locality":
+      return "localidad";
+    case "cribroom":
+      return "Sala Cuna";
+    case "shift":
+      return "Turno";
+    // Cribroom Field Names
+
+    case "name":
+      return "Nombre";
+    case "entity":
+      return "Entidad";
+    case "CUIT":
+      return "CUIT";
+    case "code":
+      return "Código";
+    case "max_capacity":
+      return "Capacidad Máxima";
+    case "is_active":
+      return "Activo";
+    case "street":
+      return "Calle";
+    case "house_number":
+      return "Número de Casa";
+    case "locality":
+      return "Localidad";
+    case "department":
+      return "Departamento";
+    case "neighborhood":
+      return "Barrio";
+    case "shift":
+      return "Turno";
+    case "zone":
+      return "Zona";
+    case "user":
+      return "Usuario";
+    default:
+      return fieldName;
+  }
+};
+
 export default function HistoryTimeline(props) {
   const { id, tokens, type, itemType } = props;
   const [historyData, setHistoryData] = useState([]);
@@ -35,8 +125,8 @@ export default function HistoryTimeline(props) {
           },
         }
       );
-      let data = await response.data; // Extract JSON data
-      setHistoryData(data[0]?.history || []); // Set history data or an empty array if not available
+      let data = await response.data;
+      setHistoryData(data[0]?.history || []);
       console.log("working with object: ", { data });
     } catch (error) {
       console.error(`Error fetching ${itemType} history data:`, error);
@@ -56,8 +146,23 @@ export default function HistoryTimeline(props) {
     }
   };
 
-  const historyItems = historyData.map(
-    (event, index, itemType, data) => (
+  const historyItems = historyData.map((event, index) => {
+    // Define an array of fields to exclude from differences based on itemType
+    const commonExcludedFields = ["history_id", "history_type", "history_user"];
+
+    const excludedFields = [...commonExcludedFields];
+
+    // Add itemType-specific fields to excludedFields
+
+    const objectDifferences = getObjectDifferences(
+      event,
+      index > 0 ? historyData[index - 1] : {},
+      excludedFields
+    );
+
+    const historyTypeString = getHistoryTypeString(event.history_type);
+
+    return (
       console.log(event),
       (
         <TimelineItem key={index}>
@@ -67,39 +172,60 @@ export default function HistoryTimeline(props) {
           </TimelineSeparator>
           <TimelineContent>
             <Paper className="p-1 h-80 w-100 card-text">
-              <Row className="ms-1 ">
-                <Typography variant="h8" component="h8" className=" ms-1 ">
-                  Nombre:{" "}
-                  {
-                    (itemType = "child"
-                      ? event.first_name
-                      : (itemType = "cribroom"))
-                  }
-                </Typography>
-              </Row>
-              <Row className="ms-1">
-                <Typography
-                  variant="h8"
-                  component="h8"
-                  className="justify-content-left ms-1"
-                >
-                  Fecha: {event.history_date}
-                </Typography>
-              </Row>
-              <Row className="ms-1">
-                <Typography variant="h8" component="h8" className=" ms-1 ">
-                  Tipo: {getHistoryTypeString(event.history_type)}
-                </Typography>
-              </Row>
+              {historyTypeString.toLowerCase() === "creado" && (
+                <>
+                  {itemType === "child" && (
+                    <Row className="ms-1">
+                      <Typography variant="h8" component="h8" className="ms-1">
+                        Nombre: {event.first_name}
+                      </Typography>
+                    </Row>
+                  )}
+                  {itemType === "cribroom" && (
+                    <Row className="ms-1">
+                      <Typography variant="h8" component="h8" className="ms-1">
+                        Nombre: {event.name}
+                      </Typography>
+                    </Row>
+                  )}
+
+                  <Row className="ms-1">
+                    <Typography variant="h8" component="h8" className="ms-1">
+                      Fecha: {event.history_date}
+                    </Typography>
+                  </Row>
+                  <Row className="ms-1">
+                    <Typography variant="h8" component="h8" className="ms-1">
+                      Tipo: {getHistoryTypeString(event.history_type)}
+                    </Typography>
+                  </Row>
+                </>
+              )}
+              {historyTypeString.toLowerCase() !== "creado" && (
+                <>
+                  {renderChangedFields(objectDifferences)}
+                  <Row className="ms-1">
+                    <Typography variant="h8" component="h8" className="ms-1">
+                      Tipo: {getHistoryTypeString(event.history_type)}
+                    </Typography>
+                  </Row>
+                </>
+              )}
             </Paper>
           </TimelineContent>
         </TimelineItem>
       )
-    )
-  );
+    );
+  });
 
   return (
-    <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
+    <Modal
+      {...props}
+      aria-labelledby="contained-modal-title-vcenter"
+      size="md"
+      className="pt-5"
+      centered
+    >
       <h2 className="titulo-cb mt-3">Historial de: {id}</h2>
       <div className="contenedor-linea-cb">
         <hr className="linea-cb"></hr>
@@ -108,3 +234,6 @@ export default function HistoryTimeline(props) {
     </Modal>
   );
 }
+
+
+
