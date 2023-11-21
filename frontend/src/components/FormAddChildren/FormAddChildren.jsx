@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 
 import "./FormAddChildren.css";
@@ -6,7 +6,6 @@ import "./FormAddChildren.css";
 import Form from "react-bootstrap/Form/";
 import { Button } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 
 import {
   cribroom_request,
@@ -25,24 +24,9 @@ import {
 import {
   formFields
 } from "../../api/salasCuna.formFields";
-
-import {
-  modelFields
-} from "../../api/salasCuna.modelFields";
+import { toastLoading, toastUpdateError, toastUpdateSuccess } from "../../utils/toastMsgs";
 
 export function FormAddChildren(props) {
-
-  const [guardianTypes, setGuardianType] = useState([]);
-
-  const [identTypes, setIdentType] = useState([]);
-  const [genders, setGender] = useState([]);
-  const [cribrooms, setCribroom] = useState([]);
-  const [shifts, setShift] = useState([]);
-  const [localities, setLocality] = useState([]);
-  const [neighborhoods, setNeighborhood] = useState([]);
-
-  const [phoneFeatures, setPhoneFeature] = useState([]);
-
   const [isDireccionVisible, setIsDireccionVisible] = useState(false);
   const [isTutorVisible, setIsTutorVisible] = useState(false);
 
@@ -63,7 +47,7 @@ export function FormAddChildren(props) {
     setFormData({ ...formData, [name]: value });
   };
 
-  let {authTokens} = useContext(AuthContext);
+  let { authTokens } = useContext(AuthContext);
 
   const toggleDireccion = () => {
     setIsDireccionVisible(!isDireccionVisible);
@@ -74,22 +58,14 @@ export function FormAddChildren(props) {
   };
 
   useEffect(() => {
-    LocalityList();
-    NeighborhoodList();
-    GenderList();
-    CribroomList();
-    ShiftList();
-    IdentTypetList();
-    GuardianTypeList();
-    PhoneFeatureList();
-
-    getChildren();
+    getAll()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const renderformFieldsLocal = (fields, prefix) => {
+  function renderformFieldsLocal(fields, prefix) {
     return Object.keys(fields).map((fieldName) => {
       const field = fields[fieldName];
-  
+
       return (
         <Form.Group className="mb-3" key={`${prefix}_${field.name}`}>
           <Form.Label className="mb-1">{field.label}</Form.Label>
@@ -113,14 +89,11 @@ export function FormAddChildren(props) {
               label={`${prefix}_${field.label}`}
               name={`${prefix}_${field.name}`}
               checked={formData[`${prefix}_${field.name}`]}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  [`${prefix}_${field.name}`]: e.target.checked,
-                })
-              }
-              required={field.required}
-            />
+              onChange={(e) => setFormData({
+                ...formData,
+                [`${prefix}_${field.name}`]: e.target.checked,
+              })}
+              required={field.required} />
           ) : (
             <Form.Control
               type={field.type}
@@ -128,18 +101,11 @@ export function FormAddChildren(props) {
               name={`${prefix}_${field.name}`}
               value={formData[`${prefix}_${field.name}`]}
               onChange={handleInputChange}
-              required={field.required}
-            />
+              required={field.required} />
           )}
         </Form.Group>
       );
     });
-  };
-
-  async function getChildren() {
-    let response = await cribroom_request(authTokens.access);
-    let data = await response.data;
-    console.log(data);
   }
 
   async function handleSubmit(event) {
@@ -173,7 +139,7 @@ export function FormAddChildren(props) {
       payload.Child['guardian'] = GuardianResponse.data.id;
       let ChildResponse = await child_request(authTokens.access, 'post', 0, payload.Child);
       console.log(ChildResponse);
-     
+
       if (ChildResponse.request.status === 201) {
         console.log("Child edited successfully");
         window.location.reload();
@@ -185,111 +151,47 @@ export function FormAddChildren(props) {
       console.log(err);
     }
 
-    
+
   }
 
-  const IdentTypetList = async () => {
+  const customId = useRef(null);
+
+  async function getAll() {
     try {
-      const response = await idenType_request(authTokens.access);
-      setIdentType(response.data);
-      formFieldsLocal.Child.ident_type.options = response.data;
-      formFieldsLocal.Guardian.ident_type.options = response.data;
-      formData['Guardian_ident_type'] = response.data[0].id;
-      formData['Child_ident_type'] = response.data[0].id;
+      toastLoading("Cargando los Datos", customId);
+      const Promesas = Promise.all([
+        locality_request(authTokens.access),
+        idenType_request(authTokens.access),
+        gender_request(authTokens.access),
+        cribroom_request(authTokens.access),
+        shift_request(authTokens.access),
+        neighborhood_request(authTokens.access),
+        guardianType_request(authTokens.access),
+        phoneFeature_request(authTokens.access)]);
+      formFieldsLocal.Child.locality.options = Promesas[0].data;
+      formData['Child_locality'] = Promesas[0].data[0].id;
+      formFieldsLocal.Child.ident_type.options = Promesas[1].data;
+      formFieldsLocal.Guardian.ident_type.options = Promesas[1].data;
+      formData['Guardian_ident_type'] = Promesas[1].data[0].id;
+      formData['Child_ident_type'] = Promesas[1].data[0].id;
+      formFieldsLocal.Child.gender.options = Promesas[2].data;
+      formData['Child_gender'] = Promesas[2].data[0].id;
+      formFieldsLocal.Child.cribroom.options = Promesas[3].data;
+      formData['Child_cribroom'] = Promesas[3].data[0].id;
+      formFieldsLocal.Child.shift.options = Promesas[4].data;
+      formData['Child_shift'] = Promesas[4].data[0].id;
+      formFieldsLocal.Child.neighborhood.options = Promesas[5].data;
+      formData['Child_neighborhood'] = Promesas[5].data[0].id;
+      formFieldsLocal.Guardian.guardian_Type.options = Promesas[6].data;
+      formData['Guardian_guardian_Type'] = Promesas[6].data[0].id;
+      formFieldsLocal.Phone.phone_Feature.options = Promesas[7].data;
+      formData['Phone_phone_Feature'] = Promesas[7].data[0].id;
 
+      toastUpdateSuccess("Datos cargados", customId);
     } catch (error) {
-      console.error("Error fetching generos:", error);
-    }
-  };
-
-
-  const GenderList = async () => {
-    try {
-      const response = await gender_request(authTokens.access);
-      setGender(response.data);
-      formFieldsLocal.Child.gender.options = response.data;
-      formData['Child_gender'] = response.data[0].id;
-
-
-    } catch (error) {
-      console.error("Error fetching generos:", error);
-    }
-  };
-
-  async function CribroomList() {
-    try {
-      const response = await cribroom_request(authTokens.access);
-      setCribroom(response.data);
-      formFieldsLocal.Child.cribroom.options = response.data;
-      formData['Child_cribroom'] = response.data[0].id;
-
-    } catch (error) {
-      console.log("Error fetching Salas Cunas:", error);
-    }
-  }
-
-  async function ShiftList() {
-    try {
-      const response = await shift_request(authTokens.access);
-      setShift(response.data);
-      formFieldsLocal.Child.shift.options = response.data;
-      formData['Child_shift'] = response.data[0].id;
-
-    } catch (error) {
-      console.log("Error fetching Turnos:", error);
+      toastUpdateError("Error al cargar los Datos!", customId);
     }
   }
-
-  async function LocalityList() {
-    try {
-      const response = await locality_request(authTokens.access);
-      setLocality(response.data);
-      formFieldsLocal.Child.locality.options = response.data;
-      formData['Child_locality'] = response.data[0].id;
-
-    } catch (error) {
-      console.error("Error fetching localidad:", error);
-    }
-  }
-
-  async function NeighborhoodList() {
-    try {
-      const response = await neighborhood_request(authTokens.access);
-      setNeighborhood(response.data);
-      formFieldsLocal.Child.neighborhood.options = response.data;
-      formData['Child_neighborhood'] = response.data[0].id;
-
-    } catch (error) {
-      console.error("Error fetching barrio:", error);
-    }
-  }
-
-  const navigate = useNavigate();
-
-  const GuardianTypeList = async () => {
-    try {
-      const response = await guardianType_request(authTokens.access);
-      setGuardianType(response.data);
-      formFieldsLocal.Guardian.guardian_Type.options = response.data;
-      formData['Guardian_guardian_Type'] = response.data[0].id;
-
-    } catch (error) {
-      console.error("Error fetching estados:", error);
-    }
-  };
-
-  const PhoneFeatureList = async () => {
-    try {
-      const response = await phoneFeature_request(authTokens.access);
-      setPhoneFeature(response.data);
-      formFieldsLocal.Phone.phone_Feature.options = response.data;
-      formData['Phone_phone_Feature'] = response.data[0].id;
-
-    } catch (error) {
-      console.error("Error fetching estados:", error);
-    }
-  };
-
 
   return (
     <Modal
@@ -299,35 +201,35 @@ export function FormAddChildren(props) {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-    <body className="body-ac">
-      <div className="container-form-wrapper">
-        <Form className="conteiner-form" onSubmit={handleSubmit}>
-          <h1 className="titulo">Añadir Niños/as</h1>
+      <body className="body-ac">
+        <div className="container-form-wrapper">
+          <Form className="conteiner-form" onSubmit={handleSubmit}>
+            <h1 className="titulo">Añadir Niños/as</h1>
 
-          <div className="contenedor-linea">
-            <hr className="linea" />
-          </div>
+            <div className="contenedor-linea">
+              <hr className="linea" />
+            </div>
 
-          {renderformFieldsLocal(formFieldsLocal.Child, 'Child')}
+            {renderformFieldsLocal(formFieldsLocal.Child, 'Child')}
 
-          <div className="toggle-button" onClick={() => toggleTutor()}>
-            {isTutorVisible ? "Ocultar Añadir tutor" : "Mostrar Añadir tutor"}
-          </div>
+            <div className="toggle-button" onClick={() => toggleTutor()}>
+              {isTutorVisible ? "Ocultar Añadir tutor" : "Mostrar Añadir tutor"}
+            </div>
 
-          {isTutorVisible && renderformFieldsLocal(formFieldsLocal.Guardian, 'Guardian')}
+            {isTutorVisible && renderformFieldsLocal(formFieldsLocal.Guardian, 'Guardian')}
 
-          <div className="toggle-button" onClick={() => toggleDireccion()}>
-            {isDireccionVisible ? "Ocultar Direccion" : "Mostrar Direccion"}
-          </div>
+            <div className="toggle-button" onClick={() => toggleDireccion()}>
+              {isDireccionVisible ? "Ocultar Direccion" : "Mostrar Direccion"}
+            </div>
 
-          {isDireccionVisible && renderformFieldsLocal(formFieldsLocal.Phone, 'Phone')}
+            {isDireccionVisible && renderformFieldsLocal(formFieldsLocal.Phone, 'Phone')}
 
-          <div className="contenedor-boton mb-1 ">
-            <Button as="input" type="submit" value="Cargar" size="lg" />
-          </div>
-        </Form>
-      </div>
-    </body>
-  </Modal>
+            <div className="contenedor-boton mb-1 ">
+              <Button as="input" type="submit" value="Cargar" size="lg" />
+            </div>
+          </Form>
+        </div>
+      </body>
+    </Modal>
   );
 }
