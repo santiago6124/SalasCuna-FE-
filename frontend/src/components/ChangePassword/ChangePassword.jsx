@@ -13,14 +13,6 @@ export function ChangePassword() {
                 <h1 className="linea-conteiner-changepw"></h1>
             </div>
             <Form.Group>
-                <Form.Label className="mb-2">Dirección de email</Form.Label>
-                <Form.Control
-                    type="text"
-                    placeholder="Ingrese su dirección de email"
-                    className="mb-3"
-                ></Form.Control>
-            </Form.Group>
-            <Form.Group>
                 <Form.Label className="mb-2">Ingresar Nueva Contraseña</Form.Label>
                 <Form.Control
                     type="text"
