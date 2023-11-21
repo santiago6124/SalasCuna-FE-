@@ -17,7 +17,7 @@ function GeneratePadron() {
   const [selectedZone, setSelectedZone] = useState("");
   const [cribrooms, setCribrooms] = useState([]);
   let { authTokens } = useContext(AuthContext);
-
+ 
   let headers = {
     "Content-Type": "application/json",
     "Authorization": "JWT " + authTokens.access,
@@ -94,51 +94,44 @@ function GeneratePadron() {
     <div > 
         <body className="mt-3">
         
-        <h1 className="titulo-cb">Generar Padrón</h1>
-        <div className="contenedor-linea-note">
-          <hr className="linea-note"></hr>
+        <h1 className="titulo-gp">Generar Padrón</h1>
+        <div className="contenedor-linea-gp">
+          <hr className="linea-gp"></hr>
         </div>
         <div className="center-row">
-          <Row>
-            <Form.Label className="mb-1 ms-3">Seleccionar Zona</Form.Label>
-            <Col className="col-md-5 " > {/* Ajusta el ancho según tus necesidades */}
-              <Form.Select
-                className="mb-1"
-                name="zoneCR"
-                as="select"
-                value={selectedZone}
-                onChange={handleSelectChange}
-              >
-                <option value="" disabled>
-                  Seleccionar Zona
+          <div className="container-dropdown-gp">
+            <Form.Label className="mb-1">Seleccionar Zona</Form.Label>
+            <Form.Select
+              className="mb-1"
+              name="zoneCR"
+              as="select"
+              value={selectedZone}
+              onChange={handleSelectChange}
+            >
+              <option value="" disabled>
+                Seleccionar Zona
+              </option>
+              {zoneOptions.map((zone) => (
+                <option key={zone.id} value={zone.id}>
+                  {zone.name}
                 </option>
-                {zoneOptions.map((zone) => (
-                  <option key={zone.id} value={zone.id}>
-                    {zone.name}
-                  </option>
-                ))}
-              </Form.Select>
-            </Col>
-            <Col className="col-md-1"> {/* Ajusta el ancho según tus necesidades */}
-              <Button
-                variant="primary"
-                onClick={handlePdfClick}
-                className="mt-3 ms-2"
-              >
+              ))}
+            </Form.Select>
+          </div>
+              
+            <div className="container-btn-pdf">
+              <Button variant="primary" onClick={handlePdfClick}>
                 PDF
               </Button>
-            </Col>
-            <Col className="col-md-2"> {/* Ajusta el ancho según tus necesidades */}
-              <Button
-                variant="success"
-                onClick={handleExcelClick}
-                className="mt-3 ms-2 add-payout-button"
-              >
+            </div>
+
+            <div className="container-btn-exc">
+              <Button variant="success" onClick={handleExcelClick}>
                 EXCEL
               </Button>
-            </Col>
-          </Row>
+            </div>
         </div>
+
         
         <div className="DataGrid-Wrapper-padron">
           <DataGrid
