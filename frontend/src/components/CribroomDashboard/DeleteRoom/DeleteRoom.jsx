@@ -12,10 +12,12 @@ import { getAllCribroomsWithoutDepth } from "../../../api/salasCuna.api";
 
 export default function DeleteRoom(props) {
   const [selectedCribroom, setSelectedCribroom] = useState("");
+  const [CRName, setCribroomName] = useState("")
   const CustomId = useRef(null);
 
   useEffect(() => {
     setSelectedCribroom(props.id);
+    setCribroomName(props.name)
   }, [props]);
 
   async function handleDelete(event) {
@@ -69,7 +71,7 @@ export default function DeleteRoom(props) {
         <hr className="linea-eliminar"></hr>
       </div>
       <div className="par">
-        <p>Esta seguro que desea Eliminar la Sala Cuna {selectedCribroom}?</p>
+        <p>Esta seguro que desea Eliminar la Sala Cuna {CRName}?</p>
         <p>Esto hara que su estado pase a ser Inactivo,</p>
       </div>
       <div className="par">
