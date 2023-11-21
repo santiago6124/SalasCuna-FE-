@@ -119,7 +119,7 @@ export default function EditAccount() {
         <Row className="d-flex justify-content-center mt-3 mb-4">
           <Col className="justify-content-center d-flex">
             <Button className="m-2">Guardar Cambios</Button>
-            <Button className="m-2">Olvidaste tu Contraseña?</Button>
+            <Button className="m-2" variant="danger">Cancelar</Button>
           </Col>
         </Row>
       </Form>
