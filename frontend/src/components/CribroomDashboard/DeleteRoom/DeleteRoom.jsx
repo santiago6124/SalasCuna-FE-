@@ -7,6 +7,8 @@ import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
 import Cookies from 'js-cookie'
 
+import { cribroom_request } from "../../../api/salasCuna.api";
+
 import { toastLoading, toastUpdateError, toastUpdateSuccess } from "../../../utils/toastMsgs";
 
 export default function DeleteRoom(props) {
@@ -25,22 +27,12 @@ export default function DeleteRoom(props) {
     event.preventDefault();
     toastLoading("Desactivando la Sala Cuna. Por favor, no toque nada", CustomId);
     try {
-      var payload
-      if (cribState){
-        payload = {
-          is_active: "false",
-        }}
-      else {
-        payload = {
-          is_active: "true",
-        }}
-      await axios.patch(`/api/cribroomDir/${selectedCribroom}/?delete`, payload, {
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': Cookies.get('csrftoken'),
-          "Authorization": "JWT " + props.tokens
-        }
-      });
+      const payload = {
+        is_active: "false",
+      };
+      console.log('request in progress');
+      await cribroom_request(props.tokens, 'patch', 0, payload, selectedCribroom);
+      console.log('request success');
       toastUpdateSuccess("Sala Cuna desactivada", CustomId);
       props.onHide();
     } catch (err) {
