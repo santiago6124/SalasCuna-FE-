@@ -5,9 +5,10 @@ import "./UserList.css";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
-import UpdateUser from "../UserManagement/EditUserModal";
+
+
 import DeleteUser from "../UserManagement/DeleteUserModal";
-import SignUp from "../SignUp/SignUp";
+
 
 import Button from "@mui/material/Button";
 import Col from "react-bootstrap/Col/";
@@ -16,12 +17,14 @@ import Row from "react-bootstrap/Row/";
 //React  and React Functions Import
 import React, { useContext, useEffect, useRef, useState } from "react";
 import AuthContext from "../../context/AuthContext";
-import { getAllGroup, getAllUsers, handlePermissions } from "../../api/salasCuna.api";
+import { getAllGroup, handlePermissions, user_request } from "../../api/salasCuna.api";
 
 //DataGrid Import
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { toastLoading, toastUpdateError, toastUpdateSuccess } from "../../utils/toastMsgs";
 import { ToastContainer } from "react-toastify";
+
+import { UserForm } from "../UserForm/UserForm";
 
 export default function UserList() {
   const [users, setUsers] = useState([]);
@@ -32,106 +35,10 @@ export default function UserList() {
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
   const [modalCreateShow, setModalCreateShow] = useState(false);
 
+  const [selectedUserData, setSelectedUserData] = useState(null);
+
   let {authTokens} = useContext(AuthContext);
   const customId = useRef(null);
-
-  const [formFields, setFormFields] = useState({
-    user: [
-    {
-      name: "email",
-      label: "E-mail",
-      type: "email",
-      placeholder: "Ingresar E-mail",
-      // defaultValue: user ? user.email : "",
-      required: true,
-    },
-    {
-      name: "first_name",
-      label: "Nombre",
-      type: "text",
-      placeholder: "Ingresar nombre",
-      // defaultValue: user ? user.first_name : "",
-      required: true,
-    },
-    {
-      name: "last_name",
-      label: "Apellido",
-      type: "text",
-      placeholder: "Ingresar Apellido",
-      // defaultValue: user ? user.last_name : "",
-      required: true,
-    },
-    {
-      name: "dni",
-      label: "DNI",
-      type: "number",
-      placeholder: "Ingresar DNI",
-      // defaultValue: user ? user.dni : "",
-      required: true,
-    },
-    {
-      name: "group",
-      label: "Rol",
-      type: "select",
-      options: [
-        { id: 1, name: "Admin" },
-        { id: 2, name: "User" },
-      ],
-      // defaultValue: user ? user.group : "",
-      required: true,
-    },
-    {
-      name: "phone_number",
-      label: "Número De Teléfono",
-      type: "tel",
-      placeholder: "Ingresar Número De Teléfono",
-      // defaultValue: user ? user.phone_number : "",
-      required: true,
-    },
-    {
-      name: "city",
-      label: "Ciudad",
-      type: "text",
-      placeholder: "Ingresar Ciudad",
-      // defaultValue: user ? user.city : "",
-      required: true,
-    },
-    {
-      name: "department",
-      label: "Departamento",
-      type: "select",
-      options: [
-        { id: 1, department: "HR" },
-        { id: 2, department: "IT" },
-        // Add more departments as needed
-      ],
-      // defaultValue: user ? user.department : "",
-      required: true,
-    },
-    {
-      name: "address",
-      label: "Dirección",
-      type: "text",
-      placeholder: "Ingresar Dirección",
-      // defaultValue: user ? user.address : "",
-      required: true,
-    },
-    {
-      name: "birthdate",
-      label: "Fecha de Nacimiento",
-      type: "date",
-      // defaultValue: user ? user.birthdate : "",
-      required: true,
-    },
-  ]});
-
-  const [formData, setFormData] = useState({});  /// mas adelante get request para obtener cribroom basado en los props id
-  
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  };
-  
 
   useEffect(() => {
     listUsers();
@@ -141,7 +48,7 @@ export default function UserList() {
   async function listUsers() {
     try {
       toastLoading("Cargando Usuarios", customId);
-      const responseUsers = await getAllUsers(authTokens.access);
+      const responseUsers = await user_request(authTokens.access);
       console.log(responseUsers);
       setUsers(responseUsers.data);
       const userData = responseUsers.data;
@@ -184,7 +91,13 @@ export default function UserList() {
   function handleEditClick(rowId) {
     setSelectedUser(rowId);
     setModalEditShow(true);
+    const selectedUserData = getUserDataById(rowId); // Replace this with your function to get User data
+    setSelectedUserData(selectedUserData);
     console.log("Edit clicked for row with id:", rowId);
+  }
+  function getUserDataById(UserId) {
+    // Replace this with your logic to get User data by ID from the 'Users' array
+    return users.find((User) => User.id === UserId);
   }
 
   function handleCreateClick() {
@@ -211,12 +124,8 @@ export default function UserList() {
 
           <>
             {selectedUser && (
-              <UpdateUser
-              
-                formFields={formFields}
-                handleInputChange={handleInputChange}
-                formData={formData}
-                id={selectedUser}
+              <UserForm              
+                data={selectedUserData}
                 show={modalEditShow}
                 tokens= {authTokens.access}
                 onHide={() => {
@@ -239,10 +148,7 @@ export default function UserList() {
               />
             )}
             {modalCreateShow && (
-              <SignUp
-                formFields={formFields}
-                handleInputChange={handleInputChange}
-                formData={formData}
+              <UserForm
                 show={modalCreateShow}
                 onHide={() => {
                   setModalCreateShow(false);

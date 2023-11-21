@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import axios from "axios";
+
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import "./Payout.css";
@@ -14,10 +14,11 @@ import AddIcon from "@mui/icons-material/Add";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import { Form } from "react-bootstrap";
 import Menu from "../Menu/Menu";
-import { AddPayout } from "./AddPayoutModal";
-import { EditPayout } from "./EditPayoutModal";
+
+import { PayoutForm } from "../PayoutForm/PayoutForm";
+
 import DeletePayout from "./DeletePayoutModal";
-import { getAllZones, handlePermissions } from "../../api/salasCuna.api";
+import { handlePermissions, zone_request, payout_request } from "../../api/salasCuna.api";
 
 export default function Payout() {
   const [zoneOptions, setZoneOptions] = useState([]);
@@ -29,37 +30,7 @@ export default function Payout() {
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
   let { authTokens } = useContext(AuthContext); // Get the auth tokens from the context
 
-  const [formFields, setFormFields] = useState({
-    payout: [
-      {
-        name: "amount",
-        label: "Editar el monto del pago",
-        type: "text",
-        required: true,
-      },
-      {
-        name: "date",
-        label: "Fecha",
-        type: "date",
-        required: true,
-      },
-      {
-        name: "zone",
-        label: "Zona",
-        type: "select",
-        options: zoneOptions, // You need to define zoneOptions props.zones
-        required: true,
-      },
-    ],
-  });
-
-  const [formData, setFormData] = useState({});  /// mas adelante get request para obtener cribroom basado en los props id
-
-  
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  const [selectedPayoutData, setSelectedPayoutData] = useState(null);
 
   useEffect(() => {
     loadZones();
@@ -71,20 +42,26 @@ export default function Payout() {
     }
   }, [selectedZone]);
 
+  function handleEditClick(rowId) {
+    setSelectedPayout(rowId);
+    setModalEditShow(true);
+    const selectedPayoutData = getPayoutDataById(rowId); // Replace this with your function to get Payout data
+    setSelectedPayoutData(selectedPayoutData);
+    console.log("Edit clicked for row with id:", rowId);
+  }
+  function getPayoutDataById(PayoutId) {
+    // Replace this with your logic to get Payout data by ID from the 'Payouts' array
+    return payout.find((Payout) => Payout.id === PayoutId);
+  }
+
+
   async function loadZones() {
     try {
-      const response = await getAllZones(authTokens.access); // Include the JWT token in the request headers
+      const response = await zone_request(authTokens.access); // Include the JWT token in the request headers
       let data = await response.data;
       setZoneOptions(data);
-      formFields['payout'][2]['options'] = response.data;
 
-      const responsePO = await axios.get("/api/payout/", {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "JWT " + authTokens.access,
-          "Accept": "application/json",
-        },
-      });
+      const responsePO = await payout_request(authTokens.access);
       let payouts = await responsePO.data;
       setPayout(payouts);
     } catch (error) {
@@ -94,13 +71,7 @@ export default function Payout() {
 
   async function loadPayout(zoneId) {
     try {
-      const response = await axios.get(`/api/payout/?zone=${zoneId}`, {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "JWT " + authTokens.access,
-          "Accept": "application/json",
-        },
-      });
+      const response = await payout_request(authTokens.access, 'get', 0, {}, undefined, `&zone_id=${zoneId}`);
       const jsonData = response.data;
       setPayout(jsonData);
     } catch (error) {
@@ -117,11 +88,6 @@ export default function Payout() {
     setModalAddShow(true);
   }
 
-  async function handleEditClick(payoutID) {
-    setModalEditShow(true);
-    setSelectedPayout(payoutID);
-  }
-
   async function handleDeleteClick(payoutID) {
     setModalDeleteShow(true);
     setSelectedPayout(payoutID);
@@ -132,22 +98,17 @@ export default function Payout() {
       <body>
         <div className="cribroom-dashboard">
           <>
-            <AddPayout
-              formFields={formFields}
-              handleInputChange={handleInputChange}
-              formData={formData}
+            <PayoutForm
               show={modalAddShow}
               onHide={() => {
                 setModalAddShow(false);
                 window.location.reload();
               }}
             />
-            <EditPayout
-              id={selectedPayout}
-              formFields={formFields}
-              handleInputChange={handleInputChange}
-              formData={formData}
+            <PayoutForm
+              data={selectedPayoutData}
               show={modalEditShow}
+              tokens= {authTokens.access}
               onHide={() => {
                 setModalEditShow(false);
                 window.location.reload();
