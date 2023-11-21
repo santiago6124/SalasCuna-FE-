@@ -1,9 +1,10 @@
 import Menu from "../Menu/Menu";
 import SearchBar from "../SearchBar/SearchBar";
-import { UpdateRoom } from "../CribroomDashboard/EditRoom/EditRoom";
+// import { CribroomForm } from "../CribroomDashboard/EditRoom/EditRoom";
 import DeleteRoom from "../CribroomDashboard/DeleteRoom/DeleteRoom";
-import { CreateRoom } from "../CribroomDashboard/CreateRoom/CreateRoom";
+
 import HistoryTimeline from "./ObjectHistory";
+
 import "./CribroomDashboard.css";
 
 import React, { useContext, useEffect, useRef, useState } from "react";
@@ -17,9 +18,9 @@ import { DataGrid, GridActionsCellItem, esES } from "@mui/x-data-grid"; //The es
 //UI Icons Imports
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+
 import HistoryIcon from "@mui/icons-material/History";
 
-import axios from "axios";
 import { ToastContainer } from "react-toastify";
 import { Row, Col } from "react-bootstrap";
 import AddIcon from "@mui/icons-material/Add";
@@ -30,12 +31,15 @@ import {
   toastUpdateSuccess,
 } from "../../utils/toastMsgs";
 
+import { CribroomForm } from "../CribroomForm/CribroomForm";
+
 export default function CribroomDashboard() {
   const [cribrooms, setCribrooms] = useState([]);
   const [filteredCribroom, setFilteredCribroom] = useState([]);
   const [keyword, setKeyword] = useState("");
   const [selectedCribroom, setSelectedCribroom] = useState("");
   const [cribroomName, setCribroomName] = useState("");
+  const [selectedCribroomData, setSelectedCribroomData] = useState(null);
 
   // Modal variables
   const [modalEditShow, setModalEditShow] = useState(false);
@@ -110,6 +114,19 @@ export default function CribroomDashboard() {
     setSelectedCribroom(rowId);
     setModalEditShow(true);
     console.log("Edit clicked for row with id:", rowId);
+  }
+
+  async function handleEditClick(rowId) {
+    setSelectedCribroom(rowId);
+    setModalEditShow(true);
+    const selectedCribroomData = getCribroomDataById(rowId); // Replace this with your function to get Cribroom data
+    setSelectedCribroomData(selectedCribroomData);
+    console.log("Edit clicked for row with id:", rowId);
+    console.log("Edit clicked for row with id:", rowId);
+  }
+  function getCribroomDataById(CribroomId) {
+    // Replace this with your logic to get Cribroom data by ID from the 'Cribrooms' array
+    return cribrooms.find((Cribroom) => Cribroom.id === CribroomId);
   }
 
   function handleCreateClick() {
@@ -212,8 +229,8 @@ export default function CribroomDashboard() {
         <div style={{ marginTop: 100 }}> 
           {selectedCribroom && (
             <>
-              <UpdateRoom
-                id={selectedCribroom}
+              <CribroomForm
+                data={selectedCribroomData}
                 show={modalEditShow}
                 tokens={authTokens.access}
                 onHide={() => {
@@ -251,7 +268,7 @@ export default function CribroomDashboard() {
             />
           )}
           {modalCreateShow && (
-            <CreateRoom
+            <CribroomForm
               show={modalCreateShow}
               onHide={() => {
                 setModalCreateShow(false);
