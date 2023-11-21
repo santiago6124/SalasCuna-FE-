@@ -6,9 +6,11 @@ import TimelineSeparator from "@mui/lab/TimelineSeparator";
 import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
+import { Scrollbars } from "react-custom-scrollbars-2";
 import { Paper } from "@mui/material";
 import { Typography } from "@mui/material";
 import { Row } from "react-bootstrap";
+
 import Cookies from "js-cookie";
 import axios from "axios";
 
@@ -222,18 +224,17 @@ export default function HistoryTimeline(props) {
     <Modal
       {...props}
       aria-labelledby="contained-modal-title-vcenter"
-      size="md"
-      className="pt-5"
+      size="lg"
+      className="p-1 mt-3 mb-3"
       centered
     >
-      <h2 className="titulo-cb mt-3">Historial de: {id}</h2>
-      <div className="contenedor-linea-cb">
-        <hr className="linea-cb"></hr>
-      </div>
-      <Timeline position="alternate">{historyItems}</Timeline>
+      <Scrollbars style={{ height: 600 }}>
+        <h2 className="titulo-cb mt-3">Historial de: {id}</h2>
+        <div className="contenedor-linea-cb">
+          <hr className="linea-cb"></hr>
+        </div>
+        <Timeline position="alternate">{historyItems}</Timeline>
+      </Scrollbars>
     </Modal>
   );
 }
-
-
-
