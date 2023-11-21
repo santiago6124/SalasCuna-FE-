@@ -11,27 +11,22 @@ import { toastLoading, toastUpdateError, toastUpdateSuccess } from "../../../uti
 
 export default function DeleteRoom(props) {
   const [selectedCribroom, setSelectedCribroom] = useState("");
-  const [CRName, setCribroomName] = useState("")
+  const [cribroomName, setCribroomName] = useState("");
+  const [cribState, setCribState] = useState("");
   const CustomId = useRef(null);
 
   useEffect(() => {
     setSelectedCribroom(props.id);
-    setCribroomName(props.name)
+    setCribroomName(props.name);
+    setCribState(props.is_active);
   }, [props]);
 
   async function handleDelete(event) {
     event.preventDefault();
     toastLoading("Desactivando la Sala Cuna. Por favor, no toque nada", CustomId);
     try {
-      const activated = await axios.get(`/api/cribroomDir/${selectedCribroom}/`, {
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': Cookies.get('csrftoken'),
-          "Authorization": "JWT " + props.tokens
-        }
-      });
       var payload
-      if (activated.data.is_active){
+      if (cribState){
         payload = {
           is_active: "false",
         }}
@@ -70,7 +65,7 @@ export default function DeleteRoom(props) {
         <hr className="linea-eliminar"></hr>
       </div>
       <div className="par">
-        <p>¿Está seguro que desea eliminar la Sala Cuna {selectedCribroom}?</p>
+        <p>¿Está seguro que desea eliminar la Sala Cuna {cribroomName}?</p>
         <p>Esto hará que su estado pase a ser inactivo.</p>
       </div>
       <div className="par">

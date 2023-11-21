@@ -10,11 +10,12 @@ import { deletingData, warningData } from "../../utils/toastMsgs";
 export default function DeleteUser(props) {
   const [selectedUser, setSelectedUser] = useState("");
   const [userName, setUserName] = useState("");
-
+  const [userState, setUserState] = useState("");
 
   useEffect(() => {
     setSelectedUser(props.id);
     setUserName(props.name);
+    setUserState(props.is_active);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -22,15 +23,8 @@ export default function DeleteUser(props) {
     event.preventDefault();
     console.log(selectedUser);
     try {
-      const activated = await axios.get(`/api/user/${selectedUser}/`, {
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': Cookies.get('csrftoken'),
-          "Authorization": "JWT " + props.tokens
-        }
-      });
       var payload
-      if (activated.data.is_active){
+      if (userState){
         payload = {
           is_active: "false",
         }}
