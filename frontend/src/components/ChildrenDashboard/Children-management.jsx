@@ -86,7 +86,7 @@ export default function ChildrenManagement() {
       let response = await axios.get(
         `/api/cribroom/?no_depth&id=${selectedSalaCuna}`,
         { headers: headers }
-      ); 
+      );
       console.log(response);
       if (response.request.status === 200) {
         setCribroomCapacity(response.data[0].reachMax);
@@ -216,7 +216,7 @@ export default function ChildrenManagement() {
     },
   ];
 
-  function reloadData() {
+  function reloadDataFunc() {
     loadChildren();
   }
 
@@ -232,7 +232,7 @@ export default function ChildrenManagement() {
             onHide={() => {
               setModalEditShow(false);
               setSelectedChild(""); // Reset selectedCribroom after closing modal
-              reloadData();
+              reloadDataFunc();
             }}
           />
         </>
@@ -321,9 +321,8 @@ export default function ChildrenManagement() {
 
             <div className="DataGrid-Wrapper-cm">
               <DataGrid
-                style={{ borderRadius: "15px", maxWidth: "780px", }}
+                style={{ borderRadius: "15px", maxWidth: "780px" }}
                 localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-
                 rows={childs}
                 columns={columns}
                 autoHeight
