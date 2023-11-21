@@ -27,6 +27,10 @@ import {
   formFields
 } from "../../api/salasCuna.formFields";
 
+import {
+  modelFields
+} from "../../api/salasCuna.modelFields";
+
 export function FormAddChildren(props) {
 
   const [guardianTypes, setGuardianType] = useState([]);
@@ -52,19 +56,7 @@ export function FormAddChildren(props) {
   });
 
   const [formData, setFormData] = useState({
-    // nombreChild: "Facundo",
-    // apellidoChild: "Oliva Marchetto",
-    // dniChild: 460327608,
-    // fechaNacimientoChild: "2004-10-29",
-    // fechaBaja: "2004-10-29",
-    // fechaAlta: "2006-10-29",
-    // nombreGuardian: "Lucas",
-    // apellidoGuardian: "Oliva",
-    // dniGuardian: 241191000,
-    // telefono: 3534441111,
-    // calle: 'la calle de mi casa',
-    // numero_casa: 37,
-    is_active: false
+    child_is_active: false
   });
 
   const handleInputChange = (event) => {
@@ -95,17 +87,17 @@ export function FormAddChildren(props) {
     getChildren();
   }, []);
 
-  const renderformFieldsLocal = (fields) => {
+  const renderformFieldsLocal = (fields, prefix) => {
     return Object.keys(fields).map((fieldName) => {
       const field = fields[fieldName];
   
       return (
-        <Form.Group className="mb-3" key={field.name}>
+        <Form.Group className="mb-3" key={`${prefix}_${field.name}`}>
           <Form.Label className="mb-1">{field.label}</Form.Label>
           {field.type === "select" ? (
             <select
-              name={field.name}
-              value={formData[field.name]}
+              name={`${prefix}_${field.name}`}
+              value={formData[`${prefix}_${field.name}`]}
               onChange={handleInputChange}
               className="form-control"
               required={field.required}
@@ -119,18 +111,18 @@ export function FormAddChildren(props) {
           ) : field.type === "checkbox" ? (
             <Form.Check
               type="checkbox"
-              label={field.label}
-              name={field.name}
-              checked={formData[field.name]}
-              onChange={(e) => setFormData({ ...formData, [field.name]: e.target.checked })}
+              label={`${prefix}_${field.label}`}
+              name={`${prefix}_${field.name}`}
+              checked={formData[`${prefix}_${field.name}`]}
+              onChange={(e) => setFormData({ ...formData, [`${prefix}_${field.name}`]: e.target.checked })}
               required={field.required}
             />
           ) : (
             <Form.Control
               type={field.type}
               placeholder={`Ingrese ${field.label.toLowerCase()}`}
-              name={field.name}
-              value={formData[field.name]}
+              name={`${prefix}_${field.name}`}
+              value={formData[`${prefix}_${field.name}`]}
               onChange={handleInputChange}
               required={field.required}
             />
@@ -148,81 +140,87 @@ export function FormAddChildren(props) {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    const formData = new FormData(event.target);
-    const guardianPayload = {
-      first_name: formData.get("nombreGuardian"),
-      last_name: formData.get("apellidoGuardian"),
-      dni: formData.get("dniGuardian"),
-      guardian_phone_number: formData.get("telefono"),
-      guardian_phone_Feature: formData.get("phoneFeature"),
-      guardian_Type: formData.get("guardianType"),
-      gender: formData.get("generoGuardian"),
-    };
+    // const payload = {
+    //   Child: {
+    //     first_name: formData.first_name,
+    //     last_name: formData.last_name,
+    //     // ...otros campos
+    //     is_active: formData.is_active,
+    //   },
+    //   Guardian: {
+    //     // Configurar datos del tutor según el modelo
+    //   },
+    //   Phone: {
+    //     // Configurar datos del teléfono según el modelo
+    //   },
+    // };
+    // console.log('payload: ', payload);
+    console.log('formData: ', formData);
 
-    try {
-      let responseG = await axios.post('/api/GuardianListCreateView/', guardianPayload, {
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRFToken": Cookies.get("csrftoken"),
-          "Authorization": "JWT " + authTokens.access
-        },
-      });
+    // try {
+    //   let responseG = await axios.post('/api/GuardianListCreateView/', guardianPayload, {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       "X-CSRFToken": Cookies.get("csrftoken"),
+    //       "Authorization": "JWT " + authTokens.access
+    //     },
+    //   });
 
-      let us = await axios.get("/api/GuardianListCreateView/", {
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "JWT " + authTokens.access,
-            "Accept": "application/json"
-          }
-      })
-      var userId = us.data.length+11;
-      var userId = us.data[us.data.length-1].id;
-      console.log(userId);
+    //   let us = await axios.get("/api/GuardianListCreateView/", {
+    //     headers: {
+    //         "Content-Type": "application/json",
+    //         "Authorization": "JWT " + authTokens.access,
+    //         "Accept": "application/json"
+    //       }
+    //   })
+    //   var userId = us.data.length+11;
+    //   var userId = us.data[us.data.length-1].id;
+    //   console.log(userId);
 
-      const payload = {
-        first_name: formData.get("nombreChild"),
-        last_name: formData.get("apellidoChild"),
-        dni: formData.get("dniChild"),
-        age: formData.get("edadChild"),
-        birthdate: formData.get("fechaNacimientoChild"),
-        house_number: formData.get("numero_casa"),
-        registration_date: formData.get("fechaAlta"),
-        disenroll_date: formData.get("fechaBaja")
-          ? formData.get("fechaBaja")
-          : null,
-        locality: formData.get("locality"),
-        gender: formData.get("generoChild"),
-        cribroom: formData.get("salacuna"),
-        shift: formData.get("turno"),
-        neighborhood: formData.get("neighborhood"),
-        street: formData.get("calle"),
-        guardian_first_name: formData.get("nombreGuardian"),
-        guardian_last_name: formData.get("apellidoGuardian"),
-        guardian_dni: formData.get("dniGuardian"),
-        guardian_phone_number: formData.get("telefono"),
-        guardian_phone_Feature: formData.get("phoneFeature"),
-        guardian_guardian_Type_id: formData.get("guardianType"),
-        guardian_gender_id: formData.get("generoGuardian"),
-        guardian: userId,
-      };
+    //   const payload = {
+    //     first_name: formData.get("nombreChild"),
+    //     last_name: formData.get("apellidoChild"),
+    //     dni: formData.get("dniChild"),
+    //     age: formData.get("edadChild"),
+    //     birthdate: formData.get("fechaNacimientoChild"),
+    //     house_number: formData.get("numero_casa"),
+    //     registration_date: formData.get("fechaAlta"),
+    //     disenroll_date: formData.get("fechaBaja")
+    //       ? formData.get("fechaBaja")
+    //       : null,
+    //     locality: formData.get("locality"),
+    //     gender: formData.get("generoChild"),
+    //     cribroom: formData.get("salacuna"),
+    //     shift: formData.get("turno"),
+    //     neighborhood: formData.get("neighborhood"),
+    //     street: formData.get("calle"),
+    //     guardian_first_name: formData.get("nombreGuardian"),
+    //     guardian_last_name: formData.get("apellidoGuardian"),
+    //     guardian_dni: formData.get("dniGuardian"),
+    //     guardian_phone_number: formData.get("telefono"),
+    //     guardian_phone_Feature: formData.get("phoneFeature"),
+    //     guardian_guardian_Type_id: formData.get("guardianType"),
+    //     guardian_gender_id: formData.get("generoGuardian"),
+    //     guardian: userId,
+    //   };
 
-      let response = await axios.post(`/api/child/?no_depth`, payload, {
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRFToken": Cookies.get("csrftoken"),
-          "Authorization": "JWT " + authTokens.access
-        },
-      });
-      if (response.request.status === 201) {
-        console.log("Child edited successfully");
-        window.location.reload();
-      } else {
-        console.log("Failed to edit child");
-      }
-    } catch (err) {
-      alert(":c");
-      console.log(err);
-    }
+    //   let response = await axios.post(`/api/child/?no_depth`, payload, {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       "X-CSRFToken": Cookies.get("csrftoken"),
+    //       "Authorization": "JWT " + authTokens.access
+    //     },
+    //   });
+    //   if (response.request.status === 201) {
+    //     console.log("Child edited successfully");
+    //     window.location.reload();
+    //   } else {
+    //     console.log("Failed to edit child");
+    //   }
+    // } catch (err) {
+    //   alert(":c");
+    //   console.log(err);
+    // }
   }
 
   const IdentTypetList = async () => {
@@ -329,19 +327,19 @@ export function FormAddChildren(props) {
             <hr className="linea" />
           </div>
 
-          {renderformFieldsLocal(formFieldsLocal.Child)}
+          {renderformFieldsLocal(formFieldsLocal.Child, 'child')}
 
           <div className="toggle-button" onClick={() => toggleTutor()}>
             {isTutorVisible ? "Ocultar Añadir tutor" : "Mostrar Añadir tutor"}
           </div>
 
-          {isTutorVisible && renderformFieldsLocal(formFieldsLocal.Guardian)}
+          {isTutorVisible && renderformFieldsLocal(formFieldsLocal.Guardian, 'guardian')}
 
           <div className="toggle-button" onClick={() => toggleDireccion()}>
             {isDireccionVisible ? "Ocultar Direccion" : "Mostrar Direccion"}
           </div>
 
-          {isDireccionVisible && renderformFieldsLocal(formFieldsLocal.Phone)}
+          {isDireccionVisible && renderformFieldsLocal(formFieldsLocal.Phone, 'phone')}
 
           <div className="contenedor-boton mb-1 ">
             <Button as="input" type="submit" value="Cargar" size="lg" />
