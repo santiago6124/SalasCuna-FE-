@@ -159,7 +159,16 @@ export function FormAddChildren(props) {
   async function getAll() {
     try {
       toastLoading("Cargando los Datos", customId);
-      const Promesas = Promise.all([
+      const [
+        localityResponse,
+        idenTypeResponse,
+        genderResponse,
+        cribroomResponse,
+        shiftResponse,
+        neighborhoodResponse,
+        guardianTypeResponse,
+        phoneFeatureResponse
+      ] = await Promise.all([
         locality_request(authTokens.access),
         idenType_request(authTokens.access),
         gender_request(authTokens.access),
@@ -167,31 +176,35 @@ export function FormAddChildren(props) {
         shift_request(authTokens.access),
         neighborhood_request(authTokens.access),
         guardianType_request(authTokens.access),
-        phoneFeature_request(authTokens.access)]);
-      formFieldsLocal.Child.locality.options = Promesas[0].data;
-      formData['Child_locality'] = Promesas[0].data[0].id;
-      formFieldsLocal.Child.ident_type.options = Promesas[1].data;
-      formFieldsLocal.Guardian.ident_type.options = Promesas[1].data;
-      formData['Guardian_ident_type'] = Promesas[1].data[0].id;
-      formData['Child_ident_type'] = Promesas[1].data[0].id;
-      formFieldsLocal.Child.gender.options = Promesas[2].data;
-      formData['Child_gender'] = Promesas[2].data[0].id;
-      formFieldsLocal.Child.cribroom.options = Promesas[3].data;
-      formData['Child_cribroom'] = Promesas[3].data[0].id;
-      formFieldsLocal.Child.shift.options = Promesas[4].data;
-      formData['Child_shift'] = Promesas[4].data[0].id;
-      formFieldsLocal.Child.neighborhood.options = Promesas[5].data;
-      formData['Child_neighborhood'] = Promesas[5].data[0].id;
-      formFieldsLocal.Guardian.guardian_Type.options = Promesas[6].data;
-      formData['Guardian_guardian_Type'] = Promesas[6].data[0].id;
-      formFieldsLocal.Phone.phone_Feature.options = Promesas[7].data;
-      formData['Phone_phone_Feature'] = Promesas[7].data[0].id;
-
+        phoneFeature_request(authTokens.access)
+      ]);
+  
+      formFieldsLocal.Child.locality.options = localityResponse.data;
+      formData['Child_locality'] = localityResponse.data[0].id;
+      formFieldsLocal.Child.ident_type.options = idenTypeResponse.data;
+      formFieldsLocal.Guardian.ident_type.options = idenTypeResponse.data;
+      formData['Guardian_ident_type'] = idenTypeResponse.data[0].id;
+      formData['Child_ident_type'] = idenTypeResponse.data[0].id;
+      formFieldsLocal.Child.gender.options = genderResponse.data;
+      formData['Child_gender'] = genderResponse.data[0].id;
+      formFieldsLocal.Child.cribroom.options = cribroomResponse.data;
+      formData['Child_cribroom'] = cribroomResponse.data[0].id;
+      formFieldsLocal.Child.shift.options = shiftResponse.data;
+      formData['Child_shift'] = shiftResponse.data[0].id;
+      formFieldsLocal.Child.neighborhood.options = neighborhoodResponse.data;
+      formData['Child_neighborhood'] = neighborhoodResponse.data[0].id;
+      formFieldsLocal.Guardian.guardian_Type.options = guardianTypeResponse.data;
+      formData['Guardian_guardian_Type'] = guardianTypeResponse.data[0].id;
+      formFieldsLocal.Phone.phone_Feature.options = phoneFeatureResponse.data;
+      formData['Phone_phone_Feature'] = phoneFeatureResponse.data[0].id;
+  
       toastUpdateSuccess("Datos cargados", customId);
     } catch (error) {
       toastUpdateError("Error al cargar los Datos!", customId);
+      console.error(error);
     }
   }
+  
 
   return (
     <Modal
