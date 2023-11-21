@@ -42,6 +42,10 @@ function App() {
               element={<PrivateRoute children={<ChangePassword />} />}
             />
             <Route
+              path="/password/reset"
+              element={<PrivateRoute children={<ChangePassword />} />}
+            />
+            <Route
               path="/activate/:uid/:token"
               element={<ActivateAccountPage />}
             />
