@@ -21,6 +21,9 @@ import {
   phoneFeature_request,
   shift_request,
   idenType_request,
+  guardian_request,
+  phone_request,
+  child_request,
 } from "../../api/salasCuna.api";
 
 import {
@@ -56,7 +59,7 @@ export function FormAddChildren(props) {
   });
 
   const [formData, setFormData] = useState({
-    child_is_active: false
+    Child_is_active: false
   });
 
   const handleInputChange = (event) => {
@@ -97,7 +100,7 @@ export function FormAddChildren(props) {
           {field.type === "select" ? (
             <select
               name={`${prefix}_${field.name}`}
-              value={formData[`${prefix}_${field.name}`]}
+              value={formData[field.name]} // Cambiado aquí
               onChange={handleInputChange}
               className="form-control"
               required={field.required}
@@ -114,7 +117,12 @@ export function FormAddChildren(props) {
               label={`${prefix}_${field.label}`}
               name={`${prefix}_${field.name}`}
               checked={formData[`${prefix}_${field.name}`]}
-              onChange={(e) => setFormData({ ...formData, [`${prefix}_${field.name}`]: e.target.checked })}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  [`${prefix}_${field.name}`]: e.target.checked,
+                })
+              }
               required={field.required}
             />
           ) : (
@@ -140,87 +148,48 @@ export function FormAddChildren(props) {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    // const payload = {
-    //   Child: {
-    //     first_name: formData.first_name,
-    //     last_name: formData.last_name,
-    //     // ...otros campos
-    //     is_active: formData.is_active,
-    //   },
-    //   Guardian: {
-    //     // Configurar datos del tutor según el modelo
-    //   },
-    //   Phone: {
-    //     // Configurar datos del teléfono según el modelo
-    //   },
-    // };
-    // console.log('payload: ', payload);
-    console.log('formData: ', formData);
 
-    // try {
-    //   let responseG = await axios.post('/api/GuardianListCreateView/', guardianPayload, {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       "X-CSRFToken": Cookies.get("csrftoken"),
-    //       "Authorization": "JWT " + authTokens.access
-    //     },
-    //   });
+    const payload = {};
+    // Iterar sobre las claves de formData para construir el payload
+    Object.keys(formData).forEach((key) => {
+      // Dividir la clave usando '_' para obtener el prefijo y el nombre del campo
+      const [prefix, ...rest] = key.split('_');
+      const fieldName = rest.join('_');  // Reconstruir el nombre del campo
 
-    //   let us = await axios.get("/api/GuardianListCreateView/", {
-    //     headers: {
-    //         "Content-Type": "application/json",
-    //         "Authorization": "JWT " + authTokens.access,
-    //         "Accept": "application/json"
-    //       }
-    //   })
-    //   var userId = us.data.length+11;
-    //   var userId = us.data[us.data.length-1].id;
-    //   console.log(userId);
+      // Verificar si el prefijo existe en el payload, si no, inicializarlo como un objeto vacío
+      if (!payload[prefix]) {
+        payload[prefix] = {};
+      }
 
-    //   const payload = {
-    //     first_name: formData.get("nombreChild"),
-    //     last_name: formData.get("apellidoChild"),
-    //     dni: formData.get("dniChild"),
-    //     age: formData.get("edadChild"),
-    //     birthdate: formData.get("fechaNacimientoChild"),
-    //     house_number: formData.get("numero_casa"),
-    //     registration_date: formData.get("fechaAlta"),
-    //     disenroll_date: formData.get("fechaBaja")
-    //       ? formData.get("fechaBaja")
-    //       : null,
-    //     locality: formData.get("locality"),
-    //     gender: formData.get("generoChild"),
-    //     cribroom: formData.get("salacuna"),
-    //     shift: formData.get("turno"),
-    //     neighborhood: formData.get("neighborhood"),
-    //     street: formData.get("calle"),
-    //     guardian_first_name: formData.get("nombreGuardian"),
-    //     guardian_last_name: formData.get("apellidoGuardian"),
-    //     guardian_dni: formData.get("dniGuardian"),
-    //     guardian_phone_number: formData.get("telefono"),
-    //     guardian_phone_Feature: formData.get("phoneFeature"),
-    //     guardian_guardian_Type_id: formData.get("guardianType"),
-    //     guardian_gender_id: formData.get("generoGuardian"),
-    //     guardian: userId,
-    //   };
+      // Asignar el valor al campo correspondiente en el payload
+      payload[prefix][fieldName] = formData[key];
+    });
+    console.log('payload: ', payload);
 
-    //   let response = await axios.post(`/api/child/?no_depth`, payload, {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       "X-CSRFToken": Cookies.get("csrftoken"),
-    //       "Authorization": "JWT " + authTokens.access
-    //     },
-    //   });
-    //   if (response.request.status === 201) {
-    //     console.log("Child edited successfully");
-    //     window.location.reload();
-    //   } else {
-    //     console.log("Failed to edit child");
-    //   }
-    // } catch (err) {
-    //   alert(":c");
-    //   console.log(err);
-    // }
+    try {
+      let GuardianResponse = await guardian_request(authTokens.access, 'post', 0, payload.Guardian);
+      console.log(GuardianResponse);
+
+      payload.Phone['guardian'] = GuardianResponse.data.id;
+      let PhoneResponse = await phone_request(authTokens.access, 'post', 0, payload.Phone);
+      console.log(PhoneResponse);
+
+      payload.Child['guardian'] = GuardianResponse.data.id;
+      let ChildResponse = await child_request(authTokens.access, 'post', 0, payload.Child);
+      console.log(ChildResponse);
+     
+      if (ChildResponse.request.status === 201) {
+        console.log("Child edited successfully");
+        window.location.reload();
+      } else {
+        console.log("Failed to edit child");
+      }
+    } catch (err) {
+      alert(":c");
+      console.log(err);
+    }
+
+    
   }
 
   const IdentTypetList = async () => {
@@ -229,6 +198,8 @@ export function FormAddChildren(props) {
       setIdentType(response.data);
       formFieldsLocal.Child.ident_type.options = response.data;
       formFieldsLocal.Guardian.ident_type.options = response.data;
+      formData['Guardian_ident_type'] = response.data[0].id;
+      formData['Child_ident_type'] = response.data[0].id;
 
     } catch (error) {
       console.error("Error fetching generos:", error);
@@ -241,6 +212,8 @@ export function FormAddChildren(props) {
       const response = await gender_request(authTokens.access);
       setGender(response.data);
       formFieldsLocal.Child.gender.options = response.data;
+      formData['Child_gender'] = response.data[0].id;
+
 
     } catch (error) {
       console.error("Error fetching generos:", error);
@@ -252,6 +225,8 @@ export function FormAddChildren(props) {
       const response = await cribroom_request(authTokens.access);
       setCribroom(response.data);
       formFieldsLocal.Child.cribroom.options = response.data;
+      formData['Child_cribroom'] = response.data[0].id;
+
     } catch (error) {
       console.log("Error fetching Salas Cunas:", error);
     }
@@ -262,6 +237,8 @@ export function FormAddChildren(props) {
       const response = await shift_request(authTokens.access);
       setShift(response.data);
       formFieldsLocal.Child.shift.options = response.data;
+      formData['Child_shift'] = response.data[0].id;
+
     } catch (error) {
       console.log("Error fetching Turnos:", error);
     }
@@ -272,6 +249,8 @@ export function FormAddChildren(props) {
       const response = await locality_request(authTokens.access);
       setLocality(response.data);
       formFieldsLocal.Child.locality.options = response.data;
+      formData['Child_locality'] = response.data[0].id;
+
     } catch (error) {
       console.error("Error fetching localidad:", error);
     }
@@ -282,6 +261,8 @@ export function FormAddChildren(props) {
       const response = await neighborhood_request(authTokens.access);
       setNeighborhood(response.data);
       formFieldsLocal.Child.neighborhood.options = response.data;
+      formData['Child_neighborhood'] = response.data[0].id;
+
     } catch (error) {
       console.error("Error fetching barrio:", error);
     }
@@ -294,6 +275,8 @@ export function FormAddChildren(props) {
       const response = await guardianType_request(authTokens.access);
       setGuardianType(response.data);
       formFieldsLocal.Guardian.guardian_Type.options = response.data;
+      formData['Guardian_guardian_Type'] = response.data[0].id;
+
     } catch (error) {
       console.error("Error fetching estados:", error);
     }
@@ -304,6 +287,8 @@ export function FormAddChildren(props) {
       const response = await phoneFeature_request(authTokens.access);
       setPhoneFeature(response.data);
       formFieldsLocal.Phone.phone_Feature.options = response.data;
+      formData['Phone_phone_Feature'] = response.data[0].id;
+
     } catch (error) {
       console.error("Error fetching estados:", error);
     }
@@ -327,19 +312,19 @@ export function FormAddChildren(props) {
             <hr className="linea" />
           </div>
 
-          {renderformFieldsLocal(formFieldsLocal.Child, 'child')}
+          {renderformFieldsLocal(formFieldsLocal.Child, 'Child')}
 
           <div className="toggle-button" onClick={() => toggleTutor()}>
             {isTutorVisible ? "Ocultar Añadir tutor" : "Mostrar Añadir tutor"}
           </div>
 
-          {isTutorVisible && renderformFieldsLocal(formFieldsLocal.Guardian, 'guardian')}
+          {isTutorVisible && renderformFieldsLocal(formFieldsLocal.Guardian, 'Guardian')}
 
           <div className="toggle-button" onClick={() => toggleDireccion()}>
             {isDireccionVisible ? "Ocultar Direccion" : "Mostrar Direccion"}
           </div>
 
-          {isDireccionVisible && renderformFieldsLocal(formFieldsLocal.Phone, 'phone')}
+          {isDireccionVisible && renderformFieldsLocal(formFieldsLocal.Phone, 'Phone')}
 
           <div className="contenedor-boton mb-1 ">
             <Button as="input" type="submit" value="Cargar" size="lg" />
