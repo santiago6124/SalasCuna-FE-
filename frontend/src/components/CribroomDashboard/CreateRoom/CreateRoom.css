@@ -23,7 +23,17 @@
   box-shadow: 1px 4px 10px 0px rgba(0, 0, 0, 0.37);
   background-color: rgb(255, 255, 255);
 }
-
+.contenedor-boton-qr {
+  display: flex;
+  justify-content: space-between; /* This will push the buttons to opposite ends */
+  margin-top: 20px; /* Adjust the top margin as needed */
+}
+.boton-cerrar {
+  /* Styles for the "Cerrar" button */
+  color: #fff; /* Text color */
+  background-color: #dc3545; /* Red background color */
+  border-color: #dc3545; /* Border color */
+}
 .titulo {
   text-align: center;
 }

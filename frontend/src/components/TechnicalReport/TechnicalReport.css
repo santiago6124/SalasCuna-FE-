@@ -10,6 +10,18 @@
   text-align: center;
 }
 
+.custom-data-grid {
+  max-width: 900px; /* Ajusta el ancho máximo según tus preferencias */
+  border: 2px solid #ccc; /* Ajusta el ancho y el color del borde según tus preferencias */
+}
+
+.DataGrid-Wrapper-report {
+  overflow: auto; /* Agrega desplazamiento horizontal si el contenido es más ancho que el contenedor */
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  margin: 0 auto;
+}
+
 .contenedor-linea-report {
   display: flex;
   flex-wrap: wrap;
@@ -71,4 +83,11 @@
   align-items: center;
   margin-right: 20px;
   padding: 15px;
+}
+
+
+@media (max-width: 1200px) {
+  .linea-report {
+    max-width: 90%; /* Reducir el ancho máximo para pantallas más pequeñas */
+  }
 }

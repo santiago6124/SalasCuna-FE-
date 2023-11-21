@@ -18,13 +18,10 @@
   z-index: 1000;
 }
 
-.conteiner-form-cb {
-  padding: 20px;
-  margin: 3%;
-  width: 500px;
-  border-radius: 18px;
-  box-shadow: 1px 4px 10px 0px rgba(0, 0, 0, 0.37);
-  background-color: rgb(255, 255, 255);
+
+.add-payout-button {
+  margin-top: 10px; /* Ajusta el margen superior según tus necesidades */
+  padding: 15px;
 }
 
 .titulo-cb {
@@ -37,6 +34,18 @@
   justify-content: center;
   align-items: center;
 }
+ 
+.custom-data-grid-payout{
+  max-width: 480px; /* Ajusta el ancho máximo según tus preferencias */
+  
+}
+
+.DataGrid-Wrapper-payout {
+  overflow: auto; /* Agrega desplazamiento horizontal si el contenido es más ancho que el contenedor */
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  margin: 0 auto;
+}
 
 .linea-cb {
   margin-top: 1px;
@@ -45,38 +54,9 @@
   width: 1200px;
 }
 
-.form-row-cb {
-  display: flex;
-  flex-wrap: wrap;
-  margin-right: 5px;
-  margin-left: 5px;
-}
 
-.form-row .col-md-6 {
-  padding-right: 5px;
-  padding-left: 5px;
-}
 
-.col-md-6 {
-  margin-right: 5px;
-  margin-left: -5px;
-}
 
-.Form-Control {
-  margin-left: 5px;
-  margin-right: 15px;
-  margin-bottom: 3px;
-  width: auto;
-}
-
-.contenedor-boton-createuser {
-  margin: 5px;
-  padding: 3%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-}
 
 .DataGrid {
   margin: 10px;
@@ -90,19 +70,18 @@
   overflow: hidden;
 }
 
-.col-md-2 {
-  margin-left: 20px;
-  display:block;
-  justify-content: flex-start;
-  align-items: flex-start;
+.div-general{
+  display: flex;
+  justify-content: center;
 }
 
-.add-payout-button {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-right: 20px;
-  margin-top: 10px;
-  padding: 15px;
+.col-dropdown{
+  width: 250px;
+  margin-left: 30px;
+}
+
+.add-payout-button{
+  margin-left: 20px;
+  margin-top: 13px;
 }
 

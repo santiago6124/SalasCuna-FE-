@@ -108,6 +108,7 @@ export default function EditChildren(props) {
     try {
       const response = await getAllShifts(props.tokens);
       setShift(response.data);
+      
     } catch (error) {
       console.log("Error fetching Turnos:", error);
     }
@@ -220,6 +221,8 @@ export default function EditChildren(props) {
       console.log(err);
     }
   }
+  
+  
 
   return (
     <Modal
@@ -281,7 +284,7 @@ export default function EditChildren(props) {
             <Row className="mb-1">
               <Col>
                 <div>
-                  <Form.Label className="mb-1">Genero</Form.Label>
+                  <Form.Label className="mb-1">Género</Form.Label>
                   <select
                     id="gender"
                     name="generoChild"
@@ -403,7 +406,7 @@ export default function EditChildren(props) {
                 </Form.Group>
 
                 <div className="mb-1">
-                  <Form.Label className="mb-1">Genero</Form.Label>
+                  <Form.Label className="mb-1">Género</Form.Label>
                   <select
                     id="generoGuardian"
                     name="generoGuardian"
@@ -424,7 +427,7 @@ export default function EditChildren(props) {
                 <Row className="mb-4">
                   <Col>
                     <Form.Label className="mb-1">
-                      Caracterisitca Telefonica
+                      Caracteristica Telefonica
                     </Form.Label>
 
                     <select
@@ -444,7 +447,7 @@ export default function EditChildren(props) {
                     </select>
                   </Col>
                   <Col>
-                    <Form.Label className="mb-1">Telefono</Form.Label>
+                    <Form.Label className="mb-1">Teléfono</Form.Label>
                     <Form.Control
                       type="number"
                       placeholder="Ingrese un telefono"
@@ -502,7 +505,7 @@ export default function EditChildren(props) {
                     />
                   </Col>
                   <Col>
-                    <Form.Label className="mb-1">Numero</Form.Label>
+                    <Form.Label className="mb-1">Número</Form.Label>
                     <Form.Control
                       type="number"
                       placeholder="Ingrese un numero"
@@ -551,9 +554,19 @@ export default function EditChildren(props) {
               </div>
             )}
 
-            <div className="contenedor-boton mb-1 ">
-              <Button as="input" type="submit" value="Cargar" size="lg" />
+            <div className="button-container">
+              <Button
+                className="close-button"
+                onClick={props.onHide} // Usa la función onHide para cerrar el modal
+              >
+                Cerrar
+              </Button>
+
+              <Button as="input" type="submit" value="Editar" size="m" />
             </div>
+            
+
+            
           </Form>
         </div>
       </body>

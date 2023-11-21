@@ -2,10 +2,13 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form/";
 import { Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
+import { Row } from "react-bootstrap";
+import { Col } from "react-bootstrap"
 import React, { useContext, useState, useEffect } from "react"; // Import useContext
 import axios from "axios";
 import AuthContext from "../../context/AuthContext"; // Import the AuthContext
 import {renderFormFields} from "../renderFormFields/renderFormFields";
+import './EditPayoutModal.css';
 
 
 export function EditPayout(props) {
@@ -53,16 +56,23 @@ export function EditPayout(props) {
             </div>
 
             {renderFormFields(props.formFields.payout, props.formData, props.handleInputChange)}
-
-            <div className="contenedor-boton-qr ">
+          
+            <div className="button-container">
               <Button
-                className="boton-edit mt-3"
-                boton
-                variant="primary"
-                type="submit"
+                className="close-button mt-3"
+                onClick={props.onHide} // Usa la función onHide para cerrar el modal
               >
-                Editar Pago
+                Cerrar
               </Button>
+
+              <Button
+                    className="boton-edit mt-3"
+                    boton
+                    variant="primary"
+                    type="submit"
+                  >
+                    Editar Pago
+                  </Button>
             </div>
           </Form>
         </Container>

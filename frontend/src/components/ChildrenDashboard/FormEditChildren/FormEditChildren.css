@@ -15,6 +15,7 @@
     text-align: center;
 }
 
+
 .contenedor-linea {
     display: flex;
     flex-wrap: wrap;
@@ -33,10 +34,11 @@
     width: 60px;
 }
 
-.contenedor-boton-qr {
+.button-container {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-}
-
+    gap: 120px; /* Ajusta el espacio horizontal entre los botones */
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  

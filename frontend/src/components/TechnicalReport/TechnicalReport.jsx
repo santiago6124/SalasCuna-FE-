@@ -153,11 +153,11 @@ export default function TechnicalReport() {
   }
 
   const columns = [
-    { field: "code", headerName: "Codigo", width: 250 },
-    { field: "name", headerName: "Nombre Sala", width: 250 },
-    { field: "cuit", headerName: "CUIT", width: 250 },
-    { field: "entidad", headerName: "Entidad", width: 250 },
-    { field: "cantidad_ninos", headerName: "Cantidad de Niños", width: 250 },
+    { field: "code", headerName: "Código", width: 150 },
+    { field: "name", headerName: "Nombre Sala", width: 160 },
+    { field: "cuit", headerName: "CUIT", width: 170 },
+    { field: "entidad", headerName: "Entidad", width: 170 },
+    { field: "cantidad_ninos", headerName: "Cantidad de Niños", width: 150 },
     {
       field: "select",
       headerName: "Seleccionar",
@@ -224,7 +224,7 @@ export default function TechnicalReport() {
           <Col className="col-md-3 mb-1">
             {/* Start Date Selector */}
             <InputGroup className="mb-3 col-md-3">
-              <InputGroup.Text>Start Date</InputGroup.Text>
+              <InputGroup.Text>Fecha de Inicio</InputGroup.Text>
               <Form.Control
                 type="date"
                 value={startDate}
@@ -235,7 +235,7 @@ export default function TechnicalReport() {
           <Col className="col-md-3 mb-1">
             {/* End Date Selector */}
             <InputGroup className="mb-3 col-md-3">
-              <InputGroup.Text>End Date</InputGroup.Text>
+              <InputGroup.Text>Fecha de Fin</InputGroup.Text>
               <Form.Control
                 type="date"
                 value={endDate}
@@ -247,6 +247,7 @@ export default function TechnicalReport() {
  
         <div className="DataGrid-Wrapper-report">
           <DataGrid
+            className="custom-data-grid"
             style={{ borderRadius: "15px", margin: "20px" }}
             rows={cribrooms}
             columns={columns}

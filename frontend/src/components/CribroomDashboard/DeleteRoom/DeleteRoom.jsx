@@ -70,14 +70,14 @@ export default function DeleteRoom(props) {
         <hr className="linea-eliminar"></hr>
       </div>
       <div className="par">
-        <p>Esta seguro que desea Eliminar la Sala Cuna {CRName}?</p>
-        <p>Esto hara que su estado pase a ser Inactivo,</p>
+        <p>¿Está seguro que desea eliminar la Sala Cuna {selectedCribroom}?</p>
+        <p>Esto hará que su estado pase a ser inactivo.</p>
       </div>
       <div className="par">
         <Alert severity="warning">
-          <p>Los chicos que esten en esta sala cuna tambien</p>
+          <p>Los chicos que están en esta sala cuna también</p>
           <p>
-            pasaran a estar en <strong>estado Inactivo</strong>
+          pasarán a estar en <strong>ESTADO INACTIVO</strong>.
           </p>
         </Alert>
       </div>

@@ -284,10 +284,10 @@ export default function UserList() {
                     { field: "last_name", headerName: "Apellido", headerAlign: "center",width: 150 , align: "center",},
                     { field: "email", headerName: "E-Mail", headerAlign: "center",width: 220 , align: "center",},
                     { field: "dni", headerName: "DNI", headerAlign: "center",width: 120 , align: "center",},
-                    { field: "address", headerName: "Direccion", headerAlign: "center", width: 150 , align: "center",},
+                    { field: "address", headerName: "Dirección", headerAlign: "center", width: 150 , align: "center",},
                     {
                       field: "phone_number",
-                      headerName: "Numero Tel.",
+                      headerName: "Número Tel.",
                       headerAlign: "center",
                       width: 150,
                       align: "center",

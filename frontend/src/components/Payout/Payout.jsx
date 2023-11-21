@@ -128,7 +128,7 @@ export default function Payout() {
   }
 
   return (
-    <>
+    <> 
       <body>
         <div className="cribroom-dashboard">
           <>
@@ -170,27 +170,28 @@ export default function Payout() {
               <div className="contenedor-linea-cb">
                 <hr className="linea-cb"></hr>
               </div>
-              <Row>
-                <Col className="col-md-2">
+
+              
+              <div className="div-general">
+                <div className="col-dropdown">
                   <Form.Label className="mb-1">Seleccionar Zona</Form.Label>
-                  <Form.Select
-                    as="select"
-                    name="zone"
-                    onChange={handleZoneChange}
-                    defaultValue="place"
-                  >
-                    <option value="place" disabled>
-                      Seleccionar Zona
-                    </option>
-                    {zoneOptions.map((zone) => (
-                      <option key={zone.id} value={zone.id}>
-                        {zone.name}
+                    <Form.Select
+                      as="select"
+                      name="zone"
+                      onChange={handleZoneChange}
+                      defaultValue="place"
+                    >
+                      <option value="place" disabled>
+                        Seleccionar Zona
                       </option>
-                    ))}
+                      {zoneOptions.map((zone) => (
+                        <option key={zone.id} value={zone.id}>
+                          {zone.name}
+                        </option>
+                      ))}
                   </Form.Select>
-                </Col>
-                <Col>
-                  <div className="add-payout-button mb-3">
+                </div>
+                <div className="add-payout-button">
                     <Button
                       variant="contained"
                       color="primary"
@@ -200,26 +201,29 @@ export default function Payout() {
                     >
                       Add Payout
                     </Button>
-                  </div>
-                </Col>
-              </Row>
-              <div className="DataGrid-Wrapper">
+                </div>
+              </div>
+                
+              <div className="DataGrid-Wrapper-payout">
                 <DataGrid
+                  className="custom-data-grid-payout"
                   style={{ borderRadius: "15px", margin: "20px" }}
                   rows={payout}
                   columns={[
                     {
                       field: "id",
-                      headerName: "Id de pago",
-                      width: 250,
+                      headerName: "ID",
+                      width: 50,
+                      headerAlign: "center",
+                      align: "center",
                     },
-                    { field: "amount", headerName: "Monto", width: 250 },
-                    { field: "date", headerName: "Fecha", width: 250 },
+                    { field: "amount", headerName: "Monto", width: 160, headerAlign: "center",align: "center",},
+                    { field: "date", headerName: "Fecha", width: 170, headerAlign: "center",align: "center", },
                     {
                       field: "actions",
                       type: "actions",
                       headerName: "Acciones",
-                      width: 80,
+                      width: 90,
                       getActions: (params) => [
                         <GridActionsCellItem
                           icon={<DeleteIcon />}

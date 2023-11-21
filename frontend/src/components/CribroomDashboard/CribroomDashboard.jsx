@@ -143,20 +143,20 @@ export default function CribroomDashboard() {
   const columns = [
     {
       field: "code",
-      headerName: "Codigo",
+      headerName: "Código",
       width: 100,
     },
-    { field: "name", headerName: "Nombre", width: 200 },
-    { field: "street", headerName: "Direccion", width: 140 },
-    { field: "CUIT", headerName: "CUIT", width: 140 },
+    { field: "name", headerName: "Nombre", width: 180 },
+    { field: "street", headerName: "Dirección", width: 170 },
+    { field: "CUIT", headerName: "CUIT", width: 90 },
     {
       field: "house_number",
-      headerName: "Numero Calle",
+      headerName: "Número Calle",
       width: 140,
     },
     {
       field: "max_capacity",
-      headerName: "Cap. Maxima",
+      headerName: "Cap. Máxima",
       width: 140,
     },
     {
@@ -164,8 +164,8 @@ export default function CribroomDashboard() {
       headerName: "Zona",
       width: 140,
     },
-    { field: "is_active", headerName: "Estado", width: 140 },
-    { field: "entity", headerName: "Entidad", width: 140 },
+    { field: "is_active", headerName: "Estado", width: 100 },
+    { field: "entity", headerName: "Entidad", width: 100 },
     {
       field: "actions",
       type: "actions",
@@ -202,7 +202,7 @@ export default function CribroomDashboard() {
         </header>
       </div>
       <body>
-        <div style={{ marginTop: 100 }}>
+        <div style={{ marginTop: 100 }}> 
           {selectedCribroom && (
             <>
               <UpdateRoom
@@ -259,25 +259,31 @@ export default function CribroomDashboard() {
                 <div className="contenedor-linea-cb">
                   <hr className="linea-cb"></hr>
                 </div>
-                <Row>
-                  <Col className="search-input">
-                    <SearchBar
-                      keyword={keyword}
-                      onChange={updateKeyword}
-                      placeholder={"Buscar Sala Cuna"}
-                    />
-                  </Col>
-                  <Col className="add-payout-button">
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      startIcon={<AddIcon />}
-                      onClick={() => handleCreateClick()}
-                    >
-                      Agregar Sala Cuna
-                    </Button>
-                  </Col>
-                </Row>
+
+                <div className="conteiner-searchbar-button">
+
+                  <Row>
+                    <Col className="search-input">
+                      <SearchBar
+                        keyword={keyword}
+                        onChange={updateKeyword}
+                        placeholder={"Buscar Sala Cuna"}
+                      />
+                    </Col>
+                    <Col className="add-payout-button">
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        startIcon={<AddIcon />}
+                        onClick={() => handleCreateClick()}
+                      >
+                        Agregar Sala Cuna
+                      </Button>
+                    </Col>
+                  </Row>
+
+                </div>
+
                 <div className="DataGrid-Wrapper">
                   <DataGrid
                     localeText={

@@ -110,7 +110,7 @@ export function CreateRoom(props) {
               </div>
 
               <Form.Group className="mb-3">
-                <Form.Label className="mb-1">Nombre De Sala</Form.Label>
+                <Form.Label className="mb-1">Nombre</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Editar El Nombre De La Sala"
@@ -118,7 +118,7 @@ export function CreateRoom(props) {
                 />
               </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Label className="mb-1">Codigo De Sala</Form.Label>
+                <Form.Label className="mb-1">Código</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Editar El Nombre De La Sala"
@@ -126,7 +126,7 @@ export function CreateRoom(props) {
                 />
               </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Label className="mb-1">Capacidad Maxima</Form.Label>
+                <Form.Label className="mb-1">Capacidad Máxima</Form.Label>
                 <Form.Control
                   type="number"
                   placeholder="Editar La Capacidad Maxima De La Sala"
@@ -163,7 +163,7 @@ export function CreateRoom(props) {
                   />
                 </Col>
                 <Col>
-                  <Form.Label className="mb-1">Nro</Form.Label>
+                  <Form.Label className="mb-1">Número</Form.Label>
                   <Form.Control
                     type="number"
                     placeholder="Nro"
@@ -243,8 +243,13 @@ export function CreateRoom(props) {
                   boton
                   variant="primary"
                   type="submit"
-                >
+                  >
                   Crear Sala Cuna
+                </Button>
+
+                {/* Close button */}
+                <Button className="boton-cerrar mt-3" variant="secondary" onClick={props.onHide}>
+                  Cerrar
                 </Button>
               </div>
             </Form>

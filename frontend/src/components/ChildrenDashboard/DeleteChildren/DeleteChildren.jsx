@@ -21,7 +21,7 @@ export default function DeleteChildren(props) {
 
   async function handleDelete(event) {
     event.preventDefault();
-    console.log(selectedChild);
+    console.log("chico: " + selectedChild);
     try {
       const activated = await axios.get(`/api/child/${selectedChild}/`, {
         headers: {
@@ -66,15 +66,15 @@ export default function DeleteChildren(props) {
       centered
     >
       <div>
-        <Modal.Title className="titulo-eliminar">Eliminar Chicos</Modal.Title>
+        <Modal.Title className="titulo-eliminar">Deshabilitar Chicos</Modal.Title>
       </div>
       <div className="contenedor-linea-eliminar">
         <hr className="linea-eliminar"></hr>
       </div>
       <div className="par">
         <Alert severity="warning">
-          <p>Esta seguro que desea Eliminar al Chico/a {childName}?</p>
-          <p>Esto hara que su estado pase a ser Inactivo,</p>
+          <p>Está seguro que desea deshabilitar a {selectedChild.name}?</p>
+          <p>Esto hará que su estado pase a ser INACTIVO.</p>
         </Alert>
       </div>
       <Modal.Footer>
