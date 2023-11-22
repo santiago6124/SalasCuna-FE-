@@ -75,6 +75,28 @@ export default function EditAccount() {
         <Row className="d-flex justify-content-center mt-3">
           <Col className="pl-1 mb-1 ">
             <Form.Group>
+              <Form.Label>Ciudad:</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="12345678"
+                defaultValue={datos?.city}
+              />
+            </Form.Group>
+          </Col>
+          <Col className="pl-1 mb-1 ">
+            <Form.Group>
+              <Form.Label>Departamento:</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Departamento"
+                defaultValue={datos?.department}
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row className="d-flex justify-content-center mt-3 mb-4">
+          <Col className="pl-1 mb-1 ">
+            <Form.Group>
               <Form.Label>Dirección:</Form.Label>
               <Form.Control
                 type="email"
@@ -85,33 +107,11 @@ export default function EditAccount() {
           </Col>
           <Col className="pl-1 mb-1 ">
             <Form.Group>
-              <Form.Label>Ciudad:</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="12345678"
-                defaultValue={datos?.city}
-              />
-            </Form.Group>
-          </Col>
-        </Row>
-        <Row className="d-flex justify-content-center mt-3 mb-4">
-          <Col className="pl-1 mb-1 ">
-            <Form.Group>
               <Form.Label>Telefono:</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="54 9 351 123 4567"
                 defaultValue={datos?.phone_number}
-              />
-            </Form.Group>
-          </Col>
-          <Col className="pl-1 mb-1 ">
-            <Form.Group>
-              <Form.Label>Rol:</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Rol"
-                defaultValue={datos?.groups}
               />
             </Form.Group>
           </Col>
