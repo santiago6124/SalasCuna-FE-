@@ -71,7 +71,7 @@ export function generatePayload(formData) {
       payload[prefix][fieldName] = formData[key];
     }
     if (fieldName === 'is_active' && typeof formData[key] !== "boolean"){
-      payload[prefix][fieldName] = formData[key] === 'Activo' ? true : false;
+      payload[prefix][fieldName] = (formData[key] === 'Activo' || formData[key] === 'Inactivo') ? true : false;
     }
   });
 
