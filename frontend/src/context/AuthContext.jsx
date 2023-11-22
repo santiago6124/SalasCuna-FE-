@@ -36,8 +36,8 @@ export const AuthProvider = ({ children }) => {
       department: formData.get("department"),
       city: formData.get("city"),
       email: formData.get("email"),
-      password: formData.get("password"),
-      re_password: formData.get("re_password"),
+      password: formData.get("dni"),
+      re_password: formData.get("dni")
     };
     const group = {
       groups: [parseInt(formData.get("role"))],
@@ -71,6 +71,23 @@ export const AuthProvider = ({ children }) => {
     } else {
       alert("Something went wrong");
     }
+  };
+
+  let changePassword = async (e, uid, token) => {
+    e.preventDefault();
+    const headers = {
+      "Content-Type": "application/json",
+      "X-CSRFToken": Cookies.get("csrftoken"),
+      "Authorization": "JWT " + authTokens.access,
+    };
+    const formData = new FormData(e.target);
+    const payload = {
+      uid : uid,
+      token : token, 
+      new_password : formData.get("password"),
+      re_new_password : formData.get("re_password")
+    }
+    let response = axios.post("/auth/users/reset_password_confirm/", payload, {headers:headers})
   };
 
   let loginUser = async (e) => {
@@ -138,6 +155,7 @@ export const AuthProvider = ({ children }) => {
     signupUser: signupUser,
     loginUser: loginUser,
     logoutUser: logoutUser,
+    changePassword: changePassword, 
   };
 
   useEffect(() => {
