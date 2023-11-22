@@ -26,17 +26,14 @@ export default function DeleteChildren(props) {
     event.preventDefault();
     console.log("chico: " + selectedChild);
     try {
-      var payload
-      if (childState){
-        payload = {
-          is_active: "false",
-        }}
-      else {
-        payload = {
-          is_active: "true",
-        }}
+      // const payload = { is_active: childState ? false : true};
+      const payload = { is_active: false};
 
-      await child_request(props.tokens, 'patch', 0, payload, selectedChild);
+      console.log('payload: ', payload);
+      console.log('selectedChild: ', selectedChild);
+
+      const childReponse = await child_request(props.tokens, 'patch', 0, payload, selectedChild);
+      console.log('childReponse: ', childReponse);
 
       props.onHide();
     } catch (err) {

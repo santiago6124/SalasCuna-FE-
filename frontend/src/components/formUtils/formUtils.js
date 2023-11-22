@@ -65,7 +65,14 @@ export function generatePayload(formData) {
     }
 
     // Asignar el valor al campo correspondiente en el payload
-    payload[prefix][fieldName] = formData[key];
+    if (typeof formData[key] === "object") {
+      payload[prefix][fieldName] = formData[key].id;
+    } else {
+      payload[prefix][fieldName] = formData[key];
+    }
+    if (fieldName === 'is_active' && typeof formData[key] !== "boolean"){
+      payload[prefix][fieldName] = formData[key] === 'Activo' ? true : false;
+    }
   });
 
   return payload;
