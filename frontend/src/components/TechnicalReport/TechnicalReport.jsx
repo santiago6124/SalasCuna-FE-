@@ -29,6 +29,7 @@ export default function TechnicalReport() {
   const [endDate, setEndDate] = useState(""); // New state for end date
   const [selectedCribrooms, setSelectedCribrooms] = useState([]); // New state for selected crib rooms
   const [modalCreateShow, setModalCreateShow] = useState(false);
+  const[TechnicalReportTableListCreateView, getTechnicalReportTableListCreateView] = useState("")
 
   const { authTokens } = useContext(AuthContext); // Get JWT token from context
 
