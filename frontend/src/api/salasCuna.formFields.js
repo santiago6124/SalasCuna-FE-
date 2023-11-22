@@ -11,6 +11,7 @@ export const formFields = {
         address: { name: "address",label: "Dirección",type: "text",placeholder: "Ingresar Dirección",required: true },
         birthdate: { name: "birthdate",label: "Fecha de Nacimiento",type: "date",required: true },
         password: { name: "password",label: "Password",type: "password",placeholder: "Ingresar Password",required: true }, // defaultValue: user ? user.last_name : ""
+        is_active: { name: "is_active", label: "is_active", type: "checkbox", required: true },
     },
     Department: ["id", "department", "zone"],
     Locality: ["id", "locality", "department"],

@@ -65,8 +65,9 @@ export function generatePayload(formData) {
     }
 
     // Asignar el valor al campo correspondiente en el payload
-    if (typeof formData[key] === "object") {
-      payload[prefix][fieldName] = formData[key].id;
+    if (typeof formData[key] === "object" && formData[key] !== null) {
+    console.log(formData[key]);
+    payload[prefix][fieldName] = formData[key].id;
     } else {
       payload[prefix][fieldName] = formData[key];
     }

@@ -24,18 +24,11 @@ export default function DeleteUser(props) {
 
   async function handleDelete(event) {
     event.preventDefault();
-    console.log(selectedUser);
     try {
-      var payload
-      if (userState){
-        payload = {
-          is_active: "false",
-        }}
-      else {
-        payload = {
-          is_active: "true",
-        }}
-      console.log("making fetch");
+      // const payload = { is_active: childState ? false : true};
+      const payload = { is_active: false};
+
+      console.log('payload: ', payload);
       let response = await user_request(props.tokens, 'patch', 0, payload, selectedUser);
 
       if (response.request.status === 200) {
