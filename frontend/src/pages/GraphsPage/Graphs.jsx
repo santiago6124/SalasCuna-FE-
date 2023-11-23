@@ -17,7 +17,7 @@ import {
 } from "../../api/salasCuna.api";
 
 //DataGrid Import
-import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { DataGrid, GridActionsCellItem, GridToolbar } from "@mui/x-data-grid";
 import { ScatterChart } from '@mui/x-charts/ScatterChart';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { axisClasses } from '@mui/x-charts';
@@ -1052,7 +1052,7 @@ const valueFormatter = (value) => `${value}mm`;
     },
   ];
 
-  
+
   return (
     <body>
             <header className="mb-5">
@@ -1093,19 +1093,22 @@ const valueFormatter = (value) => `${value}mm`;
   </div>
   </div>
 
-  <div>
-
-    <DataGrid
-      style={{ borderRadius: "15px", margin: "20px", width: "" }}
-      rows={[
-        { id: 1, name: 'React' },
-        { id: 2, name: 'MUI' },
-      ]}
-      columns={columns}
-      autoHeight
-      pageSize={5}
-    />
-
+  <div className="data-grid-container">
+      <h2>Datos de Cribrooms</h2>
+      <DataGrid
+        rows={[
+          { id: 1, name: 'React' },
+          { id: 2, name: 'MUI' },
+        ]}
+        columns={columns}
+        pageSize={10}
+        rowsPerPageOptions={[10, 25, 50]}
+        components={{
+          Toolbar: GridToolbar,
+        }}
+        checkboxSelection
+        disableSelectionOnClick
+      />
   </div>
 
 
