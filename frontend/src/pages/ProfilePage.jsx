@@ -45,12 +45,6 @@ export default function ProfilePage() {
     setShowAccount(false)
   }
 
-  function managePassword() {
-    setShowAccount(false);
-    setShowPasswordResquest(false);
-    setShowPassword(true);
-  }
-
   function managePasswordRequest() {
     if (!showPassword) {
       setShowPasswordResquest(true);
@@ -81,7 +75,7 @@ export default function ProfilePage() {
       Authorization: "JWT " + authTokens.access,
     };
     const payload = {
-      email: "francoball181@gmail.com", // userData.email
+      email: userData.email, 
     };
     try {
       let response = await axios.post("/auth/users/reset_password/", payload, {
