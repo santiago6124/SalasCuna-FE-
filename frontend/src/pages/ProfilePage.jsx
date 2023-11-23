@@ -6,7 +6,6 @@ import profileImage from "../media/Profile.jpg";
 import "../components/Account/Account.css";
 import Modal from "react-bootstrap/Modal";
 import Alert from "@mui/material/Alert";
-import { ChangePassword } from "../components/ChangePassword/ChangePassword";
 
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -188,7 +187,6 @@ export default function ProfilePage() {
                   </Modal.Body>
                 </Modal>
               )}
-              {showPassword && <ChangePassword />}
               {EditAccountIsVisible && <EditAccount />}
             </Col>
           </Row>
