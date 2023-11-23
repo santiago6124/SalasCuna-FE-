@@ -9,7 +9,7 @@ import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
  
-import profileImage from '../../media/Profile.jpg';
+import profileImage from '../../media/TS.png';
 
 import AuthContext from '../../context/AuthContext';
 
