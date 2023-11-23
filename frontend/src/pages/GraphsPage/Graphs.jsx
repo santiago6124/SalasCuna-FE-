@@ -1074,6 +1074,8 @@ const valueFormatter = (value) => `${value}mm`;
         >
           <option>Selecciona la cantidad</option>
           <option value="1">Una</option>{/* Acá rellenar las opciones con las preguntas del socio*/}
+          <option value="2">Dos</option>
+          <option value="3">Tres</option>
         </Form.Select>
       </div>
     <h3 className="subtitulo">Elegir el estado del niño</h3>
