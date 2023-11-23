@@ -17,7 +17,11 @@ import AddChildrenPage from "./pages/AddChildrenPage/AddChildrenPage";
 import CribroomDashboard from "./components/CribroomDashboard/CribroomDashboard";
 import UserList from "./components/UserList/UserList";
 import Dashboard from "./pages/DashboardPage/Dashboard";
+
+import Graphs from "./pages/GraphsPage/Graphs";
+
 import HistoryTimeline from "./components/CribroomDashboard/ObjectHistory";
+
 
 import { FilesToDb } from "../src/components/FilesToDb/FilesToDb";
 import MontoPage from "./pages/MontoPage";
@@ -79,6 +83,10 @@ function App() {
             <Route
               path="home-page"
               element={<PrivateRoute children={<Dashboard />} />}
+            />
+            <Route
+              path="/graphs"
+              element={<PrivateRoute children={<Graphs />} />}
             />
           </Routes>
         </AuthProvider>
