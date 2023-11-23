@@ -1,6 +1,6 @@
 import { MenuItem } from '@mui/material';
 import * as XLSX from 'xlsx';
-import { config } from './config';
+import { config } from '../config';
 import * as React from 'react';
 import {
   gridFilteredSortedRowIdsSelector,
@@ -9,7 +9,7 @@ import {
 } from '@mui/x-data-grid';
 
 import { cribroom_request, child_request } from "../../../api/salasCuna.api";
-
+ 
 
 function getExcelData(apiRef) {
   // Select rows and columns
