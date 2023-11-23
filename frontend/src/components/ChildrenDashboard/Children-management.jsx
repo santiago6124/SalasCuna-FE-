@@ -263,7 +263,7 @@ export default function ChildrenManagement() {
       )}
       {selectedChild && (
         <HistoryTimeline
-          id={selectedCribroom}
+          id={selectedChild}
           tokens={authTokens.access}
           type="child"
           show={modalHistoryShow}
