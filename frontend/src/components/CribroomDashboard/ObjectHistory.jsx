@@ -118,7 +118,7 @@ export default function HistoryTimeline(props) {
     try {
       console.log("itemType is:", itemType);
       const response = await axios.get(
-        `/api/${itemType}/?no_depth&id=${itemId}`,
+        `/api/${itemType}/?depth=0&id=${itemId}`,
         {
           headers: {
             "Content-Type": "application/json",
