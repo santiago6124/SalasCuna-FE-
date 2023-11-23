@@ -1013,6 +1013,46 @@ const valueFormatter = (value) => `${value}mm`;
     { breakPoint: 1280, cardsToShow: 5 },
     { breakPoint: 760, cardsToShow: 3 },
   ];
+
+  const columns = [
+    {
+      field: "id",
+      headerName: "#",
+      width: 150,
+      headerAlign: "center",
+      align: "center",
+    },
+    {
+      field: "first_name",
+      headerName: "Nombre",
+      width: 200,
+      headerAlign: "center",
+      align: "center",
+    },
+    {
+      field: "last_name",
+      headerName: "Apellido",
+      width: 200,
+      headerAlign: "center",
+      align: "center",
+    },
+    {
+      field: "dni",
+      headerName: "DNI",
+      width: 200,
+      headerAlign: "center",
+      align: "center",
+    },
+    {
+      field: "is_active",
+      headerName: "Estado",
+      width: 150,
+      headerAlign: "center",
+      align: "center",
+    },
+  ];
+
+  
   return (
     <body>
             <header className="mb-5">
@@ -1049,6 +1089,21 @@ const valueFormatter = (value) => `${value}mm`;
   <div className="col-md-6 mb-3">
   {renderVariableSelectionForms()}
   </div>
+  </div>
+
+  <div>
+
+    <DataGrid
+      style={{ borderRadius: "15px", margin: "20px", width: "" }}
+      rows={[
+        { id: 1, name: 'React' },
+        { id: 2, name: 'MUI' },
+      ]}
+      columns={columns}
+      autoHeight
+      pageSize={5}
+    />
+
   </div>
 
 
