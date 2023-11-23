@@ -8,7 +8,7 @@ export function renderformFieldsLocal(fields, prefix, formData, setFormData, han
     const field = fields[fieldName];
 
     return (
-      <Form.Group className="mb-3" key={`${prefix}_${field.name}`}>
+      <Form.Group className="mb-1" key={`${prefix}_${field.name}`}>
         <Form.Label className="mb-1">{field.label}</Form.Label>
         {field.type === "select" ? (
           <select

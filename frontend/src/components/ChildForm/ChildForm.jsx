@@ -227,9 +227,10 @@ export function ChildForm(props) {
     <Modal
       {...props}
       size="sm"
-      className="mb-3 mt-3 justify-content-center d-flex modal-container "
+      className="mb-5 mt-3 justify-content-center d-flex modal-container "
       aria-labelledby="contained-modal-title-vcenter"
       centered
+      backdrop="static"
     >
       <body className="body-ac">
         <div className="container-form-wrapper">
@@ -257,7 +258,6 @@ export function ChildForm(props) {
               {currentStep === 1 && (
                 <>
                   <h1 className="titulo">Añadir Niños/as</h1>
-
                   <div className="contenedor-linea">
                     <hr className="linea" />
                   </div>
@@ -356,7 +356,7 @@ export function ChildForm(props) {
               </>
             )}
             <Stepper
-              className="mb-3 p-2"
+              className="p-2"
               activeStep={currentStep - 1}
               alternativeLabel
             >
@@ -422,7 +422,7 @@ export function ChildForm(props) {
                       type="button"
                       onClick={prevStep}
                       size="lg"
-                      className="m-2 mt-3"
+                      className="m-2 mt-1"
                     >
                       Atrás
                     </Button>
@@ -431,7 +431,7 @@ export function ChildForm(props) {
                       type="submit"
                       value="Cargar"
                       size="lg"
-                      className="m-2 mt-3"
+                      className="m-2 mt-1"
                     />
                   </div>
                 </>
