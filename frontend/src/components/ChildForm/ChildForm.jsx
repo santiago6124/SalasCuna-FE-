@@ -40,6 +40,8 @@ export function ChildForm(props) {
     Child: formFields.Child,
     Guardian: formFields.Guardian,
     Phone: formFields.Phone,
+    ChildCR: formFields.Child_CR,
+    Child_location: formFields.Child_location,
   });
 
   const [formData, setFormData] = useState({
@@ -80,12 +82,11 @@ export function ChildForm(props) {
     }
   }, [props.data]);
 
-  const handleTutorSubmit = async (event) => {};
-
-  const handleDireccionSubmit = async (event) => {
-    // Handle direccion form submission logic here
-    // You can reuse the existing logic or modify it as needed
+  const handleTutorSubmit = async (event) => {
+    console.log(formFields.Child, formFields.Guardian, formFields.Phone);
   };
+
+  const handleDireccionSubmit = async (event) => {};
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -221,7 +222,7 @@ export function ChildForm(props) {
     setCurrentStep(currentStep - 1);
   };
 
-  const steps = ["Step 1", "Step 2", "Step 3"];
+  const steps = ["Step 1", "Step 2", "Step 3", "step 4", "step 5"];
   return (
     <Modal
       {...props}
@@ -235,13 +236,19 @@ export function ChildForm(props) {
           <Form
             className="conteiner-form"
             onSubmit={(event) => {
-              event.preventDefault();
-              if (currentStep === 1) {
-                nextStep();
-              } else if (currentStep === 2) {
-                handleTutorSubmit(event);
-              } else if (currentStep === 3) {
-                handleDireccionSubmit(event);
+              switch (currentStep) {
+                case currentStep === 1:
+                  return nextStep();
+                case currentStep === 2:
+                  return nextStep();
+                case currentStep === 3:
+                  nextStep();
+                case currentStep === 4:
+                  return nextStep();
+                case currentStep === 5:
+                  return nextStep();
+                default:
+                  return "";
               }
             }}
           >
@@ -255,7 +262,9 @@ export function ChildForm(props) {
                     <hr className="linea" />
                   </div>
                   {renderformFieldsLocal(
-                    formFieldsLocal.Child,
+                    {
+                      ...formFieldsLocal.Child,
+                    },
                     "Child",
                     formData,
                     setFormData,
@@ -278,14 +287,14 @@ export function ChildForm(props) {
             {/* Step 2 */}
             {currentStep === 2 && (
               <>
-                <h1 className="titulo">Añadir Padre/Madre</h1>
+                <h1 className="titulo">Añadir Direccion</h1>
 
                 <div className="contenedor-linea">
                   <hr className="linea" />
                 </div>
                 {renderformFieldsLocal(
-                  formFieldsLocal.Guardian,
-                  "Guardian",
+                  formFieldsLocal.Child_location,
+                  "Child_location",
                   formData,
                   setFormData,
                   handleInputChange
@@ -314,14 +323,14 @@ export function ChildForm(props) {
             {/* Step 3 */}
             {currentStep === 3 && (
               <>
-                <h1 className="titulo">Añadir Telefono/s</h1>
+                <h1 className="titulo">Chico: Sala Cuna</h1>
 
                 <div className="contenedor-linea">
                   <hr className="linea" />
                 </div>
                 {renderformFieldsLocal(
-                  formFieldsLocal.Phone,
-                  "Phone",
+                  formFieldsLocal.ChildCR,
+                  "Child_CR",
                   formData,
                   setFormData,
                   handleInputChange
@@ -338,9 +347,10 @@ export function ChildForm(props) {
                   <Button
                     as="input"
                     type="submit"
-                    value="Cargar"
+                    value="Siguiente"
                     size="lg"
                     className="m-2 mt-3"
+                    onClick={handleSubmit}
                   />
                 </div>
               </>
@@ -355,6 +365,77 @@ export function ChildForm(props) {
                   <StepLabel>{label}</StepLabel>
                 </Step>
               ))}
+
+              {/* Step 4 */}
+              {currentStep === 4 && (
+                <>
+                  <h1 className="titulo">Añadir Padre/Madre</h1>
+
+                  <div className="contenedor-linea">
+                    <hr className="linea" />
+                  </div>
+                  {renderformFieldsLocal(
+                    formFieldsLocal.Guardian,
+                    "Guardian",
+                    formData,
+                    setFormData,
+                    handleInputChange
+                  )}
+                  <div className="contenedor-boton mb-1">
+                    <Button
+                      type="button"
+                      onClick={prevStep}
+                      size="lg"
+                      className="m-2 mt-3"
+                    >
+                      Atrás
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={nextStep}
+                      size="lg"
+                      className="m-2 mt-3"
+                    >
+                      Siguiente
+                    </Button>
+                  </div>
+                </>
+              )}
+
+              {/* Step 5 */}
+              {currentStep === 5 && (
+                <>
+                  <h1 className="titulo">Añadir Telefono/s</h1>
+
+                  <div className="contenedor-linea">
+                    <hr className="linea" />
+                  </div>
+                  {renderformFieldsLocal(
+                    formFieldsLocal.Phone,
+                    "Phone",
+                    formData,
+                    setFormData,
+                    handleInputChange
+                  )}
+                  <div className="contenedor-boton mb-1">
+                    <Button
+                      type="button"
+                      onClick={prevStep}
+                      size="lg"
+                      className="m-2 mt-3"
+                    >
+                      Atrás
+                    </Button>
+                    <Button
+                      as="input"
+                      type="submit"
+                      value="Cargar"
+                      size="lg"
+                      className="m-2 mt-3"
+                    />
+                  </div>
+                </>
+              )}
             </Stepper>
           </Form>
         </div>
