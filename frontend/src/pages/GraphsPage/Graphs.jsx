@@ -973,6 +973,31 @@ const valueFormatter = (value) => `${value}mm`;
       handlePermissions(error.response.status);
     }
   };
+  const [variableQuantity, setVariableQuantity] = useState(1);
+
+  const renderVariableSelectionForms = () => {
+    const forms = [];
+
+    for (let i = 1; i <= variableQuantity; i++) {
+      forms.push(
+        <div key={i} className="col-md-6 mb-3">
+          <h3 className="subtitulo">Elegir las variables:</h3>
+          <Form.Select
+            aria-label={`Variable ${i}`}
+            className="mt-1"
+            style={{ width: '200px', marginLeft: '150px', padding: '5px' }}
+          >
+            <option>Selecciona la variable {i}</option>
+            <option value="1">Variable 1</option>
+            <option value="2">Variable 2</option>
+            <option value="3">Variable 3</option>
+          </Form.Select>
+        </div>
+      );
+    }
+
+    return forms;
+  };
 
   const listUserHistory = async () => {
     try {
@@ -999,35 +1024,30 @@ const valueFormatter = (value) => `${value}mm`;
       </div>
       <div className="row">
   <div className="col-md-6 mb-3">
-    <h3 className="subtitulo">Elegir la cantidad de variables:</h3>
+  <div className="col-md-6 mb-3">
+        <h3 className="subtitulo">Elegir la cantidad de variables:</h3>
+        <Form.Select
+          aria-label="Cantidad de Variables"
+          className="mt-1"
+          style={{ width: '200px', marginLeft: '150px', padding: '5px' }}
+          onChange={(e) => setVariableQuantity(parseInt(e.target.value, 10))}
+        >
+          <option>Selecciona la cantidad</option>
+          <option value="1">Una</option>{/* Acá rellenar las opciones con las preguntas del socio*/}
+        </Form.Select>
+      </div>
+    <h3 className="subtitulo">Elegir el estado del niño</h3>
     <Form.Select aria-label="Cantidad de Variables" className="mt-1" style={{ width: '200px',  marginLeft: "150px",
   padding: "5px" }}>
-      <option>Selecciona la cantidad</option>
-      <option value="1">Una</option>
-      <option value="2">Dos</option>
-      <option value="3">Tres</option>
+      <option>Selecciona el estado</option>
+      <option value="1">Activo</option>
+      <option value="2">Inactivo</option>
+      <option value="3">Todos</option>
     </Form.Select>
   </div>
 
   <div className="col-md-6 mb-3">
-    <h3 className="subtitulo">Elegir las variables:</h3>
-    <Form.Select aria-label="Primera Variable" className="mt-1"  style={{ width: '200px',  marginLeft: "150px",
-  padding: "5px" }}>
-      <option>Selecciona la primera variable</option>
-      <option value="1">Variable 1</option>
-      <option value="2">Variable 2</option>
-      <option value="3">Variable 3</option>
-    </Form.Select>
-
-
-    <Form.Select aria-label="Segunda Variable" style={{ width: '200px',  marginLeft: "150px",
-  padding: "5px" }}>
-      <h3 className="subtitulo">Otra sección:</h3>
-      <option>Selecciona la segunda variable</option>
-      <option value="1">Variable 1</option>
-      <option value="2">Variable 2</option>
-      <option value="3">Variable 3</option>
-    </Form.Select>
+  {renderVariableSelectionForms()}
   </div>
   </div>
 
