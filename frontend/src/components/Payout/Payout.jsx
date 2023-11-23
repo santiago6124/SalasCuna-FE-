@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import axios from "axios";
+
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import "./Payout.css";
@@ -14,10 +14,11 @@ import AddIcon from "@mui/icons-material/Add";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import { Form } from "react-bootstrap";
 import Menu from "../Menu/Menu";
-import { AddPayout } from "./AddPayoutModal";
-import { EditPayout } from "./EditPayoutModal";
+
+import { PayoutForm } from "../PayoutForm/PayoutForm";
+
 import DeletePayout from "./DeletePayoutModal";
-import { getAllZones, handlePermissions } from "../../api/salasCuna.api";
+import { handlePermissions, zone_request, payout_request } from "../../api/salasCuna.api";
 
 export default function Payout() {
   const [zoneOptions, setZoneOptions] = useState([]);
@@ -27,7 +28,9 @@ export default function Payout() {
   const [modalAddShow, setModalAddShow] = useState(false);
   const [modalEditShow, setModalEditShow] = useState(false);
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
-  const { authTokens } = useContext(AuthContext); // Get the auth tokens from the context
+  let { authTokens } = useContext(AuthContext); // Get the auth tokens from the context
+
+  const [selectedPayoutData, setSelectedPayoutData] = useState(null);
 
   useEffect(() => {
     loadZones();
@@ -39,18 +42,26 @@ export default function Payout() {
     }
   }, [selectedZone]);
 
+  function handleEditClick(rowId) {
+    setSelectedPayout(rowId);
+    setModalEditShow(true);
+    const selectedPayoutData = getPayoutDataById(rowId); // Replace this with your function to get Payout data
+    setSelectedPayoutData(selectedPayoutData);
+    console.log("Edit clicked for row with id:", rowId);
+  }
+  function getPayoutDataById(PayoutId) {
+    // Replace this with your logic to get Payout data by ID from the 'Payouts' array
+    return payout.find((Payout) => Payout.id === PayoutId);
+  }
+
+
   async function loadZones() {
     try {
-      const response = await getAllZones(authTokens.access); // Include the JWT token in the request headers
+      const response = await zone_request(authTokens.access); // Include the JWT token in the request headers
       let data = await response.data;
       setZoneOptions(data);
-      const responsePO = await axios.get("/api/payout/", {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "JWT " + authTokens.access,
-          "Accept": "application/json",
-        },
-      });
+
+      const responsePO = await payout_request(authTokens.access);
       let payouts = await responsePO.data;
       setPayout(payouts);
     } catch (error) {
@@ -60,13 +71,7 @@ export default function Payout() {
 
   async function loadPayout(zoneId) {
     try {
-      const response = await axios.get(`/api/payout/?zone=${zoneId}`, {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "JWT " + authTokens.access,
-          "Accept": "application/json",
-        },
-      });
+      const response = await payout_request(authTokens.access, 'get', 0, {}, undefined, `&zone_id=${zoneId}`);
       const jsonData = response.data;
       setPayout(jsonData);
     } catch (error) {
@@ -83,33 +88,27 @@ export default function Payout() {
     setModalAddShow(true);
   }
 
-  async function handleEditClick(payoutID) {
-    setModalEditShow(true);
-    setSelectedPayout(payoutID);
-  }
-
   async function handleDeleteClick(payoutID) {
     setModalDeleteShow(true);
     setSelectedPayout(payoutID);
   }
 
   return (
-    <>
+    <> 
       <body>
         <div className="cribroom-dashboard">
           <>
-            <AddPayout
-              zones={zoneOptions}
+            <PayoutForm
               show={modalAddShow}
               onHide={() => {
                 setModalAddShow(false);
                 window.location.reload();
               }}
             />
-            <EditPayout
-              id={selectedPayout}
-              zones={zoneOptions}
+            <PayoutForm
+              data={selectedPayoutData}
               show={modalEditShow}
+              tokens= {authTokens.access}
               onHide={() => {
                 setModalEditShow(false);
                 window.location.reload();
@@ -132,27 +131,28 @@ export default function Payout() {
               <div className="contenedor-linea-cb">
                 <hr className="linea-cb"></hr>
               </div>
-              <Row>
-                <Col className="col-md-2">
+
+              
+              <div className="div-general">
+                <div className="col-dropdown">
                   <Form.Label className="mb-1">Seleccionar Zona</Form.Label>
-                  <Form.Select
-                    as="select"
-                    name="zone"
-                    onChange={handleZoneChange}
-                    defaultValue="place"
-                  >
-                    <option value="place" disabled>
-                      Seleccionar Zona
-                    </option>
-                    {zoneOptions.map((zone) => (
-                      <option key={zone.id} value={zone.id}>
-                        {zone.name}
+                    <Form.Select
+                      as="select"
+                      name="zone"
+                      onChange={handleZoneChange}
+                      defaultValue="place"
+                    >
+                      <option value="place" disabled>
+                        Seleccionar Zona
                       </option>
-                    ))}
+                      {zoneOptions.map((zone) => (
+                        <option key={zone.id} value={zone.id}>
+                          {zone.name}
+                        </option>
+                      ))}
                   </Form.Select>
-                </Col>
-                <Col>
-                  <div className="add-payout-button mb-3">
+                </div>
+                <div className="add-payout-button">
                     <Button
                       variant="contained"
                       color="primary"
@@ -162,26 +162,29 @@ export default function Payout() {
                     >
                       Add Payout
                     </Button>
-                  </div>
-                </Col>
-              </Row>
-              <div className="DataGrid-Wrapper">
+                </div>
+              </div>
+                
+              <div className="DataGrid-Wrapper-payout">
                 <DataGrid
+                  className="custom-data-grid-payout"
                   style={{ borderRadius: "15px", margin: "20px" }}
                   rows={payout}
                   columns={[
                     {
                       field: "id",
-                      headerName: "Id de pago",
-                      width: 250,
+                      headerName: "ID",
+                      width: 50,
+                      headerAlign: "center",
+                      align: "center",
                     },
-                    { field: "amount", headerName: "Monto", width: 250 },
-                    { field: "date", headerName: "Fecha", width: 250 },
+                    { field: "amount", headerName: "Monto", width: 160, headerAlign: "center",align: "center",},
+                    { field: "date", headerName: "Fecha", width: 170, headerAlign: "center",align: "center", },
                     {
                       field: "actions",
                       type: "actions",
                       headerName: "Acciones",
-                      width: 80,
+                      width: 90,
                       getActions: (params) => [
                         <GridActionsCellItem
                           icon={<DeleteIcon />}

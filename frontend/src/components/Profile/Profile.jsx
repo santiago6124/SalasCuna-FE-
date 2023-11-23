@@ -23,19 +23,32 @@ function Profile ()  {
           key={'bottom'}
           placement={'bottom'}
           overlay={
-            <Popover id={`popover-positioned-${'bottom'}`} style={{ width: '250px', height: '400px' }}>
+            <Popover id={`popover-positioned-${'bottom'}`} style={{ width: '250px', height: '350px' }}>
               <Popover.Body>
                 <div className='center-content'>
                   <img src={profileImage} alt="Perfil" className="circle-image" />
                   <h3>Messi</h3>
-                  <hr style={{ borderColor: '#A6A6A6', width: '90%',borderWidth: '2px'}} />
+                  <hr style={{ borderColor: '#A6A6A6', width: '90%', borderWidth: '2px' }} />
 
+                  {/* Primer botón Cerrar Sesión */}
                   <div className="config-section">
                     <div className="config-item">
                       <div className="config-content">
                         <button className="config-button" onClick={() => logoutUser()}>
+                        <FontAwesomeIcon icon={faGear} style={{color: "#f1862e",marginRight: '8px'}} />
+                          <span className="config-text">Configuración</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Segundo botón Cerrar Sesión (posicionado arriba del primero) */}
+                  <div className="config-section ">
+                    <div className="config-item">
+                      <div className="config-content">
+                        <button className="config-button" onClick={() => logoutUser()}>
                           <FontAwesomeIcon icon={faRightFromBracket} size="lg" style={{ color: "#F1862E", marginRight: '8px' }} />
-                          <span className="config-text">Cerrar Sesion</span>
+                          <span className="config-text">Cerrar Sesión</span>
                         </button>
                       </div>
                     </div>

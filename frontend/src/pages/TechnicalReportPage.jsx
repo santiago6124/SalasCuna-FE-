@@ -6,9 +6,9 @@ import TechnicalReport from '../components/TechnicalReport/TechnicalReport';
 export default function TechnicalReportPage() {
     return (
         <div className="App">
-            <header>
+            <header style={{ marginTop: 100 }}>
                 <div>
-                    <Menu style={{marginBottom:"20px"}}/>
+                    <Menu />
                 </div>
             </header>
             <body className='mt-3'>

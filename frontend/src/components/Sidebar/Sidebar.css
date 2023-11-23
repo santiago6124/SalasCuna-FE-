@@ -5,13 +5,12 @@
   background-color: #ffffff;
   box-shadow: 0px 20px 27px 0px rgba(0, 0, 0, 0.25);
   overflow-y: auto;
-  top: 65px; /* Deja espacio para la barra de navegación */
-  left: 0; /* Muestra la barra lateral en su posición inicial */
+  top: 65px; /* Deja espacio para la Navbar */
+  left: 0;
   transition: 0.3s;
-  z-index: 2;
+  z-index: 1; /* Asegura que la Sidebar esté en una capa inferior que la Navbar */
   border-top: solid 1px;
   border-color: #dfdfdfb7;
-
 }
 
 .sidebar.open {

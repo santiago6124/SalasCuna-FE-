@@ -46,7 +46,7 @@ export default function Dashboard() {
 
   return (
     <div>
-      <header className="mb-5">
+      <header style={{ marginTop: 100 }}>
           <Menu />
       </header>
       <body>     

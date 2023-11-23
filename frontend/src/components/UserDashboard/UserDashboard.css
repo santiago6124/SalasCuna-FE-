@@ -1,15 +1,7 @@
 /*UserDashboard CSS Creation*/
-.body-home {
-  background-image: url("../../media/fondo.png");
-  width: 100%;
-  height: 200%;
-  padding-top: 10px;
-  margin: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-}
+
+
+
 .contenedor-form-wrapper-home {
   display: flex;
   justify-content: center;
@@ -33,10 +25,15 @@
 
 .titulo-home {
   text-align: center;
+  font-size: 3rem;
+  
 }
+
+
 .subtitulo {
   margin-left: 150px;
   padding: 5px;
+  font-size: 1.5rem;
 }
 
 .contenedor-linea-home {
@@ -52,7 +49,14 @@
   border: 2px solid #ef7e0e;
   background-color: #ef7e0e;
   width: 1200px;
+  width: 100%; /* Establece el ancho en un 100% para que se ajuste al contenedor */
+  max-width: 1200px; /* Agrega un ancho máximo si lo deseas */
+  margin-left: auto; /* Centra horizontalmente el elemento */
+  margin-right: auto;
 }
+
+
+
 
 .form-row-home {
   display: flex;
@@ -83,56 +87,97 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  padding-right: 10px;
+  padding-right: 5%;
+  padding-left: 5%;
+  max-width: 100%; /* Establece un ancho máximo del 100% para que se ajuste al contenedor padre */
 }
 
-.DataGrid-Wrapper {
-  width: auto;
-  height: auto;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  padding-right: 10px;
+.container-slider .slider {
+  width: 100%;  /* Establece un margen derecho para separar los botones de las flechas */
 }
 
-.DataGrid {
-  width: auto;
-  height: auto;
-  border-radius: 10px;
+.container-slider .arrow {
+  font-size: 20px;
+  padding: 3px;
 }
 
+
+/* Ajustes para el contenedor de las flechas */
 .container-slider {
   position: relative;
+  max-width: 100%; /* Ajusta el ancho máximo del contenedor a la pantalla */
 }
 
-.ArrowCircleLeftOutlinedIcon,
-.ArrowCircleRightOutlinedIcon {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 24px; /* Adjust the font size as needed */
-  color: #000; /* Change the color as needed */
-}
 
-.ArrowCircleLeftOutlinedIcon {
-  left: 0;
-}
 
-.ArrowCircleRightOutlinedIcon {
-  right: 0;
-}
-
-.button-slider {
-  padding: 5px;
-  padding-left: 10px;
+.DataGrid-Wrapper-Sala{
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  margin-top: 5%;
+}
+
+
+.DataGrid {
+  width: 100%; /* Usa porcentajes para el ancho en lugar de píxeles fijos */
+  max-width: 800px;
+  height: 50vh; /* Usa viewport height para el alto en lugar de píxeles fijos */
+  margin: 10px;
 }
 
 .datatitle {
   padding: 5px;
-  margin-left: 50px;
+  margin: 10px 0;
+  width: 100%;
 }
+
+.datatitle-sala {
+  padding: 5px;
+  margin: 10px 0;
+  width: 100%;
+}
+
+
+@media (max-width: 1200px) {
+  .linea-home {
+    max-width: 90%; /* Reducir el ancho máximo para pantallas más pequeñas */
+  }
+}
+
+
+@media (max-width: 768px) {
+  .titulo-home {
+    font-size: 1.8rem; /* Tamaño de fuente más pequeño para pantallas pequeñas */
+  }
+}
+
+@media (max-width: 600px) {
+  .titulo-home {
+    font-size: 1.5rem; /* Tamaño de fuente aún más pequeño para pantallas muy pequeñas */
+  }
+}
+
+
+
+@media (max-width:450px){
+
+  .DataGrid-Wrapper-Sala{
+    display: block;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5%;
+  }
+
+  .div-datagrids{
+    margin-right: 10px;
+    margin-left: 20px;
+  }
+
+  .datatitle-sala{
+    font-size: 1.2rem
+  }
+}
+
+
