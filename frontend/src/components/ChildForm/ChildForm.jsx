@@ -82,12 +82,6 @@ export function ChildForm(props) {
     }
   }, [props.data]);
 
-  const handleTutorSubmit = async (event) => {
-    console.log(formFields.Child, formFields.Guardian, formFields.Phone);
-  };
-
-  const handleDireccionSubmit = async (event) => {};
-
   async function handleSubmit(event) {
     event.preventDefault();
 
@@ -186,26 +180,36 @@ export function ChildForm(props) {
         guardianType_request(authTokens.access),
         phoneFeature_request(authTokens.access),
       ]);
+      // Child FormFields
 
-      formFieldsLocal.Child.locality.options = localityResponse.data;
-      formData["Child_locality"] = localityResponse.data[0].id;
       formFieldsLocal.Child.ident_type.options = idenTypeResponse.data;
-      formFieldsLocal.Guardian.ident_type.options = idenTypeResponse.data;
-      formData["Guardian_ident_type"] = idenTypeResponse.data[0].id;
       formData["Child_ident_type"] = idenTypeResponse.data[0].id;
       formFieldsLocal.Child.gender.options = genderResponse.data;
       formData["Child_gender"] = genderResponse.data[0].id;
-      formFieldsLocal.Child.cribroom.options = cribroomResponse.data;
-      formData["Child_cribroom"] = cribroomResponse.data[0].id;
-      formFieldsLocal.Child.shift.options = shiftResponse.data;
-      formData["Child_shift"] = shiftResponse.data[0].id;
-      formFieldsLocal.Child.neighborhood.options = neighborhoodResponse.data;
+
+      // Child_location FormFields
+      formFieldsLocal.Child_location.locality.options = localityResponse.data;
+      formData["Child_locality"] = localityResponse.data[0].id;
+      formFieldsLocal.Child_location.neighborhood.options =
+        neighborhoodResponse.data;
       formData["Child_neighborhood"] = neighborhoodResponse.data[0].id;
+
+      //Child_CR FormFields
+      formFieldsLocal.ChildCR.cribroom.options = cribroomResponse.data;
+      formData["Child_cribroom"] = cribroomResponse.data[0].id;
+      formFieldsLocal.ChildCR.shift.options = shiftResponse.data;
+      formData["Child_shift"] = shiftResponse.data[0].id;
+
+      //Phone FormFields
+      formFieldsLocal.Phone.phone_Feature.options = phoneFeatureResponse.data;
+      formData["Phone_phone_Feature"] = phoneFeatureResponse.data[0].id;
+
+      //Guardian FormFields
+      formFieldsLocal.Guardian.ident_type.options = idenTypeResponse.data;
+      formData["Guardian_ident_type"] = idenTypeResponse.data[0].id;
       formFieldsLocal.Guardian.guardian_Type.options =
         guardianTypeResponse.data;
       formData["Guardian_guardian_Type"] = guardianTypeResponse.data[0].id;
-      formFieldsLocal.Phone.phone_Feature.options = phoneFeatureResponse.data;
-      formData["Phone_phone_Feature"] = phoneFeatureResponse.data[0].id;
 
       toastUpdateSuccess("Datos cargados", customId);
     } catch (error) {
@@ -350,7 +354,78 @@ export function ChildForm(props) {
                     value="Siguiente"
                     size="lg"
                     className="m-2 mt-3"
-                    onClick={handleSubmit}
+                    onClick={nextStep}
+                  />
+                </div>
+              </>
+            )}
+
+            {/* Step 4 */}
+            {currentStep === 4 && (
+              <>
+                <h1 className="titulo">Añadir Padre/Madre</h1>
+
+                <div className="contenedor-linea">
+                  <hr className="linea" />
+                </div>
+                {renderformFieldsLocal(
+                  formFieldsLocal.Guardian,
+                  "Guardian",
+                  formData,
+                  setFormData,
+                  handleInputChange
+                )}
+                <div className="contenedor-boton mb-1">
+                  <Button
+                    type="button"
+                    onClick={prevStep}
+                    size="lg"
+                    className="m-2 mt-3"
+                  >
+                    Atrás
+                  </Button>
+                  <Button
+                    type="button"
+                    onClick={nextStep}
+                    size="lg"
+                    className="m-2 mt-3"
+                  >
+                    Siguiente
+                  </Button>
+                </div>
+              </>
+            )}
+
+            {/* Step 5 */}
+            {currentStep === 5 && (
+              <>
+                <h1 className="titulo">Añadir Telefono/s</h1>
+
+                <div className="contenedor-linea">
+                  <hr className="linea" />
+                </div>
+                {renderformFieldsLocal(
+                  formFieldsLocal.Phone,
+                  "Phone",
+                  formData,
+                  setFormData,
+                  handleInputChange
+                )}
+                <div className="contenedor-boton mb-1">
+                  <Button
+                    type="button"
+                    onClick={prevStep}
+                    size="lg"
+                    className="m-2 mt-1"
+                  >
+                    Atrás
+                  </Button>
+                  <Button
+                    as="input"
+                    type="submit"
+                    value="Cargar"
+                    size="lg"
+                    className="m-2 mt-1"
                   />
                 </div>
               </>
@@ -365,77 +440,6 @@ export function ChildForm(props) {
                   <StepLabel>{label}</StepLabel>
                 </Step>
               ))}
-
-              {/* Step 4 */}
-              {currentStep === 4 && (
-                <>
-                  <h1 className="titulo">Añadir Padre/Madre</h1>
-
-                  <div className="contenedor-linea">
-                    <hr className="linea" />
-                  </div>
-                  {renderformFieldsLocal(
-                    formFieldsLocal.Guardian,
-                    "Guardian",
-                    formData,
-                    setFormData,
-                    handleInputChange
-                  )}
-                  <div className="contenedor-boton mb-1">
-                    <Button
-                      type="button"
-                      onClick={prevStep}
-                      size="lg"
-                      className="m-2 mt-3"
-                    >
-                      Atrás
-                    </Button>
-                    <Button
-                      type="button"
-                      onClick={nextStep}
-                      size="lg"
-                      className="m-2 mt-3"
-                    >
-                      Siguiente
-                    </Button>
-                  </div>
-                </>
-              )}
-
-              {/* Step 5 */}
-              {currentStep === 5 && (
-                <>
-                  <h1 className="titulo">Añadir Telefono/s</h1>
-
-                  <div className="contenedor-linea">
-                    <hr className="linea" />
-                  </div>
-                  {renderformFieldsLocal(
-                    formFieldsLocal.Phone,
-                    "Phone",
-                    formData,
-                    setFormData,
-                    handleInputChange
-                  )}
-                  <div className="contenedor-boton mb-1">
-                    <Button
-                      type="button"
-                      onClick={prevStep}
-                      size="lg"
-                      className="m-2 mt-1"
-                    >
-                      Atrás
-                    </Button>
-                    <Button
-                      as="input"
-                      type="submit"
-                      value="Cargar"
-                      size="lg"
-                      className="m-2 mt-1"
-                    />
-                  </div>
-                </>
-              )}
             </Stepper>
           </Form>
         </div>
