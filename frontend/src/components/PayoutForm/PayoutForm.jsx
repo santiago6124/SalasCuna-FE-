@@ -130,23 +130,23 @@ export function PayoutForm(props) {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      <body className="body-ac">
-        <div className="container-form-wrapper">
-          <Form className="conteiner-form" onSubmit={handleSubmit}>
-            <h1 className="titulo">Añadir Sala Cuna</h1>
 
-            <div className="contenedor-linea">
-              <hr className="linea" />
+        <div className="contenedor-form-wrapper-cb">
+          <Form className="conteiner-form-cb" onSubmit={handleSubmit}>
+            <h1 className="titulo-cb">Añadir Sala Cuna</h1>
+
+            <div className="contenedor-linea-cb">
+              <hr className="linea-cb" />
             </div>
 
             {renderformFieldsLocal(formFieldsLocal.Payout, 'Payout', formData, setFormData, handleInputChange)}
 
-            <div className="contenedor-boton mb-1 ">
+            <div className="contenedor-boton-createuser mb-1 ">
               <Button as="input" type="submit" value="Cargar" size="lg" />
             </div>
           </Form>
         </div>
-      </body>
+
     </Modal>
   );
 }
