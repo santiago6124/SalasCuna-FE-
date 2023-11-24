@@ -133,27 +133,25 @@ export function UserForm(props) {
     <Modal
       {...props}
       size="sm"
-      className="mb-3 mt-3"
+      className=""
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      <body className="body-ac">
         <div className="container-form-wrapper">
-          <Form className="conteiner-form" onSubmit={handleSubmit}>
+          <Form className="container-form-signup" onSubmit={handleSubmit}>
             <h1 className="titulo">Añadir Sala Cuna</h1>
 
-            <div className="contenedor-linea">
+            <div className="container-linea">
               <hr className="linea" />
             </div>
-
+ 
             {renderformFieldsLocal(formFieldsLocal.User, 'User', formData, setFormData, handleInputChange)}
 
-            <div className="contenedor-boton mb-1 ">
+            <div className="container-boton-createuser mb-1 ">
               <Button as="input" type="submit" value="Cargar" size="lg" />
             </div>
           </Form>
         </div>
-      </body>
     </Modal>
   );
 }
