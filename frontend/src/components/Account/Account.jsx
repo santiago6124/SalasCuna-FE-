@@ -6,17 +6,25 @@ import axios from "axios";
 import { toastLoading, toastUpdateError } from "../../utils/toastMsgs";
 import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
+import { getAllGroup } from "../../api/salasCuna.api";
 
 export default function ProfilePage() {
   const [datos, setDatos] = useState();
   let { user, authTokens } = useContext(AuthContext);
   const customId = useRef(null);
+  const [groupName, setGroupName] = useState();
 
   useEffect(() => {
     LoadUser();
   }, []);
 
-  async function getUser() {
+  async function getGroups() {
+    const responseGroup = await getAllGroup(authTokens.access);
+    const GroupData = await responseGroup.data;
+    return GroupData;
+  }
+
+  async function getUser(grupos) {
     try {
       let headers = {
         "Content-Type": "application/json",
@@ -27,6 +35,12 @@ export default function ProfilePage() {
         headers: headers,
       });
       const data = await response.data;
+      const matchingGroup = grupos.find(
+        (group) => group.id === data.groups[0]
+      );
+      if (matchingGroup){
+        data.group = matchingGroup.name;
+      }
       return data;
     } catch (error) {
       console.error("Error fetching user data", error);
@@ -36,7 +50,7 @@ export default function ProfilePage() {
   async function LoadUser() {
     try {
       toastLoading("Cargando perfil", customId);
-      getUser()
+      getUser(await getGroups())
         .then((data) => {
           setDatos(data);
         })
@@ -122,7 +136,7 @@ export default function ProfilePage() {
               </Row>
               <Row>
                 <Form.Label className="border border-black rounded p-2 m-2 w-75">
-                  {datos?.groups}
+                  {datos?.group}
                 </Form.Label>
               </Row>
             </Form.Group>

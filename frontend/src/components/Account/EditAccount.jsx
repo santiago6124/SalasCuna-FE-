@@ -8,6 +8,7 @@ import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import { getAllDepartments } from "../../api/salasCuna.api";
 import Cookies from "js-cookie";
+import { updateData, warningData } from "../../utils/toastMsgs";
 
 export default function EditAccount() {
   const [datos, setDatos] = useState();
@@ -89,6 +90,11 @@ export default function EditAccount() {
     }
     try {
       let response = await axios.patch(`/api/user/${user.user_id}/`, payload, {headers:headers})
+      if (response.request.status === 200) {
+        updateData("Perfil actualizado con exito")
+      } else {
+        warningData("Error al actualizar el perfil");
+      }
     } catch (error) {
       
     }
