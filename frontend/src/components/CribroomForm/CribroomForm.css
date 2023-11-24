@@ -1,10 +1,10 @@
 
-.contenedor-form-wrapper {
+.container-form-wrapper {
   display: flex;
   justify-content: center;
 }
 
-.conteiner-form {
+.container-form {
   padding: 20px;
   width: 500px;
   border-radius: 18px;
@@ -12,17 +12,12 @@
   background-color: rgb(255, 255, 255);
 }
 
-@media (max-width: 600px){
-  .conteiner-form{
-    width: 90%;
-  }
-}
 
 .titulo {
   text-align: center;
 }
 
-.contenedor-linea {
+.container-linea {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -37,7 +32,7 @@
   width: 350px;
 }
 
-.contenedor-boton-createuser {
+.container-boton-createuser {
   margin: 5px;
   padding: 3%;
   display: flex;
