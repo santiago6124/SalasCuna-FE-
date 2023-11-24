@@ -149,29 +149,28 @@ export function CribroomForm(props) {
 
   return (
     <Modal
-      {...props}
+      {...props} 
       size="sm"
       className="mb-3 mt-3"
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      <body className="body-ac">
-        <div className="container-form-wrapper">
-          <Form className="conteiner-form" onSubmit={handleSubmit}>
-            <h1 className="titulo">Añadir Sala Cuna</h1>
+      <div className="container-form-wrapper">
+        <Form className="conteiner-form" onSubmit={handleSubmit}>
+          <h1 className="titulo">Añadir Sala Cuna</h1>
 
-            <div className="contenedor-linea">
-              <hr className="linea" />
-            </div>
+          <div className="contenedor-linea">
+            <hr className="linea" />
+          </div>
 
-            {renderformFieldsLocal(formFieldsLocal.Cribroom, 'Cribroom', formData, setFormData, handleInputChange)}
+          {renderformFieldsLocal(formFieldsLocal.Cribroom, 'Cribroom', formData, setFormData, handleInputChange)}
 
-            <div className="contenedor-boton mb-1 ">
-              <Button as="input" type="submit" value="Cargar" size="lg" />
-            </div>
-          </Form>
-        </div>
-      </body>
+          <div className="contenedor-boton mb-1 ">
+            <Button as="input" type="submit" value="Cargar" size="lg" />
+          </div>
+        </Form>
+      </div>
+
     </Modal>
   );
 }

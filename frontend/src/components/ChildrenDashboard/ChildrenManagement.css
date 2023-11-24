@@ -26,6 +26,9 @@
     font-size: 3rem;
 }
 
+.button-container{
+  margin-top: 45px;
+}
 
 .contenedor-linea-cm {
   display: flex;
