@@ -6,6 +6,8 @@ import profileImage from "../media/Profile.jpg";
 import "../components/Account/Account.css";
 import Modal from "react-bootstrap/Modal";
 import Alert from "@mui/material/Alert";
+import { ToastContainer } from "react-toastify";
+import { updateData, warningData } from "../utils/toastMsgs";
 
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -80,7 +82,12 @@ export default function ProfilePage() {
       let response = await axios.post("/auth/users/reset_password/", payload, {
         headers: headers,
       });
-    } catch (error) { }
+      if (response.request.status === 204) {
+        updateData("Se envió una solucitud a su correo electronico")
+      }
+    } catch (error) { 
+      warningData("Ocurrio un error durante la solicitud")
+    }
   }
 
   return (
@@ -91,6 +98,7 @@ export default function ProfilePage() {
         </div>
       </header>
       <body className="mt-5">
+        <ToastContainer />
         <Container>
           <Row>
             <Col md={3}>

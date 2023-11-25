@@ -73,22 +73,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  let changePassword = async (e, uid, token) => {
-    e.preventDefault();
-    const headers = {
-      "Content-Type": "application/json",
-      "X-CSRFToken": Cookies.get("csrftoken"),
-      "Authorization": "JWT " + authTokens.access,
-    };
-    const formData = new FormData(e.target);
-    const payload = {
-      uid : uid,
-      token : token, 
-      new_password : formData.get("password"),
-      re_new_password : formData.get("re_password")
-    }
-    let response = axios.post("/auth/users/reset_password_confirm/", payload, {headers:headers})
-  };
 
   let loginUser = async (e) => {
     e.preventDefault();
@@ -155,7 +139,6 @@ export const AuthProvider = ({ children }) => {
     signupUser: signupUser,
     loginUser: loginUser,
     logoutUser: logoutUser,
-    changePassword: changePassword, 
   };
 
   useEffect(() => {

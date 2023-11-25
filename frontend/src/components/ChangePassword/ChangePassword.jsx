@@ -1,21 +1,54 @@
-import React, { useContext} from "react";
+import React, { useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button, Container, Form } from "react-bootstrap";
 import "./ChangePassword.css";
 import AuthContext from "../../context/AuthContext";
+import { updateData, warningData } from "../../utils/toastMsgs";
+import { ToastContainer } from "react-toastify";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 export function ChangePassword() {
-  const {changePassword} = useContext(AuthContext);
-  const {uid ,token} = useParams();
+  const { uid, token } = useParams();
+  let { authTokens } = useContext(AuthContext);
   const history = useNavigate();
 
-  function handleSubmit(event){
+  let changePassword = async (e, uid, token) => {
+    try {
+      e.preventDefault();
+      const headers = {
+        "Content-Type": "application/json",
+        "X-CSRFToken": Cookies.get("csrftoken"),
+        "Authorization": "JWT " + authTokens.access,
+      };
+      const formData = new FormData(e.target);
+      const payload = {
+        uid: uid,
+        token: token,
+        new_password: formData.get("password"),
+        re_new_password: formData.get("re_password")
+      }
+      let response = await axios.post("/auth/users/reset_password_confirm/", payload, { headers: headers })
+      console.log(response)
+      if (await response.request.status === 204) {
+        updateData("La contraseña se actualizo con exito. Puede cerrar esta ventana")
+      } else {
+        warningData("Ocurrio un error")
+      }
+
+    } catch (error) {
+      alert("Ocurrio un error", error)
+    }
+  };
+
+  async function handleSubmit(event) {
     changePassword(event, uid, token);
   }
 
   return (
     <body className="body-pw">
       <>
+        <ToastContainer />
         <Container className="p-1 mt-5 justify-content-center d-flex w-50 ">
           <Form onSubmit={handleSubmit}>
             <h1 className="titulo-changepw m-2 mt-4 mb-4 justify-content-center ">
