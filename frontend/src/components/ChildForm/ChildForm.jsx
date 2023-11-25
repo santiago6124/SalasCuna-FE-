@@ -40,12 +40,10 @@ export function ChildForm(props) {
     Child: formFields.Child,
     Guardian: formFields.Guardian,
     Phone: formFields.Phone,
-    ChildCR: formFields.Child_CR,
-    Child_location: formFields.Child_location,
   });
 
   const [formData, setFormData] = useState({
-    Child_is_active: false,
+    Child_is_active: true,
   });
 
   const handleInputChange = (event) => {
@@ -182,22 +180,21 @@ export function ChildForm(props) {
       ]);
       // Child FormFields
 
-      formFieldsLocal.Child.ident_type.options = idenTypeResponse.data;
+      formFieldsLocal.Child.step_1.ident_type.options = idenTypeResponse.data;
       formData["Child_ident_type"] = idenTypeResponse.data[0].id;
-      formFieldsLocal.Child.gender.options = genderResponse.data;
+      formFieldsLocal.Child.step_1.gender.options = genderResponse.data;
       formData["Child_gender"] = genderResponse.data[0].id;
 
       // Child_location FormFields
-      formFieldsLocal.Child_location.locality.options = localityResponse.data;
+      formFieldsLocal.Child.step_2.locality.options = localityResponse.data;
       formData["Child_locality"] = localityResponse.data[0].id;
-      formFieldsLocal.Child_location.neighborhood.options =
-        neighborhoodResponse.data;
+      formFieldsLocal.Child.step_2.neighborhood.options = neighborhoodResponse.data;
       formData["Child_neighborhood"] = neighborhoodResponse.data[0].id;
 
       //Child_CR FormFields
-      formFieldsLocal.ChildCR.cribroom.options = cribroomResponse.data;
+      formFieldsLocal.Child.step_3.cribroom.options = cribroomResponse.data;
       formData["Child_cribroom"] = cribroomResponse.data[0].id;
-      formFieldsLocal.ChildCR.shift.options = shiftResponse.data;
+      formFieldsLocal.Child.step_3.shift.options = shiftResponse.data;
       formData["Child_shift"] = shiftResponse.data[0].id;
 
       //Phone FormFields
@@ -267,7 +264,7 @@ export function ChildForm(props) {
                   </div>
                   {renderformFieldsLocal(
                     {
-                      ...formFieldsLocal.Child,
+                      ...formFieldsLocal.Child.step_1,
                     },
                     "Child",
                     formData,
@@ -297,8 +294,8 @@ export function ChildForm(props) {
                   <hr className="linea" />
                 </div>
                 {renderformFieldsLocal(
-                  formFieldsLocal.Child_location,
-                  "Child_location",
+                  formFieldsLocal.Child.step_2,
+                  "Child",
                   formData,
                   setFormData,
                   handleInputChange
@@ -333,8 +330,8 @@ export function ChildForm(props) {
                   <hr className="linea" />
                 </div>
                 {renderformFieldsLocal(
-                  formFieldsLocal.ChildCR,
-                  "Child_CR",
+                  formFieldsLocal.Child.step_3,
+                  "Child",
                   formData,
                   setFormData,
                   handleInputChange
@@ -424,6 +421,7 @@ export function ChildForm(props) {
                     as="input"
                     type="submit"
                     value="Cargar"
+                    onClick={handleSubmit}
                     size="lg"
                     className="m-2 mt-1"
                   />
