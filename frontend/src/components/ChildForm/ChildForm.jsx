@@ -26,6 +26,7 @@ import {
   child_request,
   question_request,
   answer_request,
+  childAnswer_request,
 } from "../../api/salasCuna.api";
 
 import { formFields } from "../../api/salasCuna.formFields";
@@ -100,6 +101,7 @@ export function ChildForm(props) {
     const payload = generatePayload(formData);
     console.log("payload: ", payload);
     console.log("formData: ", formData);
+    console.log('userAnswers: ', userAnswers);
 
     try {
       if (props.data) {
@@ -155,9 +157,25 @@ export function ChildForm(props) {
         );
         console.log(ChildResponse);
 
+        const childAnswerRequests = Object.entries(userAnswers).map(([answerKey, answerValue]) =>
+          childAnswer_request(authTokens.access, 'post', 0, {
+            child: ChildResponse.data.id,
+            answer: answerKey,
+            value: answerValue,
+          })
+        );
+        console.log(Object.entries(userAnswers));
+
+        try {
+          const childAnswerResponses = await Promise.all(childAnswerRequests);
+          console.log(childAnswerResponses);
+        } catch (error) {
+          console.error(error);
+        }
+
         if (ChildResponse.request.status === 201) {
           console.log("Child edited successfully");
-          window.location.reload();
+          // window.location.reload();
         } else {
           console.log("Failed to edit child");
         }
@@ -239,13 +257,13 @@ export function ChildForm(props) {
     }
   }
 
-  const handleSubmitDynamic = (formFieldsDynamic, userAnswers) => {
-    // Implement logic to handle the submission of dynamic form data
-    console.log("Dynamic Form Data:", formFieldsDynamic);
-    console.log("User Answers:", userAnswers);
+  // const handleSubmitDynamic = (formFieldsDynamic, userAnswers) => {
+  //   // Implement logic to handle the submission of dynamic form data
+  //   console.log("Dynamic Form Data:", formFieldsDynamic);
+  //   console.log("User Answers:", userAnswers);
   
-    // Add your logic to submit the data to the server or perform any other actions
-  };
+  //   // Add your logic to submit the data to the server or perform any other actions
+  // };
   
 
   const nextStep = () => {
@@ -280,13 +298,16 @@ export function ChildForm(props) {
   console.log('formFieldsDynamic: ', formFieldsDynamic.length);
   console.log('stepsInteger: ', stepsInteger);
 
-  const handleDynamicInputChange = (questionId, answerId) => {
+  const handleDynamicInputChange = (answerId, e) => {
+    const inputValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+  
     setUserAnswers({
       ...userAnswers,
-      [questionId]: answerId,
+      [answerId]: inputValue,
     });
     console.log("Dynamic Form Data:", formFieldsDynamic);
     console.log("User Answers:", userAnswers);
+
   };
 
   var stepsInteger = 5;
@@ -315,8 +336,8 @@ export function ChildForm(props) {
               <input
                 type={answer.answerType === "Boolean" ? "checkbox" : "text"}
 
-                checked={formField.userAnswer === answer.id}
-                onChange={() => handleDynamicInputChange(formField.question.id, answer.id)}
+                value={userAnswers[answer.id]}
+                onChange={(e) => handleDynamicInputChange(answer.id, e)}
               />
               {answer.description}
             </label>
@@ -331,8 +352,8 @@ export function ChildForm(props) {
             <label>
               <input
                 type={childAnswer.answerType === "Boolean" ? "checkbox" : "text"}
-                checked={formField.userAnswer === childAnswer.id}
-                onChange={() => handleDynamicInputChange(formField.question.id, childAnswer.id)}
+                value={userAnswers[childAnswer.id]}
+                onChange={(e) => handleDynamicInputChange(childAnswer.id, e)}
               />
               {childAnswer.description}
             </label>
@@ -349,7 +370,7 @@ export function ChildForm(props) {
         </Button>
         <Button
           type={currentStep === stepsInteger ? "submit" : "button"}
-          onClick={currentStep === stepsInteger ? handleSubmitDynamic : nextStep}
+          onClick={currentStep === stepsInteger ? handleSubmit : nextStep}
           size="lg"
           className="m-2 mt-3"
         >
@@ -371,8 +392,8 @@ export function ChildForm(props) {
               <input
                 type={answer.answerType === "Boolean" ? "checkbox" : "text"}
 
-                checked={formField.userAnswer === answer.id}
-                onChange={() => handleDynamicInputChange(formField.question.id, answer.id)}
+                value={userAnswers[answer.id]}
+                onChange={(e) => handleDynamicInputChange(answer.id, e)}
               />
               {answer.description}
             </label>
@@ -389,7 +410,7 @@ export function ChildForm(props) {
         </Button>
         <Button
           type={currentStep === stepsInteger ? "submit" : "button"}
-          onClick={currentStep === stepsInteger ? handleSubmitDynamic : nextStep}
+          onClick={currentStep === stepsInteger ? handleSubmit : nextStep}
           size="lg"
           className="m-2 mt-3"
         >
@@ -415,19 +436,7 @@ export function ChildForm(props) {
         <div className="container-form-wrapper">
           <Form
             className="conteiner-form"
-            onSubmit={(event) => {
-              switch (currentStep) {
-                case stepsInteger:
-                  // Lógica para manejar el envío del formulario dinámico
-                  handleSubmitDynamic(formFieldsDynamic, userAnswers);
-                  return nextStep();
-
-                  // break;
-      
-                default:
-                  return "";
-              }
-            }}
+            onSubmit={handleSubmit}
           >
             {/* Step 1 */}
             <>

@@ -230,8 +230,10 @@ export function answer_request(tokens, method='get', depth=0, pk=undefined, filt
 export function childAnswer_request(tokens, method='get', depth=0, data={}, pk=undefined, filters='') {
   const headers = { "Content-Type": "application/json", "Authorization": "JWT " + tokens, "Accept": "application/json"}
 
+  console.log(data);
+
   return axios.request({
-    'url': `/api/AnswerListView/${pk ? (pk+'/') : '' }?depth=${depth}${filters}`,
+    'url': `/api/ChildAnswerListCreateView/${pk ? (pk+'/') : '' }?depth=${depth}${filters}`,
     'method': method,
     'headers': headers,
     'data': data,
