@@ -283,7 +283,7 @@ export default function ChildrenManagement() {
           <div className="div-cm">
             <Row className="mb-3">
               <Col>
-                <div className="container">
+                <div>
                   <div className="dropdown-container">
                     <Form.Label className="mb-1 mt-3">
                       Seleccionar Sala Cuna
