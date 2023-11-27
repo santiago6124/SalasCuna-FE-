@@ -302,7 +302,7 @@ export function ChildForm(props) {
   }
 
   var stepsInteger = 5;
-  stepsInteger += props.data ? 0 : formFieldsPoll.length;
+  stepsInteger += props.data ? -1 : formFieldsPoll.length;
   // Generar un array con los valores del rango de stepsInteger
   const stepsArray = Array.from({ length: stepsInteger }, (_, index) => index + 1);
 
