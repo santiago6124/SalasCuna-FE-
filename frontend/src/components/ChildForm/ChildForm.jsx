@@ -83,26 +83,48 @@ export function ChildForm(props) {
   
   const formFieldsPoll = questions.map((question) => {
     const answersForQuestion = answers.filter((answer) => answer.question === question.id);
-    
+  
     return {
       question,
-      answers: answersForQuestion,
+      answers: answersForQuestion.map((answer) => ({ ...answer, groupId: question.id })),
       userAnswer: userAnswers[question.id] || null,
     };
   });
+  
 
   const handlePollInputChange = (answerId, e) => {
     const inputValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
   
-    setUserAnswers({
-      ...userAnswers,
-      [answerId]: inputValue,
-    });
-
-    console.log("Dynamic Form Data:", formFieldsPoll);
-    console.log("User Answers:", userAnswers);
-
+    // Obtén la pregunta asociada a la respuesta actual
+    const associatedQuestion = questions.find((question) =>
+      question.id === answers.find((answer) => answer.id === answerId).question
+    );
+  
+    // Verifica si la pregunta es de tipo "Single Choice"
+    if (associatedQuestion.questionType === "Single Choice") {
+      // Obtén el groupId de la respuesta actual
+      const groupId = associatedQuestion.id;
+  
+      // Obtén todas las respuestas dentro del mismo grupo
+      const answersInGroup = formFieldsPoll.find((question) => question.question.id === groupId).answers;
+  
+      // Actualiza el estado de las respuestas en el mismo grupo
+      const updatedUserAnswers = { ...userAnswers };
+      answersInGroup.forEach((answer) => {
+        updatedUserAnswers[answer.id] = answer.id === answerId ? inputValue : false;
+      });
+  
+      setUserAnswers(updatedUserAnswers);
+    } else {
+      // Si la pregunta no es de tipo "Single Choice", actualiza la respuesta directamente
+      setUserAnswers({
+        ...userAnswers,
+        [answerId]: inputValue,
+      });
+    }
   };
+  
+  
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -172,13 +194,16 @@ export function ChildForm(props) {
         );
         console.log(ChildResponse);
 
-        const childAnswerRequests = Object.entries(userAnswers).map(([answerKey, answerValue]) =>
-          childAnswer_request(authTokens.access, 'post', 0, {
+        const childAnswerRequests = Object.entries(userAnswers)
+        .filter(([answerKey, answerValue]) => answerValue !== false)
+        .map(([answerKey, answerValue]) => {
+          return childAnswer_request(authTokens.access, 'post', 0, {
             child: ChildResponse.data.id,
             answer: answerKey,
-            value: typeof answerValue !== 'boolean' ? answerValue : answerValue===true?'true':'false',
-          })
-        );
+            value: typeof answerValue !== 'boolean' ? answerValue : answerValue === true ? 'true' : 'false',
+          });
+        });
+
         console.log(Object.entries(userAnswers));
         console.log(Object.entries(childAnswerRequests));
 
@@ -191,7 +216,7 @@ export function ChildForm(props) {
 
         if (ChildResponse.request.status === 201) {
           console.log("Child edited successfully");
-          // window.location.reload();
+          window.location.reload();
         } else {
           console.log("Failed to edit child");
         }
@@ -452,12 +477,12 @@ export function ChildForm(props) {
                     Atrás
                   </Button>
                   <Button
-                    type="button"
-                    onClick={nextStep}
+                    type={currentStep === stepsInteger ? 'submit' : 'button'}
+                    onClick={currentStep === stepsInteger ? handleSubmit : nextStep}
                     size="lg"
                     className="m-2 mt-3"
                   >
-                    Siguiente
+                    {currentStep === stepsInteger ? 'Cargar' : 'Siguiente'}
                   </Button>
                 </div>
               </>
