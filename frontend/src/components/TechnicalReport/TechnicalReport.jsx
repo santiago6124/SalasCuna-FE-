@@ -11,12 +11,15 @@ import axios from "axios"; // Import axios
 import { useState, useEffect } from "react";
 import DownloadPDF from "./DownloadPDF/DownloadPDF";
 import Menu from "../Menu/Menu";
-import { getAllCribroomsWithoutDepth, getAllZones, handlePermissions } from "../../api/salasCuna.api";
+import { handlePermissions, cribroom_request, zone_request, technicalReport_request } from "../../api/salasCuna.api";
+
 import { deletingData } from '../../utils/toastMsgs';
 
 import AuthContext from "../../context/AuthContext"; // Import AuthContext
 import { ToastContainer } from "react-toastify";
 
+import EditIcon from "@mui/icons-material/Edit";
+import TechnicalReportHeadersModal from "../TechnicalReportHeadersModal/TechnicalReportHeadersModal";
 
 export default function TechnicalReport() {
   const [zoneOptions, setZoneOptions] = useState([]);
@@ -25,6 +28,8 @@ export default function TechnicalReport() {
   const [startDate, setStartDate] = useState(""); // New state for start date
   const [endDate, setEndDate] = useState(""); // New state for end date
   const [selectedCribrooms, setSelectedCribrooms] = useState([]); // New state for selected crib rooms
+  const [modalCreateShow, setModalCreateShow] = useState(false);
+  const[TechnicalReportTableListCreateView, getTechnicalReportTableListCreateView] = useState("")
 
   const { authTokens } = useContext(AuthContext); // Get JWT token from context
 
@@ -41,26 +46,19 @@ export default function TechnicalReport() {
       : selectedCribrooms.filter((crib) => crib.id !== row.id); // Remove from selected crib rooms
     setSelectedCribrooms(updatedSelectedCribrooms);
   }
+
   const iframeRef = useRef();
   function handlePdfClick() {
-    // Implement your PDF generation logic here
-    console.log("Generate PDF logic will be implemented here");
-    console.log("Selected Start Date:", startDate);
-    console.log("Selected End Date:", endDate);
-    console.log("Selected Crib Rooms:", selectedCribrooms);
-
     // Iterate through each selected cribroom and send a GET request
     selectedCribrooms.forEach((cribroom) => {
-      const url = `/api/technical-report/${cribroom.id}/${startDate}/${endDate}/`;
 
-      axios.get(url, { headers })
+      technicalReport_request(authTokens.access, 'get', cribroom.id, startDate, endDate)
         .then((response) => {
           if (!response.data) {
             throw new Error("Network response was not ok");
           }
 
           const data = response.data;
-
 
           if (data && data.pays) {
             console.log(
@@ -70,14 +68,16 @@ export default function TechnicalReport() {
               data.pays
             );
             DownloadPDF(
-              iframeRef,
+              formData.ministro,
+              formData.resolucion,
+              formData.remitanse,
               cribroom.entity,
               cribroom.name,
               cribroom.code,
               cribroom.street,
               cribroom.house_number,
               cribroom.locality.locality,
-              cribroom.department.department,
+              cribroom.department,
               data.pays.totalSumStr,
               data.pays.totalSumInitMonth,
               data.pays.totalSumInitYear,
@@ -100,10 +100,59 @@ export default function TechnicalReport() {
           deletingData();
         });
     });
+    setSelectedCribrooms([]);
   }
+
+  function handleCreateClick() {
+    setModalCreateShow(true);
+  }
+
+  const [formFields, setFormFields] = useState({
+    encabezados: [
+    {
+      name: "encabezado",
+      label: "Encabezado Principal",
+      type: "text",
+      placeholder: "Modificar encabezado",
+      // defaultValue: user ? user.first_name : "",
+      required: true,
+    },
+    {
+      name: "ministro",
+      label: "Ministro",
+      type: "text",
+      placeholder: "Modificar ministro",
+      // defaultValue: user ? user.last_name : "",
+      required: true,
+    },
+    {
+      name: "resolucion",
+      label: "Resolucion",
+      type: "text",
+      placeholder: "Modificar resolucion",
+      // defaultValue: user ? user.last_name : "",
+      required: true,
+    },
+    {
+      name: "remitanse",
+      label: "Remitanse",
+      type: "text",
+      placeholder: "Modificar enunciado remitanse",
+      // defaultValue: user ? user.last_name : "",
+      required: true,
+    },
+  ]});
+
+  const [formData, setFormData] = useState({});  /// mas adelante get request para obtener cribroom basado en los props id
+  
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   useEffect(() => {
     loadZones();
+    loadTechnicalReportTable();
   }, []);
 
   useEffect(() => {
@@ -116,7 +165,7 @@ export default function TechnicalReport() {
 
   async function defaultCribrooms() {
     try {
-      const response = await getAllCribroomsWithoutDepth(authTokens.access); // Pass JWT token
+      const response = await cribroom_request(authTokens.access); // Pass JWT token
       const jsonData = response.data;
       setCribrooms(jsonData);
     } catch (error) {
@@ -127,7 +176,7 @@ export default function TechnicalReport() {
 
   async function loadCribrooms(zoneId) {
     try {
-      const response = await axios.get(`/api/cribroom/?zone=${zoneId}`, { headers }); // Pass headers
+      const response = await cribroom_request(authTokens.access, 'get', 0, {}, undefined, `&locality__department__zone__id=${zoneId}`);
       const data = response.data;
       if (data.length == 0) {
         alert("No hay Salas Cunas en la zona seleccionada");
@@ -140,9 +189,20 @@ export default function TechnicalReport() {
 
   async function loadZones() {
     try {
-      const response = await getAllZones(authTokens.access); // Pass JWT token
+      const response = await zone_request(authTokens.access); // Pass JWT token
       const jsonData = response.data;
       setZoneOptions(jsonData);
+    } catch (error) {
+      console.error("Error fetching zone options:", error);
+    }
+  }
+
+  async function loadTechnicalReportTable() {
+    try {
+      const response = await getTechnicalReportTableListCreateView(authTokens.access); // Pass JWT token
+      const jsonData = response.data[0];
+      setFormData(jsonData);
+      console.log('formData: ', formData);
     } catch (error) {
       console.error("Error fetching zone options:", error);
     }
@@ -153,11 +213,11 @@ export default function TechnicalReport() {
   }
 
   const columns = [
-    { field: "code", headerName: "Codigo", width: 250 },
-    { field: "name", headerName: "Nombre Sala", width: 250 },
-    { field: "cuit", headerName: "CUIT", width: 250 },
-    { field: "entidad", headerName: "Entidad", width: 250 },
-    { field: "cantidad_ninos", headerName: "Cantidad de Niños", width: 250 },
+    { field: "code", headerName: "Código", width: 150 },
+    { field: "name", headerName: "Nombre Sala", width: 160 },
+    { field: "cuit", headerName: "CUIT", width: 170 },
+    { field: "entidad", headerName: "Entidad", width: 170 },
+    { field: "cantidad_ninos", headerName: "Cantidad de Niños", width: 150 },
     {
       field: "select",
       headerName: "Seleccionar",
@@ -177,6 +237,20 @@ export default function TechnicalReport() {
   return (
     <>
       <body>
+
+        {modalCreateShow && (
+              <TechnicalReportHeadersModal
+                formFields={formFields}
+                handleInputChange={handleInputChange}
+                formData={formData}
+                show={modalCreateShow}
+                onHide={() => {
+                  setModalCreateShow(false);
+                  /* window.location.reload(); */
+                }}
+              />
+        )}
+
         <ToastContainer />
         <h1 className="titulo-cb">Informe Tecnico</h1>
         <div className="contenedor-linea-report">
@@ -202,6 +276,16 @@ export default function TechnicalReport() {
               ))}
             </Form.Select>
           </Col>
+          <Col className="add-payout-button">
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<EditIcon />}
+              onClick={() => handleCreateClick()}
+            >
+              Modificar Encabezados
+            </Button>
+            </Col>
           <Col>
             <div className="add-payout-button-tr mb-3 mt-3">
               <iframe
@@ -224,7 +308,7 @@ export default function TechnicalReport() {
           <Col className="col-md-3 mb-1">
             {/* Start Date Selector */}
             <InputGroup className="mb-3 col-md-3">
-              <InputGroup.Text>Start Date</InputGroup.Text>
+              <InputGroup.Text>Fecha de Inicio</InputGroup.Text>
               <Form.Control
                 type="date"
                 value={startDate}
@@ -235,7 +319,7 @@ export default function TechnicalReport() {
           <Col className="col-md-3 mb-1">
             {/* End Date Selector */}
             <InputGroup className="mb-3 col-md-3">
-              <InputGroup.Text>End Date</InputGroup.Text>
+              <InputGroup.Text>Fecha de Fin</InputGroup.Text>
               <Form.Control
                 type="date"
                 value={endDate}
@@ -247,6 +331,7 @@ export default function TechnicalReport() {
  
         <div className="DataGrid-Wrapper-report">
           <DataGrid
+            className="custom-data-grid"
             style={{ borderRadius: "15px", margin: "20px" }}
             rows={cribrooms}
             columns={columns}

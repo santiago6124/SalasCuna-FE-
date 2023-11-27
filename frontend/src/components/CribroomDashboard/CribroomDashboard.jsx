@@ -1,22 +1,27 @@
 import Menu from "../Menu/Menu";
 import SearchBar from "../SearchBar/SearchBar";
-import { UpdateRoom } from "../CribroomDashboard/EditRoom/EditRoom";
+// import { CribroomForm } from "../CribroomDashboard/EditRoom/EditRoom";
 import DeleteRoom from "../CribroomDashboard/DeleteRoom/DeleteRoom";
-import { CreateRoom } from "../CribroomDashboard/CreateRoom/CreateRoom";
+
+import HistoryTimeline from "./ObjectHistory";
+
+
 import "./CribroomDashboard.css";
 
 import React, { useContext, useEffect, useRef, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 
-import { getAllZones, handlePermissions } from "../../api/salasCuna.api";
+import { handlePermissions, zone_request, cribroom_request } from "../../api/salasCuna.api";
 
 //DataGrid Import
-import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { DataGrid, GridActionsCellItem, esES } from "@mui/x-data-grid"; //The esES is to translate the datagrid
 
 //UI Icons Imports
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import axios from "axios";
+
+import HistoryIcon from "@mui/icons-material/History";
+
 import { ToastContainer } from "react-toastify";
 import { Row, Col } from "react-bootstrap";
 import AddIcon from "@mui/icons-material/Add";
@@ -27,17 +32,21 @@ import {
   toastUpdateSuccess,
 } from "../../utils/toastMsgs";
 
+import { CribroomForm } from "../CribroomForm/CribroomForm";
+
 export default function CribroomDashboard() {
   const [cribrooms, setCribrooms] = useState([]);
   const [filteredCribroom, setFilteredCribroom] = useState([]);
   const [keyword, setKeyword] = useState("");
   const [selectedCribroom, setSelectedCribroom] = useState("");
   const [cribroomName, setCribroomName] = useState("");
+  const [selectedCribroomData, setSelectedCribroomData] = useState(null);
 
   // Modal variables
   const [modalEditShow, setModalEditShow] = useState(false);
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
   const [modalCreateShow, setModalCreateShow] = useState(false);
+  const [modalHistoryShow, setModalHistoryShow] = useState(false);
 
   const customId = useRef(null);
 
@@ -59,35 +68,56 @@ export default function CribroomDashboard() {
 
   async function listCribroom() {
     try {
-      const promesas = await Promise.all([
-        getAllZones(authTokens.access),
-        axios.get("/api/cribroomDir/", {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "JWT " + authTokens.access,
-          },
-        }),
-      ]);
-      const [zonesData, cribroomData] = [promesas[0].data, promesas[1].data];
-      const updatedCribrooms = await cribroomData.map((cribroom) => {
-        const matchingZone = zonesData.find(
-          (zone) => zone.id === cribroom.zone.id
+      // Step 1: Fetch zones
+      const zonesResponse = await zone_request(authTokens.access);
+      const zonesData = zonesResponse.data;
+  
+      // Step 2: Fetch cribrooms for each zone
+      const cribroomsPromises = zonesData.map(async (zone) => {
+        const cribroomResponse = await cribroom_request(
+          authTokens.access,
+          'get',
+          0,
+          {},
+          0,
+          `&locality__department__zone__id=${zone.id}`
         );
-        if (matchingZone) {
-          return {
-            ...cribroom,
-            zone: matchingZone.name,
-            is_active: cribroom.is_active ? "Activo" : "Inactivo",
-          };
-        } else {
-          return {
-            ...cribroom,
-            is_active: cribroom.is_active ? "Activo" : "Inactivo",
-          };
-        }
+        return cribroomResponse.data;
       });
+  
+      // Step 3: Wait for all cribroom requests to complete
+      const cribroomsData = await Promise.all(cribroomsPromises);
+  
+      // Step 4: Combine zone information with cribroom data
+      const updatedCribrooms = cribroomsData.flatMap((cribroomData, index) => {
+        const matchingZone = zonesData[index];
+  
+        return cribroomData.map((cribroom) => ({
+          ...cribroom,
+          zone: matchingZone.name,
+          is_active: cribroom.is_active ? "Activo" : "Inactivo",
+        }));
+      });
+  
+      // // Step 3: Wait for all cribroom requests to complete
+      // const cribroomsData = await Promise.all(cribroomsPromises);
+  
+      // // Step 4: Combine zone information with cribroom data
+      // const updatedCribrooms = cribroomsData.flatMap((cribroomData, index) => {
+      //   const matchingZone = zonesData[index];
+  
+      //   return cribroomData.map((cribroom) => ({
+      //     ...cribroom,
+      //     zone: matchingZone.name,
+      //     is_active: cribroom.is_active ? "Activo" : "Inactivo",
+      //   }));
+      // });
+
+      // Step 5: Update component state
       setCribrooms(updatedCribrooms);
       setFilteredCribroom(updatedCribrooms);
+  
+      toastUpdateSuccess("Salas cargadas", customId);
     } catch (error) {
       console.log("Error fetching SalasCunas:", error);
       handlePermissions(error.response.status);
@@ -101,6 +131,19 @@ export default function CribroomDashboard() {
     console.log("Edit clicked for row with id:", rowId);
   }
 
+  async function handleEditClick(rowId) {
+    setSelectedCribroom(rowId);
+    setModalEditShow(true);
+    const selectedCribroomData = getCribroomDataById(rowId); // Replace this with your function to get Cribroom data
+    setSelectedCribroomData(selectedCribroomData);
+    console.log("Edit clicked for row with id:", rowId);
+    console.log("Edit clicked for row with id:", rowId);
+  }
+  function getCribroomDataById(CribroomId) {
+    // Replace this with your logic to get Cribroom data by ID from the 'Cribrooms' array
+    return cribrooms.find((Cribroom) => Cribroom.id === CribroomId);
+  }
+
   function handleCreateClick() {
     setModalCreateShow(true);
   }
@@ -112,10 +155,20 @@ export default function CribroomDashboard() {
     console.log("Edit clicked for row with id:", rowId);
   }
 
+  function handleHistoryClick(rowId, CRName) {
+    setSelectedCribroom(rowId);
+    setCribroomName(CRName);
+    setModalHistoryShow(true);
+    console.log("Edit clicked for row with id:", rowId);
+  }
+
   // SEARCH FUNCTION
   function updateKeyword(keyword) {
     const filtered = cribrooms.filter((cribroom) => {
-      return `${cribroom.name.toLowerCase()}`.includes(keyword.toLowerCase());
+      return (
+        `${cribroom.name.toLowerCase()}`.includes(keyword.toLowerCase()) ||
+        `${cribroom.code.toLowerCase()}`.includes(keyword.toLowerCase())
+      ); //set other possible filters to the SearchBar
     });
     setKeyword(keyword);
     setFilteredCribroom(filtered);
@@ -129,20 +182,20 @@ export default function CribroomDashboard() {
   const columns = [
     {
       field: "code",
-      headerName: "Codigo",
+      headerName: "Código",
       width: 100,
     },
-    { field: "name", headerName: "Nombre", width: 200 },
-    { field: "street", headerName: "Direccion", width: 140 },
-    { field: "CUIT", headerName: "CUIT", width: 140 },
+    { field: "name", headerName: "Nombre", width: 180 },
+    { field: "street", headerName: "Dirección", width: 170 },
+    { field: "CUIT", headerName: "CUIT", width: 90 },
     {
       field: "house_number",
-      headerName: "Numero Calle",
+      headerName: "Número Calle",
       width: 140,
     },
     {
       field: "max_capacity",
-      headerName: "Cap. Maxima",
+      headerName: "Cap. Máxima",
       width: 140,
     },
     {
@@ -150,13 +203,13 @@ export default function CribroomDashboard() {
       headerName: "Zona",
       width: 140,
     },
-    { field: "is_active", headerName: "Estado", width: 140 },
-    { field: "entity", headerName: "Entidad", width: 140 },
+    { field: "is_active", headerName: "Estado", width: 100 },
+    { field: "entity", headerName: "Entidad", width: 100 },
     {
       field: "actions",
       type: "actions",
       headerName: "Acciones",
-      width: 80,
+      width: 100,
       getActions: (params) => [
         <GridActionsCellItem
           icon={<DeleteIcon />}
@@ -168,6 +221,11 @@ export default function CribroomDashboard() {
             variant="primary"
             icon={<EditIcon />}
             onClick={() => handleEditClick(params.row.id)}
+          />
+          <GridActionsCellItem
+            variant="primary"
+            icon={<HistoryIcon />}
+            onClick={() => handleHistoryClick(params.row.id, params.row.name)}
           />
         </>,
       ],
@@ -183,11 +241,11 @@ export default function CribroomDashboard() {
         </header>
       </div>
       <body>
-        <div>
+        <div style={{ marginTop: 100 }}> 
           {selectedCribroom && (
             <>
-              <UpdateRoom
-                id={selectedCribroom}
+              <CribroomForm
+                data={selectedCribroomData}
                 show={modalEditShow}
                 tokens={authTokens.access}
                 onHide={() => {
@@ -211,8 +269,21 @@ export default function CribroomDashboard() {
               }}
             />
           )}
+          {selectedCribroom && (
+            <HistoryTimeline
+              id={selectedCribroom}
+              tokens={authTokens.access}
+              type="cribroom"
+              show={modalHistoryShow}
+              onHide={() => {
+                setModalHistoryShow(false);
+                setSelectedCribroom(""); // Reset selectedCribroom after closing modal
+                reloadDataFunc();
+              }}
+            />
+          )}
           {modalCreateShow && (
-            <CreateRoom
+            <CribroomForm
               show={modalCreateShow}
               onHide={() => {
                 setModalCreateShow(false);
@@ -227,35 +298,48 @@ export default function CribroomDashboard() {
                 <div className="contenedor-linea-cb">
                   <hr className="linea-cb"></hr>
                 </div>
-                <Row>
-                  <Col className="search-input">
-                    <SearchBar
-                      keyword={keyword}
-                      onChange={updateKeyword}
-                      placeholder={"Buscar Sala Cuna"}
-                    />
-                  </Col>
-                  <Col className="add-payout-button">
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      startIcon={<AddIcon />}
-                      onClick={() => handleCreateClick()}
-                    >
-                      Agregar Sala Cuna
-                    </Button>
-                  </Col>
-                </Row>
+
+                <div className="conteiner-searchbar-button">
+
+                  <Row>
+                    <Col className="search-input">
+                      <SearchBar
+                        keyword={keyword}
+                        onChange={updateKeyword}
+                        placeholder={"Buscar Sala Cuna"}
+                      />
+                    </Col>
+                    <Col className="add-payout-button">
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        startIcon={<AddIcon />}
+                        onClick={() => handleCreateClick()}
+                      >
+                        Agregar Sala Cuna
+                      </Button>
+                    </Col>
+                  </Row>
+
+                </div>
+
                 <div className="DataGrid-Wrapper">
                   <DataGrid
+                    localeText={
+                      esES.components.MuiDataGrid.defaultProps.localeText
+                    }
                     style={{ borderRadius: "15px", margin: "20px" }}
                     rows={filteredCribroom}
                     columns={columns}
                     autoHeight
                     autoWidth
-                    pageSize={5}
-                    checkboxSelection //with this you can select all columns from the datagrid
-                    disableRowSelectionOnClick//
+                    pageSize={10}
+                    pageSizeOptions={[10]}
+                    initialState={{
+                      pagination: { paginationModel: { pageSize: 10 } },
+                    }}
+                    /*                     checkboxSelection //with this you can select all columns from the datagrid
+                    disableRowSelectionOnClick// */
                   />
                 </div>
               </>

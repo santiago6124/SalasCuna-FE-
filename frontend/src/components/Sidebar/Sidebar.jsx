@@ -14,6 +14,7 @@ import { faNewspaper } from '@fortawesome/free-solid-svg-icons';
 import { faFileCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { faAddressBook } from '@fortawesome/free-solid-svg-icons';
 import { faChartLine } from '@fortawesome/free-solid-svg-icons';
+import { faFileInvoice } from '@fortawesome/free-solid-svg-icons';
 
 const Sidebar = ({ isOpen, closeSidebar }) => {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
       <div className="sidebar-container">
         <button className="config-button" onClick={() => Redirects("/home-page")}>
           <FontAwesomeIcon icon={faHouse} size="lg" style={{ color: "#0FAAE1", marginRight: '6px' }} />
-          <span className="config-text">Home</span>
+          <span className="config-text">Menu</span>
         </button>
 
         <button className="config-button" onClick={() => Redirects("/children-management")}>
@@ -61,10 +62,13 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
 
         <button className="config-button" onClick={() => Redirects("/maestro-montos")}>
           <FontAwesomeIcon icon={faChartLine}  size="lg" style={{ color: "#0FAAE1", marginRight: '6px' }} />
-          <span className="config-text">Maestro Monto</span>
+          <span className="config-text">Maestro Montos</span>
         </button>
 
-
+        <button className="config-button" onClick={() => Redirects("/graphs")}>
+        <FontAwesomeIcon icon={faFileInvoice} size="lg" style={{ color: "#0FAAE1", marginRight: '6px' }} />
+          <span className="config-text">Reportes</span>
+        </button>
 
       </div>
       

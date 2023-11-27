@@ -9,3 +9,11 @@
     background-size: cover;
     background-position: center;
   }
+
+
+  @media (max-width:700px){
+    .contenedor-texto{
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+  }

@@ -7,14 +7,20 @@ import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
 import Cookies from 'js-cookie'
 
+import { cribroom_request } from "../../../api/salasCuna.api";
+
 import { toastLoading, toastUpdateError, toastUpdateSuccess } from "../../../utils/toastMsgs";
 
 export default function DeleteRoom(props) {
   const [selectedCribroom, setSelectedCribroom] = useState("");
+  const [cribroomName, setCribroomName] = useState("");
+  const [cribState, setCribState] = useState("");
   const CustomId = useRef(null);
 
   useEffect(() => {
     setSelectedCribroom(props.id);
+    setCribroomName(props.name);
+    setCribState(props.is_active);
   }, [props]);
 
   async function handleDelete(event) {
@@ -24,13 +30,9 @@ export default function DeleteRoom(props) {
       const payload = {
         is_active: "false",
       };
-      await axios.patch(`/api/cribroomDir/${selectedCribroom}/?delete`, payload, {
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': Cookies.get('csrftoken'),
-          "Authorization": "JWT " + props.tokens
-        }
-      });
+      console.log('request in progress');
+      await cribroom_request(props.tokens, 'patch', 0, payload, selectedCribroom);
+      console.log('request success');
       toastUpdateSuccess("Sala Cuna desactivada", CustomId);
       props.onHide();
     } catch (err) {
@@ -55,14 +57,14 @@ export default function DeleteRoom(props) {
         <hr className="linea-eliminar"></hr>
       </div>
       <div className="par">
-        <p>Esta seguro que desea Eliminar la Sala Cuna {selectedCribroom}?</p>
-        <p>Esto hara que su estado pase a ser Inactivo,</p>
+        <p>¿Está seguro que desea eliminar la Sala Cuna {cribroomName}?</p>
+        <p>Esto hará que su estado pase a ser inactivo.</p>
       </div>
       <div className="par">
         <Alert severity="warning">
-          <p>Los chicos que esten en esta sala cuna tambien</p>
+          <p>Los chicos que están en esta sala cuna también</p>
           <p>
-            pasaran a estar en <strong>estado Inactivo</strong>
+          pasarán a estar en <strong>ESTADO INACTIVO</strong>.
           </p>
         </Alert>
       </div>

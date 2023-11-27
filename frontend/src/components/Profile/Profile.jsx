@@ -10,7 +10,7 @@ import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
  
-import profileImage from '../../media/Profile.jpg';
+import profileImage from '../../media/TS.png';
 
 import AuthContext from '../../context/AuthContext';
 
@@ -38,6 +38,18 @@ function Profile ()  {
                     <div className="config-item">
                       <div className="config-content">
                         <button className="config-button" onClick={() => history("/me")}>
+                        <FontAwesomeIcon icon={faGear} style={{color: "#f1862e",marginRight: '8px'}} />
+                          <span className="config-text">Configuración</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Segundo botón Cerrar Sesión (posicionado arriba del primero) */}
+                  <div className="config-section ">
+                    <div className="config-item">
+                      <div className="config-content">
+                        <button className="config-button" onClick={() => logoutUser()}>
                         <FontAwesomeIcon icon={faGear} style={{color: "#f1862e",marginRight: '8px'}} />
                           <span className="config-text">Configuración</span>
                         </button>

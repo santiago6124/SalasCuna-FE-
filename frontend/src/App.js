@@ -12,14 +12,17 @@ import ActivateAccountPage from "./pages/ActivateAccountPage/ActivateAccountPage
 import GeneratePadron from "./components/GeneratePadron/GeneratePadron";
 import TechnicalReportPage from "./pages/TechnicalReportPage";
 import AddChildrenPage from "./pages/AddChildrenPage/AddChildrenPage";
-import CreateRoomPage from "./pages/CreateRoomPage/CreateRoomPage";
-import { FormAddChildren } from "./components/FormAddChildren/FormAddChildren";
 import CribroomDashboard from "./components/CribroomDashboard/CribroomDashboard";
 import UserList from "./components/UserList/UserList";
 import Dashboard from "./pages/DashboardPage/Dashboard";
+
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
+
+import Graphs from "./pages/GraphsPage/Graphs";
+
+import HistoryTimeline from "./components/CribroomDashboard/ObjectHistory";
+
 import { FilesToDb } from "../src/components/FilesToDb/FilesToDb";
-import SingUpPage from "./pages/SingUpPage/SingUpPage";
 import MontoPage from "./pages/MontoPage";
 
 function App() {
@@ -55,15 +58,6 @@ function App() {
             />
 
             <Route
-              path="/children-management/new"
-              element={<PrivateRoute children={<FormAddChildren />} />}
-            />
-
-            <Route
-              path="/crear-sala"
-              element={<PrivateRoute children={<CreateRoomPage />} />}
-            />
-            <Route
               path="/maestro-montos"
               element={<PrivateRoute children={<MontoPage />} />}
             />
@@ -88,6 +82,10 @@ function App() {
             <Route
               path="home-page"
               element={<PrivateRoute children={<Dashboard />} />}
+            />
+            <Route
+              path="/graphs"
+              element={<PrivateRoute children={<Graphs />} />}
             />
           </Routes>
         </AuthProvider>

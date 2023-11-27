@@ -1,0 +1,16 @@
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 120px; /* Ajusta el espacio horizontal entre los botones */
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+.close-button{
+    height: 40px;
+
+}
+
+.boton-edit{
+    height: 40px;
+}

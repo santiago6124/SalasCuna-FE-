@@ -39,7 +39,7 @@ export default function TSDashboard() {
 
   const listCribroom = async (user) => {
     try {
-      const responseLocality = await getAllLocalities(authTokens.access);
+      const responseLocality = await getAllLocalities();
       const response = await axios.get(
         `/api/cribroom/?user=${user.user.user_id}`,
         { headers: headers }

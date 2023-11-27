@@ -1,0 +1,63 @@
+.body {
+  width: 100%;
+  padding-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.header {
+  margin-bottom: 50px;
+  padding: 5px;
+}
+.contenedor-form-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.conteiner-form-createroom {
+  padding: 20px;
+  width: 500px;
+  border-radius: 18px;
+  box-shadow: 1px 4px 10px 0px rgba(0, 0, 0, 0.37);
+  background-color: rgb(255, 255, 255);
+}
+.contenedor-boton-qr {
+  display: flex;
+  justify-content: space-between; /* This will push the buttons to opposite ends */
+  margin-top: 20px; /* Adjust the top margin as needed */
+}
+.boton-cerrar {
+  /* Styles for the "Cerrar" button */
+  color: #fff; /* Text color */
+  background-color: #dc3545; /* Red background color */
+  border-color: #dc3545; /* Border color */
+}
+.titulo {
+  text-align: center;
+}
+
+.contenedor-linea {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.linea {
+  margin-top: 1px;
+  height: 4px;
+  border: 2px solid #ef7e0e;
+  background-color: #ef7e0e;
+  width: 350px;
+}
+
+.contenedor-boton-createuser {
+  margin: 5px;
+  padding: 3%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
