@@ -50,11 +50,6 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
           <span className="config-text">Informe tecnico</span>
         </button>
 
-        <button className="config-button" onClick={() => Redirects("/generate-padron")}>
-          <FontAwesomeIcon icon={faFileCirclePlus} size="lg" style={{ color: "#0FAAE1", marginRight: '6px' }} />
-          <span className="config-text">Generar Padron</span>
-        </button>
-
         <button className="config-button" onClick={() => Redirects("/listar-usuarios")}>
           <FontAwesomeIcon icon={faAddressBook} size="lg" style={{ color: "#0FAAE1", marginRight: '6px' }} />
           <span className="config-text">Lista de Usuarios</span>

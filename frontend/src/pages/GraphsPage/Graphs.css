@@ -32,10 +32,10 @@
 }
 
 .titulo-home {
+  margin-top: 100px;
   text-align: center;
 }
-.subtitulo {
-  margin-left: 150px;
+.subtitulo-graph {
   padding: 5px;
 }
 
@@ -86,14 +86,17 @@
   padding-right: 10px;
 }
 
-.DataGrid-Wrapper {
-  width: auto;
-  height: auto;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  padding-right: 10px;
+.datagrid-graph-container{
+
+  width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+  margin-bottom: 50px;
+}
+
+.titulo-datagrid-graph{
+  margin-bottom: 20px;
 }
 
 .DataGrid {
@@ -135,4 +138,125 @@
 .datatitle {
   padding: 5px;
   margin-left: 50px;
+}
+
+
+.contenedor-row{
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 50px;
+  margin-left: 250px;
+
+}
+
+.columna-izq, .columna-der {
+  flex: 1;
+  box-sizing: border-box;
+  
+}
+
+.columna-izq{
+
+  width: 500px;
+}
+
+.columna-der{
+
+  margin-left: 0;
+}
+
+.container-graficos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.container1, .container2 {
+  width: 48%; /* Ajusta el ancho de los contenedores según tus preferencias */
+  box-sizing: border-box;
+  margin-bottom: 20px; /* Ajusta el margen inferior entre los contenedores */
+}
+
+.container1 > div, .container2 > div {
+  padding: 15px;
+  margin-bottom: 10px; /* Ajusta el margen inferior entre los elementos internos */
+}
+
+.container-graficos{
+
+  width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  padding-top: 30px;
+}
+
+
+
+
+@media (max-width:1400px) {
+
+  .container-graficos{
+    width: 90%;
+  }
+
+  .basic{
+    width: 400px;
+  }
+
+} 
+
+@media screen and (max-width: 1200px) {
+
+  .datagrid-graph-container{
+
+    margin-right: auto;
+    margin-left: auto;
+    width: 90%;
+  }
+
+}
+
+@media screen and (max-width: 900px) {
+
+  .contenedor-row{
+    margin-left: 100px;
+    max-width: 90%;
+  }
+
+}
+
+@media screen and (max-width: 600px) {
+
+  .contenedor-row{
+    margin-left: 50px;
+    max-width: 90%;
+  }
+
+  .div-izq, .div-der {
+    flex: 0; /* Ocupa el ancho completo en pantallas más pequeñas */
+    
+  }
+
+  .container1, .container2 {
+    width: 100%; /* Los contenedores ocupan el ancho completo en pantallas más pequeñas */
+  }
+}
+
+@media screen and (max-width: 450px) {
+
+  .contenedor-row{
+    margin-left: 30px;
+    max-width: 90%;
+  }
+
+}
+
+@media screen and (max-width: 400px) {
+
+  .contenedor-row{
+    margin-left: 15px;
+    max-width: 90%;
+  }
+
 }

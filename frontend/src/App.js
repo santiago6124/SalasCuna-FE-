@@ -47,10 +47,6 @@ function App() {
               element={<ActivateAccountPage />}
             />
             <Route
-              path="/generate-padron"
-              element={<PrivateRoute children={<GeneratePadron />} />}
-            />
-            <Route
               path="/children-management"
               element={<PrivateRoute children={<AddChildrenPage />} />}
             />
