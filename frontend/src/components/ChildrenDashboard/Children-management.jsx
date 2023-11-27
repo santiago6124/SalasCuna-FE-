@@ -16,14 +16,15 @@ import { cribroom_request, child_request } from "../../api/salasCuna.api";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 
 import DeleteChildren from "./DeleteChildren/DeleteChildren";
-
-
+import PhoneChildren from "./PhoneChildren/PhoneChildren";
 import HistoryTimeline from "../CribroomDashboard/ObjectHistory";
 import { DataGrid, esES } from "@mui/x-data-grid";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import HistoryIcon from "@mui/icons-material/History";
+import Phone from "@mui/icons-material/Phone"
+import DescriptionIcon from '@mui/icons-material/Description';
 
 import AuthContext from "../../context/AuthContext";
 import {
@@ -45,6 +46,8 @@ export default function ChildrenManagement() {
   const [modalCreateShow, setModalCreateShow] = useState(false);
   const [modalEditShow, setModalEditShow] = useState(false);
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
+  const [modalPhoneShow, setModalPhoneShow] = useState(false);
+  const [modalPollShow, setModalPollShow] = useState(false);
   const [selectedChild, setSelectedChild] = useState("");
   const [childName, setChildName] = useState("");
   const [modalHistoryShow, setModalHistoryShow] = useState(false);
@@ -109,7 +112,7 @@ export default function ChildrenManagement() {
   async function loadChildren() {
     try {
       toastLoading("Cargando Chicos", customId);
-      const res = await child_request(authTokens.access, 'get', 1, {}, undefined,`&cribroom_id=${selectedCribroom}`);
+      const res = await child_request(authTokens.access, 'get', 1, {}, undefined, `&cribroom_id=${selectedCribroom}`);
       const updateChild = await res.data.map((child) => {
         return {
           ...child,
@@ -145,6 +148,20 @@ export default function ChildrenManagement() {
     setSelectedChild(rowId);
     setChildName(ChildName);
     setModalHistoryShow(true);
+    console.log("History clicked for row with id:", rowId);
+  }
+
+  function handlePhoneClick(rowId, ChildName) {
+    setSelectedChild(rowId);
+    setChildName(ChildName);
+    setModalPhoneShow(true);
+    console.log("History clicked for row with id:", rowId);
+  }
+
+  function handlePollClick(rowId, ChildName) {
+    setSelectedChild(rowId);
+    setChildName(ChildName);
+    setModalPollShow(true);
     console.log("History clicked for row with id:", rowId);
   }
 
@@ -194,7 +211,7 @@ export default function ChildrenManagement() {
       field: "actions",
       type: "actions",
       headerName: "Acciones",
-      width: 110,
+      width: 180,
       headerAlign: "center",
       align: "center",
       getActions: (params) => [
@@ -213,6 +230,16 @@ export default function ChildrenManagement() {
           icon={<HistoryIcon />}
           onClick={() => handleHistoryClick(params.row.id, params.row.name)}
         />,
+        <GridActionsCellItem
+          icon={<Phone />}
+          label="Phone"
+          onClick={() => handlePhoneClick(params.row.id, params.row.name)}
+        />,
+        <GridActionsCellItem
+          icon={<DescriptionIcon />}
+          label="Encuesta"
+          onClick={() => handlePollClick(params.row.id, params.row.name)}
+        />
       ],
     },
   ];
@@ -258,6 +285,31 @@ export default function ChildrenManagement() {
           onHide={() => {
             setModalCreateShow(false);
             reloadDataFunc();
+          }}
+        />
+      )}
+      {selectedChild && (
+        <HistoryTimeline
+          id={selectedChild}
+          tokens={authTokens.access}
+          type="child"
+          show={modalHistoryShow}
+          onHide={() => {
+            setModalHistoryShow(false);
+            setSelectedChild(""); // Reset selectedCribroom after closing modal
+            reloadDataFunc();
+          }}
+        />
+      )}
+      {selectedChild && (
+        <PhoneChildren
+          id={selectedChild}
+          tokens={authTokens.access}
+          type="child"
+          show={modalPhoneShow}
+          onHide={() => {
+            setModalPhoneShow(false);
+            setSelectedChild(""); // Reset selectedCribroom after closing modal
           }}
         />
       )}
