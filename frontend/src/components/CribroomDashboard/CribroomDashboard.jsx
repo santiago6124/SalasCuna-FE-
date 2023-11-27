@@ -5,7 +5,6 @@ import DeleteRoom from "../CribroomDashboard/DeleteRoom/DeleteRoom";
 
 import HistoryTimeline from "./ObjectHistory";
 
-
 import "./CribroomDashboard.css";
 
 import React, { useContext, useEffect, useRef, useState } from "react";
@@ -14,7 +13,7 @@ import AuthContext from "../../context/AuthContext";
 import { handlePermissions, zone_request, cribroom_request } from "../../api/salasCuna.api";
 
 //DataGrid Import
-import { DataGrid, GridActionsCellItem, esES } from "@mui/x-data-grid"; //The esES is to translate the datagrid
+import { DataGrid, GridActionsCellItem, esES,GridToolbarContainer } from "@mui/x-data-grid"; //The esES is to translate the datagrid
 
 //UI Icons Imports
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -26,6 +25,7 @@ import { ToastContainer } from "react-toastify";
 import { Row, Col } from "react-bootstrap";
 import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
+import { ExportButton } from './ExcelExport/ExportButton';
 import {
   toastLoading,
   toastUpdateError,
@@ -34,6 +34,19 @@ import {
 
 import { CribroomForm } from "../CribroomForm/CribroomForm";
 
+function CustomToolbar(props) {
+  const { selectedCribroomId, authTokens } = props;
+
+  return (
+    <GridToolbarContainer {...props}>
+      <ExportButton 
+        selectedCribroomId={selectedCribroomId}
+        authTokens={authTokens}
+      />
+    </GridToolbarContainer>
+  );
+}
+
 export default function CribroomDashboard() {
   const [cribrooms, setCribrooms] = useState([]);
   const [filteredCribroom, setFilteredCribroom] = useState([]);
@@ -41,6 +54,7 @@ export default function CribroomDashboard() {
   const [selectedCribroom, setSelectedCribroom] = useState("");
   const [cribroomName, setCribroomName] = useState("");
   const [selectedCribroomData, setSelectedCribroomData] = useState(null);
+  const [selectedRows, setSelectedRows] = useState([]);
 
   // Modal variables
   const [modalEditShow, setModalEditShow] = useState(false);
@@ -63,7 +77,6 @@ export default function CribroomDashboard() {
   }
   useEffect(() => {
     firstLoad();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function listCribroom() {
@@ -324,23 +337,28 @@ export default function CribroomDashboard() {
                 </div>
 
                 <div className="DataGrid-Wrapper">
-                  <DataGrid
-                    localeText={
-                      esES.components.MuiDataGrid.defaultProps.localeText
-                    }
-                    style={{ borderRadius: "15px", margin: "20px" }}
-                    rows={filteredCribroom}
-                    columns={columns}
-                    autoHeight
-                    autoWidth
-                    pageSize={10}
-                    pageSizeOptions={[10]}
-                    initialState={{
-                      pagination: { paginationModel: { pageSize: 10 } },
-                    }}
-                    /*                     checkboxSelection //with this you can select all columns from the datagrid
-                    disableRowSelectionOnClick// */
-                  />
+                <div style={{ height: '100vh', width: '100%' }}>
+                  {cribrooms.length > 0 && (
+                    <DataGrid 
+                      checkboxSelection
+                      disableRowSelectionOnClick
+                      onRowSelectionModelChange={(newRowSelectionModel) => {
+                        setSelectedRows(newRowSelectionModel);
+                      }}
+                    
+
+                      columns={columns}
+                      rows={cribrooms}
+                      components={{ Toolbar: CustomToolbar }}
+                      componentsProps={{
+                        toolbar: {
+                          selectedCribroomId: selectedRows, // Pass the selected cribroom ID
+                          authTokens: authTokens,
+                        },
+                      }}
+                    />
+                  )}
+                </div>
                 </div>
               </>
             </>
