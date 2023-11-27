@@ -3,6 +3,7 @@ import './Profile.css';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import Button from 'react-bootstrap/Button';
+import { useNavigate } from "react-router-dom";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
@@ -16,6 +17,8 @@ import AuthContext from '../../context/AuthContext';
 
 function Profile ()  {
   let { user, logoutUser } = useContext(AuthContext);
+
+  let history = useNavigate();
 
   return (
     <OverlayTrigger
@@ -32,6 +35,18 @@ function Profile ()  {
 
                   {/* Primer botón Cerrar Sesión */}
                   <div className="config-section">
+                    <div className="config-item">
+                      <div className="config-content">
+                        <button className="config-button" onClick={() => history("/me")}>
+                        <FontAwesomeIcon icon={faGear} style={{color: "#f1862e",marginRight: '8px'}} />
+                          <span className="config-text">Configuración</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Segundo botón Cerrar Sesión (posicionado arriba del primero) */}
+                  <div className="config-section ">
                     <div className="config-item">
                       <div className="config-content">
                         <button className="config-button" onClick={() => logoutUser()}>

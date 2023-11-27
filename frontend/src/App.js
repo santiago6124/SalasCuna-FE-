@@ -5,10 +5,8 @@ import "./App.css";
 import PrivateRoute from "./utils/PrivateRoute";
 import { PublicRoute } from "./utils/PublicRoute";
 
-import Activate from "./containers/Activate";
 import Home from "./containers/Home";
-import ResetPassword from "./containers/ResetPassword";
-import ResetPasswordConfirm from "./containers/ResetPasswordConfirm";
+import { ChangePassword } from "./components/ChangePassword/ChangePassword";
 import { Login } from "./components/Login/Login";
 import ActivateAccountPage from "./pages/ActivateAccountPage/ActivateAccountPage";
 import GeneratePadron from "./components/GeneratePadron/GeneratePadron";
@@ -18,10 +16,11 @@ import CribroomDashboard from "./components/CribroomDashboard/CribroomDashboard"
 import UserList from "./components/UserList/UserList";
 import Dashboard from "./pages/DashboardPage/Dashboard";
 
+import ProfilePage from "./pages/ProfilePage/ProfilePage";
+
 import Graphs from "./pages/GraphsPage/Graphs";
 
 import HistoryTimeline from "./components/CribroomDashboard/ObjectHistory";
-
 
 import { FilesToDb } from "../src/components/FilesToDb/FilesToDb";
 import MontoPage from "./pages/MontoPage";
@@ -38,18 +37,17 @@ function App() {
               element={<PublicRoute children={<Login />} />}
             />
             <Route
-              path="/reset-password"
-              element={<PrivateRoute children={<ResetPassword />} />}
+              path="/agregar-usuario"
+              element={<PrivateRoute children={<SingUpPage />} />}
             />
             <Route
               path="/password/reset/confirm/:uid/:token"
-              element={<PrivateRoute children={<ResetPasswordConfirm />} />}
+              element={<PrivateRoute children={<ChangePassword />} />}
             />
             <Route
               path="/activate/:uid/:token"
               element={<ActivateAccountPage />}
             />
-
             <Route
               path="/generate-padron"
               element={<PrivateRoute children={<GeneratePadron />} />}
@@ -79,6 +77,7 @@ function App() {
               path="/files-to-db"
               element={<PrivateRoute children={<FilesToDb />} />}
             />
+            <Route path="/me" element={<ProfilePage />} />
 
             <Route
               path="home-page"

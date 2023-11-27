@@ -36,8 +36,8 @@ export const AuthProvider = ({ children }) => {
       department: formData.get("department"),
       city: formData.get("city"),
       email: formData.get("email"),
-      password: formData.get("password"),
-      re_password: formData.get("re_password"),
+      password: formData.get("dni"),
+      re_password: formData.get("dni")
     };
     const group = {
       groups: [parseInt(formData.get("role"))],
@@ -72,6 +72,7 @@ export const AuthProvider = ({ children }) => {
       alert("Something went wrong");
     }
   };
+
 
   let loginUser = async (e) => {
     e.preventDefault();
