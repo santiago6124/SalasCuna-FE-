@@ -981,11 +981,11 @@ const valueFormatter = (value) => `${value}mm`;
     for (let i = 1; i <= variableQuantity; i++) {
       forms.push(
         <div key={i} className="col-md-6 mb-3">
-          <h3 className="subtitulo">Elegir las variables:</h3>
+          <h3 className="subtitulo-graph">Elegir las variables:</h3>
           <Form.Select
             aria-label={`Variable ${i}`}
             className="mt-1"
-            style={{ width: '200px', marginLeft: '150px', padding: '5px' }}
+            style={{ width: '200px', padding: '5px' }}
           >
             <option>Selecciona la variable {i}</option>
             <option value="1">Variable 1</option>
@@ -1053,7 +1053,7 @@ const valueFormatter = (value) => `${value}mm`;
   ];
 
 
-  return (
+  return ( 
     <body>
             <header className="mb-5">
           <Menu />
@@ -1062,54 +1062,54 @@ const valueFormatter = (value) => `${value}mm`;
       <div className="contenedor-linea-home">
         <hr className="linea-home"></hr>
       </div>
-      <div className="row">
-  <div className="col-md-6 mb-3">
-  <div className="col-md-6 mb-3">
-        <h3 className="subtitulo">Elegir la cantidad de variables:</h3>
-        <Form.Select
-          aria-label="Cantidad de Variables"
-          className="mt-1"
-          style={{ width: '200px', marginLeft: '150px', padding: '5px' }}
-          onChange={(e) => setVariableQuantity(parseInt(e.target.value, 10))}
-        >
-          <option>Selecciona la cantidad</option>
-          <option value="1">Una</option>{/* Acá rellenar las opciones con las preguntas del socio*/}
-          <option value="2">Dos</option>
-          <option value="3">Tres</option>
-        </Form.Select>
-      </div>
-    <h3 className="subtitulo">Elegir el estado del niño</h3>
-    <Form.Select aria-label="Cantidad de Variables" className="mt-1" style={{ width: '200px',  marginLeft: "150px",
-  padding: "5px" }}>
-      <option>Selecciona el estado</option>
-      <option value="1">Activo</option>
-      <option value="2">Inactivo</option>
-      <option value="3">Todos</option>
-    </Form.Select>
-  </div>
+      <div className="contenedor-row">
+          <div className="columna-izq">
+            <h3 className="subtitulo-graph">Elegir la cantidad de variables:</h3>
+            <Form.Select
+              aria-label="Cantidad de Variables"
+              className="mt-1"
+              style={{ width: '200px', padding: '5px' }}
+              onChange={(e) => setVariableQuantity(parseInt(e.target.value, 10))}
+            >
+             <option>Selecciona la cantidad</option>
+              <option value="1">Una</option>{/* Acá rellenar las opciones con las preguntas del socio*/}
+              <option value="2">Dos</option>
+              <option value="3">Tres</option>
+            </Form.Select>
+          
+            <h3 className="subtitulo-graph">Elegir el estado del niño</h3>
+            <Form.Select aria-label="Cantidad de Variables" 
+            className="mt-1" 
+            style={{ width: '200px', padding: "5px" }}>
+              <option>Selecciona el estado</option>
+              <option value="1">Activo</option>
+              <option value="2">Inactivo</option>
+              <option value="3">Todos</option>
+            </Form.Select>
+          </div>
 
-  <div className="col-md-6 mb-3">
-  {renderVariableSelectionForms()}
-  </div>
-  </div>
+          <div className="columna-der">
+            {renderVariableSelectionForms()}
+          </div>
+        </div>
 
-  <div className="data-grid-container">
-      <h2>Datos de Cribrooms</h2>
-      <DataGrid
-        rows={[
-          { id: 1, name: 'React' },
-          { id: 2, name: 'MUI' },
-        ]}
-        columns={columns}
-        pageSize={10}
-        rowsPerPageOptions={[10, 25, 50]}
-        components={{
-          Toolbar: GridToolbar,
-        }}
-        checkboxSelection
-        disableSelectionOnClick
-      />
-  </div>
+        <div className="data-grid-container">
+          <h2>Datos de Cribrooms</h2>
+          <DataGrid
+            rows={[
+              { id: 1, name: 'React' },
+              { id: 2, name: 'MUI' },
+            ]}
+            columns={columns}
+            pageSize={10}
+            rowsPerPageOptions={[10, 25, 50]}
+            components={{
+              Toolbar: GridToolbar,
+            }}
+            checkboxSelection
+            disableSelectionOnClick
+          />
+        </div>
 
 
       <div className="contenedor-linea-home">
