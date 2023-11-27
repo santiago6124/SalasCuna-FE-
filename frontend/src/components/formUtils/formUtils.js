@@ -1,5 +1,6 @@
 // Agrega la importación de Form al comienzo del archivo
 import Form from 'react-bootstrap/Form';
+import { Button } from "react-bootstrap";
 
 
 // formUtils.js
@@ -79,4 +80,36 @@ export function generatePayload(formData) {
   return payload;
 }
 
-
+export function renderFormPoll(answer, handlePollInputChange, userAnswers) {
+  return (
+    <div key={answer.id}>
+      <Form.Group className="mb-1">
+        <Form.Label className="mb-1">{answer.description}</Form.Label>
+        {answer.answerType === "String" ? (
+          <Form.Control
+            type='text'
+            placeholder={`Ingrese ${answer.description}`}
+            name={`${answer.id}`}
+            value={userAnswers[answer.id] || ''}
+            onChange={(e) => handlePollInputChange(answer.id, e)}
+          />
+        ) : answer.answerType === 'Boolean' ? (
+          <Form.Check
+            type="checkbox"
+            name={`${answer.id}`}
+            checked={userAnswers[answer.id] || false}
+            onChange={(e) => handlePollInputChange(answer.id, e)}
+          />
+        ) : (
+          <Form.Control
+            type='number'
+            placeholder={`Ingrese ${answer.description}`}
+            name={`${answer.id}`}
+            value={userAnswers[answer.id] || ''}
+            onChange={(e) => handlePollInputChange(answer.id, e)}
+          />
+        )}
+      </Form.Group>
+    </div>
+  );
+}

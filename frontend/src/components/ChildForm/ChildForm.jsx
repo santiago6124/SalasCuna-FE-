@@ -10,7 +10,7 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 
-import { generatePayload, renderformFieldsLocal } from "../formUtils/formUtils";
+import { generatePayload, renderformFieldsLocal, renderFormPoll } from "../formUtils/formUtils";
 
 import {
   cribroom_request,
@@ -42,16 +42,6 @@ export function ChildForm(props) {
   const [answers, setAnswers] = useState([]);
   const [userAnswers, setUserAnswers] = useState({});
 
-  const formFieldsDynamic = questions.map((question) => {
-    const answersForQuestion = answers.filter((answer) => answer.question === question.id);
-    
-    return {
-      question,
-      answers: answersForQuestion,
-      userAnswer: userAnswers[question.id] || null,
-    };
-  });
-
   const [formFieldsLocal, setFormFieldsLocal] = useState({
     Child: formFields.Child,
     Guardian: formFields.Guardian,
@@ -61,11 +51,6 @@ export function ChildForm(props) {
   const [formData, setFormData] = useState({
     Child_is_active: true,
   });
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  };
 
   let { authTokens } = useContext(AuthContext);
 
@@ -94,6 +79,36 @@ export function ChildForm(props) {
       setFormData(newFormData);
     }
   }, [props.data]);
+
+  
+  const formFieldsPoll = questions.map((question) => {
+    const answersForQuestion = answers.filter((answer) => answer.question === question.id);
+    
+    return {
+      question,
+      answers: answersForQuestion,
+      userAnswer: userAnswers[question.id] || null,
+    };
+  });
+
+  const handlePollInputChange = (answerId, e) => {
+    const inputValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+  
+    setUserAnswers({
+      ...userAnswers,
+      [answerId]: inputValue,
+    });
+
+    console.log("Dynamic Form Data:", formFieldsPoll);
+    console.log("User Answers:", userAnswers);
+
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    console.log(name, value);
+    setFormData({ ...formData, [name]: value });
+  };
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -161,10 +176,11 @@ export function ChildForm(props) {
           childAnswer_request(authTokens.access, 'post', 0, {
             child: ChildResponse.data.id,
             answer: answerKey,
-            value: answerValue,
+            value: typeof answerValue !== 'boolean' ? answerValue : answerValue===true?'true':'false',
           })
         );
         console.log(Object.entries(userAnswers));
+        console.log(Object.entries(childAnswerRequests));
 
         try {
           const childAnswerResponses = await Promise.all(childAnswerRequests);
@@ -257,15 +273,6 @@ export function ChildForm(props) {
     }
   }
 
-  // const handleSubmitDynamic = (formFieldsDynamic, userAnswers) => {
-  //   // Implement logic to handle the submission of dynamic form data
-  //   console.log("Dynamic Form Data:", formFieldsDynamic);
-  //   console.log("User Answers:", userAnswers);
-  
-  //   // Add your logic to submit the data to the server or perform any other actions
-  // };
-  
-
   const nextStep = () => {
     setCurrentStep(currentStep + 1);
   };
@@ -274,154 +281,33 @@ export function ChildForm(props) {
     setCurrentStep(currentStep - 1);
   };
 
-  // Encuentra el índice del objeto con parentQuestion !== null en formFieldsDynamic
-  const parentQuestionIndex = formFieldsDynamic.findIndex(
+  // Encuentra el índice del objeto con parentQuestion !== null en formFieldsPoll
+  const parentQuestionIndex = formFieldsPoll.findIndex(
     (objectQuestionAnswer) => objectQuestionAnswer.question.parentQuestion !== null
   );
 
-  // Si se encuentra el índice, extrae ese objeto y elimínalo de formFieldsDynamic
+  // Si se encuentra el índice, extrae ese objeto y elimínalo de formFieldsPoll
   if (parentQuestionIndex !== -1) {
-    const parentQuestionObject = formFieldsDynamic[parentQuestionIndex];
-    formFieldsDynamic.splice(parentQuestionIndex, 1);
+    const parentQuestionObject = formFieldsPoll[parentQuestionIndex];
+    formFieldsPoll.splice(parentQuestionIndex, 1);
 
     // Encuentra el índice del objeto con question.id igual a parentQuestion y asigna el parentQuestionObject a ese índice
-    const childQuestionIndex = formFieldsDynamic.findIndex(
+    const childQuestionIndex = formFieldsPoll.findIndex(
       (objectQuestionAnswer) => objectQuestionAnswer.question.id === parentQuestionObject.question.parentQuestion
     );
 
     if (childQuestionIndex !== -1) {
-      formFieldsDynamic[childQuestionIndex].childQuestion = parentQuestionObject;
+      formFieldsPoll[childQuestionIndex].childQuestion = parentQuestionObject;
     }
   }
 
-  console.log('formFieldsDynamic: ', formFieldsDynamic);
-  console.log('formFieldsDynamic: ', formFieldsDynamic.length);
-  console.log('stepsInteger: ', stepsInteger);
-
-  const handleDynamicInputChange = (answerId, e) => {
-    const inputValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-  
-    setUserAnswers({
-      ...userAnswers,
-      [answerId]: inputValue,
-    });
-    console.log("Dynamic Form Data:", formFieldsDynamic);
-    console.log("User Answers:", userAnswers);
-
-  };
-
   var stepsInteger = 5;
-  stepsInteger += formFieldsDynamic.length;
+  stepsInteger += formFieldsPoll.length;
   // Generar un array con los valores del rango de stepsInteger
   const stepsArray = Array.from({ length: stepsInteger }, (_, index) => index + 1);
 
   // Crear los steps dinámicamente basados en el array generado
   const steps = stepsArray.map((stepNumber) => `Step ${stepNumber}`);
-
-  // Función para renderizar un step dinámicamente
-  function renderDynamicSteps(formFieldsDynamic, handleDynamicInputChange, prevStep, currentStep) {
-    const formField = formFieldsDynamic[currentStep-6];
-    console.log('formField: ' ,formField);
-
-    if (formField.childQuestion){
-      return (
-        <div key={currentStep}>
-        <h1 className="titulo">{`${formField.question.description}`}</h1>
-        <div className="contenedor-linea">
-          <hr className="linea" />
-        </div>
-        {formField.answers.map((answer) => (
-          <div key={answer.id}>
-            <label>
-              <input
-                type={answer.answerType === "Boolean" ? "checkbox" : "text"}
-
-                value={userAnswers[answer.id]}
-                onChange={(e) => handleDynamicInputChange(answer.id, e)}
-              />
-              {answer.description}
-            </label>
-          </div>
-        ))}
-        <h1 className="titulo">{`${formField.childQuestion.question.description}`}</h1>
-        <div className="contenedor-linea">
-          <hr className="linea" />
-        </div>
-        {formField.childQuestion.answers.map((childAnswer) => (
-          <div key={childAnswer.id}>
-            <label>
-              <input
-                type={childAnswer.answerType === "Boolean" ? "checkbox" : "text"}
-                value={userAnswers[childAnswer.id]}
-                onChange={(e) => handleDynamicInputChange(childAnswer.id, e)}
-              />
-              {childAnswer.description}
-            </label>
-          </div>
-        ))}
-        <div className="contenedor-boton mb-1">
-        <Button
-          type="button"
-          onClick={prevStep}
-          size="lg"
-          className="m-2 mt-3"
-        >
-          Atrás
-        </Button>
-        <Button
-          type={currentStep === stepsInteger ? "submit" : "button"}
-          onClick={currentStep === stepsInteger ? handleSubmit : nextStep}
-          size="lg"
-          className="m-2 mt-3"
-        >
-          {currentStep === stepsInteger ? "Cargar" : "Siguiente"}
-        </Button>
-        </div>
-      </div>
-      );
-    } else {
-      return (
-      <div>
-        <h1 className="titulo">{`${formField.question.description}`}</h1>
-        <div className="contenedor-linea">
-          <hr className="linea" />
-        </div>
-        {formField.answers.map((answer) => (
-          <div key={answer.id}>
-            <label>
-              <input
-                type={answer.answerType === "Boolean" ? "checkbox" : "text"}
-
-                value={userAnswers[answer.id]}
-                onChange={(e) => handleDynamicInputChange(answer.id, e)}
-              />
-              {answer.description}
-            </label>
-          </div>
-        ))}
-        <div className="contenedor-boton mb-1">
-        <Button
-          type="button"
-          onClick={prevStep}
-          size="lg"
-          className="m-2 mt-3"
-        >
-          Atrás
-        </Button>
-        <Button
-          type={currentStep === stepsInteger ? "submit" : "button"}
-          onClick={currentStep === stepsInteger ? handleSubmit : nextStep}
-          size="lg"
-          className="m-2 mt-3"
-        >
-          {currentStep === stepsInteger ? "Cargar" : "Siguiente"}
-        </Button>
-        </div>
-      </div>
-      );
-  }
-  }
-  
 
   return (
     <Modal
@@ -613,16 +499,57 @@ export function ChildForm(props) {
               </>
             )}
 
-
             {/* Renderizar los steps dinámicos */}
             {currentStep > 5 && (
               <>
-                {renderDynamicSteps(formFieldsDynamic, handleDynamicInputChange, prevStep, currentStep)}
+                <div key={currentStep}>
+                <h1 className="titulo">{`${formFieldsPoll[currentStep - 6].question.description}`}</h1>
+                <div className="contenedor-linea">
+                  <hr className="linea" />
+                </div>
+                {formFieldsPoll[currentStep - 6].answers.map((answer) => (
+                  renderFormPoll(
+                    answer, handlePollInputChange, userAnswers
+                  )
+                ))}
+
+
+                {formFieldsPoll[currentStep - 6].childQuestion && (
+                  <>
+                    <h1 className="titulo">{`${formFieldsPoll[currentStep - 6].childQuestion.question.description}`}</h1>
+                    <div className="contenedor-linea">
+                      <hr className="linea" />
+                    </div>
+                    {formFieldsPoll[currentStep - 6].childQuestion.answers.map((answer) => (
+                      renderFormPoll(
+                        answer, handlePollInputChange, userAnswers
+                      )
+                    ))}
+                  </>
+                )}
+
+                <div className="contenedor-boton mb-1">
+                  <Button
+                    type="button"
+                    onClick={prevStep}
+                    size="lg"
+                    className="m-2 mt-3"
+                  >
+                    Atrás
+                  </Button>
+                  <Button
+                    type={currentStep === stepsInteger ? 'submit' : 'button'}
+                    onClick={currentStep === stepsInteger ? handleSubmit : nextStep}
+                    size="lg"
+                    className="m-2 mt-3"
+                  >
+                    {currentStep === stepsInteger ? 'Cargar' : 'Siguiente'}
+                  </Button>
+                </div>
+              </div>
                 
               </>
             )}
-
-
             
             <Stepper
               className="p-2"
