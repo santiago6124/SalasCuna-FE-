@@ -314,7 +314,7 @@ export function ChildForm(props) {
             <label>
               <input
                 type={answer.answerType === "Boolean" ? "checkbox" : "text"}
-                value={answer.id}
+
                 checked={formField.userAnswer === answer.id}
                 onChange={() => handleDynamicInputChange(formField.question.id, answer.id)}
               />
@@ -331,7 +331,6 @@ export function ChildForm(props) {
             <label>
               <input
                 type={childAnswer.answerType === "Boolean" ? "checkbox" : "text"}
-                value={childAnswer.id}
                 checked={formField.userAnswer === childAnswer.id}
                 onChange={() => handleDynamicInputChange(formField.question.id, childAnswer.id)}
               />
@@ -349,19 +348,19 @@ export function ChildForm(props) {
           Atrás
         </Button>
         <Button
-          type="button"
-          onClick={nextStep}
+          type={currentStep === stepsInteger ? "submit" : "button"}
+          onClick={currentStep === stepsInteger ? handleSubmitDynamic : nextStep}
           size="lg"
           className="m-2 mt-3"
         >
-          Siguiente
+          {currentStep === stepsInteger ? "Cargar" : "Siguiente"}
         </Button>
         </div>
       </div>
       );
     } else {
       return (
-      <div key={currentStep}>
+      <div>
         <h1 className="titulo">{`${formField.question.description}`}</h1>
         <div className="contenedor-linea">
           <hr className="linea" />
@@ -371,7 +370,7 @@ export function ChildForm(props) {
             <label>
               <input
                 type={answer.answerType === "Boolean" ? "checkbox" : "text"}
-                value={answer.id}
+
                 checked={formField.userAnswer === answer.id}
                 onChange={() => handleDynamicInputChange(formField.question.id, answer.id)}
               />
@@ -389,12 +388,12 @@ export function ChildForm(props) {
           Atrás
         </Button>
         <Button
-          type="button"
-          onClick={nextStep}
+          type={currentStep === stepsInteger ? "submit" : "button"}
+          onClick={currentStep === stepsInteger ? handleSubmitDynamic : nextStep}
           size="lg"
           className="m-2 mt-3"
         >
-          Siguiente
+          {currentStep === stepsInteger ? "Cargar" : "Siguiente"}
         </Button>
         </div>
       </div>
@@ -594,13 +593,13 @@ export function ChildForm(props) {
                     Atrás
                   </Button>
                   <Button
-                    as="input"
-                    type="submit"
-                    value="Cargar"
+                    type="button"
                     onClick={nextStep}
                     size="lg"
                     className="m-2 mt-1"
-                  />
+                  >
+                  Siguiente
+                  </Button>
                 </div>
               </>
             )}
@@ -610,6 +609,7 @@ export function ChildForm(props) {
             {currentStep > 5 && (
               <>
                 {renderDynamicSteps(formFieldsDynamic, handleDynamicInputChange, prevStep, currentStep)}
+                
               </>
             )}
 
