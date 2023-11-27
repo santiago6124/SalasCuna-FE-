@@ -1,14 +1,50 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import AuthContext from "../../context/AuthContext";
 // import "./SignUp.css";
 import {renderFormFields} from "../renderFormFields/renderFormFields";
-import axios from "axios";
+
+import {
+  technicalReportTable_request,
+} from "../../api/salasCuna.api";
+
+import {
+  toastLoading,
+  toastUpdateError,
+  toastUpdateSuccess,
+} from "../../utils/toastMsgs";
 
 export default function TechnicalReportHeadersModal(props) {
 
-  const { authTokens, signupUser } = useContext(AuthContext);
+  const { authTokens } = useContext(AuthContext);
+  const [technicalReportTable_data, setTechnicalReportTable_data] = useState([]);
+
+  useEffect(() => {
+    getAll();
+
+  }, []);
+
+  const customId = useRef(null);
+  async function getAll() {
+    try {
+      toastLoading("Cargando los Datos", customId);
+      const technicalReportTable_response = await technicalReportTable_request(authTokens.access);
+
+      
+      props.formData.encabezado = technicalReportTable_response.data[0].encabezado;
+      props.formData.ministro = technicalReportTable_response.data[0].ministro;
+      props.formData.resolucion = technicalReportTable_response.data[0].resolucion;
+      props.formData.remitanse = technicalReportTable_response.data[0].remitanse;
+
+      setTechnicalReportTable_data(technicalReportTable_response);
+
+      toastUpdateSuccess("Datos cargados", customId);
+    } catch (error) {
+      toastUpdateError("Error al cargar los Datos!", customId);
+      console.error(error);
+    }
+  }
 
   async function handleSubmit(event){
     event.preventDefault();
@@ -21,13 +57,7 @@ export default function TechnicalReportHeadersModal(props) {
         remitanse: formData.get("remitanse"),
       };
 
-      let headers = {
-        "Content-Type": "application/json",
-        "Authorization": "JWT " + authTokens.access,
-        "Accept": "application/json"
-      };
-
-      let response = await axios.post(`/api/TechnicalReportTableListCreateView/`, payload, { headers }); // Include headers in the request
+      let response = await technicalReportTable_request(authTokens.access, 'post', payload); // Include headers in the request
 
       if (response.request.status === 201) {
         props.onHide();

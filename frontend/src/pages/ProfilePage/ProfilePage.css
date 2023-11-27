@@ -1,0 +1,36 @@
+.div-container{
+    background-color: aqua;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 1px 4px 10px 0px rgba(0, 0, 0, 0.37);
+    background-color: rgb(255, 255, 255);
+}
+
+@media (max-width: 1200px) {
+    .linea-sm {
+       max-width: 70%;
+
+    }
+
+    .div-container{
+        max-width: 90%;
+    }
+  }
+
+@media (max-width:770px) {
+
+    .contenedor-linea-sm{
+
+        margin-right: 20px;
+    }
+
+    .columna-btn {
+        margin-right: 20px;
+     }
+
+    
+}
+

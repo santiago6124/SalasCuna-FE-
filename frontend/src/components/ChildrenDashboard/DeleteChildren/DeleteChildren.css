@@ -29,7 +29,7 @@
 }
 
 
-.contenedor-boton-eliminar {
+.contenedor-boton-eliminar { 
     display: flex;
     flex-wrap: wrap;
     justify-content: center;

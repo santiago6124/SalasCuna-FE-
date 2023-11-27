@@ -29,15 +29,20 @@ export default function TSDashboard() {
   const [keyword, setKeyword] = useState("");
   const user = useContext(AuthContext);
 
-  useEffect(() => {
-    listCribroom(user);
-  }, []);
+  let { authTokens } = useContext(AuthContext);
+
+  let headers = {
+    "Content-Type": "application/json",
+    Authorization: "JWT " + authTokens.access,
+    Accept: "application/json",
+  };
 
   const listCribroom = async (user) => {
     try {
       const responseLocality = await getAllLocalities();
       const response = await axios.get(
-        `/api/cribroom/?user=${user.user.user_id}`
+        `/api/cribroom/?user=${user.user.user_id}`,
+        { headers: headers }
       );
       const localityData = responseLocality.data;
       const cribroomData = response.data;
@@ -70,6 +75,10 @@ export default function TSDashboard() {
     }
   };
 
+  useEffect(() => {
+    listCribroom(user);
+  }, []);
+  
   const responsive = [
     { breakPoint: 1280, cardsToShow: 3 },
     { breakPoint: 760, cardsToShow: 2 },
