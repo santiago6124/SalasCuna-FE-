@@ -207,6 +207,37 @@ export function zone_request(tokens, method='get', filters='') {
   });
 }
 
+export function question_request(tokens, method='get', depth=0, pk=undefined, filters='') {
+  const headers = { "Content-Type": "application/json", "Authorization": "JWT " + tokens, "Accept": "application/json"}
+
+  return axios.request({
+    'url': `/api/QuestionListView/${pk ? (pk+'/') : '' }?depth=${depth}${filters}`,
+    'method': method,
+    'headers': headers,
+  });
+}
+
+export function answer_request(tokens, method='get', depth=0, pk=undefined, filters='') {
+  const headers = { "Content-Type": "application/json", "Authorization": "JWT " + tokens, "Accept": "application/json"}
+
+  return axios.request({
+    'url': `/api/AnswerListView/${pk ? (pk+'/') : '' }?depth=${depth}${filters}`,
+    'method': method,
+    'headers': headers,
+  });
+}
+
+export function childAnswer_request(tokens, method='get', depth=0, data={}, pk=undefined, filters='') {
+  const headers = { "Content-Type": "application/json", "Authorization": "JWT " + tokens, "Accept": "application/json"}
+
+  return axios.request({
+    'url': `/api/AnswerListView/${pk ? (pk+'/') : '' }?depth=${depth}${filters}`,
+    'method': method,
+    'headers': headers,
+    'data': data,
+  });
+}
+
 
 export function getAllGroup(tokens) {
   const headers = {
