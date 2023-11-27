@@ -10,10 +10,19 @@ import "./CribroomDashboard.css";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 
-import { handlePermissions, zone_request, cribroom_request } from "../../api/salasCuna.api";
+import {
+  handlePermissions,
+  zone_request,
+  cribroom_request,
+} from "../../api/salasCuna.api";
 
 //DataGrid Import
-import { DataGrid, GridActionsCellItem, esES,GridToolbarContainer } from "@mui/x-data-grid"; //The esES is to translate the datagrid
+import {
+  DataGrid,
+  GridActionsCellItem,
+  esES,
+  GridToolbarContainer,
+} from "@mui/x-data-grid"; //The esES is to translate the datagrid
 
 //UI Icons Imports
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -25,7 +34,7 @@ import { ToastContainer } from "react-toastify";
 import { Row, Col } from "react-bootstrap";
 import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
-import { ExportButton } from './ExcelExport/ExportButton';
+import { ExportButton } from "./ExcelExport/ExportButton";
 import {
   toastLoading,
   toastUpdateError,
@@ -39,7 +48,7 @@ function CustomToolbar(props) {
 
   return (
     <GridToolbarContainer {...props}>
-      <ExportButton 
+      <ExportButton
         selectedCribroomId={selectedCribroomId}
         authTokens={authTokens}
       />
@@ -84,12 +93,12 @@ export default function CribroomDashboard() {
       // Step 1: Fetch zones
       const zonesResponse = await zone_request(authTokens.access);
       const zonesData = zonesResponse.data;
-  
+
       // Step 2: Fetch cribrooms for each zone
       const cribroomsPromises = zonesData.map(async (zone) => {
         const cribroomResponse = await cribroom_request(
           authTokens.access,
-          'get',
+          "get",
           0,
           {},
           0,
@@ -97,28 +106,28 @@ export default function CribroomDashboard() {
         );
         return cribroomResponse.data;
       });
-  
+
       // Step 3: Wait for all cribroom requests to complete
       const cribroomsData = await Promise.all(cribroomsPromises);
-  
+
       // Step 4: Combine zone information with cribroom data
       const updatedCribrooms = cribroomsData.flatMap((cribroomData, index) => {
         const matchingZone = zonesData[index];
-  
+
         return cribroomData.map((cribroom) => ({
           ...cribroom,
           zone: matchingZone.name,
           is_active: cribroom.is_active ? "Activo" : "Inactivo",
         }));
       });
-  
+
       // // Step 3: Wait for all cribroom requests to complete
       // const cribroomsData = await Promise.all(cribroomsPromises);
-  
+
       // // Step 4: Combine zone information with cribroom data
       // const updatedCribrooms = cribroomsData.flatMap((cribroomData, index) => {
       //   const matchingZone = zonesData[index];
-  
+
       //   return cribroomData.map((cribroom) => ({
       //     ...cribroom,
       //     zone: matchingZone.name,
@@ -129,7 +138,7 @@ export default function CribroomDashboard() {
       // Step 5: Update component state
       setCribrooms(updatedCribrooms);
       setFilteredCribroom(updatedCribrooms);
-  
+
       toastUpdateSuccess("Salas cargadas", customId);
     } catch (error) {
       console.log("Error fetching SalasCunas:", error);
@@ -254,7 +263,7 @@ export default function CribroomDashboard() {
         </header>
       </div>
       <body>
-        <div style={{ marginTop: 100 }}> 
+        <div style={{ marginTop: 100 }}>
           {selectedCribroom && (
             <>
               <CribroomForm
@@ -313,7 +322,6 @@ export default function CribroomDashboard() {
                 </div>
 
                 <div className="conteiner-searchbar-button">
-
                   <Row>
                     <Col className="search-input">
                       <SearchBar
@@ -333,32 +341,35 @@ export default function CribroomDashboard() {
                       </Button>
                     </Col>
                   </Row>
-
                 </div>
 
                 <div className="DataGrid-Wrapper">
-                <div style={{ height: '100vh', width: '100%' }}>
-                  {cribrooms.length > 0 && (
-                    <DataGrid 
-                      checkboxSelection
-                      disableRowSelectionOnClick
-                      onRowSelectionModelChange={(newRowSelectionModel) => {
-                        setSelectedRows(newRowSelectionModel);
-                      }}
-                    
-
-                      columns={columns}
-                      rows={cribrooms}
-                      components={{ Toolbar: CustomToolbar }}
-                      componentsProps={{
-                        toolbar: {
-                          selectedCribroomId: selectedRows, // Pass the selected cribroom ID
-                          authTokens: authTokens,
-                        },
-                      }}
-                    />
-                  )}
-                </div>
+                  <div
+                    style={{ height: "100vh", width: "100%", margin: "20px" }}
+                  >
+                    {cribrooms.length > 0 && (
+                      <DataGrid
+                        style={{ borderRadius: "15px" }}
+                        localeText={
+                          esES.components.MuiDataGrid.defaultProps.localeText
+                        }
+                        checkboxSelection
+                        disableRowSelectionOnClick
+                        onRowSelectionModelChange={(newRowSelectionModel) => {
+                          setSelectedRows(newRowSelectionModel);
+                        }}
+                        columns={columns}
+                        rows={cribrooms}
+                        components={{ Toolbar: CustomToolbar }}
+                        componentsProps={{
+                          toolbar: {
+                            selectedCribroomId: selectedRows, // Pass the selected cribroom ID
+                            authTokens: authTokens,
+                          },
+                        }}
+                      />
+                    )}
+                  </div>
                 </div>
               </>
             </>
