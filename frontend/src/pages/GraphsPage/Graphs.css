@@ -86,14 +86,17 @@
   padding-right: 10px;
 }
 
-.DataGrid-Wrapper {
-  width: auto;
-  height: auto;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  padding-right: 10px;
+.datagrid-graph-container{
+
+  width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+  margin-bottom: 50px;
+}
+
+.titulo-datagrid-graph{
+  margin-bottom: 20px;
 }
 
 .DataGrid {
@@ -141,8 +144,9 @@
 .contenedor-row{
   display: flex;
   flex-wrap: wrap;
+  margin-top: 50px;
+  margin-left: 250px;
 
-  margin-left: 150px;
 }
 
 .columna-izq, .columna-der {
@@ -159,6 +163,17 @@
 .columna-der{
 
   margin-left: 0;
+}
+
+@media screen and (max-width: 1200px) {
+
+  .datagrid-graph-container{
+
+    margin-right: auto;
+    margin-left: auto;
+    width: 90%;
+  }
+
 }
 
 @media screen and (max-width: 900px) {

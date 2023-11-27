@@ -1093,8 +1093,8 @@ const valueFormatter = (value) => `${value}mm`;
           </div>
         </div>
 
-        <div className="data-grid-container">
-          <h2>Datos de Cribrooms</h2>
+        <div className="datagrid-graph-container">
+          <h2 className="titulo-datagrid-graph">Datos de Cribrooms</h2>
           <DataGrid
             rows={[
               { id: 1, name: 'React' },
