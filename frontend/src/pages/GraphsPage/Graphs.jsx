@@ -7,7 +7,9 @@ import { Link } from "react-router-dom";
 import { Form } from "react-bootstrap";
 
 
-import React, { useContext, useEffect, useState } from "react";
+
+
+import React, { useContext,useRef, useEffect, useState } from "react";
 
 import {
   getAllCribroomsWithoutDepth,
@@ -200,11 +202,11 @@ const dato = [
   },
 ];
 
- function BasicScatter() {
+function BasicScatter({ width, height }) {
   return (
     <ScatterChart
-      width={600}
-      height={300}
+      width={width}
+      height={height}
       series={[
         {
           label: 'Series A',
@@ -227,7 +229,8 @@ const chartSetting = {
       label: 'rainfall (mm)',
     },
   ],
-  width: 600,
+  className:'bar',
+  width: 550,
   height: 300,
   sx: {
     [`.${axisClasses.left} .${axisClasses.label}`]: {
@@ -324,9 +327,11 @@ const dataset = [
 
 const valueFormatter = (value) => `${value}mm`;
 
- function BarsDataset() {
+function BarsDataset({ width, height }) {
   return (
     <BarChart
+      width={width}
+      height={height}
       dataset={dataset}
       xAxis={[{ scaleType: 'band', dataKey: 'month' }]}
       series={[
@@ -335,10 +340,12 @@ const valueFormatter = (value) => `${value}mm`;
         { dataKey: 'newYork', label: 'New York', valueFormatter },
         { dataKey: 'seoul', label: 'Seoul', valueFormatter },
       ]}
+      
       {...chartSetting}
     />
   );
 }
+
 //endbar
 
   //linechart
@@ -878,7 +885,7 @@ const valueFormatter = (value) => `${value}mm`;
   };
   
  
-   function LineDataset() {
+  function LineDataset({ width, height }) {
     const seriesData = Object.keys(keyToLabel).map((key) => ({
       dataKey: key,
       label: keyToLabel[key],
@@ -889,8 +896,8 @@ const valueFormatter = (value) => `${value}mm`;
   
     return (
       <LineChart
-    width={600}
-    height={300}
+        width={width}
+        height={height}
         xAxis={[
           {
             dataKey: 'year',
@@ -912,11 +919,11 @@ const valueFormatter = (value) => `${value}mm`;
     { id: 2, value: 20, label: 'series C' },
   ];
   
-  function PieActiveArc() {
+  function PieActiveArc({ width, height }) {
     return (
       <PieChart
-      width={600}
-      height={300}
+        width={width}
+        height={height}
         series={[
           {
             data,
@@ -927,6 +934,7 @@ const valueFormatter = (value) => `${value}mm`;
       />
     );
   }
+  
   //Piechart
 
 
@@ -1052,6 +1060,29 @@ const valueFormatter = (value) => `${value}mm`;
     },
   ];
 
+  const divRef = useRef(null);
+  const [divWidth, setDivWidth] = useState(0);
+
+  useEffect(() => {
+    const updateDivWidth = () => {
+      if (divRef.current) {
+        const width = divRef.current.getBoundingClientRect().width;
+        setDivWidth(width);
+      }
+    };
+
+    // Llamamos a la función para obtener el tamaño inicial
+    updateDivWidth();
+
+    // Agregamos un listener para actualizar el tamaño si la ventana cambia
+    window.addEventListener('resize', updateDivWidth);
+
+    // Limpiamos el listener al desmontar el componente
+    return () => {
+      window.removeEventListener('resize', updateDivWidth);
+    };
+  }, []);
+
 
   return ( 
     <body>
@@ -1115,28 +1146,30 @@ const valueFormatter = (value) => `${value}mm`;
       <div className="contenedor-linea-home">
         <hr className="linea-home"></hr>
       </div>
-      <div className="DataGrid-Wrapper">
-        <div>
-          <h4 className="datatitle"> Salas Cuna</h4>
-<BasicScatter></BasicScatter>
-        </div>
-        <div>
-          <h4 className="datatitle"> Actividad Reciente</h4>
-<BarsDataset></BarsDataset>
+
+      <div className='container-graficos'>
+
+        <div className="container1">
+            <div ref={divRef} className='containerbasic'>
+              <h4 className="titulo-basic"> Salas Cuna</h4>
+              <BasicScatter width={divWidth} height={300} />
+            </div>
+            <div ref={divRef} className='containerpie'>
+              <h4 className="titulo-pie"> Actividad Reciente</h4>
+              <PieActiveArc width={divWidth} height={300} />
+            </div>
         </div>
 
-      </div>
-      <div className="DataGrid-Wrapper">
-      <div>
-          <h4 className="datatitle"> Salas Cuna</h4>
-<LineDataset></LineDataset>
+        <div className="container2">
+            <div ref={divRef} className='containerline'>
+              <h4 className="titulo-line"> Salas Cuna</h4>
+              <LineDataset width={divWidth} height={300} />
+            </div>
+            
         </div>
-        <div>
-          <h4 className="datatitle"> Actividad Reciente</h4>
-<PieActiveArc></PieActiveArc>
-        </div>
-
       </div>
+      
+      
     </body>
   );
 }
