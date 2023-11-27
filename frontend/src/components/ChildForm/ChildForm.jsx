@@ -302,7 +302,7 @@ export function ChildForm(props) {
   }
 
   var stepsInteger = 5;
-  stepsInteger += formFieldsPoll.length;
+  stepsInteger += props.data ? 0 : formFieldsPoll.length;
   // Generar un array con los valores del rango de stepsInteger
   const stepsArray = Array.from({ length: stepsInteger }, (_, index) => index + 1);
 
@@ -478,29 +478,30 @@ export function ChildForm(props) {
                   setFormData,
                   handleInputChange
                 )}
+                
                 <div className="contenedor-boton mb-1">
                   <Button
                     type="button"
                     onClick={prevStep}
                     size="lg"
-                    className="m-2 mt-1"
+                    className="m-2 mt-3"
                   >
                     Atrás
                   </Button>
                   <Button
-                    type="button"
-                    onClick={nextStep}
+                    type={currentStep === stepsInteger ? 'submit' : 'button'}
+                    onClick={currentStep === stepsInteger ? handleSubmit : nextStep}
                     size="lg"
-                    className="m-2 mt-1"
+                    className="m-2 mt-3"
                   >
-                  Siguiente
+                    {currentStep === stepsInteger ? 'Cargar' : 'Siguiente'}
                   </Button>
                 </div>
               </>
             )}
 
             {/* Renderizar los steps dinámicos */}
-            {currentStep > 5 && (
+            {currentStep > 5 && !props.data && (
               <>
                 <div key={currentStep}>
                 <h1 className="titulo">{`${formFieldsPoll[currentStep - 6].question.description}`}</h1>
