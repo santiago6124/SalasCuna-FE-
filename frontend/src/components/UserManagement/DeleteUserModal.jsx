@@ -1,37 +1,42 @@
-import "../DeleteRoom/DeleteRoom.css";
+import "../CribroomDashboard/DeleteRoom/DeleteRoom.css";
 import Button from "react-bootstrap/esm/Button";
 import Modal from "react-bootstrap/Modal";
 import Alert from "@mui/material/Alert";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from 'js-cookie'
+import { deletingData, warningData } from "../../utils/toastMsgs";
+
+import { user_request } from "../../api/salasCuna.api";
+
 
 export default function DeleteUser(props) {
   const [selectedUser, setSelectedUser] = useState("");
+  const [userName, setUserName] = useState("");
+  const [userState, setUserState] = useState("");
 
   useEffect(() => {
     setSelectedUser(props.id);
+    setUserName(props.name);
+    setUserState(props.is_active);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function handleDelete(event) {
     event.preventDefault();
-    console.log(selectedUser);
     try {
-      const payload = {
-        is_active: "false",
-      };
-      console.log("making fetch");
-      let response = await axios.patch(`/api/user/${selectedUser}/`, payload, {
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken' : Cookies.get('csrftoken'),
-          "Authorization": "JWT " + props.tokens
-        }
-    });
+      // const payload = { is_active: childState ? false : true};
+      const payload = { is_active: false};
+
+      console.log('payload: ', payload);
+      let response = await user_request(props.tokens, 'patch', 0, payload, selectedUser);
+
       if (response.request.status === 200) {
+        deletingData("Usuario desactivado")
         console.log('Updated user successfully');
         props.onHide();
       } else {
+        warningData("Error al desactivar el usuario!");
         console.log('Failed to update user');
       }
     } catch (err) {
@@ -55,7 +60,7 @@ export default function DeleteUser(props) {
         <hr className="linea-eliminar"></hr>
       </div>
       <div className="par">
-        <p>Esta seguro que desea Eliminar este Usuario {selectedUser}?</p>
+        <p>Esta seguro que desea Eliminar este Usuario {userName}?</p>
         <p>Esto hara que su estado pase a ser Inactivo</p>
       </div>
       <div className="par">

@@ -5,9 +5,9 @@ import Menu from "../components/Menu/Menu";
 export default function MontoPage() {
   return (
     <div className="App">
-      <header>
+      <header style={{ marginTop: 100 }}>
         <div>
-          <Menu className="mb-3"/>
+          <Menu />
         </div>
       </header>
       <body className="mt-5">

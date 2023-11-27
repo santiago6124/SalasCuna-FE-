@@ -84,3 +84,12 @@
   border: 3px solid rgb(125, 125, 125) ;
   background-color: ghostwhite;
 }
+
+@media (max-width : 450px){
+
+  .searchInputs{
+    margin-right: 40px;
+    width: auto;
+  }
+
+}

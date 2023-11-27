@@ -13,10 +13,10 @@ export function Login() {
         <Menu />
       </header>
       <body className="body-login">
-        <div>
+        <div className="div-form-login"> 
           <Container fluid className="conteiner-form-login">
             <Form onSubmit={loginUser}>
-              <h1 className="titulo">Iniciar Sesion</h1>
+              <h1 className="titulo">Iniciar Sesión</h1>
 
               <div className="contenedor-linea">
                 <hr className="linea"></hr>
@@ -40,7 +40,7 @@ export function Login() {
               </Form.Group>
               <div className="contenedor-boton-createuser">
                 <Button
-                  className="boton mt-3"
+                  className="mt-3"
                   boton
                   variant="primary"
                   type="submit"

@@ -189,7 +189,7 @@ export function FilesToDb() {
                 "shift": shiftResponse,
             }
             console.log('child: ', child);
-            var childResponse = await axios.post('/api/ChildListCreateView/', child);
+            var childResponse = await axios.post('/api/child/', child);
           } catch (error) {
             console.error("An error occurred (child request):", error);
           }

@@ -1,0 +1,43 @@
+
+  .container-form-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+  }
+  
+  .container-form-signup {
+    padding: 20px;
+    width: 400px;
+    border-radius: 18px;
+    box-shadow: 1px 4px 10px 0px rgba(0, 0, 0, 0.37);
+    background-color: rgb(255, 255, 255);
+  }
+  
+  .titulo {
+    text-align: center;
+  }
+  
+  .container-linea {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .linea {
+    margin-top: 1px;
+    height: 4px;
+    border: 2px solid #ef7e0e;
+    background-color: #ef7e0e;
+    width: 350px;
+  }
+  
+  .container-boton-createuser {
+    margin: 5px;
+    padding: 3%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+  

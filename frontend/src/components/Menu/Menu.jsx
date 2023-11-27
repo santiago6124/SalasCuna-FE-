@@ -23,7 +23,7 @@ export default function Menu() {
 
   return (
     <>
-      <Navbar className="navbar">
+      <Navbar className="navbar " fixed="top">
         <Container fluid>
           <span
             className={`circle-icon-bar ${isOpen ? 'clicked' : ''}`}

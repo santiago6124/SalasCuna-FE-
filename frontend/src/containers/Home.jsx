@@ -35,10 +35,10 @@ const Home = (logoutUser) => {
             />
             <div className='background-image'>
                 <div style={containerStyle}>
-                    <div className='jumbotron mt-5'>
+                    <div className='jumbotron mt-5 contenedor-texto' >
                         <div style={whiteBoxStyle}>
-                            <h1 className='display-4'>Bienvenido a SalasCuna</h1>
-                            <p className='lead'>Esta version del sistema permite registrar un usuario, ingresar con el usuario creado, añadir un chico a la base de datos y ver el padron.</p>
+                            <h1 className='display-4'>Bienvenido a Salas Cuna</h1>
+                            <p className='lead'>Digitalizacion, Optimizacion y Automatizacion del Programa.</p>
                         </div>
                     </div>
                 </div>

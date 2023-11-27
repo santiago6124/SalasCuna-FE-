@@ -46,11 +46,11 @@ export default function Dashboard() {
 
   return (
     <div>
-      <header className="mb-5">
+      <header style={{ marginTop: 100 }}>
           <Menu />
       </header>
       <body>     
-      <div className="fijar">
+      <div>
         {userGroup === 1 && <AdminDashboard />}
         {userGroup === 2 && <TSDashboard />}
         </div>
