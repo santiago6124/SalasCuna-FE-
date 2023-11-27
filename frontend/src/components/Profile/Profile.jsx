@@ -50,18 +50,6 @@ function Profile ()  {
                     <div className="config-item">
                       <div className="config-content">
                         <button className="config-button" onClick={() => logoutUser()}>
-                        <FontAwesomeIcon icon={faGear} style={{color: "#f1862e",marginRight: '8px'}} />
-                          <span className="config-text">Configuración</span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Segundo botón Cerrar Sesión (posicionado arriba del primero) */}
-                  <div className="config-section ">
-                    <div className="config-item">
-                      <div className="config-content">
-                        <button className="config-button" onClick={() => logoutUser()}>
                           <FontAwesomeIcon icon={faRightFromBracket} size="lg" style={{ color: "#F1862E", marginRight: '8px' }} />
                           <span className="config-text">Cerrar Sesión</span>
                         </button>

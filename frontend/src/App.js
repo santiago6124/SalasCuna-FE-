@@ -36,10 +36,10 @@ function App() {
               path="/login"
               element={<PublicRoute children={<Login />} />}
             />
-            <Route
+            {/* <Route
               path="/agregar-usuario"
               element={<PrivateRoute children={<SingUpPage />} />}
-            />
+            /> */}
             <Route
               path="/password/reset/confirm/:uid/:token"
               element={<PrivateRoute children={<ChangePassword />} />}
