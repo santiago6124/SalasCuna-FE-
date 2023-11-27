@@ -1,18 +1,20 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Row, Col, Container, Button } from "react-bootstrap";
-import Account from "../components/Account/Account";
-import Menu from "../components/Menu/Menu";
-import profileImage from "../media/Profile.jpg";
-import "../components/Account/Account.css";
+import Account from "../../components/Account/Account";
+import Menu from "../../components/Menu/Menu";
+import profileImage from "../../media/Profile.jpg";
+import "../../components/Account/Account.css";
 import Modal from "react-bootstrap/Modal";
 import Alert from "@mui/material/Alert";
 import { ToastContainer } from "react-toastify";
-import { updateData, warningData } from "../utils/toastMsgs";
+import { updateData, warningData } from "../../utils/toastMsgs";
 
 import axios from "axios";
 import Cookies from "js-cookie";
-import AuthContext from "../context/AuthContext";
-import EditAccount from "../components/Account/EditAccount";
+import AuthContext from "../../context/AuthContext";
+import EditAccount from "../../components/Account/EditAccount";
+
+import './ProfilePage.css';
 
 export default function ProfilePage() {
   let { user, authTokens } = useContext(AuthContext);
@@ -97,9 +99,9 @@ export default function ProfilePage() {
           <Menu />
         </div>
       </header>
-      <body className="mt-5">
+      <body>
         <ToastContainer />
-        <Container>
+        <div className="div-container">
           <Row>
             <Col md={3}>
               <div className="MainDiv">
@@ -116,39 +118,38 @@ export default function ProfilePage() {
                 <div className="contenedor-linea-sm">
                   <hr className="linea-sm"></hr>
                 </div>
-                <Col className="mt-1 mb-2">
+                <Col className="mt-1 mb-2 columna-btn">
                   <Button
                     variant="prueba"
                     className={`prueba ${showAccount ? "active" : ""}`}
                     onClick={() => manageAccount()}
-                    style={{ borderLeft: "4px solid #ef7e0e" }}
+                    style={{ borderLeft: "5px solid #ef7e0e", marginBottom: "10px" }}
                   >
                     Información
                   </Button>
-                </Col>
-                <Col className="mt-1 mb-2">
+
+
                   <Button
                     variant="prueba"
                     className={`prueba ${EditAccountIsVisible ? "active" : ""}`}
                     onClick={() => toggleEditAccount()}
-                    style={{ borderLeft: "4px solid #ef7e0e" }}
+                    style={{ borderLeft: "5px solid #ef7e0e", marginBottom: "10px" }}
                   >
                     Editar Información
                   </Button>
-                </Col>
-                <Col className="mt-1 mb-2">
+
                   <Button
                     variant="pwbutton"
                     className="pwbutton"
                     onClick={() => managePasswordRequest()}
-                    style={{ borderLeft: "4px solid #ef7e0e" }}
+                    style={{ borderLeft: "5px solid #ef7e0e", marginBottom: "10px" }}
                   >
                     Cambiar contraseña
                   </Button>
                 </Col>
               </div>
             </Col>
-            <Col>
+            <Col className="col-account">
               {showAccount && <Account />}
               {showPasswordRequest && (
                 <Modal
@@ -198,7 +199,7 @@ export default function ProfilePage() {
               {EditAccountIsVisible && <EditAccount />}
             </Col>
           </Row>
-        </Container>
+        </div>
       </body>
     </div>
   );

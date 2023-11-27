@@ -103,3 +103,11 @@
 .prueba:active {
   background-color: #ef7e0e; 
 }
+
+@media (max-width:400px) {
+
+  .form-account{
+      width: 300px;
+  }
+  
+}

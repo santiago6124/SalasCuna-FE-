@@ -63,7 +63,7 @@ export default function ProfilePage() {
   return (
     <body>
       <ToastContainer />
-      <Form>
+      <Form className="form-account">
         <Row className="d-flex mt-3 mb-3">
           <Col className="">
             <Form.Group>
