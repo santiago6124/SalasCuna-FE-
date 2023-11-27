@@ -114,7 +114,27 @@ export default function HistoryTimeline(props) {
     loadHistory(id, type);
   }, [id, type]);
 
-  async function loadHistory(itemId, itemType) {
+async function loadHistory(itemId, itemType) {
+  if (itemType === "child") {
+    try {
+      console.log("itemType is:", itemType);
+      const response = await axios.get(
+        `/api/${itemType}/?depth=1&id=${itemId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": Cookies.get("csrftoken"),
+            Authorization: "JWT " + tokens,
+          },
+        }
+      );
+      let data = response.data;
+      setHistoryData(data[0]?.history || []);
+      console.log("working with object: ", { data });
+    } catch (error) {
+      console.error(`Error fetching ${itemType} history data:`, error);
+    }
+  } else if (itemType === "cribroom") {
     try {
       console.log("itemType is:", itemType);
       const response = await axios.get(
@@ -127,13 +147,16 @@ export default function HistoryTimeline(props) {
           },
         }
       );
-      let data = await response.data;
+      let data = response.data;
       setHistoryData(data[0]?.history || []);
       console.log("working with object: ", { data });
     } catch (error) {
       console.error(`Error fetching ${itemType} history data:`, error);
     }
   }
+}
+
+
 
   const getHistoryTypeString = (type) => {
     switch (type) {
