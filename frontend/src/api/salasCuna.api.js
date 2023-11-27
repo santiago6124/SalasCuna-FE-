@@ -207,6 +207,50 @@ export function zone_request(tokens, method='get', filters='') {
   });
 }
 
+export function question_request(tokens, method='get', depth=0, pk=undefined, filters='') {
+  const headers = { "Content-Type": "application/json", "Authorization": "JWT " + tokens, "Accept": "application/json"}
+
+  return axios.request({
+    'url': `/api/QuestionListView/${pk ? (pk+'/') : '' }?depth=${depth}${filters}`,
+    'method': method,
+    'headers': headers,
+  });
+}
+
+export function answer_request(tokens, method='get', depth=0, pk=undefined, filters='') {
+  const headers = { "Content-Type": "application/json", "Authorization": "JWT " + tokens, "Accept": "application/json"}
+
+  return axios.request({
+    'url': `/api/AnswerListView/${pk ? (pk+'/') : '' }?depth=${depth}${filters}`,
+    'method': method,
+    'headers': headers,
+  });
+}
+
+export function childAnswer_request(tokens, method='get', depth=0, data={}, pk=undefined, filters='') {
+  const headers = { "Content-Type": "application/json", "Authorization": "JWT " + tokens, "Accept": "application/json"}
+
+  console.log(data);
+
+  return axios.request({
+    'url': `/api/ChildAnswerListCreateView/${pk ? (pk+'/') : '' }?depth=${depth}${filters}`,
+    'method': method,
+    'headers': headers,
+    'data': data,
+  });
+}
+
+export function technicalReportTable_request(tokens, method='get', data={}) {
+  const headers = { "Content-Type": "application/json", "Authorization": "JWT " + tokens, "Accept": "application/json"}
+
+  return axios.request({
+    'url': `/api/TechnicalReportTableListCreateView/`,
+    'method': method,
+    'headers': headers,
+    'data': data,
+  });
+}
+
 
 export function getAllGroup(tokens) {
   const headers = {
@@ -275,14 +319,6 @@ export function getAllZones(tokens) {
   return axios.get("/api/zone/", {headers: headers});
 }
 
-export function getTechnicalReportTableListCreateView(tokens) {
-  const headers = {
-    "Content-Type": "application/json",
-    "Authorization": "JWT " + tokens,
-    "Accept": "application/json"
-  }
-  return axios.get("/api/TechnicalReportTableListCreateView/", {headers: headers});
-}
 
 export function getAllNeighborhood(tokens) {
   const headers = {

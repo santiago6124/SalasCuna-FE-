@@ -21,6 +21,7 @@ import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import Graphs from "./pages/GraphsPage/Graphs";
 
 import HistoryTimeline from "./components/CribroomDashboard/ObjectHistory";
+import MultiStepForm from "./components/MultiStepForm/MultiStepForm";
 
 import { FilesToDb } from "../src/components/FilesToDb/FilesToDb";
 import MontoPage from "./pages/MontoPage";
@@ -77,7 +78,15 @@ function App() {
               path="/files-to-db"
               element={<PrivateRoute children={<FilesToDb />} />}
             />
-            <Route path="/me" element={<ProfilePage />} />
+
+            <Route 
+              path="/me" 
+              element={<ProfilePage />} />
+
+            <Route
+              path="/form"
+              element={<PrivateRoute children={<MultiStepForm />} />}
+            />
 
             <Route
               path="home-page"
