@@ -240,6 +240,17 @@ export function childAnswer_request(tokens, method='get', depth=0, data={}, pk=u
   });
 }
 
+export function technicalReportTable_request(tokens, method='get', data={}) {
+  const headers = { "Content-Type": "application/json", "Authorization": "JWT " + tokens, "Accept": "application/json"}
+
+  return axios.request({
+    'url': `/api/TechnicalReportTableListCreateView/`,
+    'method': method,
+    'headers': headers,
+    'data': data,
+  });
+}
+
 
 export function getAllGroup(tokens) {
   const headers = {
@@ -308,14 +319,6 @@ export function getAllZones(tokens) {
   return axios.get("/api/zone/", {headers: headers});
 }
 
-export function getTechnicalReportTableListCreateView(tokens) {
-  const headers = {
-    "Content-Type": "application/json",
-    "Authorization": "JWT " + tokens,
-    "Accept": "application/json"
-  }
-  return axios.get("/api/TechnicalReportTableListCreateView/", {headers: headers});
-}
 
 export function getAllNeighborhood(tokens) {
   const headers = {
