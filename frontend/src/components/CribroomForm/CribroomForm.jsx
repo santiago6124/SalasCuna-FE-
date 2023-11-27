@@ -150,7 +150,7 @@ export function CribroomForm(props) {
   return (
     <Modal
       {...props}
-      size="sm"
+      size="md"
       className="mb-3 mt-3"
       aria-labelledby="contained-modal-title-vcenter"
       centered

@@ -1,17 +1,15 @@
-
 .container-form-wrapper {
   display: flex;
   justify-content: center;
 }
 
 .container-form {
-  
   width: 500px;
   border-radius: 18px;
   box-shadow: 1px 4px 10px 0px rgba(0, 0, 0, 0.37);
   background-color: rgb(255, 255, 255);
+  padding: 10px;
 }
-
 
 .titulo {
   text-align: center;

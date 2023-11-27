@@ -17,7 +17,6 @@ import { GridActionsCellItem } from "@mui/x-data-grid";
 
 import DeleteChildren from "./DeleteChildren/DeleteChildren";
 
-
 import HistoryTimeline from "../CribroomDashboard/ObjectHistory";
 import { DataGrid, esES } from "@mui/x-data-grid";
 
@@ -85,7 +84,13 @@ export default function ChildrenManagement() {
 
   async function CRCapacity(selectedSalaCuna) {
     try {
-      let response = await cribroom_request(authTokens.access, 'get', 1, {}, selectedSalaCuna);
+      let response = await cribroom_request(
+        authTokens.access,
+        "get",
+        1,
+        {},
+        selectedSalaCuna
+      );
       if (response.request.status === 200) {
         setCribroomCapacity(response.data.reachMax);
       } else {
@@ -109,7 +114,14 @@ export default function ChildrenManagement() {
   async function loadChildren() {
     try {
       toastLoading("Cargando Chicos", customId);
-      const res = await child_request(authTokens.access, 'get', 1, {}, undefined,`&cribroom_id=${selectedCribroom}`);
+      const res = await child_request(
+        authTokens.access,
+        "get",
+        1,
+        {},
+        undefined,
+        `&cribroom_id=${selectedCribroom}`
+      );
       const updateChild = await res.data.map((child) => {
         return {
           ...child,
@@ -153,15 +165,14 @@ export default function ChildrenManagement() {
     return childs.find((child) => child.id === childId);
   }
 
-
   const columns = [
-    {
+    /*     {
       field: "id",
       headerName: "#",
       width: 80,
       headerAlign: "center",
       align: "center",
-    },
+    }, */
     {
       field: "first_name",
       headerName: "Nombre",
@@ -176,10 +187,52 @@ export default function ChildrenManagement() {
       headerAlign: "center",
       align: "center",
     },
+    /*     {
+      field: "ident_type",
+      headerName: "Tipo de Indentificacion",
+      width: 200,
+      headerAlign: "center",
+      align: "center",
+    }, */
     {
-      field: "dni",
+      field: "identification",
       headerName: "DNI",
       width: 150,
+      headerAlign: "center",
+      align: "center",
+    },
+    {
+      field: "birthdate",
+      headerName: "Fecha Nacimiento",
+      width: 130,
+      headerAlign: "center",
+      align: "center",
+    },
+    {
+      field: "street",
+      headerName: "Calle",
+      width: 170,
+      headerAlign: "center",
+      align: "center",
+    },
+    {
+      field: "house_number",
+      headerName: "Numero de Casa",
+      width: 140,
+      headerAlign: "center",
+      align: "center",
+    },
+/*     {
+      field: "neighborhood",
+      headerName: "Barrio",
+      width: 160,
+      headerAlign: "center",
+      align: "center",
+    }, */
+    {
+      field: "registration_date",
+      headerName: "Fecha Registro",
+      width: 190,
       headerAlign: "center",
       align: "center",
     },
@@ -323,7 +376,7 @@ export default function ChildrenManagement() {
 
             <div className="DataGrid-Wrapper-cm">
               <DataGrid
-                style={{ borderRadius: "15px", maxWidth: "780px" }}
+                style={{ borderRadius: "15px", width: "100%" }}
                 localeText={esES.components.MuiDataGrid.defaultProps.localeText}
                 rows={childs}
                 columns={columns}
