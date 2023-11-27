@@ -1,14 +1,8 @@
 /*UserDashboard CSS Creation*/
 .body-home {
-  background-image: url("../../media/fondo.png");
-  width: 100%;
-  height: 200%;
   padding-top: 10px;
   margin: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
+  margin-top: 30px;
 }
 .contenedor-form-wrapper-home {
   display: flex;
@@ -33,6 +27,7 @@
 
 .titulo-home {
   text-align: center;
+  margin-top: 50px;
 }
 .subtitulo {
   margin-left: 150px;
