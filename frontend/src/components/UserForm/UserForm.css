@@ -1,22 +1,13 @@
-.body {
-    width: 100%;
-    padding-top: 10px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-  }
-  .contenedor-form-wrapper {
+
+  .container-form-wrapper {
     display: flex;
     justify-content: center;
     margin: auto;
   }
   
-  .conteiner-form-signup {
+  .container-form-signup {
     padding: 20px;
-    margin-top:100px;
-    margin-bottom: 30px;
-    width: 470px;
+    width: 400px;
     border-radius: 18px;
     box-shadow: 1px 4px 10px 0px rgba(0, 0, 0, 0.37);
     background-color: rgb(255, 255, 255);
@@ -26,7 +17,7 @@
     text-align: center;
   }
   
-  .contenedor-linea {
+  .container-linea {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -41,7 +32,7 @@
     width: 350px;
   }
   
-  .contenedor-boton-createuser {
+  .container-boton-createuser {
     margin: 5px;
     padding: 3%;
     display: flex;
