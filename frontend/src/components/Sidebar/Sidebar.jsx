@@ -2,16 +2,11 @@ import React from "react";
 import "./Sidebar.css";
 
 import { useNavigate } from "react-router-dom";
-import { Button } from "react-bootstrap";
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse } from '@fortawesome/free-solid-svg-icons';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { faBaby } from '@fortawesome/free-solid-svg-icons';
 import { faPeopleRoof } from '@fortawesome/free-solid-svg-icons';
 import { faNewspaper } from '@fortawesome/free-solid-svg-icons';
-import { faFileCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { faAddressBook } from '@fortawesome/free-solid-svg-icons';
 import { faChartLine } from '@fortawesome/free-solid-svg-icons';
 import { faFileInvoice } from '@fortawesome/free-solid-svg-icons';

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext, useState } from 'react';
 import './Menu.css';
 import logo from '../../media/logo.png';

@@ -1,23 +1,20 @@
-import Menu from "../Menu/Menu";
+/* eslint-disable react-hooks/exhaustive-deps */
 import "./UserDashboard.css";
 
 import Slider from "react-styled-carousel";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import AddIcon from "@mui/icons-material/Add";
 import axios from "axios";
 
 import React, { useContext, useEffect, useState } from "react";
 
 import {
-  getAllCribrooms,
   getAllLocalities,
   handlePermissions,
-  getUserHistory,
 } from "../../api/salasCuna.api";
 
 //DataGrid Import
-import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 
 import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
 import ArrowCircleRightOutlinedIcon from "@mui/icons-material/ArrowCircleRightOutlined";

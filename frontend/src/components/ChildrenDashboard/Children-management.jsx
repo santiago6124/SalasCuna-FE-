@@ -29,7 +29,6 @@ import {
   toastLoading,
   toastUpdateError,
   toastUpdateSuccess,
-  warningData,
 } from "../../utils/toastMsgs";
 import { ToastContainer } from "react-toastify";
 

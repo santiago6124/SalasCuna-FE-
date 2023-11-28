@@ -1,12 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import Col from "react-bootstrap/Col/";
-import Row from "react-bootstrap/Row/";
-import Form from "react-bootstrap/Form/";
-import axios from "axios";
-import { DataGrid } from "@mui/x-data-grid";
-import Button from "react-bootstrap/Button/";
 import Menu from "../Menu/Menu";
-import { getAllZones, handlePermissions } from "../../api/salasCuna.api";
+import { handlePermissions } from "../../api/salasCuna.api";
 import AuthContext from "../../context/AuthContext";
 
 import "./GeneratePadron.css"

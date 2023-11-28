@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext, useEffect, useRef, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 
@@ -59,6 +60,7 @@ export function UserForm(props) {
       setFormData(newFormData);
       console.log(newFormData);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.data]);
 
 

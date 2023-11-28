@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useContext } from "react";
 import "./TechnicalReport.css";
 import Col from "react-bootstrap/Col/";
@@ -7,10 +8,8 @@ import Button from "@mui/material/Button";
 import InputGroup from "react-bootstrap/InputGroup/";
 import { DataGrid } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
-import axios from "axios"; // Import axios
 import { useState, useEffect } from "react";
 import DownloadPDF from "./DownloadPDF/DownloadPDF";
-import Menu from "../Menu/Menu";
 import { handlePermissions, cribroom_request, zone_request, technicalReport_request } from "../../api/salasCuna.api";
 
 import { deletingData } from '../../utils/toastMsgs';
@@ -178,7 +177,7 @@ export default function TechnicalReport() {
     try {
       const response = await cribroom_request(authTokens.access, 'get', 0, {}, undefined, `&locality__department__zone__id=${zoneId}`);
       const data = response.data;
-      if (data.length == 0) {
+      if (data.length === 0) {
         alert("No hay Salas Cunas en la zona seleccionada");
       }
       setCribrooms(data);
