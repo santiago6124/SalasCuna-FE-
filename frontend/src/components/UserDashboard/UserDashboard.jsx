@@ -1,6 +1,12 @@
+import Menu from "../Menu/Menu";
 import "./UserDashboard.css";
 
+import Slider from "react-styled-carousel";
+import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+
 import React, { useContext, useEffect, useState } from "react";
+
 import {
   getAllCribroomsWithoutDepth,
   getAllLocalities,
@@ -9,7 +15,10 @@ import {
 } from "../../api/salasCuna.api";
 
 //DataGrid Import
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridActionsCellItem, esES } from "@mui/x-data-grid";
+
+import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
+import ArrowCircleRightOutlinedIcon from "@mui/icons-material/ArrowCircleRightOutlined";
 import AuthContext from "../../context/AuthContext";
 
 export default function AdminDashboard() {

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import "./Account.css";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import React, { useContext, useEffect, useState, useRef } from "react";

@@ -3,6 +3,8 @@ import Button from "react-bootstrap/esm/Button";
 import Modal from "react-bootstrap/Modal";
 import Alert from "@mui/material/Alert";
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Cookies from 'js-cookie'
 import { deletingData, warningData } from "../../utils/toastMsgs";
 
 import { user_request } from "../../api/salasCuna.api";

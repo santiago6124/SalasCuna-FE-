@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import Menu from "../Menu/Menu";
 import SearchBar from "../SearchBar/SearchBar";
 // import { CribroomForm } from "../CribroomDashboard/EditRoom/EditRoom";

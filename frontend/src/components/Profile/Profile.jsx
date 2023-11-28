@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import './Profile.css';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
+import Button from 'react-bootstrap/Button';
 import { useNavigate } from "react-router-dom";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -29,7 +30,7 @@ function Profile ()  {
               <Popover.Body>
                 <div className='center-content'>
                   <img src={profileImage} alt="Perfil" className="circle-image" />
-                  <h3>{user}</h3>
+                  <h3>Messi</h3>
                   <hr style={{ borderColor: '#A6A6A6', width: '90%', borderWidth: '2px' }} />
 
                   {/* Primer botón Cerrar Sesión */}

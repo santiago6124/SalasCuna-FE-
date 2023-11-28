@@ -112,7 +112,6 @@ export default function HistoryTimeline(props) {
 
   useEffect(() => {
     loadHistory(id, type);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, type]);
 
 async function loadHistory(itemId, itemType) {
