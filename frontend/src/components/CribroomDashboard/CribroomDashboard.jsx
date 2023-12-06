@@ -362,7 +362,7 @@ export default function CribroomDashboard() {
                           setSelectedRows(newRowSelectionModel);
                         }}
                         columns={columns}
-                        rows={cribrooms}
+                        rows={filteredCribroom}
                         components={{ Toolbar: CustomToolbar }}
                         componentsProps={{
                           toolbar: {
