@@ -40,7 +40,7 @@ function App() {
             /> */}
             <Route
               path="/password/reset/confirm/:uid/:token"
-              element={<PrivateRoute children={<ChangePassword />} />}
+              element={<PublicRoute children={<ChangePassword />} />}
             />
             <Route
               path="/activate/:uid/:token"

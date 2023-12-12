@@ -18,8 +18,6 @@ export function ChangePassword() {
       e.preventDefault();
       const headers = {
         "Content-Type": "application/json",
-        "X-CSRFToken": Cookies.get("csrftoken"),
-        "Authorization": "JWT " + authTokens.access,
       };
       const formData = new FormData(e.target);
       const payload = {
