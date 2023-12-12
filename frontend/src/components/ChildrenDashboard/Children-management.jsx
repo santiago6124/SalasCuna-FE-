@@ -253,18 +253,22 @@ export default function ChildrenManagement() {
       getActions: (params) => [
         <GridActionsCellItem
           icon={<DeleteIcon />}
-          label="Delete"
+          label="Activado/Desactivado"
           onClick={() => handleDeleteClick(params.row.id, params.row.name)}
+          showInMenu
         />,
         <GridActionsCellItem
           icon={<EditIcon />}
-          label="Edit"
+          label="Editar Informacion"
           onClick={() => handleEditClick(params.row.id)}
+          showInMenu
         />,
         <GridActionsCellItem
           variant="primary"
           icon={<HistoryIcon />}
           onClick={() => handleHistoryClick(params.row.id, params.row.name)}
+          label="Historial"
+          showInMenu
         />,
       ],
     },
