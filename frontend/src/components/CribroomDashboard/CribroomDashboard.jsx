@@ -231,30 +231,29 @@ export default function CribroomDashboard() {
       field: "actions",
       type: "actions",
       headerName: "Acciones",
-      width: 100,
+      width: 110,
+      headerAlign: "center",
+      align: "center",
       getActions: (params) => [
         <GridActionsCellItem
           icon={<DeleteIcon />}
-          label="Borrar"
+          label="Activado/Desactivado"
           onClick={() => handleDeleteClick(params.row.id, params.row.name)}
           showInMenu
         />,
-        <>
-          <GridActionsCellItem
-            variant="primary"
-            icon={<EditIcon />}
-            label="Editar"
-            onClick={() => handleEditClick(params.row.id)}
-            showInMenu
-          />
-          <GridActionsCellItem
-            variant="primary"
-            label="Historial"
-            icon={<HistoryIcon />}
-            onClick={() => handleHistoryClick(params.row.id, params.row.name)}
-            showInMenu
-          />
-        </>,
+        <GridActionsCellItem
+          icon={<EditIcon />}
+          label="Editar Informacion"
+          onClick={() => handleEditClick(params.row.id)}
+          showInMenu
+        />,
+        <GridActionsCellItem
+          variant="primary"
+          icon={<HistoryIcon />}
+          onClick={() => handleHistoryClick(params.row.id, params.row.name)}
+          label="Historial"
+          showInMenu
+        />,
       ],
     },
   ];
@@ -267,7 +266,7 @@ export default function CribroomDashboard() {
           <Menu />
         </header>
       </div>
-      <body>
+      <body className="body-cd">
         <div style={{ marginTop: 100 }}>
           {selectedCribroom && (
             <>
@@ -348,33 +347,25 @@ export default function CribroomDashboard() {
                   </Row>
                 </div>
 
-                <div className="DataGrid-Wrapper">
-                  <div
-                    style={{ height: "100vh", width: "100%", margin: "20px" }}
-                  >
-                    {cribrooms.length > 0 && (
-                      <DataGrid
-                        style={{ borderRadius: "15px" }}
-                        localeText={
-                          esES.components.MuiDataGrid.defaultProps.localeText
-                        }
-                        checkboxSelection
-                        disableRowSelectionOnClick
-                        onRowSelectionModelChange={(newRowSelectionModel) => {
-                          setSelectedRows(newRowSelectionModel);
-                        }}
-                        columns={columns}
-                        rows={filteredCribroom}
-                        components={{ Toolbar: CustomToolbar }}
-                        componentsProps={{
-                          toolbar: {
-                            selectedCribroomId: selectedRows, // Pass the selected cribroom ID
-                            authTokens: authTokens,
-                          },
-                        }}
-                      />
-                    )}
-                  </div>
+                <div className="DataGrid-Wrapper-CD">
+                  {cribrooms.length > 0 && (
+                    <DataGrid
+                      style={{
+                        borderRadius: "15px",
+                        margin: "20px",
+                      }}
+                      localeText={
+                        esES.components.MuiDataGrid.defaultProps.localeText
+                      }
+                      checkboxSelection
+                      disableRowSelectionOnClick
+                      onRowSelectionModelChange={(newRowSelectionModel) => {
+                        setSelectedRows(newRowSelectionModel);
+                      }}
+                      columns={columns}
+                      rows={filteredCribroom}
+                    />
+                  )}
                 </div>
               </>
             </>
