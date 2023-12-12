@@ -23,6 +23,8 @@ import { DataGrid, esES } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import HistoryIcon from "@mui/icons-material/History";
+import PhoneIcon from "@mui/icons-material/Phone";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 
 import AuthContext from "../../context/AuthContext";
 import {
@@ -222,7 +224,7 @@ export default function ChildrenManagement() {
       headerAlign: "center",
       align: "center",
     },
-/*     {
+    /*     {
       field: "neighborhood",
       headerName: "Barrio",
       width: 160,
@@ -268,6 +270,19 @@ export default function ChildrenManagement() {
           icon={<HistoryIcon />}
           onClick={() => handleHistoryClick(params.row.id, params.row.name)}
           label="Historial"
+          showInMenu
+        />,
+        <GridActionsCellItem
+          variant="primary"
+          icon={<PhoneIcon />}
+          label="Telefono/s"
+          showInMenu
+        />,
+
+        <GridActionsCellItem
+          variant="primary"
+          icon={<PeopleAltIcon />}
+          label="Pariente/s"
           showInMenu
         />,
       ],

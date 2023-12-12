@@ -187,18 +187,15 @@ export default function CribroomDashboard() {
   // SEARCH FUNCTION
   function updateKeyword(keyword) {
     const filtered = cribrooms.filter((cribroom) => {
-
       return (
         `${cribroom.name.toLowerCase()}`.includes(keyword.toLowerCase()) ||
         `${cribroom.code.toLowerCase()}`.includes(keyword.toLowerCase())
       ); //set other possible filters to the SearchBar
-
     });
     setKeyword(keyword);
     setFilteredCribroom(filtered);
     console.log(filteredCribroom);
   }
-  
 
   function reloadDataFunc() {
     listCribroom();
@@ -238,7 +235,7 @@ export default function CribroomDashboard() {
       getActions: (params) => [
         <GridActionsCellItem
           icon={<DeleteIcon />}
-          label="Delete"
+          label="Borrar"
           onClick={() => handleDeleteClick(params.row.id, params.row.name)}
           showInMenu
         />,
@@ -246,11 +243,13 @@ export default function CribroomDashboard() {
           <GridActionsCellItem
             variant="primary"
             icon={<EditIcon />}
+            label="Editar"
             onClick={() => handleEditClick(params.row.id)}
             showInMenu
           />
           <GridActionsCellItem
             variant="primary"
+            label="Historial"
             icon={<HistoryIcon />}
             onClick={() => handleHistoryClick(params.row.id, params.row.name)}
             showInMenu
