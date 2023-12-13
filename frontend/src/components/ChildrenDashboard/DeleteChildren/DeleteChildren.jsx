@@ -9,7 +9,6 @@ import Cookies from "js-cookie";
 
 import { child_request } from "../../../api/salasCuna.api";
 
-
 export default function DeleteChildren(props) {
   const [selectedChild, setSelectedChild] = useState("");
   const [childName, setChildName] = useState("");
@@ -19,21 +18,26 @@ export default function DeleteChildren(props) {
     setSelectedChild(props.id);
     setChildName(props.name);
     setChildState(props.is_active);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function handleDelete(event) {
     event.preventDefault();
     console.log("chico: " + selectedChild);
     try {
-      // const payload = { is_active: childState ? false : true};
-      const payload = { is_active: false};
+      const payload = { is_active: childState ? false : true };
 
-      console.log('payload: ', payload);
-      console.log('selectedChild: ', selectedChild);
+      console.log("payload: ", payload);
+      console.log("selectedChild: ", selectedChild);
 
-      const childReponse = await child_request(props.tokens, 'patch', 0, payload, selectedChild);
-      console.log('childReponse: ', childReponse);
+      const childReponse = await child_request(
+        props.tokens,
+        "patch",
+        0,
+        payload,
+        selectedChild
+      );
+      console.log("childReponse: ", childReponse);
 
       props.onHide();
     } catch (err) {
@@ -49,7 +53,9 @@ export default function DeleteChildren(props) {
       centered
     >
       <div>
-        <Modal.Title className="titulo-eliminar">Deshabilitar Chicos</Modal.Title>
+        <Modal.Title className="titulo-eliminar">
+          Deshabilitar Chicos
+        </Modal.Title>
       </div>
       <div className="contenedor-linea-eliminar">
         <hr className="linea-eliminar"></hr>
