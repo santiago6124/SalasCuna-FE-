@@ -7,6 +7,11 @@ import Form from "react-bootstrap/Form/";
 import { Button } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
 
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+
+
 import { generatePayload, renderformFieldsLocal  } from "../formUtils/formUtils";
 
 import {
@@ -23,7 +28,7 @@ import { toastLoading, toastUpdateError, toastUpdateSuccess } from "../../utils/
 export function UserForm(props) {
   const [isDireccionVisible, setIsDireccionVisible] = useState(false);
   const [isTutorVisible, setIsTutorVisible] = useState(false);
-
+  const [currentStep, setCurrentStep] = useState(1);
   const [formFieldsLocal, setFormFieldsLocal] = useState({
     User: formFields.User,
   });
@@ -35,6 +40,20 @@ export function UserForm(props) {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
+
+    if (name === 'User_group' && value == 2) {
+      console.log('sumar un step y actualizar renderizacion de steps');
+    } else if (name === 'User_group' && value !== 2) {
+      console.log('igualar step a 1 y actualizar renderizacion de steps');
+    }
+  };
+
+  const nextStep = () => {
+    setCurrentStep(currentStep + 1);
+  };
+
+  const prevStep = () => {
+    setCurrentStep(currentStep - 1);
   };
 
   let { authTokens } = useContext(AuthContext);
@@ -128,6 +147,8 @@ export function UserForm(props) {
     }
   }
   
+  var stepsInteger = 2;
+  var showStep2 = true;
 
   return (
     <Modal
@@ -139,17 +160,87 @@ export function UserForm(props) {
     >
         <div className="container-form-wrapper">
           <Form className="container-form-signup" onSubmit={handleSubmit}>
-            <h1 className="titulo">Añadir Sala Cuna</h1>
+            {/* Step 1 */}
+            <>
+              {currentStep === 1 && (
+                <>
+                  <h1 className="titulo">Añadir Sala Cuna</h1>
 
-            <div className="container-linea">
-              <hr className="linea" />
-            </div>
- 
-            {renderformFieldsLocal(formFieldsLocal.User, 'User', formData, setFormData, handleInputChange)}
+                  <div className="container-linea">
+                    <hr className="linea" />
+                  </div>
 
-            <div className="container-boton-createuser mb-1 ">
-              <Button as="input" type="submit" value="Cargar" size="lg" />
-            </div>
+                  {renderformFieldsLocal(formFieldsLocal.User, 'User', formData, setFormData, handleInputChange)}
+
+                  <div className="container-boton-createuser mb-1 ">
+                  <Button
+                    type={currentStep === stepsInteger ? 'submit' : 'button'}
+                    onClick={currentStep === stepsInteger ? handleSubmit : nextStep}
+                    size="lg"
+                    className="m-2 mt-3"
+                  >
+                    {currentStep === stepsInteger ? 'Cargar' : 'Siguiente'}
+                  </Button>
+                  </div>
+                </>
+              )}
+            </>
+
+            {/* Step 1 */}
+            <>
+              {currentStep === 2 && (
+                <>
+                  <h1 className="titulo">Asignar Salas a Trabajador Social</h1>
+
+                  <div className="container-linea">
+                    <hr className="linea" />
+                  </div>
+
+                  {renderformFieldsLocal(formFieldsLocal.User, 'User', formData, setFormData, handleInputChange)}
+
+                  <div className="container-boton-createuser mb-1 ">
+                  <Button
+                    type="button"
+                    onClick={prevStep}
+                    size="lg"
+                    className="m-2 mt-3"
+                  >
+                    Atrás
+                  </Button>
+                  <Button
+                    type={'submit'}
+                    onClick={handleSubmit}
+                    size="lg"
+                    className="m-2 mt-3"
+                  >
+                    {'Cargar'}
+                  </Button>
+                  </div>
+                </>
+              )}
+            </>
+
+            <Stepper
+              className="p-2"
+              activeStep={currentStep - 1}
+              alternativeLabel
+            >
+              {/* {steps.map((label, index) => ( */}
+              <Step key={1}>
+                <StepLabel>{'Usuario'}</StepLabel>
+              </Step>
+              <>
+              {showStep2 && (
+                <>
+                <Step key={2}>
+                  <StepLabel>{'Salas Asig.'}</StepLabel>
+                </Step>
+                </>
+              )}
+              </>
+              {/* ))} */}
+            </Stepper>
+
           </Form>
         </div>
     </Modal>
