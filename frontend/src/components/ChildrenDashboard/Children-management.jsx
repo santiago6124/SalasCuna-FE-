@@ -16,9 +16,8 @@ import { cribroom_request, child_request } from "../../api/salasCuna.api";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 
 import DeleteChildren from "./DeleteChildren/DeleteChildren";
-import HistoryTimeline from "../CribroomDashboard/ObjectHistory";
-import PhoneModal from "../PhoneModal/PhoneModal";
 
+import HistoryTimeline from "../CribroomDashboard/ObjectHistory";
 import { DataGrid, esES } from "@mui/x-data-grid";
 
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -45,16 +44,14 @@ export default function ChildrenManagement() {
   const [childs, setChild] = useState([]);
   const [cribroomCapacity, setCribroomCapacity] = useState("");
   const [showNewButton, setShowNewButton] = useState(false);
-
   const [modalCreateShow, setModalCreateShow] = useState(false);
   const [modalEditShow, setModalEditShow] = useState(false);
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
+  const [modalPhoneShow, setModalPhoneShow] = useState(false);
+
   const [selectedChild, setSelectedChild] = useState("");
   const [childName, setChildName] = useState("");
   const [modalHistoryShow, setModalHistoryShow] = useState(false);
-  const [modalPhoneShow, setModalPhoneShow] = useState(false);
-  const [modalGuardianShow, setModalGuardianShow] = useState(false);
-  const [modalPollShow, setModalPollShow] = useState(false);
 
   const [selectedChildData, setSelectedChildData] = useState(null);
 
@@ -160,28 +157,19 @@ export default function ChildrenManagement() {
     setSelectedChildData(selectedChildData);
     console.log("Edit clicked for row with id:", rowId);
   }
+  async function handlePhoneClick(rowId) {
+    setSelectedChild(rowId);
+    setModalPhoneShow(true);
+    const selectedChildData = getChildDataById(rowId); // Replace this with your function to get child data
+    setSelectedChildData(selectedChildData);
+    console.log("Edit clicked for row with id:", rowId);
+  }
 
   function handleHistoryClick(rowId, ChildName) {
     setSelectedChild(rowId);
     setChildName(ChildName);
     setModalHistoryShow(true);
     console.log("History clicked for row with id:", rowId);
-  }
-
-  function handlePhoneClick(rowId, ChildName) {
-    setSelectedChild(rowId);
-    setChildName(ChildName);
-    setModalPhoneShow(true)
-  }
-  function handleGuardianClick(rowId, ChildName) {
-    setSelectedChild(rowId);
-    setChildName(ChildName);
-    setModalGuardianShow(true)
-  }
-  function handlePollClick(rowId, ChildName) {
-    setSelectedChild(rowId);
-    setChildName(ChildName);
-    setModalPollShow(true)
   }
 
   function getChildDataById(childId) {
@@ -276,9 +264,9 @@ export default function ChildrenManagement() {
         <GridActionsCellItem
           variant="primary"
           icon={<PhoneIcon />}
+          onClick={()=> handlePhoneClick(params.row.id)}
           label="Telefono/s"
           showInMenu
-          onClick={() => handlePhoneClick(params.row.id, params.row.name) }
         />,
 
         <GridActionsCellItem
@@ -320,6 +308,21 @@ export default function ChildrenManagement() {
         </>
       )}
       {selectedChild && (
+        <>
+          <ChildForm
+            data={selectedChildData}
+            show={modalPhoneShow}
+            tokens={authTokens.access}
+            onHide={() => {
+              setModalPhoneShow(false);
+              setSelectedChild(""); // Reset selectedChild after closing modal
+              setSelectedChildData(null); // Reset selectedChildData after closing modal
+              reloadDataFunc();
+            }}
+          />
+        </>
+      )}
+      {selectedChild && (
         <DeleteChildren
           id={selectedChild}
           name={childName}
@@ -350,19 +353,6 @@ export default function ChildrenManagement() {
           onHide={() => {
             setModalHistoryShow(false);
             setSelectedChild(""); // Reset selectedCribroom after closing modal
-            reloadDataFunc();
-          }}
-        />
-      )}
-      {selectedChild && (
-        <PhoneModal
-          id={selectedChild}
-          name={childName}
-          show={modalPhoneShow}
-          tokens={authTokens.access}
-          onHide={() => {
-            setModalPhoneShow(false);
-            setSelectedChild("");
             reloadDataFunc();
           }}
         />
