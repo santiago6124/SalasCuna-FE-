@@ -11,6 +11,7 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 
+import CheckboxList from './CheckboxList';
 
 import { generatePayload, renderformFieldsLocal  } from "../formUtils/formUtils";
 
@@ -18,6 +19,8 @@ import {
   user_request,
   department_request,
   getAllGroup,
+  cribroom_request,
+  cribroomUser_request,
 } from "../../api/salasCuna.api";
 
 import {
@@ -31,11 +34,37 @@ export function UserForm(props) {
   const [currentStep, setCurrentStep] = useState(1);
   const [formFieldsLocal, setFormFieldsLocal] = useState({
     User: formFields.User,
+    CribroomUser: {},
   });
+  
+  // Add the following state variables
+  const [filteredCribroomOptions, setFilteredCribroomOptions] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [cribroomOptions, setCribroomOptions] = useState([]);
 
   const [formData, setFormData] = useState({
     User_is_active: false
   });
+
+  // Replace the renderformFieldsLocal function with the following
+  const renderFormField = (field, type) => {
+    if (type === 'CribroomUser') {
+      return (
+        <CheckboxList
+          options={Object.values(formFieldsLocal[type])}
+          selectedOptions={formData[type] || []}
+          onChange={(selectedOptions) => handleInputChange({ target: { name: type, value: selectedOptions } })}
+          onSearch={(searchTerm) => handleSearchCribroom(searchTerm)}
+          totalPages={totalPages} // Add a variable to track the total number of pages
+          currentPage={currentPage} // Add a variable to track the current page
+          onNextPage={() => handleNextPage()} // Add a function to handle next page
+          onPrevPage={() => handlePrevPage()} // Add a function to handle previous page
+        />
+      );
+    }
+    return renderformFieldsLocal(field, type, formData, setFormData, handleInputChange);
+  };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -129,9 +158,11 @@ export function UserForm(props) {
       const [
         departmentResponse,
         groupResponse,
+        cribroomRespone,
       ] = await Promise.all([
         department_request(authTokens.access),
         getAllGroup(authTokens.access),
+        cribroom_request(authTokens.access),
       ]);
   
       formFieldsLocal.User.department.options = departmentResponse.data;
@@ -139,6 +170,9 @@ export function UserForm(props) {
 
       formFieldsLocal.User.group.options = groupResponse.data;
       formData['User_group'] = groupResponse.data[0].id; 
+
+      // Update the state with cribroom data
+      setCribroomOptions(cribroomRespone.data);
 
       toastUpdateSuccess("Datos cargados", customId);
     } catch (error) {
@@ -149,6 +183,31 @@ export function UserForm(props) {
   
   var stepsInteger = 2;
   var showStep2 = true;
+
+  // Add the following functions
+  const handleSearchCribroom = (searchTerm) => {
+    const filteredOptions = cribroomOptions.filter(
+      (option) => option.name.toLowerCase().includes(searchTerm.toLowerCase()) || option.code.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    console.log('filteredOptions', filteredOptions);
+    setFilteredCribroomOptions(filteredOptions);
+    setCurrentPage(1);
+    setTotalPages(Math.ceil(filteredOptions.length / PAGE_SIZE));
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const PAGE_SIZE = 5; // Set the number of items per page
 
   return (
     <Modal
@@ -188,33 +247,20 @@ export function UserForm(props) {
 
             {/* Step 1 */}
             <>
-              {currentStep === 2 && (
+            {currentStep === 2 && (
                 <>
                   <h1 className="titulo">Asignar Salas a Trabajador Social</h1>
-
                   <div className="container-linea">
                     <hr className="linea" />
                   </div>
-
-                  {renderformFieldsLocal(formFieldsLocal.User, 'User', formData, setFormData, handleInputChange)}
-
-                  <div className="container-boton-createuser mb-1 ">
-                  <Button
-                    type="button"
-                    onClick={prevStep}
-                    size="lg"
-                    className="m-2 mt-3"
-                  >
-                    Atrás
-                  </Button>
-                  <Button
-                    type={'submit'}
-                    onClick={handleSubmit}
-                    size="lg"
-                    className="m-2 mt-3"
-                  >
-                    {'Cargar'}
-                  </Button>
+                  {renderFormField(formFieldsLocal.CribroomUser, 'CribroomUser')}
+                  <div className="container-boton-createuser mb-1">
+                    <Button type="button" onClick={prevStep} size="lg" className="m-2 mt-3">
+                      Atrás
+                    </Button>
+                    <Button type={'submit'} onClick={handleSubmit} size="lg" className="m-2 mt-3">
+                      {'Cargar'}
+                    </Button>
                   </div>
                 </>
               )}
