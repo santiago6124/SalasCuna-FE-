@@ -40,6 +40,7 @@ import {
   toastUpdateError,
   toastUpdateSuccess,
 } from "../../utils/toastMsgs";
+import Phone from "@mui/icons-material/Phone";
 
 export function ChildForm(props) {
   const [currentStep, setCurrentStep] = useState(props.isGuardian ? 4 : 1);
@@ -171,13 +172,12 @@ export function ChildForm(props) {
         );
         console.log(GuardianResponse);
 
-        payload.Child["guardian"] = GuardianResponse.data.id;
+        payload.Phone["guardian"] = GuardianResponse.data.id;
         let PhoneResponse = await phone_request(
           authTokens.access,
-          "put",
+          "post",
           0,
-          payload.Phone,
-          props.data.id
+          payload.Phone
         );
         console.log(PhoneResponse);
 
@@ -249,7 +249,7 @@ export function ChildForm(props) {
           console.error(error);
         }
 
-        if (ChildResponse.request.status === 201) {
+        if (ChildResponse.request.status === 201 ) {
           console.log("Child edited successfully");
           window.location.reload();
         } else {
@@ -277,6 +277,7 @@ export function ChildForm(props) {
         neighborhoodResponse,
         guardianTypeResponse,
         phoneFeatureResponse,
+        phone_requestResponse,
         questionResponse,
         answerResponse,
       ] = await Promise.all([
@@ -288,6 +289,7 @@ export function ChildForm(props) {
         neighborhood_request(authTokens.access),
         guardianType_request(authTokens.access),
         phoneFeature_request(authTokens.access),
+        phone_request(authTokens.access),
         question_request(authTokens.access),
         answer_request(authTokens.access),
       ]);
@@ -546,14 +548,14 @@ export function ChildForm(props) {
                       handleInputChange
                     )}
                     <div className="justify-content-center d-flex">
-                    <Button
-                      type="button"
-                      onClick={() => setIsEditable(true)}
-                      size="lg"
-                      className="m-2 mt-3"
-                    >
-                      Editar Información
-                    </Button>
+                      <Button
+                        type="button"
+                        onClick={() => setIsEditable(true)}
+                        size="lg"
+                        className="m-2 mt-3"
+                      >
+                        Editar Información
+                      </Button>
                     </div>
                   </>
                 )}

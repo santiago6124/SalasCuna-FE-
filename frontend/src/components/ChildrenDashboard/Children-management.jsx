@@ -19,7 +19,6 @@ import DeleteChildren from "./DeleteChildren/DeleteChildren";
 import HistoryTimeline from "../CribroomDashboard/ObjectHistory";
 import { PhoneModal } from "../PhoneModal/PhoneModal";
 import { ChildForm } from "../ChildForm/ChildForm";
-import { GuardianModal } from "../ChildForm/GuardianModal";
 
 import { DataGrid, esES } from "@mui/x-data-grid";
 
