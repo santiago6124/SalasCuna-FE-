@@ -16,8 +16,11 @@ import { cribroom_request, child_request } from "../../api/salasCuna.api";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 
 import DeleteChildren from "./DeleteChildren/DeleteChildren";
-
 import HistoryTimeline from "../CribroomDashboard/ObjectHistory";
+import { PhoneModal } from "../PhoneModal/PhoneModal";
+import { ChildForm } from "../ChildForm/ChildForm";
+import { GuardianModal } from "../ChildForm/GuardianModal";
+
 import { DataGrid, esES } from "@mui/x-data-grid";
 
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -36,9 +39,7 @@ import {
 } from "../../utils/toastMsgs";
 import { ToastContainer } from "react-toastify";
 
-import { ChildForm } from "../ChildForm/ChildForm";
-
-export default function ChildrenManagement() {
+export default function ChildrenManagement(props) {
   const [cribroomOptions, setCribroom] = useState([]);
   const [selectedCribroom, setSelectedCribroom] = useState("");
   const [childs, setChild] = useState([]);
@@ -48,6 +49,7 @@ export default function ChildrenManagement() {
   const [modalEditShow, setModalEditShow] = useState(false);
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
   const [modalPhoneShow, setModalPhoneShow] = useState(false);
+  const [modalGuardianShow, setModalGuardianShow] = useState(false);
 
   const [selectedChild, setSelectedChild] = useState("");
   const [childName, setChildName] = useState("");
@@ -164,6 +166,13 @@ export default function ChildrenManagement() {
     setSelectedChildData(selectedChildData);
     console.log("Edit clicked for row with id:", rowId);
   }
+  async function handleGuardianClick(rowId) {
+    setSelectedChild(rowId);
+    setModalGuardianShow(true);
+    const selectedChildData = getChildDataById(rowId); // Replace this with your function to get child data
+    setSelectedChildData(selectedChildData);
+    console.log("Edit clicked for row with id:", rowId);
+  }
 
   function handleHistoryClick(rowId, ChildName) {
     setSelectedChild(rowId);
@@ -264,7 +273,7 @@ export default function ChildrenManagement() {
         <GridActionsCellItem
           variant="primary"
           icon={<PhoneIcon />}
-          onClick={()=> handlePhoneClick(params.row.id)}
+          onClick={() => handlePhoneClick(params.row.id)}
           label="Telefono/s"
           showInMenu
         />,
@@ -272,6 +281,7 @@ export default function ChildrenManagement() {
         <GridActionsCellItem
           variant="primary"
           icon={<PeopleAltIcon />}
+          onClick={() => handleGuardianClick(params.row.id)}
           label="Pariente/s"
           showInMenu
         />,
@@ -309,14 +319,12 @@ export default function ChildrenManagement() {
       )}
       {selectedChild && (
         <>
-          <ChildForm
-            data={selectedChildData}
+          <PhoneModal
             show={modalPhoneShow}
             tokens={authTokens.access}
             onHide={() => {
               setModalPhoneShow(false);
               setSelectedChild(""); // Reset selectedChild after closing modal
-              setSelectedChildData(null); // Reset selectedChildData after closing modal
               reloadDataFunc();
             }}
           />
@@ -330,6 +338,21 @@ export default function ChildrenManagement() {
           tokens={authTokens.access}
           onHide={() => {
             setModalDeleteShow(false);
+            setSelectedChild("");
+            reloadDataFunc();
+          }}
+        />
+      )}
+      {selectedChild && (
+        <ChildForm
+          show={modalGuardianShow}
+          isGuardian={true} // or pass the actual value based on your logic
+          data={selectedChildData}
+          id={selectedChild}
+          name={childName}
+          tokens={authTokens.access}
+          onHide={() => {
+            setModalGuardianShow(false);
             setSelectedChild("");
             reloadDataFunc();
           }}

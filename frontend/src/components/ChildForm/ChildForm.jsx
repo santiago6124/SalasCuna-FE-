@@ -14,6 +14,7 @@ import {
   generatePayload,
   renderformFieldsLocal,
   renderFormPoll,
+  renderLabelsl,
 } from "../formUtils/formUtils";
 
 import {
@@ -41,12 +42,19 @@ import {
 } from "../../utils/toastMsgs";
 
 export function ChildForm(props) {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(props.isGuardian ? 4 : 1);
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState([]);
   const [userAnswers, setUserAnswers] = useState({});
+  const [isEditable, setIsEditable] = useState(false);
 
   const [formFieldsLocal, setFormFieldsLocal] = useState({
+    Child: formFields.Child,
+    Guardian: formFields.Guardian,
+    Phone: formFields.Phone,
+  });
+
+  const [labelFormsLocal, setLabelFormLocal] = useState({
     Child: formFields.Child,
     Guardian: formFields.Guardian,
     Phone: formFields.Phone,
@@ -162,6 +170,16 @@ export function ChildForm(props) {
           props.data.guardian.id
         );
         console.log(GuardianResponse);
+
+        payload.Child["guardian"] = GuardianResponse.data.id;
+        let PhoneResponse = await phone_request(
+          authTokens.access,
+          "put",
+          0,
+          payload.Phone,
+          props.data.id
+        );
+        console.log(PhoneResponse);
 
         payload.Child["guardian"] = GuardianResponse.data.id;
         let ChildResponse = await child_request(
@@ -360,9 +378,14 @@ export function ChildForm(props) {
   // Crear los steps dinámicamente basados en el array generado
   const steps = stepsArray.map((stepNumber) => `Step ${stepNumber}`);
 
+  useEffect(() => {
+    setCurrentStep(props.isGuardian ? 4 : 1);
+  }, [props.data]);
+
   return (
     <Modal
       {...props}
+      show={props.show}
       size="sm"
       className="mb-5 mt-3 justify-content-center d-flex modal-container "
       aria-labelledby="contained-modal-title-vcenter"
@@ -473,7 +496,70 @@ export function ChildForm(props) {
               </>
             )}
             {/* Step 4 */}
-            {currentStep === 4 && (
+            {props.isGuardian && currentStep === 4 && (
+              <>
+                {isEditable ? (
+                  // Render the content for step 4 when isGuardian is true and isEditable is true
+                  <>
+                    <h1 className="titulo">Añadir Padre/Madre</h1>
+
+                    <div className="contenedor-linea">
+                      <hr className="linea" />
+                    </div>
+                    {renderformFieldsLocal(
+                      formFieldsLocal.Guardian,
+                      "Guardian",
+                      formData,
+                      setFormData,
+                      handleInputChange
+                    )}
+                    <div className="contenedor-boton mb-1">
+                      <Button
+                        type="button"
+                        onClick={() => setIsEditable(false)}
+                        size="lg"
+                        className="m-2 mt-3"
+                      >
+                        Cancelar Edición
+                      </Button>
+                      <Button
+                        type="submit"
+                        onClick={handleSubmit}
+                        size="lg"
+                        className="m-2 mt-3"
+                      >
+                        Cargar
+                      </Button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <h1 className="titulo">Informacion de Tutor</h1>
+                    <div className="contenedor-linea">
+                      <hr className="linea" />
+                    </div>
+                    {renderLabelsl(
+                      labelFormsLocal.Guardian,
+                      "Guardian",
+                      formData,
+                      setLabelFormLocal,
+                      handleInputChange
+                    )}
+                    <div className="justify-content-center d-flex">
+                    <Button
+                      type="button"
+                      onClick={() => setIsEditable(true)}
+                      size="lg"
+                      className="m-2 mt-3"
+                    >
+                      Editar Información
+                    </Button>
+                    </div>
+                  </>
+                )}
+              </>
+            )}{" "}
+            {!props.isGuardian && currentStep === 4 && (
               <>
                 <h1 className="titulo">Añadir Padre/Madre</h1>
 
