@@ -52,14 +52,14 @@ export function UserForm(props) {
     if (type === 'CribroomUser') {
       return (
         <CheckboxList
-          options={Object.values(formFieldsLocal[type])}
+          options={filteredCribroomOptions}
           selectedOptions={formData[type] || []}
           onChange={(selectedOptions) => handleInputChange({ target: { name: type, value: selectedOptions } })}
           onSearch={(searchTerm) => handleSearchCribroom(searchTerm)}
-          totalPages={totalPages} // Add a variable to track the total number of pages
-          currentPage={currentPage} // Add a variable to track the current page
-          onNextPage={() => handleNextPage()} // Add a function to handle next page
-          onPrevPage={() => handlePrevPage()} // Add a function to handle previous page
+          totalPages={totalPages}
+          currentPage={currentPage}
+          onNextPage={() => handleNextPage()}
+          onPrevPage={() => handlePrevPage()}
         />
       );
     }
@@ -174,6 +174,22 @@ export function UserForm(props) {
       // Update the state with cribroom data
       setCribroomOptions(cribroomRespone.data);
 
+      // Update the formFieldsLocal.CribroomUser with names and labels based on cribroomOptions
+      const cribroomFields = {};
+      cribroomRespone.data.forEach((cribroom) => {
+        cribroomFields[cribroom.code] = {
+          name: `CribroomUser_${cribroom.code}`, // Set the name based on the cribroom code
+          label: `${cribroom.name} ${cribroom.code}`, // Set the label based on the cribroom name and code
+          type: 'checkbox',
+          required: false,
+        };
+      });
+
+      setFormFieldsLocal((prevFormFields) => ({
+        ...prevFormFields,
+        CribroomUser: cribroomFields,
+      }));
+
       toastUpdateSuccess("Datos cargados", customId);
     } catch (error) {
       toastUpdateError("Error al cargar los Datos!", customId);
@@ -184,16 +200,23 @@ export function UserForm(props) {
   var stepsInteger = 2;
   var showStep2 = true;
 
-  // Add the following functions
-  const handleSearchCribroom = (searchTerm) => {
-    const filteredOptions = cribroomOptions.filter(
-      (option) => option.name.toLowerCase().includes(searchTerm.toLowerCase()) || option.code.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    console.log('filteredOptions', filteredOptions);
-    setFilteredCribroomOptions(filteredOptions);
-    setCurrentPage(1);
-    setTotalPages(Math.ceil(filteredOptions.length / PAGE_SIZE));
-  };
+  const [cribroomsPerPage, setCribroomsPerPage] = useState([]);
+
+// ...
+
+const handleSearchCribroom = (searchTerm) => {
+  const filteredOptions = cribroomOptions.filter(
+    (option) => option.name.toLowerCase().includes(searchTerm.toLowerCase()) || option.code.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const startIndex = (currentPage - 1) * PAGE_SIZE;
+  const endIndex = startIndex + PAGE_SIZE;
+  const cribroomsOnCurrentPage = filteredOptions.slice(startIndex, endIndex);
+
+  setFilteredCribroomOptions(cribroomsOnCurrentPage);
+  setCribroomsPerPage(filteredOptions);
+  setTotalPages(Math.ceil(filteredOptions.length / PAGE_SIZE));
+};
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
