@@ -214,8 +214,10 @@ const handleSearchCribroom = (searchTerm) => {
   const cribroomsOnCurrentPage = filteredOptions.slice(startIndex, endIndex);
 
   setFilteredCribroomOptions(cribroomsOnCurrentPage);
-  setCribroomsPerPage(filteredOptions);
   setTotalPages(Math.ceil(filteredOptions.length / PAGE_SIZE));
+  if (currentPage > totalPages) {
+    setCurrentPage(totalPages);
+  }
 };
 
   const handleNextPage = () => {
