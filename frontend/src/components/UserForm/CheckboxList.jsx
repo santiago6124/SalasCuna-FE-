@@ -1,10 +1,9 @@
-// CheckboxList.js
 import React, { useState, useEffect } from 'react';
 import { FormControl, InputLabel, Checkbox, FormGroup, TextField, Button, FormControlLabel } from '@mui/material';
 
 const CheckboxList = ({ options, selectedOptions, onChange, onSearch, totalPages, currentPage, onNextPage, onPrevPage }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectAll, setSelectAll] = useState(false);
+  const [globalSelectAll, setGlobalSelectAll] = useState({}); // Nuevo estado global
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -16,9 +15,10 @@ const CheckboxList = ({ options, selectedOptions, onChange, onSearch, totalPages
   }, [searchTerm, onSearch]);
 
   const handleSelectAllChange = () => {
-    setSelectAll(!selectAll);
     const allCribroomCodes = options.map((option) => option.id);
-    onChange(selectAll ? [] : allCribroomCodes, !selectAll);
+    const newGlobalSelectAll = { ...globalSelectAll, [currentPage]: !globalSelectAll[currentPage] };
+    setGlobalSelectAll(newGlobalSelectAll);
+    onChange(newGlobalSelectAll[currentPage] ? allCribroomCodes : [], newGlobalSelectAll[currentPage]);
   };
 
   const handleCheckboxChange = (id) => {
@@ -31,13 +31,12 @@ const CheckboxList = ({ options, selectedOptions, onChange, onSearch, totalPages
 
   return (
     <>
-    <FormControlLabel
-        control={<Checkbox checked={selectAll} onChange={handleSelectAllChange} />}
+      <FormControlLabel
+        control={<Checkbox checked={globalSelectAll[currentPage] || false} onChange={handleSelectAllChange} />}
         label="Select All"
       />
       <FormControl component="fieldset">
-        {/* <InputLabel>Search:</InputLabel> */}
-        <TextField value={searchTerm} onChange={handleSearchChange} placeholder={`Search: `}/>
+        <TextField value={searchTerm} onChange={handleSearchChange} placeholder={`Search: `} />
       </FormControl>
       <FormGroup>
         {options.map((option) => (
@@ -49,7 +48,7 @@ const CheckboxList = ({ options, selectedOptions, onChange, onSearch, totalPages
                 onChange={() => handleCheckboxChange(option.id)}
               />
             }
-            label={`${option.name} ${option.code}`} // Adjust this line to include the desired text
+            label={`${option.name} ${option.code}`} // Ajusta esta línea para incluir el texto deseado
           />
         ))}
       </FormGroup>
