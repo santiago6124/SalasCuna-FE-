@@ -74,10 +74,8 @@ export function UserForm(props) {
     console.log('value', value);
     console.log('formData', formData);
 
-    if (name === 'User_group' && value == 2) {
-      console.log('sumar un step y actualizar renderizacion de steps');
-    } else if (name === 'User_group' && value !== 2) {
-      console.log('igualar step a 1 y actualizar renderizacion de steps');
+    if (name === 'User_groups') {
+      setShowStep2(value === '2'); // Mostrar el Step 2 si el valor es 2
     }
   };
 
@@ -119,6 +117,8 @@ export function UserForm(props) {
     event.preventDefault();
 
     const payload = generatePayload(formData);
+    payload.User.groups = [payload.User.groups];
+
     console.log('payload: ', payload);
     console.log('formData: ', formData);
 
@@ -142,19 +142,25 @@ export function UserForm(props) {
             if (UserResponse.request.status === 201) {
                 console.log("User created successfully");
 
-                const cribroomUserResponse = await Promise.all(
-                  formData.CribroomUser.map(async (cribroom) => {
-                    return cribroomUser_request(authTokens.access, 'post', 0, { 'user': UserResponse.data.id, 'cribroom': cribroom });
-                  })
-                );
-                
-                console.log(cribroomUserResponse);
+                if (showStep2){
+                  const cribroomUserResponse = await Promise.all(
+                    formData.CribroomUser.map(async (cribroom) => {
+                      return cribroomUser_request(authTokens.access, 'post', 0, { 'user': UserResponse.data.id, 'cribroom': cribroom });
+                    })
+                  );
+                  
+                  console.log(cribroomUserResponse);
 
-                if (cribroomUserResponse[cribroomUserResponse.length-1].status === 201){
-                  console.log("CribroomUser created successfully");
+                  if (cribroomUserResponse[cribroomUserResponse.length-1].status === 201){
+                    console.log("CribroomUser created successfully");
 
+                    // window.location.reload();
+                  }
+                }
+                else {
                   // window.location.reload();
                 }
+  
             } else {
                 console.log("Failed to edit child");
             }
@@ -174,7 +180,7 @@ export function UserForm(props) {
       toastLoading("Cargando los Datos", customId);
       const [
         departmentResponse,
-        groupResponse,
+        groupsResponse,
         cribroomRespone,
       ] = await Promise.all([
         department_request(authTokens.access),
@@ -185,8 +191,9 @@ export function UserForm(props) {
       formFieldsLocal.User.department.options = departmentResponse.data;
       formData['User_department'] = departmentResponse.data[0].id;
 
-      formFieldsLocal.User.group.options = groupResponse.data;
-      formData['User_group'] = groupResponse.data[0].id; 
+      formFieldsLocal.User.groups.options = groupsResponse.data;
+      formData['User_groups'] = groupsResponse.data[0].id; 
+      setShowStep2(groupsResponse.data[0].id === 2);
 
       // Update the state with cribroom data
       setCribroomOptions(cribroomRespone.data);
@@ -215,7 +222,8 @@ export function UserForm(props) {
   }
   
   var stepsInteger = 2;
-  var showStep2 = true;
+  
+  const [showStep2, setShowStep2] = useState(formData.User_groups === 2);
 
   const [cribroomsPerPage, setCribroomsPerPage] = useState([]);
 
@@ -275,21 +283,21 @@ const handleSearchCribroom = (searchTerm) => {
 
                   <div className="container-boton-createuser mb-1 ">
                   <Button
-                    type={currentStep === stepsInteger ? 'submit' : 'button'}
-                    onClick={currentStep === stepsInteger ? handleSubmit : nextStep}
+                    type={showStep2 ? 'button': 'submit' }
+                    onClick={showStep2 ? nextStep : handleSubmit}
                     size="lg"
                     className="m-2 mt-3"
                   >
-                    {currentStep === stepsInteger ? 'Cargar' : 'Siguiente'}
+                    {showStep2 ? 'Siguiente' : 'Cargar'}
                   </Button>
                   </div>
                 </>
               )}
             </>
 
-            {/* Step 1 */}
+            {/* Step 2 */}
             <>
-            {currentStep === 2 && (
+            {showStep2 && currentStep === 2 && (
                 <>
                   <h1 className="titulo">Asignar Salas a Trabajador Social</h1>
                   <div className="container-linea">
