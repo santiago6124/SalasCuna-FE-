@@ -189,12 +189,38 @@ export function UserForm(props) {
       ]);
   
       formFieldsLocal.User.department.options = departmentResponse.data;
-      formData['User_department'] = departmentResponse.data[0].id;
-
       formFieldsLocal.User.groups.options = groupsResponse.data;
-      formData['User_groups'] = groupsResponse.data[0].id; 
-      setShowStep2(groupsResponse.data[0].id === 2);
 
+      if (props.data) {
+        // Obtén el valor de props.data.department
+        // const selectedDepartment = props.data.groups;
+
+        // // Copia el array de opciones
+        // const optionsCopy = [...formFieldsLocal.User.groups.options];
+
+        // // Encuentra el índice del departamento seleccionado en las opciones
+        // const selectedIndex = optionsCopy.findIndex((option) => option.id === selectedDepartment);
+
+        // // Si el departamento seleccionado existe en las opciones, muévelo al principio
+        // if (selectedIndex !== -1) {
+        //   const selectedOption = optionsCopy.splice(selectedIndex, 1)[0];
+        //   optionsCopy.unshift(selectedOption);
+        // }
+
+        // // Ahora optionsCopy está ordenado con el departamento seleccionado primero
+        // formFieldsLocal.User.groups.options = optionsCopy;
+
+        // console.log(formFieldsLocal.User.groups.options);
+
+        formData['User_department'] = props.data.department;
+        formData['User_groups'] = props.data.groups;
+      }
+      else {
+        formData['User_department'] = departmentResponse.data[0].id;
+        formData['User_groups'] = groupsResponse.data[0].id;
+      }
+
+      setShowStep2(formData['User_groups'] === 2);
       // Update the state with cribroom data
       setCribroomOptions(cribroomRespone.data);
 

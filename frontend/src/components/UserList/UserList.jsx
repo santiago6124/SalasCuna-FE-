@@ -56,18 +56,20 @@ export default function UserList() {
       const GroupData = responseGroup.data;
       const displayUsers = await userData.map((user) => {
         const matchingGroup = GroupData.find(
-          (group) => group.id === user.groups[0]
+          (groups) => groups.id === user.groups[0]
         );
         if (matchingGroup) {
           return {
             ...user,
-            group: matchingGroup.name,
+            groups: user.groups[0],
+            groupName: matchingGroup.name,
             is_active: user.is_active ? "Activo" : "Inactivo",
           };
         } else {
           return {
             ...user,
-            group: "Sin Rol",
+            groups: user.groups[0],
+            groupName: "Sin Rol",
             is_active: user.is_active ? "Activo" : "Inactivo",
           };
         }
@@ -198,7 +200,7 @@ export default function UserList() {
                       width: 150,
                       align: "center",
                     },
-                    { field: "group", headerName: "Rol", headerAlign: "center",width: 100, align: "center", },
+                    { field: "groupName", headerName: "Rol", headerAlign: "center",width: 100, align: "center", },
                     { field: "is_active", headerName: "Estado", headerAlign: "center",width: 100, align: "center", },
                     {
                       field: "actions",
