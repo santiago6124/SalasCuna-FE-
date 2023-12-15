@@ -70,6 +70,10 @@ export function UserForm(props) {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
 
+    console.log('name', name);
+    console.log('value', value);
+    console.log('formData', formData);
+
     if (name === 'User_group' && value == 2) {
       console.log('sumar un step y actualizar renderizacion de steps');
     } else if (name === 'User_group' && value !== 2) {

@@ -17,7 +17,16 @@ const CheckboxList = ({ options, selectedOptions, onChange, onSearch, totalPages
 
   const handleSelectAllChange = () => {
     setSelectAll(!selectAll);
-    onChange(selectAll ? [] : options.map((option) => option.code), !selectAll);
+    const allCribroomCodes = options.map((option) => option.id);
+    onChange(selectAll ? [] : allCribroomCodes, !selectAll);
+  };
+
+  const handleCheckboxChange = (id) => {
+    const updatedSelection = selectedOptions.includes(id)
+      ? selectedOptions.filter((selectedId) => selectedId !== id)
+      : [...selectedOptions, id];
+
+    onChange(updatedSelection);
   };
 
   return (
@@ -33,11 +42,11 @@ const CheckboxList = ({ options, selectedOptions, onChange, onSearch, totalPages
       <FormGroup>
         {options.map((option) => (
           <FormControlLabel
-            key={option.code}
+            key={option.id}
             control={
               <Checkbox
-                checked={selectedOptions.includes(option.code)}
-                onChange={() => onChange(option.code, !selectedOptions.includes(option.code))}
+                checked={selectedOptions.includes(option.id)}
+                onChange={() => handleCheckboxChange(option.id)}
               />
             }
             label={`${option.name} ${option.code}`} // Adjust this line to include the desired text
