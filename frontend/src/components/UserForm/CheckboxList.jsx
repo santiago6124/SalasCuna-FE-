@@ -36,8 +36,8 @@ const CheckboxList = ({ options, selectedOptions, onChange, onSearch, totalPages
         label="Select All"
       />
       <FormControl component="fieldset">
-        <InputLabel>Search:</InputLabel>
-        <TextField value={searchTerm} onChange={handleSearchChange} />
+        {/* <InputLabel>Search:</InputLabel> */}
+        <TextField value={searchTerm} onChange={handleSearchChange} placeholder={`Search: `}/>
       </FormControl>
       <FormGroup>
         {options.map((option) => (

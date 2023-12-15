@@ -300,7 +300,6 @@ const handleSearchCribroom = (searchTerm) => {
               activeStep={currentStep - 1}
               alternativeLabel
             >
-              {/* {steps.map((label, index) => ( */}
               <Step key={1}>
                 <StepLabel>{'Usuario'}</StepLabel>
               </Step>
