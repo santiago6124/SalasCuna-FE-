@@ -140,8 +140,21 @@ export function UserForm(props) {
             console.log(UserResponse);
 
             if (UserResponse.request.status === 201) {
-                console.log("Child added successfully");
-                window.location.reload();
+                console.log("User created successfully");
+
+                const cribroomUserResponse = await Promise.all(
+                  formData.CribroomUser.map(async (cribroom) => {
+                    return cribroomUser_request(authTokens.access, 'post', 0, { 'user': UserResponse.data.id, 'cribroom': cribroom });
+                  })
+                );
+                
+                console.log(cribroomUserResponse);
+
+                if (cribroomUserResponse[cribroomUserResponse.length-1].status === 201){
+                  console.log("CribroomUser created successfully");
+
+                  // window.location.reload();
+                }
             } else {
                 console.log("Failed to edit child");
             }
