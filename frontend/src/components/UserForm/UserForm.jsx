@@ -130,9 +130,37 @@ export function UserForm(props) {
             let UserResponse = await user_request(authTokens.access, 'put', 0, payload.User, props.data.id);
             console.log(UserResponse);
 
+            const cribromUserDeleteReponse = await Promise.all(previousCribroomUser.map(async (objY) => {
+              const cribroomValue = objY.cribroom;
+            
+              if (formData.CribroomUser.includes(cribroomValue)) {
+                console.log(`cribroom ${cribroomValue} is true`);
+            
+                formData.CribroomUser = formData.CribroomUser.filter((val) => val !== cribroomValue);
+
+                return cribroomValue;
+
+              } else {
+                console.log(`cribroom ${cribroomValue} is false`);
+
+                return  cribroomUser_request(authTokens.access, 'delete', 0, {}, objY.id);
+
+              }
+            }));
+            
+            console.log(cribromUserDeleteReponse);
+
+            const cribroomUserCreateResponse = await Promise.all(
+              formData.CribroomUser.map(async (cribroom) => {
+                return cribroomUser_request(authTokens.access, 'post', 0, { 'user': UserResponse.data.id, 'cribroom': cribroom });
+              })
+            );
+
+            console.log(cribroomUserCreateResponse);
+
             if (UserResponse.request.status === 200) {
                 console.log("Child edited successfully");
-                window.location.reload();
+                // window.location.reload();
             } else {
                 console.log("Failed to edit child");
             }
