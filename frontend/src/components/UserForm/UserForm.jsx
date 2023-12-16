@@ -34,7 +34,7 @@ export function UserForm(props) {
   const [currentStep, setCurrentStep] = useState(1);
   const [formFieldsLocal, setFormFieldsLocal] = useState({
     User: formFields.User,
-    CribroomUser: {},
+    CribroomUser: [],
   });
   
   // Add the following state variables
@@ -42,6 +42,7 @@ export function UserForm(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [cribroomOptions, setCribroomOptions] = useState([]);
+  const [previousCribroomUser, setPreviousCribroomUser] = useState([]);
 
   const [formData, setFormData] = useState({
     User_is_active: false
@@ -93,7 +94,7 @@ export function UserForm(props) {
     getAll()
 
     if (props.data) {
-      const newFormData = { ...formData };
+      // const newFormData = { ...formData };
   
       Object.entries(props.data).forEach(([key, value]) => {
         console.log(key);
@@ -101,13 +102,13 @@ export function UserForm(props) {
         Object.entries(formFieldsLocal).forEach(([formFieldsLocal_key]) => {
           console.log(formFieldsLocal_key);
 
-          newFormData[`User_${key}`] = value;
+          formData[`User_${key}`] = value;
         });
 
       });
   
-      setFormData(newFormData);
-      console.log(newFormData);
+      // setFormData(newFormData);
+      console.log(formData);
     }
   }, [props.data]);
 
@@ -191,29 +192,41 @@ export function UserForm(props) {
       formFieldsLocal.User.department.options = departmentResponse.data;
       formFieldsLocal.User.groups.options = groupsResponse.data;
 
+      setCribroomOptions(cribroomRespone.data);
+
       if (props.data) {
-        // Obtén el valor de props.data.department
-        // const selectedDepartment = props.data.groups;
 
-        // // Copia el array de opciones
-        // const optionsCopy = [...formFieldsLocal.User.groups.options];
+        let cribroomUserByUserId = await cribroomUser_request(authTokens.access, 'get', 0, {}, undefined, `&user=${props.data.id}`);
+        setPreviousCribroomUser(cribroomUserByUserId.data);
+        
+        formData.CribroomUser = [];
 
-        // // Encuentra el índice del departamento seleccionado en las opciones
-        // const selectedIndex = optionsCopy.findIndex((option) => option.id === selectedDepartment);
+        cribroomUserByUserId.data.forEach(function(yObj) {
+            // Busca el objeto correspondiente en x
+            var foundObj = cribroomRespone.data.find(function(xObj) {
+                return xObj.id === yObj.cribroom;
+            });
+        
+            // Si se encuentra, mueve el objeto al primer lugar y agrega la nueva key 'checked'
+            if (foundObj) {
+                // Elimina el objeto de su posición original
+                cribroomRespone.data.splice(cribroomRespone.data.indexOf(foundObj), 1);
+                
+                // Agrega la nueva key 'checked'
+                formData.CribroomUser.push(foundObj.id);
+        
+                // Agrega el objeto al primer lugar del array cribroomRespone.data
+                cribroomRespone.data.unshift(foundObj);
+            }
+        });
+        setCribroomOptions(cribroomRespone.data);
 
-        // // Si el departamento seleccionado existe en las opciones, muévelo al principio
-        // if (selectedIndex !== -1) {
-        //   const selectedOption = optionsCopy.splice(selectedIndex, 1)[0];
-        //   optionsCopy.unshift(selectedOption);
-        // }
-
-        // // Ahora optionsCopy está ordenado con el departamento seleccionado primero
-        // formFieldsLocal.User.groups.options = optionsCopy;
-
-        // console.log(formFieldsLocal.User.groups.options);
+        console.log(cribroomUserByUserId.data);
+        console.log(cribroomRespone.data);
 
         formData['User_department'] = props.data.department;
         formData['User_groups'] = props.data.groups;
+        console.log(formData);
       }
       else {
         formData['User_department'] = departmentResponse.data[0].id;
@@ -221,25 +234,6 @@ export function UserForm(props) {
       }
 
       setShowStep2(formData['User_groups'] === 2);
-      // Update the state with cribroom data
-      setCribroomOptions(cribroomRespone.data);
-
-      // Update the formFieldsLocal.CribroomUser with names and labels based on cribroomOptions
-      const cribroomFields = {};
-      cribroomRespone.data.forEach((cribroom) => {
-        cribroomFields[cribroom.code] = {
-          name: `CribroomUser_${cribroom.code}`, // Set the name based on the cribroom code
-          label: `${cribroom.name} ${cribroom.code}`, // Set the label based on the cribroom name and code
-          type: 'checkbox',
-          required: false,
-        };
-      });
-
-      setFormFieldsLocal((prevFormFields) => ({
-        ...prevFormFields,
-        CribroomUser: cribroomFields,
-      }));
-
       toastUpdateSuccess("Datos cargados", customId);
     } catch (error) {
       toastUpdateError("Error al cargar los Datos!", customId);
