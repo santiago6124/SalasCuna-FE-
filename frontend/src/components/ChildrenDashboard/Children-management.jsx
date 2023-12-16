@@ -17,7 +17,6 @@ import { GridActionsCellItem } from "@mui/x-data-grid";
 
 import DeleteChildren from "./DeleteChildren/DeleteChildren";
 import HistoryTimeline from "../CribroomDashboard/ObjectHistory";
-import { PhoneModal } from "../PhoneModal/PhoneModal";
 import { ChildForm } from "../ChildForm/ChildForm";
 
 import { DataGrid, esES } from "@mui/x-data-grid";
@@ -318,7 +317,9 @@ export default function ChildrenManagement(props) {
       )}
       {selectedChild && (
         <>
-          <PhoneModal
+          <ChildForm
+          id= {selectedChild}
+          isPhone={true}
             show={modalPhoneShow}
             tokens={authTokens.access}
             onHide={() => {

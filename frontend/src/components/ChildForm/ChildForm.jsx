@@ -48,6 +48,7 @@ export function ChildForm(props) {
   const [answers, setAnswers] = useState([]);
   const [userAnswers, setUserAnswers] = useState({});
   const [isEditable, setIsEditable] = useState(false);
+  const [isPhone, setIsPhone] = useState(false);
 
   const [formFieldsLocal, setFormFieldsLocal] = useState({
     Child: formFields.Child,
@@ -249,7 +250,7 @@ export function ChildForm(props) {
           console.error(error);
         }
 
-        if (ChildResponse.request.status === 201 ) {
+        if (ChildResponse.request.status === 201) {
           console.log("Child edited successfully");
           window.location.reload();
         } else {
@@ -382,6 +383,7 @@ export function ChildForm(props) {
 
   useEffect(() => {
     setCurrentStep(props.isGuardian ? 4 : 1);
+    setCurrentStep(props.isPhone ? 5 : 1);
   }, [props.data]);
 
   return (
@@ -597,9 +599,74 @@ export function ChildForm(props) {
                 </div>
               </>
             )}
+            {/* Step 5 */}
             <>
-              {/* Step 5 */}
-              {currentStep === 5 && (
+              {props.isPhone && currentStep === 5 && (
+                <>
+                  {isEditable ? (
+                    <>
+                      <h1 className="titulo">Editar Telefonos</h1>
+
+                      <div className="contenedor-linea">
+                        <hr className="linea" />
+                      </div>
+                      {renderformFieldsLocal(
+                        formFieldsLocal.Phone,
+                        "Phones",
+                        formData,
+                        setFormData,
+                        handleInputChange
+                      )}
+                      <div className="contenedor-boton mb-1">
+                        <Button
+                          type="button"
+                          onClick={() => setIsEditable(false)}
+                          size="lg"
+                          className="m-2 mt-3"
+                        >
+                          Cancelar Edición
+                        </Button>
+                        <Button
+                          type="submit"
+                          onClick={handleSubmit}
+                          size="lg"
+                          className="m-2 mt-3"
+                        >
+                          Cargar
+                        </Button>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <>
+                        <h1 className="titulo">Informacion de Telefono</h1>
+                        <div className="contenedor-linea">
+                          <hr className="linea" />
+                        </div>
+                        {renderLabelsl(
+                          labelFormsLocal.Phone,
+                          "Phone",
+                          formData,
+                          setLabelFormLocal,
+                          handleInputChange
+                        )}
+                        <div className="justify-content-center d-flex">
+                          <Button
+                            type="button"
+                            onClick={() => setIsEditable(true)}
+                            size="lg"
+                            className="m-2 mt-3"
+                          >
+                            Editar Información
+                          </Button>
+                        </div>
+                      </>
+                    </>
+                  )}
+                </>
+              )}
+
+              {!props.isPhone && currentStep === 5 && (
                 <>
                   <h1 className="titulo">Añadir Telefono/s</h1>
                   <div className="contenedor-linea">
