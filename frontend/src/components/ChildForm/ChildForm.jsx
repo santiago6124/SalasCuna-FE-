@@ -43,12 +43,11 @@ import {
 import Phone from "@mui/icons-material/Phone";
 
 export function ChildForm(props) {
-  const [currentStep, setCurrentStep] = useState(props.isGuardian ? 4 : 1);
+  const [currentStep, setCurrentStep] = useState(false);
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState([]);
   const [userAnswers, setUserAnswers] = useState({});
   const [isEditable, setIsEditable] = useState(false);
-  const [isPhone, setIsPhone] = useState(false);
 
   const [formFieldsLocal, setFormFieldsLocal] = useState({
     Child: formFields.Child,
@@ -370,7 +369,7 @@ export function ChildForm(props) {
     }
   }
 
-  var stepsInteger = 6;
+  var stepsInteger = 5;
   stepsInteger += props.data ? -1 : formFieldsPoll.length;
   // Generar un array con los valores del rango de stepsInteger
   const stepsArray = Array.from(
@@ -382,8 +381,11 @@ export function ChildForm(props) {
   const steps = stepsArray.map((stepNumber) => `Step ${stepNumber}`);
 
   useEffect(() => {
-    setCurrentStep(props.isGuardian ? 4 : 1);
     setCurrentStep(props.isPhone ? 5 : 1);
+  }, [props.data]);
+
+  useEffect(() => {
+    setCurrentStep(props.isGuardian ? 4 : 1);
   }, [props.data]);
 
   return (
