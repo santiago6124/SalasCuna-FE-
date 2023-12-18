@@ -48,6 +48,7 @@ export default function ChildrenManagement(props) {
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
   const [modalPhoneShow, setModalPhoneShow] = useState(false);
   const [modalGuardianShow, setModalGuardianShow] = useState(false);
+  const [modalPollShow, setModalPollShow] = useState(false);
 
   const [selectedChild, setSelectedChild] = useState("");
   const [childName, setChildName] = useState("");
@@ -160,6 +161,13 @@ export default function ChildrenManagement(props) {
   async function handlePhoneClick(rowId) {
     setSelectedChild(rowId);
     setModalPhoneShow(true);
+    const selectedChildData = getChildDataById(rowId); // Replace this with your function to get child data
+    setSelectedChildData(selectedChildData);
+    console.log("Edit clicked for row with id:", rowId);
+  }
+  async function handlePollClick(rowId) {
+    setSelectedChild(rowId);
+    setModalPollShow(true);
     const selectedChildData = getChildDataById(rowId); // Replace this with your function to get child data
     setSelectedChildData(selectedChildData);
     console.log("Edit clicked for row with id:", rowId);
@@ -286,6 +294,7 @@ export default function ChildrenManagement(props) {
         <GridActionsCellItem
           variant="primary"
           icon={<BallotIcon />}
+          onClick={() => handlePollClick(params.row.id)}
           label="Encuesta"
           showInMenu
         />,
@@ -358,6 +367,21 @@ export default function ChildrenManagement(props) {
           }}
         />
       )}
+{/*       {selectedChild && (
+        <ChildForm
+          show={modalPollShow}
+          isPoll={true}
+          data={selectedChildData}
+          id={selectedChild}
+          name={childName}
+          tokens={authTokens.access}
+          onHide={() => {
+            setModalGuardianShow(false);
+            setSelectedChild("");
+            reloadDataFunc();
+          }}
+        />
+      )} */}
       {modalCreateShow && (
         <ChildForm
           show={modalCreateShow}

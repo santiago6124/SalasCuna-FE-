@@ -40,7 +40,6 @@ import {
   toastUpdateError,
   toastUpdateSuccess,
 } from "../../utils/toastMsgs";
-import Phone from "@mui/icons-material/Phone";
 
 export function ChildForm(props) {
   const [currentStep, setCurrentStep] = useState(false);
@@ -64,6 +63,14 @@ export function ChildForm(props) {
   const [formData, setFormData] = useState({
     Child_is_active: true,
   });
+
+  useEffect(() => {
+    setCurrentStep(props.isGuardian ? 4 : 1);
+  }, [props.data]);
+
+  useEffect(() => {
+    setCurrentStep(props.isPhone ? 5 : 1);
+  }, [props.data]);
 
   let { authTokens } = useContext(AuthContext);
 
@@ -379,14 +386,6 @@ export function ChildForm(props) {
 
   // Crear los steps dinámicamente basados en el array generado
   const steps = stepsArray.map((stepNumber) => `Step ${stepNumber}`);
-
-  useEffect(() => {
-    setCurrentStep(props.isPhone ? 5 : 1);
-  }, [props.data]);
-
-  useEffect(() => {
-    setCurrentStep(props.isGuardian ? 4 : 1);
-  }, [props.data]);
 
   return (
     <Modal
