@@ -37,7 +37,7 @@ export function user_request(tokens, method='get', depth=0, data={}, pk=undefine
   const headers = { "Content-Type": "application/json", "Authorization": "JWT " + tokens, "Accept": "application/json"}
 
   return axios.request({
-    'url': `/api/user/${pk ? (pk+'/') : '' }?depth=${depth}${filters}`, 
+    'url': `/auth/users/${pk ? (pk+'/') : '' }?depth=${depth}${filters}`, 
     'method': method, 
     'headers': headers, 
     'data': data,

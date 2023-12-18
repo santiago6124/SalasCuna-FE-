@@ -10,7 +10,8 @@ export const formFields = {
         department: { name: "department",label: "Departamento",type: "select",options: [],required: true },
         address: { name: "address",label: "Dirección",type: "text",placeholder: "Ingresar Dirección",required: true },
         birthdate: { name: "birthdate",label: "Fecha de Nacimiento",type: "date",required: true },
-        password: { name: "password",label: "Password",type: "password",placeholder: "Ingresar Password",required: true }, // defaultValue: user ? user.last_name : ""
+        password: { name: "password",label: "Password",type: "password",placeholder: "Ingresar Contraseña",required: true }, // defaultValue: user ? user.last_name : ""
+        re_password: {name: "re_password", label: "Re_password",type: "password",placeholder: "Repita la Contraseña",required: true},
         is_active: { name: "is_active", label: "is_active", type: "checkbox", required: true },
     },
     Department: ["id", "department", "zone"],
