@@ -42,7 +42,7 @@ import {
 } from "../../utils/toastMsgs";
 
 export function ChildForm(props) {
-  const [currentStep, setCurrentStep] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState([]);
   const [userAnswers, setUserAnswers] = useState({});
@@ -65,11 +65,12 @@ export function ChildForm(props) {
   });
 
   useEffect(() => {
-    setCurrentStep(props.isGuardian ? 4 : 1);
-  }, [props.data]);
-
-  useEffect(() => {
-    setCurrentStep(props.isPhone ? 5 : 1);
+    if (props.isGuardian && !props.isPhone) {
+      setCurrentStep(props.isGuardian ? 4 : 1);
+    }
+    if (!props.isGuardian && props.isPhone) {
+      setCurrentStep(props.isPhone ? 5 : 1);
+    }
   }, [props.data]);
 
   let { authTokens } = useContext(AuthContext);
