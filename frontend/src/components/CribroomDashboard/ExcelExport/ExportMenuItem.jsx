@@ -8,7 +8,7 @@ import {
   useGridApiContext,
 } from '@mui/x-data-grid';
 
-import { cribroom_request, child_request } from "../../../api/salasCuna.api";
+import { cribroom_request, child_request, phone_request } from "../../../api/salasCuna.api";
  
 
 function getExcelData(apiRef) {
@@ -68,33 +68,79 @@ async function handleExport(apiRef, selectedCribroomId, authTokens) {
   console.log('rows: ', data);
 
   const monthNames = [
-    'January', 'February', 'March', 'April',
-    'May', 'June', 'July', 'August',
-    'September', 'October', 'November', 'December'
+    'Enero', 'Febrero', 'Marzo', 'Abril',
+    'Mayo', 'Junio', 'Julio', 'Agosto',
+    'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
   ];
   const currentDate = new Date();
 
-  const currentMonth = monthNames[currentDate.getMonth()];
-  const currentYear = currentDate.getFullYear();
+  const [
+    currentMonthNumber,
+    currentMonthName,
+    currentYear,
+    currentDayMonthYear
+  ] = [
+    currentDate.getMonth(),
+    monthNames[currentDate.getMonth()],
+    currentDate.getFullYear(),
+    currentDate.toLocaleDateString('en-GB')
+  ];
 
-  // Use a for...of loop instead of forEach
+
   for (const item of selectedCribroomId) {
     
     try {
       var cribroomResponse = await cribroom_request(authTokens.access, 'get', 1, {}, item);
       console.log('cribroomResponse: ', cribroomResponse);
     } catch (error) {
+      console.error("An error occurred (cribroom request):", error);
+    }
+    
+    try {
+      var childResponse = await child_request(authTokens.access, 'get', 1, {}, undefined, `&cribroom_id=${item}`);
+      console.log('childResponse: ', childResponse);
+    } catch (error) {
       console.error("An error occurred (child request):", error);
     }
 
+    const [
+      cribroomCode,
+      cribroomName,
+      cribroomEntity,
+      cribroomLocality,
+      cribroomChildrenActualCapacity,
+      cribroomChildrenNoModificationQuantity,
+      cribroomChildrenEnrollmentQuantity,
+      cribroomChildrenDisenrollmentQuantity,
+      cribroomChildrenMaxCapacity,
+      provinceOfCordoba_statement,
+      padronOfChildren_statement,
+      networkOfCribroom_statement,
+      main_statement,
+    ] = [
+      cribroomResponse.data.code,
+      cribroomResponse.data.name,
+      cribroomResponse.data.entity,
+      `Localidad de ${cribroomResponse.data.locality.locality}`,
+      cribroomResponse.data.actualCapacity,
+      'calcular sin modificar en backend',
+      'calcular altas en backend',
+      'calcular bajas en backend',
+      cribroomResponse.data.max_capacity,
+      `Provincia de Cordoba`,
+      `PADRON DE NIÑOS Y NIÑAS`,
+      `RED DE SALAS CUNA - PROVINCIA DE CORDOBA`,
+      `Quien suscribe, como representante legal de la institución de que se trata, manifiesta con carácter de DECLARACIÓN JURADA que la presente nómina corresponde a los niños y niñas que han asistido a la Sala Cuna durante el MES DE ${currentMonthName} de ${currentYear}, solicitando la asignación económica que el programa de que se trata asigna a los mismos  en concepto de ayuda directa, firmando al pie para constancia y fe.-`
+    ];
+
     var rowValuesDict = {
-      '1': ['Sala Cuna:', cribroomResponse.data.name, 'Codigo:', cribroomResponse.data.code, 'Entidad:', cribroomResponse.data.entity],
-      '2': ['Capacidad maxima:', cribroomResponse.data.max_capacity, 'Niños activos:', cribroomResponse.data.actualCapacity],
-      '3': ['Mes', currentMonth],
-      '4': ['Año', currentYear],
-      '5': ['Provincia de Córdoba'],
-      // '6': [cribroomResponse['entity']],
-      '7': [''],
+      '1': ['Sala Cuna:', cribroomCode, '', '', '', '', '', '', '', '', '', '', '', currentDayMonthYear],
+      '2': [cribroomName, '', '', '', '', '', '', '', '', '', '', '', '', '', `${cribroomCode}-${currentYear}`],
+      '3': ['Mes', currentMonthNumber, '', '', '', '', '', '', '', '', '', '', '', '', 'Capacidad maxima:', cribroomChildrenMaxCapacity],
+      '4': ['Año', currentYear, '', '', '', '', '', '', '', padronOfChildren_statement, '', '', '', '', 'CANTIDAD DE NIÑOS', cribroomChildrenActualCapacity],
+      '5': [provinceOfCordoba_statement, '', '', '', '', '', '', '', networkOfCribroom_statement, '', '', '', '', '', 'Sin modificar', cribroomChildrenNoModificationQuantity ],
+      '6': [cribroomLocality, '', '', '', '', '', '', '', '', '', '', '', '', '', 'Altas', cribroomChildrenEnrollmentQuantity ],
+      '7': [cribroomEntity, '', '', '', '', '', '', '', '', '', '', '', '', '', 'Bajas', cribroomChildrenDisenrollmentQuantity ],
       '8': [''],
       '9':[
         'ID',
@@ -108,7 +154,9 @@ async function handleExport(apiRef, selectedCribroomId, authTokens) {
         'SEXO',
         'CALLE',
         'NUMERO',
+        'BARRIO',
         'LOCALIDAD',
+        'TELEFONOS',
         // 'CARACTERISTICA TELEFONICA',
         // 'TELEFONO',
         'APELLIDO TUTOR',
@@ -116,24 +164,29 @@ async function handleExport(apiRef, selectedCribroomId, authTokens) {
         'IDENTIFICACION TUTOR',
         'TURNO',
         'ESTADO',
+        'MODIFICACION',
       ],
-    }
-
-    try {
-      var childResponse = await child_request(authTokens.access, 'get', 1, {}, undefined, `&cribroom_id=${item}`);
-      console.log('childResponse: ', childResponse);
-    } catch (error) {
-      console.error("An error occurred (child request):", error);
     }
 
     var index = 10
     for (const child of childResponse.data){
+      try {
+        var phoneResponse = await phone_request(authTokens.access, 'get', 0, {}, undefined, `&guardian=${child.guardian.id}`);
+        console.log('phoneResponse: ', phoneResponse);
+
+        var phonesStr = phoneResponse.data.length > 0 ? "" : "No documentado"
+        for (const phone of phoneResponse.data) {
+          phonesStr += `${phone.phone_name} (${phone.phone_Feature})${phone.phone_number}${phoneResponse.data.length > 1 ? ", " : "" }`;
+        }
+      } catch (error) {
+        console.error("An error occurred (phone request):", error);
+      }
+
       rowValuesDict[index] = [
         child.id,
-        cribroomResponse.data.name,
-        child.id,
-        child.first_name,
+        cribroomCode,
         child.last_name,
+        child.first_name,
         child.identification,
         child.ident_type.type,
         child.birthdate,
@@ -141,11 +194,15 @@ async function handleExport(apiRef, selectedCribroomId, authTokens) {
         child.gender.gender,
         child.street,
         child.house_number,
+        child.neighborhood.neighborhood,
         child.locality.locality,
+        phonesStr,
         child.guardian.last_name,
+        child.guardian.first_name,
         child.guardian.identification,
         child.shift.name,
         child.is_active === true ? 'Activo' : 'Inactivo',
+        'calcular modificacion en backend',
       ];
       index += 1;
     }
@@ -164,8 +221,8 @@ async function handleExport(apiRef, selectedCribroomId, authTokens) {
       }
     }
     // Add the worksheet to the workbook
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Metadata');
-    XLSX.writeFile(workbook, `${cribroomResponse.data.name} ${cribroomResponse.data.code} ${currentMonth}${currentYear}.xlsx`, { compression: true });
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Padron');
+    XLSX.writeFile(workbook, `${cribroomName} ${cribroomCode} - ${currentDayMonthYear}.xlsx`, { compression: true });
   }
   
 }
