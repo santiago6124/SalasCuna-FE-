@@ -1,5 +1,7 @@
 import { MenuItem } from '@mui/material';
-import * as XLSX from 'xlsx';
+// import * as XLSX from 'xlsx';
+import * as XLSX from 'xlsx-js-style';
+
 import { config } from '../config';
 import * as React from 'react';
 import {
@@ -134,14 +136,6 @@ async function handleExport(apiRef, selectedCribroomId, authTokens) {
     ];
 
     var rowValuesDict = {
-      '1': ['Sala Cuna:', cribroomCode, '', '', '', '', '', '', '', '', '', '', '', currentDayMonthYear],
-      '2': [cribroomName, '', '', '', '', '', '', '', '', '', '', '', '', '', `${cribroomCode}-${currentYear}`],
-      '3': ['Mes', currentMonthNumber, '', '', '', '', '', '', '', '', '', '', '', '', 'Capacidad maxima:', cribroomChildrenMaxCapacity],
-      '4': ['Año', currentYear, '', '', '', '', '', '', '', padronOfChildren_statement, '', '', '', '', 'CANTIDAD DE NIÑOS', cribroomChildrenActualCapacity],
-      '5': [provinceOfCordoba_statement, '', '', '', '', '', '', '', networkOfCribroom_statement, '', '', '', '', '', 'Sin modificar', cribroomChildrenNoModificationQuantity ],
-      '6': [cribroomLocality, '', '', '', '', '', '', '', '', '', '', '', '', '', 'Altas', cribroomChildrenEnrollmentQuantity ],
-      '7': [cribroomEntity, '', '', '', '', '', '', '', '', '', '', '', '', '', 'Bajas', cribroomChildrenDisenrollmentQuantity ],
-      '8': [''],
       '9':[
         'ID',
         'SALA CUNA',
@@ -211,8 +205,25 @@ async function handleExport(apiRef, selectedCribroomId, authTokens) {
     const workbook = XLSX.utils.book_new();
     // Create a new worksheet
     const worksheet = XLSX.utils.aoa_to_sheet([]); // An empty worksheet
+
+    [ worksheet['A1'], worksheet['B1'], worksheet['N1'], 
+    worksheet['A2'], worksheet['O2'],
+    worksheet['A3'], worksheet['B3'], worksheet['O3'], worksheet['P3'],
+    worksheet['A4'], worksheet['B4'], worksheet['I4'], worksheet['O4'], worksheet['P4'],
+    worksheet['A5'], worksheet['I5'], worksheet['O5'], worksheet['P5'],
+    worksheet['A6'], worksheet['O6'], worksheet['P6'],
+    worksheet['A7'], worksheet['O7'], worksheet['P7']] = [
+      {v: 'Sala Cuna:', t: 's'}, {v: cribroomName, t: 's'}, {v: currentDayMonthYear, t: 's'},
+      {v: cribroomName, t: 's'}, {v: `${cribroomCode}-${currentYear}`, t: 's'},
+      {v: 'Mes', t: 's'}, {v: currentMonthNumber, t: 'n'}, {v: 'Capacidad maxima:', t: 's'}, {v: cribroomChildrenMaxCapacity, t: 'n'},
+      {v: 'Año', t: 's'}, {v: currentYear, t: 'n'}, {v: padronOfChildren_statement, t:'s'}, {v: 'CANTIDAD DE NIÑOS', t: 's'}, {v: cribroomChildrenActualCapacity, t: 'n'},
+      {v: provinceOfCordoba_statement, t: 's'}, {v: networkOfCribroom_statement, t: 's'}, {v: 'Sin modificar', t: 's'}, {v: cribroomChildrenNoModificationQuantity, t: 'n'},
+      {v: cribroomLocality, t: 's'}, {v: 'Altas', t: 's'}, {v: cribroomChildrenEnrollmentQuantity, t: 'n'},
+      {v: cribroomEntity, t: 's'}, {v: 'Bajas', t: 's'}, {v: cribroomChildrenDisenrollmentQuantity, t: 'n'}
+    ];
+
     // Populate the worksheet with values from rowValuesDict
-    let startRow = 1; // Starting row to add values
+    let startRow = 10; // Starting row to add values
     for (const rowNum in rowValuesDict) {
       if (rowValuesDict.hasOwnProperty(rowNum)) {
         const rowData = rowValuesDict[rowNum];
@@ -220,6 +231,23 @@ async function handleExport(apiRef, selectedCribroomId, authTokens) {
         startRow++;
       }
     }
+    
+    // Define a style
+    let style = { font: { name: 'Calibri', sz: 10 }, cell: {wch:5},alignment: { wrapText: true } };
+
+    // Apply styles to all cells
+    for (let cell in worksheet) {
+      if (cell[0] !== '!') worksheet[cell].s = style;
+      // if ((cell[1] + cell[2] ) === '10') {
+      //   worksheet[cell].s.font.bold = true;
+      //   worksheet[cell].s.fill = { fgColor: { rgb: "#e0e0e0"}};
+      // }
+    }
+
+    // worksheet['I4'].s.alignment.wrapText = false;
+    // worksheet['I5'].s.alignment.wrapText = false;
+
+    console.log('worksheet: ', worksheet);
     // Add the worksheet to the workbook
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Padron');
     XLSX.writeFile(workbook, `${cribroomName} ${cribroomCode} - ${currentDayMonthYear}.xlsx`, { compression: true });
