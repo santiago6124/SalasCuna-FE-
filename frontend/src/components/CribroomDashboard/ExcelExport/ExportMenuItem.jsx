@@ -105,15 +105,22 @@ async function handleExport(apiRef, selectedCribroomId, authTokens) {
       console.error("An error occurred (child request):", error);
     }
 
+    var [
+      cribroomChildrenNoModificationQuantity,
+      cribroomChildrenEnrollmentQuantity,
+      cribroomChildrenDisenrollmentQuantity,
+    ] = [
+      0,
+      0,
+      0,
+    ];
+
     const [
       cribroomCode,
       cribroomName,
       cribroomEntity,
       cribroomLocality,
       cribroomChildrenActualCapacity,
-      cribroomChildrenNoModificationQuantity,
-      cribroomChildrenEnrollmentQuantity,
-      cribroomChildrenDisenrollmentQuantity,
       cribroomChildrenMaxCapacity,
       provinceOfCordoba_statement,
       padronOfChildren_statement,
@@ -125,9 +132,6 @@ async function handleExport(apiRef, selectedCribroomId, authTokens) {
       cribroomResponse.data.entity,
       `Localidad de ${cribroomResponse.data.locality.locality}`,
       cribroomResponse.data.actualCapacity,
-      'calcular sin modificar en backend',
-      'calcular altas en backend',
-      'calcular bajas en backend',
       cribroomResponse.data.max_capacity,
       `Provincia de Cordoba`,
       `PADRON DE NIÑOS Y NIÑAS`,
@@ -159,6 +163,8 @@ async function handleExport(apiRef, selectedCribroomId, authTokens) {
         'TURNO',
         'ESTADO',
         'MODIFICACION',
+        'ALTA',
+        'BAJA',
       ],
     }
 
@@ -196,9 +202,13 @@ async function handleExport(apiRef, selectedCribroomId, authTokens) {
         child.guardian.identification,
         child.shift.name,
         child.is_active === true ? 'Activo' : 'Inactivo',
-        'calcular modificacion en backend',
+        child.modification,
+        child.registration_date,
+        child.disenroll_date,
       ];
       index += 1;
+
+      child.modification === 'Alta' ? cribroomChildrenEnrollmentQuantity++ : child.modification === 'Baja' ?  cribroomChildrenDisenrollmentQuantity++ : cribroomChildrenNoModificationQuantity++;
     }
 
     // Create a new workbook
@@ -231,6 +241,11 @@ async function handleExport(apiRef, selectedCribroomId, authTokens) {
         startRow++;
       }
     }
+
+    startRow++;
+    // worksheet[`A${startRow}`] = {v: main_statement, t:'s'};
+    // const rowData = rowValuesDict[rowNum];
+    XLSX.utils.sheet_add_aoa(worksheet, [[main_statement]], { origin: `A${startRow}` });
     
     // Define a style
     let style = { font: { name: 'Calibri', sz: 10 }, cell: {wch:5},alignment: { wrapText: true } };
