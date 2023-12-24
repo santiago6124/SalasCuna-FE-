@@ -240,11 +240,11 @@ export function childAnswer_request(tokens, method='get', depth=0, data={}, pk=u
   });
 }
 
-export function technicalReportTable_request(tokens, method='get', data={}) {
+export function technicalReportHeaders_request(tokens, method='get', data={}) {
   const headers = { "Content-Type": "application/json", "Authorization": "JWT " + tokens, "Accept": "application/json"}
 
   return axios.request({
-    'url': `/api/TechnicalReportTableListCreateView/`,
+    'url': `/api/TechnicalReportHeadersListCreateView/`,
     'method': method,
     'headers': headers,
     'data': data,
