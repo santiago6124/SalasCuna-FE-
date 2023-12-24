@@ -6,7 +6,7 @@ import AuthContext from "../../context/AuthContext";
 import {renderFormFields} from "../renderFormFields/renderFormFields";
 
 import {
-  technicalReportTable_request,
+  technicalReportHeaders_request,
 } from "../../api/salasCuna.api";
 
 import {
@@ -29,10 +29,13 @@ export default function TechnicalReportHeadersModal(props) {
   async function getAll() {
     try {
       toastLoading("Cargando los Datos", customId);
-      const technicalReportTable_response = await technicalReportTable_request(authTokens.access);
+      const technicalReportTable_response = await technicalReportHeaders_request(authTokens.access);
 
-      
-      props.formData.encabezado = technicalReportTable_response.data[0].encabezado;
+      console.log('technicalReportTable_response: ', technicalReportTable_response);
+
+      props.formData.encabezado_ministerio_base64 = technicalReportTable_response.data[0].encabezado_ministerio_base64;
+      props.formData.encabezado_gobierno_base64 = technicalReportTable_response.data[0].encabezado_gobierno_base64;
+
       props.formData.ministro = technicalReportTable_response.data[0].ministro;
       props.formData.resolucion = technicalReportTable_response.data[0].resolucion;
       props.formData.remitanse = technicalReportTable_response.data[0].remitanse;
@@ -46,21 +49,28 @@ export default function TechnicalReportHeadersModal(props) {
     }
   }
 
-  async function handleSubmit(event){
+  async function handleSubmit(event) {
     event.preventDefault();
     try {
       const formData = new FormData(event.target);
+
       const payload = {
-        encabezado: formData.get("encabezado"),
+        encabezado_ministerio_base64: formData.get("encabezado_ministerio_base64"),
+        encabezado_gobierno_base64: formData.get("encabezado_gobierno_base64"),
         ministro: formData.get("ministro"),
         resolucion: formData.get("resolucion"),
         remitanse: formData.get("remitanse"),
       };
 
-      let response = await technicalReportTable_request(authTokens.access, 'post', payload); // Include headers in the request
+      console.log('payload: ', payload);
+
+      let response = await technicalReportHeaders_request(authTokens.access, 'post', payload); // Include headers in the request
+
+      console.log('response: ', response);
 
       if (response.request.status === 201) {
-        props.onHide();
+        // props.onHide();
+        console.log('to ok');
       }
     } catch (error) {
       console.log(error);
@@ -76,8 +86,7 @@ export default function TechnicalReportHeadersModal(props) {
             <div className="contenedor-linea">
               <hr className="linea"></hr>
             </div>
-            
-            
+
             {renderFormFields(props.formFields.encabezados, props.formData, props.handleInputChange)}
 
             <div className="contenedor-boton-createuser">
