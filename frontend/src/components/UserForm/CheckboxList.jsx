@@ -31,10 +31,10 @@ const CheckboxList = ({ options, selectedOptions, onChange, onSearch, totalPages
 
   return (
     <>
-      <FormControlLabel
+      {/* <FormControlLabel
         control={<Checkbox checked={globalSelectAll[currentPage] || false} onChange={handleSelectAllChange} />}
         label="Select All"
-      />
+      /> */}
       <FormControl component="fieldset">
         <TextField value={searchTerm} onChange={handleSearchChange} placeholder={`Search: `} />
       </FormControl>

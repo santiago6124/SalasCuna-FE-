@@ -305,7 +305,7 @@ const handleSearchCribroom = (searchTerm) => {
     }
   };
 
-  const PAGE_SIZE = 5; // Set the number of items per page
+  const PAGE_SIZE = 10; // Set the number of items per page
 
   return (
     <Modal
