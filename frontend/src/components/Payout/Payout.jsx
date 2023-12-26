@@ -28,6 +28,8 @@ import { PayoutForm } from "../PayoutForm/PayoutForm";
 import DeletePayout from "./DeletePayoutModal";
 import { handlePermissions, zone_request, payout_request } from "../../api/salasCuna.api";
 
+import PayNoteModal from "./PayNoteModal/PayNoteModal.jsx"
+
 function CustomToolbar(props) {
   const { selectedPayOut, authTokens } = props;
 
@@ -43,6 +45,12 @@ function CustomToolbar(props) {
 
 export default function Payout() {
   const [payout, setPayout] = useState("");
+
+  const [modalCreateShow, setModalCreateShow] = useState(false);
+
+  const [formData, setFormData] = useState({});  /// mas adelante get request para obtener cribroom basado en los props id
+
+
   const [selectedPayout, setSelectedPayout] = useState("");
   const [modalAddShow, setModalAddShow] = useState(false);
   const [modalEditShow, setModalEditShow] = useState(false);
@@ -56,6 +64,39 @@ export default function Payout() {
   useEffect(() => {
     loadPayouts();
   }, []);
+
+  
+  const [formFields, setFormFields] = useState({
+    encabezados: [
+      {
+        name: "dirige_a_sr",
+        label: "Dirige a",
+        type: "text",
+        placeholder: "Modificar ministro",
+        required: true,
+      },
+    {
+      name: "dirige_a_persona_cr",
+      label: "Dirige a",
+      type: "text",
+      placeholder: "Modificar ministro",
+      required: true,
+    },
+    {
+      name: "ministerio",
+      label: "Ministerio",
+      type: "text",
+      placeholder: "Modificar ministro",
+      required: true,
+    },
+    {
+      name: "resolucion",
+      label: "Resolucion",
+      type: "text",
+      placeholder: "Modificar resolucion",
+      required: true,
+    },
+  ]});
 
   function handleEditClick(rowId) {
     setSelectedPayout(rowId);
@@ -91,9 +132,20 @@ export default function Payout() {
     setSelectedPayout(payoutID);
   }
 
+  
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
+  
+  function handleCreateClick() {
+    setModalCreateShow(true);
+  }
+
   return (
     <> 
       <body>
+
         <div className="cribroom-dashboard">
           <>
             <PayoutForm
@@ -101,6 +153,16 @@ export default function Payout() {
               onHide={() => {
                 setModalAddShow(false);
                 window.location.reload();
+              }}
+            />
+            <PayNoteModal
+              formFields={formFields}
+              handleInputChange={handleInputChange}
+              formData={formData}
+              show={modalCreateShow}
+              onHide={() => {
+                setModalCreateShow(false);
+                /* window.location.reload(); */
               }}
             />
             <PayoutForm
@@ -132,8 +194,16 @@ export default function Payout() {
 
               
               <div className="div-general">
-                <div className="col-dropdown">
-                  
+                <div className="add-payout-button">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<EditIcon />}
+                    className="add-payout-button mb-3"
+                    onClick={() => handleCreateClick()}
+                  >
+                    Modificar Encabezados
+                  </Button>
                 </div>
                 <div className="add-payout-button">
                     <Button

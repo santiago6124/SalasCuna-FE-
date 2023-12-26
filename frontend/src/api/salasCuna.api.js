@@ -252,6 +252,19 @@ export function technicalReportHeaders_request(tokens, method='get', data={}) {
 }
 
 
+export function payNoteHeaders_request(tokens, method='get', data={}) {
+  const headers = { "Content-Type": "application/json", "Authorization": "JWT " + tokens, "Accept": "application/json"}
+
+  return axios.request({
+    'url': `/api/PayNoteHeadersListCreateView/`,
+    'method': method,
+    'headers': headers,
+    'data': data,
+  });
+}
+
+
+
 export function getAllGroup(tokens) {
   const headers = {
     "Content-Type": "application/json",
