@@ -4,7 +4,7 @@ export const formFields = {
         first_name: { name: "first_name", label: "Nombre", type: "text", placeholder: "Ingresar nombre", required: true },    // defaultValue: user ? user.first_name : "",
         last_name: { name: "last_name",label: "Apellido",type: "text",placeholder: "Ingresar Apellido",required: true }, // defaultValue: user ? user.last_name : ""
         dni: { name: "dni",label: "DNI",type: "number",placeholder: "Ingresar DNI",required: true },
-        group: { name: "group",label: "Rol",type: "select",options: [],required: true },
+        groups: { name: "groups",label: "Rol",type: "select",options: [],required: true },
         phone_number: { name: "phone_number",label: "Número De Teléfono",type: "tel",placeholder: "Ingresar Número De Teléfono",required: true },
         city: { name: "city",label: "Ciudad",type: "text",placeholder: "Ingresar Ciudad",required: true },
         department: { name: "department",label: "Departamento",type: "select",options: [],required: true },
