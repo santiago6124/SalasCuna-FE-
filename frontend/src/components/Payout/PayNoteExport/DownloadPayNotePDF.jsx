@@ -58,7 +58,6 @@ const downloadPayNotePDF = () => {
  .s3 { color: black; font-family:"Times New Roman", serif; font-style: normal; font-weight: bold; text-decoration: none; font-size: 7.5pt; }
  .s4 { color: black; font-family:"Times New Roman", serif; font-style: normal; font-weight: bold; text-decoration: none; font-size: 7pt; }
  .s5 { color: black; font-family:"Times New Roman", serif; font-style: normal; font-weight: normal; text-decoration: none; font-size: 6.5pt; }
- table, tbody {vertical-align: top; overflow: visible; }
 </style></head><body><h1 style="padding-top: 3pt;padding-bottom: 1pt;padding-left: 156pt;text-indent: 0pt;text-align: left;">Dirección General de Coordinación de Salas Cuna</h1><p style="padding-left: 5pt;text-indent: 0pt;line-height: 1pt;text-align: left;"/><p class="s1" style="padding-left: 340pt;text-indent: 0pt;text-align: left;">Córdoba,</p><h2 style="padding-top: 3pt;padding-left: 7pt;text-indent: 0pt;line-height: 135%;text-align: left;">Sr. Subsecretario de Administración y Recursos Humanos</h2><h2 style="padding-left: 7pt;text-indent: 0pt;line-height: 135%;text-align: left;">Cr. Alejandro Francesconi Ministerio de Desarrollo Social</h2><p class="s2" style="padding-left: 7pt;text-indent: 0pt;line-height: 9pt;text-align: left;">S &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D</p><p style="text-indent: 0pt;text-align: left;"><br/></p><p style="padding-top: 4pt;padding-left: 7pt;text-indent: 119pt;line-height: 199%;text-align: left;">De mi mayor consideración, por medio de la presente remito a Ud. con mi CONFORMIDAD, la nómina de participantes del Programa Salas Cuna ONG INTERIOR, con el total de niñas y niños que recibieron atención y cuidado en los establecimientos adheridos a tal efecto, para que se efectivice el pago del mes de NOVIEMBRE de 2023 según lo establecido en Resolución Ministerial N° 2023/MDS00-00000731, de las siguientes Salas Cuna continuación se detallan:</p><p style="text-indent: 0pt;text-align: left;"><br/></p><table style="border-collapse:collapse;margin-left:5.87065pt" cellspacing="0">
 <!-- Table headers -->
 <tr style="height:21pt">
@@ -81,7 +80,7 @@ ${tableRows}
 
 
     let opt = {
-        margin: [0.5, 1, 0.5, 1],
+        margin: [0.5, 0.5, 0.5, 0.5],
         filename: `pruebitas.pdf`,
         // filename: `${cribroomCode} ${cribroomName} ${startDate}-${endDate}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
