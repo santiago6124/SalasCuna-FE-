@@ -1,8 +1,5 @@
 import { MenuItem } from '@mui/material';
-// // import * as XLSX from 'xlsx';
-// import * as XLSX from 'xlsx-js-style';
 
-// import { config } from '../config';
 import * as React from 'react';
 import {
   gridFilteredSortedRowIdsSelector,
@@ -10,10 +7,11 @@ import {
   useGridApiContext,
 } from '@mui/x-data-grid';
 
-// import { cribroom_request, child_request, phone_request } from "../../../api/salasCuna.api";
- 
+import { cribroom_request } from "../../../api/salasCuna.api";
+import DownloadPayNotePDF from './DownloadPayNotePDF.jsx';
 
-function getExcelData(apiRef) {
+
+function getRowsData(apiRef) {
   // Select rows and columns
   const filteredSortedRowIds = gridFilteredSortedRowIdsSelector(apiRef);
   const visibleColumnsField = gridVisibleColumnFieldsSelector(apiRef);
@@ -58,7 +56,7 @@ async function handleExport(apiRef, selectedCribroomId, authTokens) {
   console.log('selectedCribroomId: ', selectedCribroomId);
   console.log('authTokens: ', authTokens);
 
-  const data = getExcelData(apiRef);
+  const data = getRowsData(apiRef);
 
   // const rows = data.map((row) => {
   //   const mRow = {};
@@ -68,6 +66,8 @@ async function handleExport(apiRef, selectedCribroomId, authTokens) {
   //   return mRow;
   // });
   console.log('rows: ', data);
+
+  DownloadPayNotePDF();
 
 //   const monthNames = [
 //     'Enero', 'Febrero', 'Marzo', 'Abril',
