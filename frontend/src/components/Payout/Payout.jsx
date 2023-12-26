@@ -42,8 +42,6 @@ function CustomToolbar(props) {
 }
 
 export default function Payout() {
-  const [zoneOptions, setZoneOptions] = useState([]);
-  const [selectedZone, setSelectedZone] = useState("");
   const [payout, setPayout] = useState("");
   const [selectedPayout, setSelectedPayout] = useState("");
   const [modalAddShow, setModalAddShow] = useState(false);
@@ -56,14 +54,8 @@ export default function Payout() {
   const [selectedPayoutData, setSelectedPayoutData] = useState(null);
 
   useEffect(() => {
-    loadZones();
+    loadPayouts();
   }, []);
-
-  useEffect(() => {
-    if (selectedZone) {
-      loadPayout(selectedZone);
-    }
-  }, [selectedZone]);
 
   function handleEditClick(rowId) {
     setSelectedPayout(rowId);
@@ -78,13 +70,10 @@ export default function Payout() {
   }
 
 
-  async function loadZones() {
+  async function loadPayouts() {
     try {
-      const response = await zone_request(authTokens.access); // Include the JWT token in the request headers
-      let data = await response.data;
-      setZoneOptions(data);
 
-      const responsePO = await payout_request(authTokens.access);
+      const responsePO = await payout_request(authTokens.access, 'get', 1);
       let payouts = await responsePO.data;
       setPayout(payouts);
     } catch (error) {
@@ -92,20 +81,6 @@ export default function Payout() {
     }
   }
 
-  async function loadPayout(zoneId) {
-    try {
-      const response = await payout_request(authTokens.access, 'get', 0, {}, undefined, `&zone_id=${zoneId}`);
-      const jsonData = response.data;
-      setPayout(jsonData);
-    } catch (error) {
-      console.error("Error fetching payouts:", error);
-      handlePermissions(error.response.status);
-    }
-  }
-
-  async function handleZoneChange(event) {
-    setSelectedZone(event.target.value);
-  }
 
   async function handleAddClick() {
     setModalAddShow(true);
@@ -158,22 +133,7 @@ export default function Payout() {
               
               <div className="div-general">
                 <div className="col-dropdown">
-                  <Form.Label className="mb-1">Seleccionar Zona</Form.Label>
-                    <Form.Select
-                      as="select"
-                      name="zone"
-                      onChange={handleZoneChange}
-                      defaultValue="place"
-                    >
-                      <option value="place" disabled>
-                        Seleccionar Zona
-                      </option>
-                      {zoneOptions.map((zone) => (
-                        <option key={zone.id} value={zone.id}>
-                          {zone.name}
-                        </option>
-                      ))}
-                  </Form.Select>
+                  
                 </div>
                 <div className="add-payout-button">
                     <Button
@@ -214,9 +174,21 @@ export default function Payout() {
                     {
                       field: "id",
                       headerName: "ID",
-                      width: 50,
+                      width: 90,
                       headerAlign: "center",
                       align: "center",
+                    },
+                    {
+                      field: "zone",
+                      headerName: "Zona",
+                      width: 130, headerAlign: "center",align: "center",
+                      valueGetter: (params) => params.row.zone.name,
+                    },
+                    {
+                      field: "zone_id",  // No mostrar zone.id en la interfaz de usuario
+                      headerName: "Zona ID",
+                      width: 120,
+                      valueGetter: (params) => params.row.zone.id,
                     },
                     { field: "amount", headerName: "Monto", width: 160, headerAlign: "center",align: "center",},
                     { field: "date", headerName: "Fecha", width: 170, headerAlign: "center",align: "center", },
@@ -240,7 +212,7 @@ export default function Payout() {
                         </>,
                       ],
                     },
-                  ]}
+                  ]}   
                   autoHeight
                   autoWidth
                   pageSize={5}
