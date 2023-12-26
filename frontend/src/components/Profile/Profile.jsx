@@ -30,7 +30,7 @@ function Profile ()  {
               <Popover.Body>
                 <div className='center-content'>
                   <img src={profileImage} alt="Perfil" className="circle-image" />
-                  <h3>Messi</h3>
+                  <h3>Usuario</h3>
                   <hr style={{ borderColor: '#A6A6A6', width: '90%', borderWidth: '2px' }} />
 
                   {/* Primer botón Cerrar Sesión */}
