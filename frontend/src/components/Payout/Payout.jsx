@@ -159,8 +159,16 @@ export default function Payout() {
                   checkboxSelection
                   disableRowSelectionOnClick
                   onRowSelectionModelChange={(newRowSelectionModel) => {
-                    setSelectedRows(newRowSelectionModel);
+                    // Filter the entire row data based on the selected row IDs
+                    const selectedRowsData = payout.filter((dataItem) => newRowSelectionModel.includes(dataItem.id));
+
+                
+                    console.log('selectedRowsData: ', selectedRowsData);
+                    console.log('newRowSelectionModel: ', newRowSelectionModel);
+                    // Update the selected rows state with the entire row data
+                    setSelectedRows(selectedRowsData);
                   }}
+                
                   components={{ Toolbar: CustomToolbar }}
                   componentsProps={{
                     toolbar: {
@@ -183,12 +191,6 @@ export default function Payout() {
                       headerName: "Zona",
                       width: 130, headerAlign: "center",align: "center",
                       valueGetter: (params) => params.row.zone.name,
-                    },
-                    {
-                      field: "zone_id",  // No mostrar zone.id en la interfaz de usuario
-                      headerName: "Zona ID",
-                      width: 120,
-                      valueGetter: (params) => params.row.zone.id,
                     },
                     { field: "amount", headerName: "Monto", width: 160, headerAlign: "center",align: "center",},
                     { field: "date", headerName: "Fecha", width: 170, headerAlign: "center",align: "center", },
