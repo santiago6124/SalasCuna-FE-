@@ -11,7 +11,7 @@ export const formFields = {
         address: { name: "address",label: "Dirección",type: "text",placeholder: "Ingresar Dirección",required: true },
         birthdate: { name: "birthdate",label: "Fecha de Nacimiento",type: "date",required: true },
         password: { name: "password",label: "Contraseña",type: "password",placeholder: "Ingresar Contraseña",required: true }, // defaultValue: user ? user.last_name : ""
-        re_password: {name: "re_password", label: "Repetir contraseña",type: "password",placeholder: "Repita la Contraseña",required: true},
+        // re_password: {name: "re_password", label: "Repetir contraseña",type: "password",placeholder: "Repita la Contraseña",required: true},
         is_active: { name: "is_active", label: "is_active", type: "checkbox", required: true },
     },
     Department: ["id", "department", "zone"],
