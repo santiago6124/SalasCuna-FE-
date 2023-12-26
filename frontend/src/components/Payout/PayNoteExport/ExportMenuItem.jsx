@@ -63,7 +63,7 @@ async function handleExport(apiRef, selectedPayOut, authTokens) {
 
       console.log('cribroomResponse: ', cribroomResponse.data);
 
-      DownloadPayNotePDF(cribroomResponse.data, item.date.split("-")[0], month_names[item.date.split("-")[1]]);
+      DownloadPayNotePDF(cribroomResponse.data, item.date.split("-")[0], month_names[item.date.split("-")[1]], item.zone.name );
 
     } catch (error) {
       console.error("An error occurred (cribroom request):", error);
