@@ -6,12 +6,20 @@ import "./Payout.css";
 import AuthContext from "../../context/AuthContext"; // Import your AuthContext
 
 // UI imports
-import { DataGrid } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
-import { GridActionsCellItem } from "@mui/x-data-grid";
+
+//DataGrid Import
+import {
+  DataGrid,
+  GridActionsCellItem,
+  esES,
+  GridToolbarContainer,
+} from "@mui/x-data-grid"; //The esES is to translate the datagrid
+import { ExportButton } from "./PayNoteExport/ExportButton";
+
 import { Form } from "react-bootstrap";
 import Menu from "../Menu/Menu";
 
@@ -20,27 +28,75 @@ import { PayoutForm } from "../PayoutForm/PayoutForm";
 import DeletePayout from "./DeletePayoutModal";
 import { handlePermissions, zone_request, payout_request } from "../../api/salasCuna.api";
 
+import PayNoteModal from "./PayNoteModal/PayNoteModal.jsx"
+
+function CustomToolbar(props) {
+  const { selectedPayOut, authTokens } = props;
+
+  return (
+    <GridToolbarContainer {...props}>
+      <ExportButton
+        selectedPayOut={selectedPayOut}
+        authTokens={authTokens}
+      />
+    </GridToolbarContainer>
+  );
+}
+
 export default function Payout() {
-  const [zoneOptions, setZoneOptions] = useState([]);
-  const [selectedZone, setSelectedZone] = useState("");
   const [payout, setPayout] = useState("");
+
+  const [modalCreateShow, setModalCreateShow] = useState(false);
+
+  const [formData, setFormData] = useState({});  /// mas adelante get request para obtener cribroom basado en los props id
+
+
   const [selectedPayout, setSelectedPayout] = useState("");
   const [modalAddShow, setModalAddShow] = useState(false);
   const [modalEditShow, setModalEditShow] = useState(false);
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
+  const [selectedRows, setSelectedRows] = useState([]);
+
   let { authTokens } = useContext(AuthContext); // Get the auth tokens from the context
 
   const [selectedPayoutData, setSelectedPayoutData] = useState(null);
 
   useEffect(() => {
-    loadZones();
+    loadPayouts();
   }, []);
 
-  useEffect(() => {
-    if (selectedZone) {
-      loadPayout(selectedZone);
-    }
-  }, [selectedZone]);
+  
+  const [formFields, setFormFields] = useState({
+    encabezados: [
+      {
+        name: "dirige_a_sr",
+        label: "Dirige a",
+        type: "text",
+        placeholder: "Modificar ministro",
+        required: true,
+      },
+    {
+      name: "dirige_a_persona_cr",
+      label: "Dirige a",
+      type: "text",
+      placeholder: "Modificar ministro",
+      required: true,
+    },
+    {
+      name: "ministerio",
+      label: "Ministerio",
+      type: "text",
+      placeholder: "Modificar ministro",
+      required: true,
+    },
+    {
+      name: "resolucion",
+      label: "Resolucion",
+      type: "text",
+      placeholder: "Modificar resolucion",
+      required: true,
+    },
+  ]});
 
   function handleEditClick(rowId) {
     setSelectedPayout(rowId);
@@ -55,13 +111,10 @@ export default function Payout() {
   }
 
 
-  async function loadZones() {
+  async function loadPayouts() {
     try {
-      const response = await zone_request(authTokens.access); // Include the JWT token in the request headers
-      let data = await response.data;
-      setZoneOptions(data);
 
-      const responsePO = await payout_request(authTokens.access);
+      const responsePO = await payout_request(authTokens.access, 'get', 1);
       let payouts = await responsePO.data;
       setPayout(payouts);
     } catch (error) {
@@ -69,20 +122,6 @@ export default function Payout() {
     }
   }
 
-  async function loadPayout(zoneId) {
-    try {
-      const response = await payout_request(authTokens.access, 'get', 0, {}, undefined, `&zone_id=${zoneId}`);
-      const jsonData = response.data;
-      setPayout(jsonData);
-    } catch (error) {
-      console.error("Error fetching payouts:", error);
-      handlePermissions(error.response.status);
-    }
-  }
-
-  async function handleZoneChange(event) {
-    setSelectedZone(event.target.value);
-  }
 
   async function handleAddClick() {
     setModalAddShow(true);
@@ -93,9 +132,20 @@ export default function Payout() {
     setSelectedPayout(payoutID);
   }
 
+  
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
+  
+  function handleCreateClick() {
+    setModalCreateShow(true);
+  }
+
   return (
     <> 
       <body>
+
         <div className="cribroom-dashboard">
           <>
             <PayoutForm
@@ -103,6 +153,16 @@ export default function Payout() {
               onHide={() => {
                 setModalAddShow(false);
                 window.location.reload();
+              }}
+            />
+            <PayNoteModal
+              formFields={formFields}
+              handleInputChange={handleInputChange}
+              formData={formData}
+              show={modalCreateShow}
+              onHide={() => {
+                setModalCreateShow(false);
+                /* window.location.reload(); */
               }}
             />
             <PayoutForm
@@ -134,23 +194,16 @@ export default function Payout() {
 
               
               <div className="div-general">
-                <div className="col-dropdown">
-                  <Form.Label className="mb-1">Seleccionar Zona</Form.Label>
-                    <Form.Select
-                      as="select"
-                      name="zone"
-                      onChange={handleZoneChange}
-                      defaultValue="place"
-                    >
-                      <option value="place" disabled>
-                        Seleccionar Zona
-                      </option>
-                      {zoneOptions.map((zone) => (
-                        <option key={zone.id} value={zone.id}>
-                          {zone.name}
-                        </option>
-                      ))}
-                  </Form.Select>
+                <div className="add-payout-button">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<EditIcon />}
+                    className="add-payout-button mb-3"
+                    onClick={() => handleCreateClick()}
+                  >
+                    Modificar Encabezados
+                  </Button>
                 </div>
                 <div className="add-payout-button">
                     <Button
@@ -169,14 +222,45 @@ export default function Payout() {
                 <DataGrid
                   className="custom-data-grid-payout"
                   style={{ borderRadius: "15px", margin: "20px" }}
+
+                  localeText={
+                    esES.components.MuiDataGrid.defaultProps.localeText
+                  }
+                  checkboxSelection
+                  disableRowSelectionOnClick
+                  onRowSelectionModelChange={(newRowSelectionModel) => {
+                    // Filter the entire row data based on the selected row IDs
+                    const selectedRowsData = payout.filter((dataItem) => newRowSelectionModel.includes(dataItem.id));
+
+                
+                    console.log('selectedRowsData: ', selectedRowsData);
+                    console.log('newRowSelectionModel: ', newRowSelectionModel);
+                    // Update the selected rows state with the entire row data
+                    setSelectedRows(selectedRowsData);
+                  }}
+                
+                  components={{ Toolbar: CustomToolbar }}
+                  componentsProps={{
+                    toolbar: {
+                      selectedPayOut: selectedRows, // Pass the selected cribroom ID
+                      authTokens: authTokens,
+                    },
+                  }}
+
                   rows={payout}
                   columns={[
                     {
                       field: "id",
                       headerName: "ID",
-                      width: 50,
+                      width: 90,
                       headerAlign: "center",
                       align: "center",
+                    },
+                    {
+                      field: "zone",
+                      headerName: "Zona",
+                      width: 130, headerAlign: "center",align: "center",
+                      valueGetter: (params) => params.row.zone.name,
                     },
                     { field: "amount", headerName: "Monto", width: 160, headerAlign: "center",align: "center",},
                     { field: "date", headerName: "Fecha", width: 170, headerAlign: "center",align: "center", },
@@ -200,7 +284,7 @@ export default function Payout() {
                         </>,
                       ],
                     },
-                  ]}
+                  ]}   
                   autoHeight
                   autoWidth
                   pageSize={5}

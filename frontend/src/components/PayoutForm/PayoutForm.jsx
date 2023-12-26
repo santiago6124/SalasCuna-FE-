@@ -31,6 +31,8 @@ export function PayoutForm(props) {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
+    console.log('name: ', name);
+    console.log('value: ', value);
   };
 
   let { authTokens } = useContext(AuthContext);
@@ -49,7 +51,13 @@ export function PayoutForm(props) {
         Object.entries(formFieldsLocal).forEach(([formFieldsLocal_key]) => {
           console.log(formFieldsLocal_key);
 
-          newFormData[`Payout_${key}`] = value;
+          if (key === 'date'){
+            newFormData[`Payout_year`] = value.split("-")[0];
+            newFormData[`Payout_month`] = value.split("-")[1];
+          }
+          else {
+            newFormData[`Payout_${key}`] = value;
+          }
         });
 
       });
@@ -84,7 +92,12 @@ export function PayoutForm(props) {
   async function handleSubmit(event) {
     event.preventDefault();
 
-    const payload = generatePayload(formData);
+    var payload = generatePayload(formData);
+    payload.Payout['date'] = formData[`Payout_year`] + '-' + formData[`Payout_month`];
+  
+    delete payload.Payout.year;
+    delete payload.Payout.month;
+
     console.log('payload: ', payload);
     console.log('formData: ', formData);
 

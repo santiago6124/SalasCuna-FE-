@@ -1,24 +1,22 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
-import AuthContext from "../../context/AuthContext";
+import AuthContext from "../../../context/AuthContext";
 // import "./SignUp.css";
-import {renderFormFields} from "../renderFormFields/renderFormFields";
+import {renderFormFields} from "../../renderFormFields/renderFormFields";
 
-import {
-  technicalReportHeaders_request,
-} from "../../api/salasCuna.api";
+import { payNoteHeaders_request } from "../../../api/salasCuna.api";
 
 import {
   toastLoading,
   toastUpdateError,
   toastUpdateSuccess,
-} from "../../utils/toastMsgs";
+} from "../../../utils/toastMsgs";
 
-export default function TechnicalReportHeadersModal(props) {
+export default function PayNoteModal(props) {
 
   const { authTokens } = useContext(AuthContext);
-  const [technicalReportTable_data, setTechnicalReportTable_data] = useState([]);
+  const [payNoteHeaders, setPayNoteHeaders] = useState([]);
 
   useEffect(() => {
     getAll();
@@ -29,18 +27,16 @@ export default function TechnicalReportHeadersModal(props) {
   async function getAll() {
     try {
       toastLoading("Cargando los Datos", customId);
-      const technicalReportTable_response = await technicalReportHeaders_request(authTokens.access);
+      const payNoteHeaders_response = await payNoteHeaders_request(authTokens.access);
 
-      console.log('technicalReportTable_response: ', technicalReportTable_response);
+      console.log('payNoteHeaders_response: ', payNoteHeaders_response);
 
-      props.formData.encabezado_ministerio_base64 = technicalReportTable_response.data[0].encabezado_ministerio_base64;
-      props.formData.encabezado_gobierno_base64 = technicalReportTable_response.data[0].encabezado_gobierno_base64;
+      props.formData.dirige_a_sr = payNoteHeaders_response.data[0].dirige_a_sr;
+      props.formData.dirige_a_persona_cr = payNoteHeaders_response.data[0].dirige_a_persona_cr;
+      props.formData.ministerio = payNoteHeaders_response.data[0].ministerio;
+      props.formData.resolucion = payNoteHeaders_response.data[0].resolucion;
 
-      props.formData.ministro = technicalReportTable_response.data[0].ministro;
-      props.formData.resolucion = technicalReportTable_response.data[0].resolucion;
-      props.formData.remitanse = technicalReportTable_response.data[0].remitanse;
-
-      setTechnicalReportTable_data(technicalReportTable_response);
+      setPayNoteHeaders(payNoteHeaders_response);
 
       toastUpdateSuccess("Datos cargados", customId);
     } catch (error) {
@@ -55,16 +51,15 @@ export default function TechnicalReportHeadersModal(props) {
       const formData = new FormData(event.target);
 
       const payload = {
-        encabezado_ministerio_base64: formData.get("encabezado_ministerio_base64"),
-        encabezado_gobierno_base64: formData.get("encabezado_gobierno_base64"),
-        ministro: formData.get("ministro"),
+        dirige_a_sr: formData.get("dirige_a_sr"),
+        dirige_a_persona_cr: formData.get("dirige_a_persona_cr"),
+        ministerio: formData.get("ministerio"),
         resolucion: formData.get("resolucion"),
-        remitanse: formData.get("remitanse"),
       };
 
       console.log('payload: ', payload);
 
-      let response = await technicalReportHeaders_request(authTokens.access, 'post', payload); // Include headers in the request
+      let response = await payNoteHeaders_request(authTokens.access, 'post', payload); // Include headers in the request
 
       console.log('response: ', response);
 

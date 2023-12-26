@@ -24,7 +24,7 @@
     "chart.js": "^4.4.0",
     "csj": "^1.0.0",
     "ejs": "^3.1.9",
-    "exceljs": "^4.3.0",
+    "exceljs": "^4.4.0",
     "fs": "^0.0.1-security",
     "html-pdf": "^3.0.1",
     "html2pdf.js": "^0.10.1",
@@ -54,7 +54,8 @@
     "redux-thunk": "^2.4.2",
     "sort-by": "^1.2.0",
     "web-vitals": "^3.4.0",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "xlsx-js-style": "^1.2.0"
   },
   "scripts": {
     "start": "react-scripts start",

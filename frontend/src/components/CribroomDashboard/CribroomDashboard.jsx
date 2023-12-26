@@ -240,17 +240,20 @@ export default function CribroomDashboard() {
           icon={<DeleteIcon />}
           label="Delete"
           onClick={() => handleDeleteClick(params.row.id, params.row.name)}
+          showInMenu
         />,
         <>
           <GridActionsCellItem
             variant="primary"
             icon={<EditIcon />}
             onClick={() => handleEditClick(params.row.id)}
+            showInMenu
           />
           <GridActionsCellItem
             variant="primary"
             icon={<HistoryIcon />}
             onClick={() => handleHistoryClick(params.row.id, params.row.name)}
+            showInMenu
           />
         </>,
       ],

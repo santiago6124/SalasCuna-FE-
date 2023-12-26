@@ -11,7 +11,7 @@ import axios from "axios"; // Import axios
 import { useState, useEffect } from "react";
 import DownloadPDF from "./DownloadPDF/DownloadPDF";
 import Menu from "../Menu/Menu";
-import { handlePermissions, cribroom_request, zone_request, technicalReport_request } from "../../api/salasCuna.api";
+import { handlePermissions, cribroom_request, zone_request, technicalReport_request, technicalReportHeaders_request } from "../../api/salasCuna.api";
 
 import { deletingData } from '../../utils/toastMsgs';
 
@@ -52,8 +52,10 @@ export default function TechnicalReport() {
     // Iterate through each selected cribroom and send a GET request
     selectedCribrooms.forEach((cribroom) => {
 
-      technicalReport_request(authTokens.access, 'get', cribroom.id, startDate, endDate)
-        .then((response) => {
+        Promise.all([
+          technicalReport_request(authTokens.access, 'get', cribroom.id, startDate, endDate),
+          technicalReportHeaders_request(authTokens.access),
+        ]).then(([response, responseTechnicalReportHeaders]) => {
           if (!response.data) {
             throw new Error("Network response was not ok");
           }
@@ -65,12 +67,16 @@ export default function TechnicalReport() {
               "API Response for Cribroom",
               cribroom.id,
               data,
-              data.pays
+              data.pays,
+              startDate,
+              endDate,
             );
             DownloadPDF(
-              formData.ministro,
-              formData.resolucion,
-              formData.remitanse,
+              responseTechnicalReportHeaders.data[0].encabezado_ministerio_base64,
+              responseTechnicalReportHeaders.data[0].encabezado_gobierno_base64,
+              responseTechnicalReportHeaders.data[0].ministro,
+              responseTechnicalReportHeaders.data[0].resolucion,
+              responseTechnicalReportHeaders.data[0].remitanse,
               cribroom.entity,
               cribroom.name,
               cribroom.code,
@@ -89,7 +95,9 @@ export default function TechnicalReport() {
               data.pays.SecSubTotalSumInitMonth,
               data.pays.totalSumFloat,
               data.pays.firstSubTotalSumFloat,
-              data.pays.SecSubTotalSumFloat
+              data.pays.SecSubTotalSumFloat,
+              startDate,
+              endDate,
             );
           } else {
             console.error("Data or 'pays' property is undefined:", data);
@@ -109,11 +117,19 @@ export default function TechnicalReport() {
 
   const [formFields, setFormFields] = useState({
     encabezados: [
+      {
+        name: "encabezado_ministerio_base64",
+        label: "Modifica la imagen relacionada al ministerio (conviertelo a base64 encoded)",
+        type: "text",
+        placeholder: "Modificar imagen",
+        // defaultValue: user ? user.first_name : "",
+        required: true,
+      },
     {
-      name: "encabezado",
-      label: "Encabezado Principal",
+      name: "encabezado_gobierno_base64",
+      label: "Modifica la imagen relacionada al gobierno (conviertelo a base64 encoded)",
       type: "text",
-      placeholder: "Modificar encabezado",
+      placeholder: "Modificar imagen",
       // defaultValue: user ? user.first_name : "",
       required: true,
     },
