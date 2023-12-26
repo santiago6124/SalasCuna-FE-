@@ -7,7 +7,7 @@ import {
   useGridApiContext,
 } from '@mui/x-data-grid';
 
-import { cribroom_request } from "../../../api/salasCuna.api";
+import { cribroom_request, payNoteHeaders_request } from "../../../api/salasCuna.api";
 import DownloadPayNotePDF from './DownloadPayNotePDF.jsx';
 
 
@@ -29,6 +29,11 @@ function getRowsData(apiRef) {
 }
 
 async function handleExport(apiRef, selectedPayOut, authTokens) {
+
+  const payNoteHeaders_response = await payNoteHeaders_request(authTokens.access);
+
+  console.log('payNoteHeaders_response: ', payNoteHeaders_response);
+
 
   console.log('selectedPayOut: ', selectedPayOut);
   console.log('authTokens: ', authTokens);
@@ -63,7 +68,7 @@ async function handleExport(apiRef, selectedPayOut, authTokens) {
 
       console.log('cribroomResponse: ', cribroomResponse.data);
 
-      DownloadPayNotePDF(cribroomResponse.data, item.date.split("-")[0], month_names[item.date.split("-")[1]], item.zone.name );
+      DownloadPayNotePDF(cribroomResponse.data, item.date.split("-")[0], month_names[item.date.split("-")[1]], item.zone.name, payNoteHeaders_response.data[0] );
 
     } catch (error) {
       console.error("An error occurred (cribroom request):", error);
