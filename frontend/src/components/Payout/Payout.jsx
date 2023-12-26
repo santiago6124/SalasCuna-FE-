@@ -6,12 +6,20 @@ import "./Payout.css";
 import AuthContext from "../../context/AuthContext"; // Import your AuthContext
 
 // UI imports
-import { DataGrid } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
-import { GridActionsCellItem } from "@mui/x-data-grid";
+
+//DataGrid Import
+import {
+  DataGrid,
+  GridActionsCellItem,
+  esES,
+  GridToolbarContainer,
+} from "@mui/x-data-grid"; //The esES is to translate the datagrid
+import { ExportButton } from "./PayNoteExport/ExportButton";
+
 import { Form } from "react-bootstrap";
 import Menu from "../Menu/Menu";
 
@@ -19,6 +27,19 @@ import { PayoutForm } from "../PayoutForm/PayoutForm";
 
 import DeletePayout from "./DeletePayoutModal";
 import { handlePermissions, zone_request, payout_request } from "../../api/salasCuna.api";
+
+function CustomToolbar(props) {
+  const { selectedPayOut, authTokens } = props;
+
+  return (
+    <GridToolbarContainer {...props}>
+      <ExportButton
+        selectedPayOut={selectedPayOut}
+        authTokens={authTokens}
+      />
+    </GridToolbarContainer>
+  );
+}
 
 export default function Payout() {
   const [zoneOptions, setZoneOptions] = useState([]);
@@ -28,6 +49,8 @@ export default function Payout() {
   const [modalAddShow, setModalAddShow] = useState(false);
   const [modalEditShow, setModalEditShow] = useState(false);
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
+  const [selectedRows, setSelectedRows] = useState([]);
+
   let { authTokens } = useContext(AuthContext); // Get the auth tokens from the context
 
   const [selectedPayoutData, setSelectedPayoutData] = useState(null);
@@ -169,6 +192,23 @@ export default function Payout() {
                 <DataGrid
                   className="custom-data-grid-payout"
                   style={{ borderRadius: "15px", margin: "20px" }}
+
+                  localeText={
+                    esES.components.MuiDataGrid.defaultProps.localeText
+                  }
+                  checkboxSelection
+                  disableRowSelectionOnClick
+                  onRowSelectionModelChange={(newRowSelectionModel) => {
+                    setSelectedRows(newRowSelectionModel);
+                  }}
+                  components={{ Toolbar: CustomToolbar }}
+                  componentsProps={{
+                    toolbar: {
+                      selectedPayOut: selectedRows, // Pass the selected cribroom ID
+                      authTokens: authTokens,
+                    },
+                  }}
+
                   rows={payout}
                   columns={[
                     {
